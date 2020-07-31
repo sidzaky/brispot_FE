@@ -13,27 +13,28 @@
 class Cluster extends MX_Controller {
 
 	public function __construct() {
-        parent::__construct();
+    parent::__construct();
 		
-		$this->load->module('login'); 
+		$this->load->module('login');
 		$this->login->is_logged_in();
 		
 		$this->load->model('cluster_m');
-        $this->load->helper(array('url','form','html'));
-    }
+    $this->load->helper(array('url','form','html'));
+  }
 	
 	public function index(){
-		
-		$data['content']=$this->session->userdata('kode_uker')=='kanpus' ? 'cluster_kanpus_v' : 'cluster_v';
-		$data['provinsi']=$this->cluster_m->getprovinsi_m();
-		$this->load->view('template',$data);
+		$data['navbar'] = null;
+		$data['sidebar'] = null;
+		$data['content'] = $this->session->userdata('kode_uker')=='kanpus' ? 'cluster_kanpus_v' : 'cluster_v';
+		$data['provinsi'] = $this->cluster_m->getprovinsi_m();
+		$this->load->view('template', $data);
 	}
 	
 	public function getdata(){
 		$list = $this->cluster_m->get_datafield();
-        $data = array();
-        $no = $_POST['start'];
-        foreach ($list->result_array() as $field) {
+		$data = array();
+		$no = $_POST['start'];
+		foreach ($list->result_array() as $field) {
 			$totalanggota=$this->cluster_m->countanggota_m($field['id']);
 			$del='<button class="btn btn-danger waves-effect waves-light btn-sm" onclick="deldata(\''.$field['id'].'\')" type="button" ><i class="fa fa-close"></i>Hapus</button>';
 			$ca='<button class="btn btn-info waves-effect waves-light btn-sm" name="id" value="'.$field['id'].'" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
