@@ -89,7 +89,20 @@ class Modules
 	/** Load a module controller **/
 	public static function load($module) 
 	{
-		(is_array($module)) ? list($module, $params) = each($module) : $params = NULL;	
+		if (version_compare(phpversion(), '7.1', '<')) {
+			// php version isn't high enough
+			is_array($module) ? list($module, $params) = each($module) : $params = null;
+		} else {
+			if (!is_array($module)) {
+				$params = null;
+			} else {
+				$keys = array_keys($module);
+
+				$params = $module[$keys[0]];
+
+				$module = $keys[0];
+			}
+		}
 		
 		/* get the requested controller class name */
 		$alias = strtolower(basename($module));
