@@ -227,6 +227,18 @@ class Cluster_m extends CI_Model
 				*/
 		
 		
+		public function getdata_jum(){
+			$q="select * from cluster_jenis_usaha_map where id_cluster_sektor_usaha='".$_POST['id_cluster_sektor_usaha']."'";
+			return $this->db->query($q)->result();
+		}
+		
+		public function getdata_ju(){
+			$q="select * from cluster_jenis_usaha where id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."'";
+			return $this->db->query($q)->result();
+		}
+		
+		
+		
 		public function updatedata_m($rfex=null,$rfku=null){
 			$id=$_POST['id'];
 			$_POST['userlatestupdate']=$this->session->userdata('kode_uker');

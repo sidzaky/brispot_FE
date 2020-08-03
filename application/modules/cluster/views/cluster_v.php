@@ -154,63 +154,21 @@
 							
 							<label for="thedata" class="col-sm-12 control-label drequired">Sektor Usaha</label>
 							<div class="col-sm-12">
-									<select class="form-control dform  required"  id="sektor_usaha">
-									<option value="Produksi">Produksi</option>
-									<option value="Non Produksi">Non Produksi</option>
+									<select class="form-control dform  required" onchange="fjum(this);"  id="sektor_usaha">
+									<option value="1">Produksi</option>
+									<option value="2">Non Produksi</option>
 								</select>
 							</div>
+							
+							<label for="thedata" class="col-sm-12 control-label drequired">Kategori Jenis Usaha</label>
+							<div class="col-sm-12">
+									<select class="form-control dform  required" onchange="fju(this);"  id="jenis_usaha_map">
+									</select>
+							</div>
+							
 							<label for="thedata" class="col-sm-12 control-label drequired">Jenis Usaha</label>
 							<div class="col-sm-12">
-								<select class="form-control dform  required"  id="jenis_usaha">
-									<option value="Pertanian - Pangan">Pertanian - Pangan</option>
-									<option value="Pertanian - Holtikultura" >Pertanian - Holtikultura</option>
-									<option value="Pertanian - Perkebunan">Pertanian - Perkebunan</option>
-									<option value="Peternakan">Peternakan</option>
-									<option value="Jasa Pertanian dan Perburuan">Jasa Pertanian dan Perburuan</option>
-									<option value="Kehutanan & Penebangan Kayu">Kehutanan & Penebangan Kayu</option>
-									<option value="Perikanan">Perikanan</option>
-									<option value="Pertambangan Minyak & Gas Bumi">Pertambangan Minyak & Gas Bumi</option>
-									<option value="Pertambangan Batubara & Lignit">Pertambangan Batubara & Lignit</option>
-									<option value="Pertambangan Biji Logam">Pertambangan Biji Logam</option>
-									<option value="Pertambangan & Penggalian Lainnya">Pertambangan & Penggalian Lainnya</option>
-									<option value="Industri Batubara & Pengilangan Migas">Industri Batubara & Pengilangan Migas</option>
-									<option value="Industri Makanan & Minuman">Industri Makanan & Minuman</option>
-									<option value="Pengolahan Tembakau">Pengolahan Tembakau</option>
-									<option value="Industri Tekstil dan Pakaian Jadi">Industri Tekstil dan Pakaian Jadi</option>
-									<option value="Industri Kulit, Barang dari Kulit dan Alas Kaki">Industri Kulit, Barang dari Kulit dan Alas Kaki</option>
-									<option value="Industri Kayu, Barang dari Kayu, Gabus dan Barang Anyaman dari Bambu, Rotan dan sejenisnya">Industri Kayu, Barang dari Kayu, Gabus dan Barang Anyaman dari Bambu, Rotan dan sejenisnya</option>
-									<option value="Industri Kertas dan Barang dari kertas, Percetakan dan Reproduksi Media Rekaman">Industri Kertas dan Barang dari kertas, Percetakan dan Reproduksi Media Rekaman</option>
-									<option value="Industri Kimia, Farmasi dan Obat Tradisional">Industri Kimia, Farmasi dan Obat Tradisional</option>
-									<option value="Industri Karet, Barang dari Karet dan Plastik">Industri Karet, Barang dari Karet dan Plastik</option>
-									<option value="Industri Barang Galian bukan logam">Industri Barang Galian bukan logam</option>
-									<option value="Industri Logam Dasar">Industri Logam Dasar</option>
-									<option value="Industri Barang dari Logam, Komputer, Barang Elektronik, Optik dan Peralatan Listrik">Industri Barang dari Logam, Komputer, Barang Elektronik, Optik dan Peralatan Listrik</option>
-									<option value="Industri Mesin dan Perlengkapan">Industri Mesin dan Perlengkapan</option>
-									<option value="Industri Alat Angkutan">Industri Alat Angkutan</option>
-									<option value="Industri Furnitur">Industri Furnitur</option>
-									<option value="Industri Pengolahan Lainnya, Jasa Reparasi dan Pemasangan Mesin dan Peralatan">Industri Pengolahan Lainnya, Jasa Reparasi dan Pemasangan Mesin dan Peralatan</option>
-									<option value="Pengadaan Listrik dan Gas">Pengadaan Listrik dan Gas</option>
-									<option value="Pengadaan Gas dan Produksi Es">Pengadaan Gas dan Produksi Es</option>
-									<option value="Pengadaan Air, Pengelolaan Sampah, Limbah dan Daur Ulang">Pengadaan Air, Pengelolaan Sampah, Limbah dan Daur Ulang</option>
-									<option value="Konstruksi">Konstruksi</option>
-									<option value="Perdagangan Mobil, Sepeda Motor dan Reparasinya">Perdagangan Mobil, Sepeda Motor dan Reparasinya</option>
-									<option value="Perdagangan Besar dan Eceran, bukan Mobil dan Sepeda">Perdagangan Besar dan Eceran, bukan Mobil dan Sepeda</option>
-									<option value="Transportasi Angkutan Rel">Transportasi Angkutan Rel</option>
-									<option value="Transportasi Angkutan Darat">Transportasi Angkutan Darat</option>
-									<option value="Transportasi Angkutan Laut">Transportasi Angkutan Laut</option>
-									<option value="Transportasi Angkutan Sungai, Danau & Penyeberangan">Transportasi Angkutan Sungai, Danau & Penyeberangan</option>
-									<option value="Transportasi Angkutan Udara">Transportasi Angkutan Udara</option>
-									<option value="Pergudangan dan Jasa Penunjang Angkutan, Pos dan Kurir">Pergudangan dan Jasa Penunjang Angkutan, Pos dan Kurir</option>
-									<option value="Penyediaan Akomodasi dan makan minum">Penyediaan Akomodasi dan makan minum</option>
-									<option value="Informasi dan Komunikasi">Informasi dan Komunikasi</option>
-									<option value="Jasa Keuangan dan Asuransi">Jasa Keuangan dan Asuransi</option>
-									<option value="Real Estate">Real Estate</option>
-									<option value="Jasa Perusahaan">Jasa Perusahaan</option>
-									<option value="Administrasi Pemerintahan, Pertahanan dan Jaminan Sosial Wajib">Administrasi Pemerintahan, Pertahanan dan Jaminan Sosial Wajib</option>
-									<option value="Jasa Pendidikan">Jasa Pendidikan</option>
-									<option value="Jasa Kesehatan dan Kegiatan Lainnya">Jasa Kesehatan dan Kegiatan Lainnya</option>
-									<option value="Pariwisata">Pariwisata</option>
-									<option value="Jasa Lainnya">Jasa Lainnya</option>
+								<select class="form-control dform required"  id="jenis_usaha">
 								</select>
 							</div>
 							
@@ -226,22 +184,6 @@
 									<option value="Tidak" default>Tidak</option>
 								</select>
 							</div>
-							<script>
-									
-								function te(i){
-									if (i.value==="Ya") {
-										$("#pasar_ekspor_tahun").removeAttr("disabled");
-										$("#pasar_ekspor_nilai").removeAttr("disabled");
-										$("#bfex").removeAttr("disabled");
-									
-									}
-									else {
-										$("#pasar_ekspor_tahun").attr("disabled", "disabled");
-										$("#pasar_ekspor_nilai").attr("disabled", "disabled");
-										$("#bfex").attr("disabled", "disabled");
-									}
-								}
-							</script>
 							
 							<label for="thedata" class="col-sm-12 control-label">Jika Ya sejak Tahun Berapa</label>
 							<div class="col-sm-12">
@@ -586,7 +528,65 @@
 	<script src="./assets/js/send.js"></script> 
 	
 	<script>
-	
+		
+		function fjum(i){
+			var data1 = { 
+							'id_cluster_sektor_usaha' :  i.value
+						};
+				$.ajax({ 
+						   type:"POST",
+						   url: "./cluster/fjum",
+						   data: data1,
+						   success:function(smsg){
+								var msg=JSON.parse(smsg);
+								var select=document.getElementById('jenis_usaha_map');
+								$(select).empty();
+								$(select).append('<option> Pilih Kategori Usaha</option>');
+								for (var i=0;i<=msg.length; i++){
+									$(select).append('<option value="'+msg[i]['id_cluster_jenis_usaha_map']+'">'+msg[i]['nama_cluster_jenis_usaha_map']+'</option>');
+								}
+							}
+					});
+			
+		}
+		
+		function fju(i){
+			var data1 = { 
+							'id_cluster_jenis_usaha_map' :  i.value,
+						};
+				$.ajax({ 
+						   type:"POST",
+						   url: "./cluster/fju",
+						   data: data1,
+						   success:function(smsg){
+								var msg=JSON.parse(smsg);
+								var select=document.getElementById('jenis_usaha');
+								$(select).empty();
+								$(select).append('<option> Pilih Jenis Usaha</option>')
+								for (var i=0;i<=msg.length; i++){
+									$(select).append('<option value="'+msg[i]['id_cluster_jenis_usaha']+'">'+msg[i]['nama_cluster_jenis_usaha']+'</option>');
+								}
+							}
+					});
+			
+			
+			
+		}
+				
+		function te(i){
+			if (i.value==="Ya") {
+				$("#pasar_ekspor_tahun").removeAttr("disabled");
+				$("#pasar_ekspor_nilai").removeAttr("disabled");
+				$("#bfex").removeAttr("disabled");
+			
+			}
+			else {
+				$("#pasar_ekspor_tahun").attr("disabled", "disabled");
+				$("#pasar_ekspor_nilai").attr("disabled", "disabled");
+				$("#bfex").attr("disabled", "disabled");
+			}
+		}
+		
 		function tambahform(id) {
 			var count = $('.'+id);
 			var newid;
