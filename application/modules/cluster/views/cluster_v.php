@@ -24,7 +24,6 @@
 							echo '<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'cluster/getreport/\')" type="button"><i class="fa fa-info"></i> Report akhir</button>';
 						}
 						?>
-						<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="userm();" type="button"><i class="fa fa-sign-out"></i> Ganti Password Uker</button>
 					</div>
 				</div>
 				<script>
@@ -104,67 +103,76 @@
 			</div>
 			<div class="modal-body">
 				<div id="mod-content">
-					<div class="row">
-
-						<div class="col-sm-12"><label for="thedata" class="col-sm-12 control-label">
+					<form>
+						<div class="col-sm-12">
+							<label for="thedata" class="col-sm-12 control-label">
 								<h3 align="center">Isian terkait Unit BRI</h3>
-							</label></div>
-						<label for="thedata" class="col-sm-10 control-label" id="setuker"></label>
-						<div class="col-sm-12">
-							<input type="hidden" class="form-control dform " id="id" placeholder="required" value="" required>
-						</div>
-						<label for="thedata" class="col-sm-2 control-label drequired">Kode Uker</label>
-						<div id="hsuk"></div>
-						<div class="col-sm-12">
-							<input type="number" class="form-control dform  required" name="kode uker" <?php echo ($this->session->userdata('permission') > 1 ? '' : 'disabled') ?> id="kode_uker" onchange="getuker(this.value);" placeholder="required" value="<?php echo $this->session->userdata('kode_uker'); ?>" required>
-						</div>
-						<label for="thedata" class="col-sm-12 control-label drequired">Nama Kaunit BRI</label>
-						<div class="col-sm-12">
-							<input type="text" pattern="[a-zA-Z]" class="form-control dform  required" id="kaunit_nama" value="" placeholder="required" required>
-						</div>
-						<label for="thedata" class="col-sm-12 control-label drequired">PN Kaunit</label>
-						<div class="col-sm-12">
-							<input type="number" class="form-control dform  required" id="kaunit_pn" value="" placeholder="required" required>
+							</label>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">No Handphone Kaunit</label>
-						<div class="col-sm-12">
-							<input type="text" pattern="[a-zA-Z]" class="form-control dform  required" onchange="cekhp(this);" id="kaunit_handphone" value="" placeholder="08xxxxxxxx (required)" required>
+						<div class="form-group" style="width: 0">
+							<label style="padding:0;" for="thedata" class="col-sm-10 control-label" id="setuker"></label>
+							<input type="hidden" class="form-control dform" id="id" placeholder="required" value="">
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Kode Uker</label>
+							<div id="hsuk"></div>
+							<input type="number" class="form-control dform" name="kode uker" <?php echo ($this->session->userdata('permission') > 1 ? '' : 'disabled') ?> id="kode_uker" onchange="getuker(this.value);" placeholder="required" value="<?php echo $this->session->userdata('kode_uker'); ?>" required>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Nama Kaunit BRI</label>
+							<input type="text" pattern="[a-zA-Z]" class="form-control dform required" id="kaunit_nama" value="" placeholder="required" required>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">PN Kaunit</label>
+							<input type="number" class="form-control dform required" id="kaunit_pn" value="" placeholder="required" required>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">No Handphone Kaunit</label>
+							<input type="text" pattern="[a-zA-Z]" class="form-control dform required" onchange="cekhp(this);" id="kaunit_handphone" value="" placeholder="08xxxxxxxx (required)" required>
 						</div>
 
 						<!-- Mantriii -->
-						<label for="thedata" class="col-sm-12 control-label drequired">Nama Mantri / Pekerja BRI (Pembina Klaster)</label>
-						<div class="col-sm-12">
-							<input type="text" pattern="[a-zA-Z]" class="form-control dform  required" id="nama_pekerja" value="" placeholder="required" required>
-						</div>
-						<label for="thedata" class="col-sm-12 control-label drequired">PN Mantri / Pekerja BRI (Pembina Klaster)</label>
-						<div class="col-sm-12">
-							<input type="number" class="form-control dform  required" id="personal_number" value="" placeholder="required" required>
+						<div class="form-group required">
+							<label class="control-label">Nama Mantri / Pekerja BRI (Pembina Klaster)</label>
+							<input type="text" pattern="[a-zA-Z]" class="form-control dform required" id="nama_pekerja" value="" placeholder="required" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">No Handphone Mantri / Pekerja BRI (Pembina Klaster)</label>
-						<div class="col-sm-12">
-							<input type="text" pattern="[a-zA-Z]" class="form-control dform  required" id="handphone_pekerja" value="" placeholder="08xxxxxxxx (required)" required>
+						<div class="form-group required">
+							<label class="control-label">PN Mantri / Pekerja BRI (Pembina Klaster)</label>
+							<input type="number" class="form-control dform required" id="personal_number" value="" placeholder="required" required>
 						</div>
 
+						<div class="form-group required">
+							<label class="control-label">No Handphone Mantri / Pekerja BRI (Pembina Klaster)</label>
+							<input type="text" pattern="[a-zA-Z]" class="form-control dform required" id="handphone_pekerja" value="" placeholder="08xxxxxxxx (required)" required>
+						</div>
 
 						<!-- Kelompok Usaha -->
 
-						<div class="col-sm-12"><label for="thedata" class="col-sm-12 control-label">
+						<div class="col-sm-12">
+							<label for="thedata" class="col-sm-12 control-label">
 								<h3 align="center">Isian terkait Kelompok Usaha / Klaster</h3>
-							</label></div>
-						<label for="thedata" class="col-sm-12 control-label drequired">Nama Kelompok Usaha / Klaster</label>
-						<div class="col-sm-12">
-							<input type="text" pattern="[a-zA-Z]" class="form-control dform  required" id="kelompok_usaha" value="" placeholder="required" required>
-						</div>
-						<label for="thedata" class="col-sm-12 control-label drequired">Jumlah Anggota (orang)</label>
-						<div class="col-sm-12">
-							<input type="number" min="15" class="form-control dform  required" id="kelompok_jumlah_anggota" value="" placeholder="required" required>
+							</label>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Sudah Punya Pinjaman?</label>
-						<div class="col-sm-12">
-							<select class="form-control dform  required" id="kelompok_anggota_pinjaman">
+						<div class="form-group required">
+							<label class="control-label">Nama Kelompok Usaha / Klaster</label>
+							<input type="text" pattern="[a-zA-Z]" class="form-control dform required" id="kelompok_usaha" value="" placeholder="required" required>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Jumlah Anggota (orang)</label>
+							<input type="number" min="15" class="form-control dform required" id="kelompok_jumlah_anggota" value="" placeholder="required" required>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Sudah Punya Pinjaman?</label>
+							<select class="form-control dform required" id="kelompok_anggota_pinjaman">
 								<option value="Seluruh anggota sudah punya pinjaman">Seluruh anggota sudah punya pinjaman</option>
 								<option value="Lebih dari 50% anggota punya pinjaman">Lebih dari 50% anggota punya pinjaman</option>
 								<option value="Kurang dari 50% anggota punya pinjaman">Kurang dari 50% anggota punya pinjaman</option>
@@ -172,95 +180,103 @@
 							</select>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Sektor Usaha</label>
-						<div class="col-sm-12">
-							<select class="form-control dform  required" onchange="fjum(this);" id="sektor_usaha">
+						<div class="form-group required">
+							<label class="control-label">Sektor Usaha</label>
+							<select class="form-control dform required" required onchange="fjum(this);" id="sektor_usaha">
 								<option value="1">Produksi</option>
 								<option value="2">Non Produksi</option>
 							</select>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Kategori Jenis Usaha</label>
-						<div class="col-sm-12">
-							<select class="form-control dform  required" onchange="fju(this);" id="jenis_usaha_map">
+						<div class="form-group">
+							<label class="control-label">Kategori Jenis Usaha</label>
+							<select class="form-control dform required" onchange="fju(this);" id="jenis_usaha_map">
 							</select>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Jenis Usaha</label>
-						<div class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label drequired">Jenis Usaha</label>
 							<select class="form-control dform required" id="jenis_usaha">
 							</select>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Bentuk Produk / Jasa</label>
-						<div class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label drequired">Bentuk Produk / Jasa</label>
 							<input type="text" pattern="[a-zA-Z]" onchange="validatorreqtext(this, iname, this.id)" class="form-control dform  required" id="hasil_produk" value="" placeholder="required" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Apakah sudah Masuk Pasar Ekspor?</label>
-						<div class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label drequired">Apakah sudah Masuk Pasar Ekspor?</label>
 							<select class="form-control dform  required" id="pasar_ekspor" onchange="te(this);">
 								<option value="Ya">Ya</option>
 								<option value="Tidak" default>Tidak</option>
 							</select>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Jika Ya sejak Tahun Berapa</label>
-						<div class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label">Jika Ya sejak Tahun Berapa</label>
 							<input type="number" class="form-control dform " id="pasar_ekspor_tahun" value="" placeholder="optional" required>
 						</div>
-						<label for="thedata" class="col-sm-12 control-label">Jika ya, nilai ekspor rata-rata per bulan (Rp) ?</label>
-						<div class="col-sm-12">
+
+						<div class="form-group">
+							<label class="control-label">Jika ya, nilai ekspor rata-rata per bulan (Rp) ?</label>
 							<input type="number" class="form-control dform " id="pasar_ekspor_nilai" value="" placeholder="optional" required>
 						</div>
 
-
-						<label for="thedata" class="col-sm-12 control-label">Foto/Dokument Ekspor<button class="btn btn-primary waves-effect waves-light btn-sm" id="bfex" onclick="tambahform('fex');"><i class="fa fa-plus"></i> Tambah Foto Ekspor</button></label>
-						<div id="fotoverifikasiexpor">
+						<div class="form-group">
+							<label class="control-label drequired">Foto/Dokument Ekspor</label>
+							<button class="btn btn-primary waves-effect waves-light btn-sm" id="bfex" onclick="tambahform('fex');"><i class="fa fa-plus"></i> Tambah Foto Ekspor</button>
+							<div id="fotoverifikasiexpor"></div>
 						</div>
 
-
-						<label for="thedata" class="col-sm-12 control-label">Luas lahan / tempat usaha (m2)</label>
-						<div class="col-sm-12">
-							<input type="number" class="form-control dform " id="kelompok_luas_usaha" value="" placeholder="optional" required>
+						<div class="form-group">
+							<label class="control-label">Luas lahan / tempat usaha (m2)</label>
+							<input type="number" class="form-control dform" id="kelompok_luas_usaha" value="" placeholder="optional" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Omset Usaha per Bulan (total kelompok - Rp)</label>
-						<div class="col-sm-12">
-							<input type="number" class="form-control dform " id="kelompok_omset" value="" placeholder="optional" required>
+						<div class="form-group">
+							<label class="control-label">Omset Usaha per Bulan (total kelompok - Rp)</label>
+							<input type="number" class="form-control dform" id="kelompok_omset" value="" placeholder="optional" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Nama Pembeli (inti) Produk/Jasa yang dihasilkan</label>
-						<div class="col-sm-12">
-							<input type="text" class="form-control dform " id="kelompok_pihak_pembeli" onchange="validatoropttext(this,ischar,this.id)" value="" placeholder="optional" required>
+						<div class="form-group">
+							<label class="control-label">Nama Pembeli (inti) Produk/Jasa yang dihasilkan</label>
+							<input type="text" class="form-control dform" id="kelompok_pihak_pembeli" onchange="validatoropttext(this,ischar,this.id)" value="" placeholder="optional" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Nomor Handphone Pembeli</label>
-						<div class="col-sm-12">
-							<input type="tel" class="form-control dform " onchange="cekhpnor(this);" id="kelompok_pihak_pembeli_handphone" value="" placeholder="08xxxxxxxx optional" required>
+						<div class="form-group">
+							<label class="control-label">Nomor Handphone Pembeli</label>
+							<input type="tel" class="form-control dform" onchange="cekhpnor(this);" id="kelompok_pihak_pembeli_handphone" value="" placeholder="08xxxxxxxx optional" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Nama Suplier (utama) bahan baku produk/jasa yang dihasilkan</label>
-						<div class="col-sm-12">
-							<input type="text" class="form-control dform " id="kelompok_suplier_produk" value="" placeholder="optional" required>
+						<div class="form-group">
+							<label class="control-label">Nama Suplier (utama) bahan baku produk/jasa yang dihasilkan</label>
+							<input type="text" class="form-control dform" id="kelompok_suplier_produk" value="" placeholder="optional" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Nomor Handphone Supplier</label>
-						<div class="col-sm-12">
-							<input type="tel" class="form-control dform " onchange="cekhpnor(this);" id="kelompok_suplier_handphone" value="" placeholder="08xxxxxxxx optional" required>
+						<div class="form-group">
+							<label class="control-label">Nama Suplier (utama) bahan baku produk/jasa yang dihasilkan</label>
+							<input type="text" class="form-control dform" id="kelompok_suplier_produk" value="" placeholder="optional" required>
 						</div>
 
-
-
-
-						<label for="thedata" class="col-sm-12 control-label drequired">Sarana / prasarana yang dimiliki saat ini (perlengkapan / mesin atau aset yang mengubah value / bentuk barang - tidak termasuk mobil, gudang, rumah)</label>
-						<div class="col-sm-12">
-							<input type="text" class="form-control dform  required" id="kebutuhan_sarana_milik" value="" placeholder="required" required>
+						<div class="form-group">
+							<label class="control-label">Nama Suplier (utama) bahan baku produk/jasa yang dihasilkan</label>
+							<input type="text" class="form-control dform" id="kelompok_suplier_produk" value="" placeholder="optional" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Kebutuhan sarana / prasarana untuk peningkatan usaha kelompok? (usulan RAB Maks Rp 2 juta)</label>
-						<div class="col-sm-12">
-							<select class="form-control dform  required" id="kebutuhan_sarana">
+						<div class="form-group">
+							<label class="control-label">Nomor Handphone Supplier</label>
+							<input type="tel" class="form-control dform" onchange="cekhpnor(this);" id="kelompok_suplier_handphone" value="" placeholder="08xxxxxxxx optional" required>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label drequired">Sarana / prasarana yang dimiliki saat ini (perlengkapan / mesin atau aset yang mengubah value / bentuk barang - tidak termasuk mobil, gudang, rumah)</label>
+							<input type="text" class="form-control dform required" id="kebutuhan_sarana_milik" value="" placeholder="required" required>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label drequired">Kebutuhan sarana / prasarana untuk peningkatan usaha kelompok? (usulan RAB Maks Rp 2 juta)</label>
+							<select class="form-control dform required" id="kebutuhan_sarana">
 								<option value="Renovasi tempat ibadah">Renovasi tempat ibadah</option>
 								<option value="Sarana air bersih (Misal. MCK Umum, Penampungan Air, Pompa Air, Sumur Bor)">Sarana air bersih (Misal. MCK Umum, Penampungan Air, Pompa Air, Sumur Bor)</option>
 								<option value="Peralatan penunjang produksi (Misal. Cangkul, Hand Traktor, Hand Press, Alat Bor)">Peralatan penunjang produksi (Misal. Cangkul, Hand Traktor, Hand Press, Alat Bor)</option>
@@ -268,14 +284,14 @@
 							</select>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Jika lainnya, kebutuhan sarana / prasarana ? (usulan RAB Maks. Rp 2 juta)</label>
-						<div class="col-sm-12">
-							<input type="text" class="form-control dform " id="kebutuhan_sarana_lainnya" value="" placeholder="optional misal cangkul, pasak, dll" required>
+						<div class="form-group">
+							<label class="control-label">Jika lainnya, kebutuhan sarana / prasarana ? (usulan RAB Maks. Rp 2 juta)</label>
+							<input type="text" class="form-control dform" id="kebutuhan_sarana_lainnya" value="" placeholder="optional misal cangkul, pasak, dll" required>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Kebutuhan Pendidikan & Pelatihan untuk peningkatan usaha kelompok</label>
-						<div class="col-sm-12">
-							<select class="form-control dform  required" id="kebutuhan_pendidikan">
+						<div class="form-group">
+							<label class="control-label drequired">Kebutuhan Pendidikan & Pelatihan untuk peningkatan usaha kelompok</label>
+							<select class="form-control dform required" id="kebutuhan_pendidikan">
 								<option value="Kepemimpinan">Kepemimpinan</option>
 								<option value="Pola Pikir & Cara Pandang">Pola Pikir & Cara Pandang</option>
 								<option value="Budaya Inovasi">Budaya Inovasi</option>
@@ -291,391 +307,169 @@
 							</select>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label drequired">Kebutuhan skema kredit / pinjaman BRI ?</label>
-						<div class="col-sm-12">
-							<select class="form-control dform  required" id="kebutuhan_skema_kredit">
+						<div class="form-group required">
+							<label class="control-label">Kebutuhan skema kredit / pinjaman BRI ?</label>
+							<select class="form-control dform required" id="kebutuhan_skema_kredit">
 								<option value="KUR  Mikro">KUR Mikro</option>
 								<option value="KUR Retail">KUR Retail</option>
 								<option value="Kredit Kemitraan">Kredit Kemitraan</option>
 								<option value="Kupedes">Kupedes</option>
 							</select>
 						</div>
-						<label class="col-sm-12 control-label"></label>
 
-						<label for="thedata" class="col-sm-12 control-label">Cerita Terkait Usaha </label>
-						<div id="ceritausaha" class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label">Cerita Terkait Usaha</label>
 							<textarea type="text" class="form-control dform required" id="kelompok_cerita_usaha" value="" placeholder="Ceritakan Sedikit terkait Kelompok Usaha"></textarea>
 						</div>
 
-						<label for="thedata" class="col-sm-12 control-label">Foto Kluster Usaha <button class="btn btn-primary waves-effect waves-light btn-sm" onclick="tambahform('fku');"><i class="fa fa-plus"></i> Tambah Foto</button></label>
-						<div id="fotoklusterusaha" class="col-sm-12">
+						<div class="form-group">
+							<label class="control-label">Foto Kluster Usaha</label>
+							<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="tambahform('fku');"><i class="fa fa-plus"></i> Tambah Foto</button></label>
+							<div id="fotoklusterusaha" class="col-sm-12"></div>
 						</div>
-
 
 						<!-- Isian untuk Ketua Kelompok / Klaster -->
 						<label for="thedata" class="col-sm-12 control-label">
 							<h3 align="center">Isian Ketua Kelompok</h3>
 						</label>
-					</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Nama Ketua Kelompok / Klaster</label>
-					<div class="col-sm-12">
-						<input type="text" class="form-control dform  required" id="kelompok_perwakilan" value="" placeholder="required" required>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Nama Ketua Kelompok / Klaster</label>
+							<input type="text" class="form-control dform required" id="kelompok_perwakilan" value="" placeholder="required" required>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Jenis Kelamin</label>
-					<div class="col-sm-12">
-						<select class="form-control dform  required" id="kelompok_jenis_kelamin">
-							<option value="Pria">Pria</option>
-							<option value="Wanita">Wanita</option>
-						</select>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Jenis Kelamin</label>
+							<select class="form-control dform required" id="kelompok_jenis_kelamin">
+								<option value="Pria">Pria</option>
+								<option value="Wanita">Wanita</option>
+							</select>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Alamat Lengkap Usaha</label>
-					<div class="col-sm-12">
-						<input type="text" class="form-control dform  required" id="lokasi_usaha" value="" placeholder="required" required>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Alamat Lengkap Usaha</label>
+							<input type="text" class="form-control dform required" id="lokasi_usaha" value="" placeholder="required" required>
+						</div>
 
+						<div class="form-group required">
+							<label class="control-label">Provinsi</label>
+							<select class="form-control dform required" onchange="getkotakab(this.value);" id="provinsi">
+								<?php foreach ($provinsi as $row) {
+									echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
+								} ?>
+							</select>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Provinsi</label>
-					<div class="col-sm-12">
-						<select class="form-control dform  required" onchange="getkotakab(this.value);" id="provinsi">
-							<?php foreach ($provinsi as $row) {
-								echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
-							} ?>
-						</select>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Kabupaten</label>
+							<div id="selkab">
+								<select class="form-control dform required" onchange="getkecamatan(this.value)" id="kabupaten">
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Kabupaten</label>
-					<div class="col-sm-12" id="selkab">
-						<select class="form-control dform  required" onchange="getkecamatan(this.value)" id="kabupaten">
+								</select>
+							</div>
+						</div>
 
-						</select>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Kecamatan</label>
+							<div id="selkec">
+								<select class="form-control dform required" onchange="getkelurahan(this.value)" id="kecamatan">
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Kecamatan</label>
-					<div class="col-sm-12" id="selkec">
-						<select class="form-control dform  required" onchange="getkelurahan(this.value)" id="kecamatan">
+								</select>
+							</div>
+						</div>
 
-						</select>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Kelurahan</label>
+							<div id="selkel">
+								<select class="form-control dform required" id="kelurahan">
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Kelurahan</label>
-					<div class="col-sm-12" id="selkel">
-						<select class="form-control dform  required" id="kelurahan">
+								</select>
+							</div>
+						</div>
 
-						</select>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Kode pos</label>
+							<input type="number" class="form-control required" id="kode_pos" value="" placeholder="required" required disabled>
+						</div>
 
-					<label for="thedata" class="col-sm-3 control-label drequired">Kode pos</label><label id="kodeposview" class="col-sm-9 control-label"></label>
-					<div class="col-sm-12">
-						<input type="number" class="form-control required" id="kode_pos" value="" placeholder="required" required disabled>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">NIK Ketua Kelompok</label>
+							<input type="number" class="form-control dform required" onchange="cnik(this.value);" id="kelompok_NIK" value="" placeholder="required" required>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">NIK Ketua Kelompok</label>
-					<div class="col-sm-12">
-						<input type="number" class="form-control dform  required" onchange="cnik(this.value);" id="kelompok_NIK" value="" placeholder="required" required>
-					</div>
-					<label for="thedata" class="col-sm-12 control-label drequired">Tanggal Lahir Ketua Kelompok</label>
-					<div class="col-sm-12">
-						<input type="date" data-date-format="DD-MM-YYYY" class="form-control dform  required" id="kelompok_perwakilan_tgl_lahir" value="" placeholder="required" required>
-					</div>
-					<label for="thedata" class="col-sm-12 control-label drequired">Tempat Lahir Ketua Kelompok</label>
-					<div class="col-sm-12">
-						<input type="text" class="form-control dform  required" id="kelompok_perwakilan_tempat_lahir" value="" placeholder="required" required>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">Tanggal Lahir Ketua Kelompok</label>
+							<input type="date" data-date-format="DD-MM-YYYY" class="form-control dform required" id="kelompok_perwakilan_tgl_lahir" value="" placeholder="required" required>
+						</div>
 
+						<div class="form-group required">
+							<label class="control-label">Tempat Lahir Ketua Kelompok</label>
+							<input type="text" class="form-control dform required" id="kelompok_perwakilan_tempat_lahir" value="" placeholder="required" required>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">No Handphone Ketua Kelompok</label>
-					<div class="col-sm-12">
-						<input type="tel" onchange="cekhp(this);" class="form-control dform  required" id="kelompok_handphone" value="" placeholder="08xxxxxxxx (required)" required>
-					</div>
+						<div class="form-group required">
+							<label class="control-label">No Handphone Ketua Kelompok</label>
+							<input type="tel" onchange="cekhp(this);" class="form-control dform required" id="kelompok_handphone" value="" placeholder="08xxxxxxxx (required)" required>
+						</div>
 
+						<div class="form-group required">
+							<label class="control-label">Sudah Punya Pinjaman?</label>
+							<select class="form-control dform required" id="pinjaman" required>
+								<option value="BRI">BRI</option>
+								<option value="Bank Lain">Bank Lain</option>
+								<option value="Belum Ada">Belum Ada</option>
+							</select>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Sudah Punya Pinjaman?</label>
-					<div class="col-sm-12">
-						<select class="form-control dform  required" id="pinjaman">
-							<option value="BRI">BRI</option>
-							<option value="Bank Lain">Bank Lain</option>
-							<option value="Belum Ada">Belum Ada</option>
-						</select>
-					</div>
+						<div class="form-group">
+							<label class="control-label">Jika ada, nominal pinjaman (Rp) ?</label>
+							<input type="number" class="form-control dform" id="nominal_pinjaman" value="" placeholder="optional">
+						</div>
 
+						<div class="form-group">
+							<label class="control-label">Jika di BRI, Norek Pinjaman BRI?</label>
+							<input type="number" class="form-control dform" id="norek_pinjaman_bri" value="" placeholder="optional">
+						</div>
 
+						<div class="form-group">
+							<label class="control-label">Sudah Punya Simpanan di Bank ?</label>
+							<select class="form-control dform required" id="simpanan_bank">
+								<option value="BRI">BRI</option>
+								<option value="Bank Lain">Bank Lain</option>
+								<option value="Belum Ada">Belum Ada</option>
+							</select>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label">Jika ada, nominal pinjaman (Rp) ?</label>
-					<div class="col-sm-12">
-						<input type="number" class="form-control dform " id="nominal_pinjaman" value="" placeholder="optional" required>
-					</div>
+						<div class="form-group">
+							<label class="control-label">Jika di BRI, apakah sudah jadi agen BRILink ?</label>
+							<select class="form-control dform" id="agen_brilink">
+								<option value="Ya">Ya</option>
+								<option value="Tidak">Tidak</option>
+							</select>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label">Jika di BRI, Norek Pinjaman BRI?</label>
-					<div class="col-sm-12">
-						<input type="number" class="form-control dform " id="norek_pinjaman_bri" value="" placeholder="optional" required>
-					</div>
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg" id="checkvalidkunjungan" required>
+							<b>Dengan ini saya menyatakan bahwa data ini benar adanya sesuai kenyataan di lapangan</b>
+						</div>
 
-					<label for="thedata" class="col-sm-12 control-label drequired">Sudah Punya Simpanan di Bank ?</label>
-					<div class="col-sm-12">
-						<select class="form-control dform  required" id="simpanan_bank">
-							<option value="BRI">BRI</option>
-							<option value="Bank Lain">Bank Lain</option>
-							<option value="Belum Ada">Belum Ada</option>
-						</select>
-					</div>
-
-					<label for="thedata" class="col-sm-12 control-label drequired">Jika di BRI, apakah sudah jadi agen BRILink ?</label>
-					<div class="col-sm-12">
-						<select class="form-control dform  required" id="agen_brilink">
-							<option value="Ya">Ya</option>
-							<option value="Tidak">Tidak</option>
-						</select>
-					</div>
-
-					</br>
-					<label for="thedata" class="col-sm-12 control-label">Dengan ini saya menyatakan bahwa data ini benar adanya sesuai kenyataan di lapangan <input type="checkbox" class="form-check-input form-control-lg" id="checkvalidkunjungan" required> </label>
-					</br>
-					<label for="thedata" class="col-sm-12 control-label">Data ini memiliki potensi yang baik untuk meningkatkan bisnis BRI melalui pendekatan komunitas <input type="checkbox" class="form-check-input form-control-lg" id="checkvalidpotensi" required> </label>
-					</br>
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg" id="checkvalidpotensi" required>
+							<b>Data ini memiliki potensi yang baik untuk meningkatkan bisnis BRI melalui pendekatan komunitas</b>
+						</div>
+					</form>
 				</div>
-				<label for="thedata" class="col-sm-12 control-label">Jika ya, nilai ekspor rata-rata per bulan (Rp) ?</label>
-				<div class="col-sm-12">
-					<input type="number" class="form-control dform " id="pasar_ekspor_nilai" value="" placeholder="optional" required>
-				</div>
-
-
-				<label for="thedata" class="col-sm-12 control-label">Foto/Dokument Ekspor<button class="btn btn-primary waves-effect waves-light btn-sm" id="bfex" onclick="tambahform('fex');"><i class="fa fa-plus"></i> Tambah Foto Ekspor</button></label>
-				<div id="fotoverifikasiexpor">
-				</div>
-
-
-				<label for="thedata" class="col-sm-12 control-label">Luas lahan / tempat usaha (m2)</label>
-				<div class="col-sm-12">
-					<input type="number" class="form-control dform " id="kelompok_luas_usaha" value="" placeholder="optional" required>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label">Omset Usaha per Bulan (total kelompok - Rp)</label>
-				<div class="col-sm-12">
-					<input type="number" class="form-control dform " id="kelompok_omset" value="" placeholder="optional" required>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label">Nama Pembeli (inti) Produk/Jasa yang dihasilkan</label>
-				<div class="col-sm-12">
-					<input type="text" class="form-control dform " id="kelompok_pihak_pembeli" onchange="validatoropttext(this,ischar,this.id)" value="" placeholder="optional" required>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label">Nomor Handphone Pembeli</label>
-				<div class="col-sm-12">
-					<input type="tel" class="form-control dform " onchange="cekhpnor(this);" id="kelompok_pihak_pembeli_handphone" value="" placeholder="08xxxxxxxx optional" required>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label">Nama Suplier (utama) bahan baku produk/jasa yang dihasilkan</label>
-				<div class="col-sm-12">
-					<input type="text" class="form-control dform " id="kelompok_suplier_produk" value="" placeholder="optional" required>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label">Nomor Handphone Supplier</label>
-				<div class="col-sm-12">
-					<input type="tel" class="form-control dform " onchange="cekhpnor(this);" id="kelompok_suplier_handphone" value="" placeholder="08xxxxxxxx optional" required>
-				</div>
-
-
-
-
-				<label for="thedata" class="col-sm-12 control-label drequired">Sarana / prasarana yang dimiliki saat ini (perlengkapan / mesin atau aset yang mengubah value / bentuk barang - tidak termasuk mobil, gudang, rumah)</label>
-				<div class="col-sm-12">
-					<input type="text" class="form-control dform  required" id="kebutuhan_sarana_milik" value="" placeholder="required" required>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label drequired">Kebutuhan sarana / prasarana untuk peningkatan usaha kelompok? (usulan RAB Maks Rp 2 juta)</label>
-				<div class="col-sm-12">
-					<select class="form-control dform  required" id="kebutuhan_sarana">
-						<option value="Renovasi tempat ibadah">Renovasi tempat ibadah</option>
-						<option value="Sarana air bersih (Misal. MCK Umum, Penampungan Air, Pompa Air, Sumur Bor)">Sarana air bersih (Misal. MCK Umum, Penampungan Air, Pompa Air, Sumur Bor)</option>
-						<option value="Peralatan penunjang produksi (Misal. Cangkul, Hand Traktor, Hand Press, Alat Bor)">Peralatan penunjang produksi (Misal. Cangkul, Hand Traktor, Hand Press, Alat Bor)</option>
-						<option value="Lainnya">Lainnya</option>
-					</select>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label">Jika lainnya, kebutuhan sarana / prasarana ? (usulan RAB Maks. Rp 2 juta)</label>
-				<div class="col-sm-12">
-					<input type="text" class="form-control dform " id="kebutuhan_sarana_lainnya" value="" placeholder="optional misal cangkul, pasak, dll" required>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label drequired">Kebutuhan Pendidikan & Pelatihan untuk peningkatan usaha kelompok</label>
-				<div class="col-sm-12">
-					<select class="form-control dform  required" id="kebutuhan_pendidikan">
-						<option value="Kepemimpinan">Kepemimpinan</option>
-						<option value="Pola Pikir & Cara Pandang">Pola Pikir & Cara Pandang</option>
-						<option value="Budaya Inovasi">Budaya Inovasi</option>
-						<option value="Manajemen Pemasaran">Manajemen Pemasaran</option>
-						<option value="Manajemen Operasional">Manajemen Operasional</option>
-						<option value="Manajemen Keuangan">Manajemen Keuangan</option>
-						<option value="Manajemen SDM">Manajemen SDM</option>
-						<option value="Legalitas & Kepatuhan">Legalitas & Kepatuhan</option>
-						<option value="Kepedulian Sosial & Lingkungan">Kepedulian Sosial & Lingkungan</option>
-						<option value="Pemahaman Industri & Pasar">Pemahaman Industri & Pasar</option>
-						<option value="Manajemen Rantai Pasok">Manajemen Rantai Pasok</option>
-						<option value="Skala Usaha / Ekspor">Skala Usaha / Ekspor</option>
-					</select>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label drequired">Kebutuhan skema kredit / pinjaman BRI ?</label>
-				<div class="col-sm-12">
-					<select class="form-control dform  required" id="kebutuhan_skema_kredit">
-						<option value="KUR  Mikro">KUR Mikro</option>
-						<option value="KUR Retail">KUR Retail</option>
-						<option value="Kredit Kemitraan">Kredit Kemitraan</option>
-						<option value="Kupedes">Kupedes</option>
-					</select>
-				</div>
-				<label class="col-sm-12 control-label"></label>
-
-				<label for="thedata" class="col-sm-12 control-label">Cerita Terkait Usaha </label>
-				<div id="ceritausaha" class="col-sm-12">
-					<textarea type="text" class="form-control dform required" id="kelompok_cerita_usaha" value="" placeholder="Ceritakan Sedikit terkait Kelompok Usaha"></textarea>
-				</div>
-
-				<label for="thedata" class="col-sm-12 control-label">Foto Kluster Usaha <button class="btn btn-primary waves-effect waves-light btn-sm" onclick="tambahform('fku');"><i class="fa fa-plus"></i> Tambah Foto</button></label>
-				<div id="fotoklusterusaha" class="col-sm-12">
-				</div>
-
-
-				<!-- Isian untuk Ketua Kelompok / Klaster -->
-				<label for="thedata" class="col-sm-12 control-label">
-					<h3 align="center">Isian Ketua Kelompok</h3>
-				</label>
 			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Nama Ketua Kelompok / Klaster</label>
-			<div class="col-sm-12">
-				<input type="text" class="form-control dform  required" id="kelompok_perwakilan" value="" placeholder="required" required>
+			<div class="modal-footer">
+				<button class="btn btn-primary waves-effect waves-light" onclick="$('#modal').hide();">Batal</button>
+				<button class="btn btn-success waves-effect waves-light" id="sbt" onclick="inputform();">Kirim</button>
 			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Jenis Kelamin</label>
-			<div class="col-sm-12">
-				<select class="form-control dform  required" id="kelompok_jenis_kelamin">
-					<option value="Pria">Pria</option>
-					<option value="Wanita">Wanita</option>
-				</select>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Alamat Lengkap Usaha</label>
-			<div class="col-sm-12">
-				<input type="text" class="form-control dform  required" id="lokasi_usaha" value="" placeholder="required" required>
-			</div>
-
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Provinsi</label>
-			<div class="col-sm-12">
-				<select class="form-control dform  required" onchange="getkotakab(this.value);" id="provinsi">
-					<?php foreach ($provinsi as $row) {
-						echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
-					} ?>
-				</select>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Kabupaten</label>
-			<div class="col-sm-12" id="selkab">
-				<select class="form-control dform  required" onchange="getkecamatan(this.value)" id="kabupaten">
-
-				</select>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Kecamatan</label>
-			<div class="col-sm-12" id="selkec">
-				<select class="form-control dform  required" onchange="getkelurahan(this.value)" id="kecamatan">
-
-				</select>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Kelurahan</label>
-			<div class="col-sm-12" id="selkel">
-				<select class="form-control dform  required" id="kelurahan">
-
-				</select>
-			</div>
-
-			<label for="thedata" class="col-sm-3 control-label drequired">Kode pos</label><label id="kodeposview" class="col-sm-9 control-label"></label>
-			<div class="col-sm-12">
-				<input type="number" class="form-control required" id="kode_pos" value="" placeholder="required" required disabled>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">NIK Ketua Kelompok</label>
-			<div class="col-sm-12">
-				<input type="number" class="form-control dform  required" onchange="cnik(this.value);" id="kelompok_NIK" value="" placeholder="required" required>
-			</div>
-			<label for="thedata" class="col-sm-12 control-label drequired">Tanggal Lahir Ketua Kelompok</label>
-			<div class="col-sm-12">
-				<input type="date" data-date-format="DD-MM-YYYY" class="form-control dform  required" id="kelompok_perwakilan_tgl_lahir" value="" placeholder="required" required>
-			</div>
-			<label for="thedata" class="col-sm-12 control-label drequired">Tempat Lahir Ketua Kelompok</label>
-			<div class="col-sm-12">
-				<input type="text" class="form-control dform  required" id="kelompok_perwakilan_tempat_lahir" value="" placeholder="required" required>
-			</div>
-
-
-			<label for="thedata" class="col-sm-12 control-label drequired">No Handphone Ketua Kelompok</label>
-			<div class="col-sm-12">
-				<input type="tel" onchange="cekhp(this);" class="form-control dform  required" id="kelompok_handphone" value="" placeholder="08xxxxxxxx (required)" required>
-			</div>
-
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Sudah Punya Pinjaman?</label>
-			<div class="col-sm-12">
-				<select class="form-control dform  required" id="pinjaman">
-					<option value="BRI">BRI</option>
-					<option value="Bank Lain">Bank Lain</option>
-					<option value="Belum Ada">Belum Ada</option>
-				</select>
-			</div>
-
-
-
-			<label for="thedata" class="col-sm-12 control-label">Jika ada, nominal pinjaman (Rp) ?</label>
-			<div class="col-sm-12">
-				<input type="number" class="form-control dform " id="nominal_pinjaman" value="" placeholder="optional" required>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label">Jika di BRI, Norek Pinjaman BRI?</label>
-			<div class="col-sm-12">
-				<input type="number" class="form-control dform " id="norek_pinjaman_bri" value="" placeholder="optional" required>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Sudah Punya Simpanan di Bank ?</label>
-			<div class="col-sm-12">
-				<select class="form-control dform  required" id="simpanan_bank">
-					<option value="BRI">BRI</option>
-					<option value="Bank Lain">Bank Lain</option>
-					<option value="Belum Ada">Belum Ada</option>
-				</select>
-			</div>
-
-			<label for="thedata" class="col-sm-12 control-label drequired">Jika di BRI, apakah sudah jadi agen BRILink ?</label>
-			<div class="col-sm-12">
-				<select class="form-control dform  required" id="agen_brilink">
-					<option value="Ya">Ya</option>
-					<option value="Tidak">Tidak</option>
-				</select>
-			</div>
-
-			</br>
-			<label for="thedata" class="col-sm-12 control-label">Dengan ini saya menyatakan bahwa data ini benar adanya sesuai kenyataan di lapangan <input type="checkbox" class="form-check-input form-control-lg" id="checkvalidkunjungan" required> </label>
-			</br>
-			<label for="thedata" class="col-sm-12 control-label">Data ini memiliki potensi yang baik untuk meningkatkan bisnis BRI melalui pendekatan komunitas <input type="checkbox" class="form-check-input form-control-lg" id="checkvalidpotensi" required> </label>
-			</br>
-		</div>
-	</div>
-</div>
-<div class="modal-footer">
-	<button class="btn btn-primary waves-effect waves-light" onclick="$('#modal').hide();">Batal</button>
-	<button class="btn btn-success waves-effect waves-light" id="sbt" onclick="inputform();">Kirim</button>
-</div>
-</div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 <!-- modal-->
-
-<div class="modal " id="modalz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal" id="modalz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -683,32 +477,31 @@
 				<h5 class="modal-title">Form klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
 			</div>
 			<div class="modal-body">
-				<div id="mod-content">
-					<div class="row">
-						<?php
-						$dker = '<label for="thedata" class="col-sm-2 control-label">Kode Uker</label><div id="chker"></div>
-			<div class="col-sm-12">
-					<input type="number" class="form-control"   id="kode_uker_c" onchange="getuker(this.value);" placeholder="required" value="" required>
-			</div>';
-						echo ($this->session->userdata('permission') > 1 ? $dker : '');
-						?>
-
-						<label for="thedata" class="col-sm-12 control-label">Password Baru</label>
-						<div class="col-sm-12">
-							<input type="password" onchange="myFunction();" class="form-control" placeholder="Password" name="password" id="password">
-							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
-						<label for="thedata" class="col-sm-12 control-label">RePassword Baru</label>
-						<div class="col-sm-12">
-							<input type="password" onchange="myFunction();" class="form-control" placeholder="Confirm Password" name="Cpassword" id="Cpassword">
-							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
+				<form>
+					<?php
+					$dker = '
+						<div class="form-group">
+							<label class="control-label">Kode Uker</label>
+							<div id="chker"></div>
+							<input type="number" class="form-control" id="kode_uker_c" onchange="getuker(this.value);" placeholder="required" value="" required>
+						</div>';
+					echo ($this->session->userdata('permission') > 1 ? $dker : '');
+					?>
+					<div class="form-group has-feedback">
+						<label class="control-label">Password Baru</label>
+						<input type="password" onchange="checkPassword()" class="form-control" placeholder="Password" name="password" id="password">
+						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 					</div>
-				</div>
+					<div class="form-group has-feedback">
+						<label class="control-label">Ketik Ulang Password Baru</label>
+						<input type="password" onchange="checkPassword();" class="form-control" placeholder="Confirm Password" name="Cpassword" id="Cpassword">
+						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+					</div>
+				</form>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-primary waves-effect waves-light" onclick="$('#modalz').hide();">Batal</button>
-				<button class="btn btn-success waves-effect waves-light" disabled id="dsubmit" onclick="userm(true);">Kirim</button>
+				<button class="btn btn-success waves-effect waves-light" disabled id="dsubmit">Kirim</button>
 			</div>
 		</div>
 	</div>
@@ -803,9 +596,6 @@
 					}
 				}
 			});
-
-
-
 		}
 
 		function te(i) {
@@ -951,8 +741,6 @@
 		});
 	}
 
-
-
 	function getform(i = null) {
 		$("#sbt").removeAttr("disabled");
 		document.getElementById("checkvalidpotensi").checked = false;
@@ -1065,7 +853,7 @@
 		$("#fotoverifikasiexpor").append('<div class="col-sm-4"  id="mfex_' + newid + '"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btn-file"><i class="fa fa-upload"></i> Upload ' + (newid + 1) + '<input class="fex" type="file" id="fex_' + newid + '"  onchange="readURL(this,\'fex_' + newid + '\');" >	 <input type="hidden"  name="rfex" id="rfex_' + newid + '" value=""> <input type="hidden" name="tfex" id="tfex_' + newid + '" value="">  <input type="hidden" name="idfex" id="idfex_' + newid + '" value=""> </span><span class="btn btn-default btn-file" onclick="minform(\'mfex_' + newid + '\');"><i class="fa fa-close"></i>  Hapus</span></span></div><img class="img-upload" id="shfex_' + newid + '" src="' + (rfex != null ? rfex : '') + '"/></div>');
 	}
 
-	function userm(i = false) {
+	/* function userm(i = false) {
 		if (i == false) {
 			var dd = $('.form-control');
 			for (var j = 0; j < dd.length; j++) {
@@ -1087,7 +875,7 @@
 				}
 			});
 		}
-	}
+	} */
 
 	function inputform() {
 		if (document.getElementById("checkvalidkunjungan").checked == true && document.getElementById("checkvalidpotensi").checked == true) {
@@ -1382,7 +1170,7 @@
 		}
 	}
 
-	function myFunction() {
+	function checkPassword() {
 		var pass1 = $("#password").val();
 		var pass2 = $("#Cpassword").val();
 		if (pass1 !== pass2) {

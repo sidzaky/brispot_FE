@@ -9,6 +9,11 @@
   margin-bottom: 15px;
 }
 
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
+}
+
 .content-header > h1 {
   float: left;
   margin-right: 15px;
