@@ -94,6 +94,23 @@ class Cluster extends MX_Controller
 		}
 	}
 
+	function fjum()
+	{
+		if (isset($_POST['id_cluster_sektor_usaha'])) {
+			$data = $this->cluster_m->getdata_jum();
+			echo json_encode($data);
+		}
+	}
+
+	function fju()
+	{
+		if (isset($_POST['id_cluster_jenis_usaha_map'])) {
+			$data = $this->cluster_m->getdata_ju();
+			echo json_encode($data);
+		}
+	}
+
+
 	public function inputdata()
 	{
 		switch ($_POST['jenis_usaha']) {
