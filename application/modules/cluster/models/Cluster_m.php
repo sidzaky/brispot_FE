@@ -1,15 +1,10 @@
-
-
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Cluster_m extends CI_Model 
 {
-		
 		public function get_datafield(){
 			$sql  = $this->get_datatables();
 			$sql .= "  LIMIT ".($_POST['start']!=0 ? $_POST['start'].', ' : '' )." ". ($_POST['length']!=0 ? $_POST['length'] : '200' );
-			
-		
 			return $this->db->query($sql);
 		}
 		
@@ -288,13 +283,13 @@ class Cluster_m extends CI_Model
 		}
 		
 		public function uploadimage($newdata, $newid, $db){
-				for ($i=0;$i<count($newdata);$i++){
-								$data['id_'.$db]=$this->uuid->v4();
-								$data['id_cluster']=$newid;
-								$data['timestampt']=time();
-								$data['location']=$newdata[$i];
-								$this->db->insert('cluster_'.$db, $data);
-							}
+			for ($i=0;$i<count($newdata);$i++){
+				$data['id_'.$db]=$this->uuid->v4();
+				$data['id_cluster']=$newid;
+				$data['timestampt']=time();
+				$data['location']=$newdata[$i];
+				$this->db->insert('cluster_'.$db, $data);
+			}
 		}
 		
 		public function cekkpos_m(){
@@ -304,8 +299,6 @@ class Cluster_m extends CI_Model
 		public function getprovinsi_m(){
 			$sql="select * from provinsi";
 			return $this->db->query($sql)->result_array();
-			
-			
 		}
 		
 		public function getkotakab_m(){
@@ -336,8 +329,6 @@ class Cluster_m extends CI_Model
 			return $this->db->query($sql);
 			
 		}
-		
-		
 		
 		public function get_datatables_anggota(){
 			$i=0;
@@ -375,7 +366,6 @@ class Cluster_m extends CI_Model
 			return $query->result_array();
 		}
 		
-		
 		public function insertdata_anggota_m(){
 			$_POST['timeinput']=time();
 			$_POST['userlastupdate']=$this->session->userdata('kode_uker');
@@ -399,7 +389,6 @@ class Cluster_m extends CI_Model
 		}
 		
 		public function inputanggotacsv_m($anggota){
-			
 			$pria=array('pria','laki-laki','lelaki','cowok');
 			$wanita=array('wanita','perempuan','gadis','cewek');
 			for ($i=0;$i<count($anggota);$i++){
