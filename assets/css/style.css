@@ -1,73 +1,68 @@
 /* Loader
 *--------------------------------*/
 
-.select{
-	margin-bottom: 15px;
-}
-	
-.btn-tambah{
-	/*position: absolute;
-    float: left;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    top: 15px;
-    left: 115px;*/
+.select {
+  margin-bottom: 15px;
 }
 
-.content-header>h1{
-	float: left;
-	margin-right: 15px;
+.control-box {
+  margin-bottom: 15px;
 }
 
-.content{
-	clear: left;
+.content-header > h1 {
+  float: left;
+  margin-right: 15px;
 }
 
-.antrian .number{
-	font-weight: bolder;
-	margin-right: 15px;
-	margin-left: 15px;
+.content {
+  clear: left;
 }
 
-.antrian img{
-	width: 100%;
-    max-width: 55px;
-    height: auto;
+.antrian .number {
+  font-weight: bolder;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.antrian img {
+  width: 100%;
+  max-width: 55px;
+  height: auto;
 }
 
 .antrian > li .tools {
-    line-height: 55px;
+  line-height: 55px;
 }
 
 .searchTable {
-	margin-bottom: 10px;
-}
-
-.modal-title{
-	font-weight: bold;
-}
-
-.control-label{
-	font-weight: 600;
-}
-
-#modalObat input{
-	background: #F5F5F5;
+  margin-bottom: 10px;
 }
 
 .modal-title {
-    font-weight: bold;
-    color: #5D5D5D;
+  font-weight: bold;
+}
+
+.control-label {
+  font-weight: 600;
+}
+
+#modalObat input {
+  background: #f5f5f5;
+}
+
+.modal-title {
+  font-weight: bold;
+  color: #5d5d5d;
 }
 
 .modal-header {
-	background: whitesmoke;
-    border-bottom-color: #E4E4E4;
+  background: whitesmoke;
+  border-bottom-color: #e4e4e4;
 }
 
 .modal-footer {
-	background: whitesmoke;
-    border-top-color: #E4E4E4;
+  background: whitesmoke;
+  border-top-color: #e4e4e4;
 }
 
 /*
@@ -79,9 +74,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: block;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
   overflow-y: auto;
 }
 
@@ -96,8 +91,8 @@
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
 }
 
 .vue-modal-header h3 {
@@ -112,7 +107,8 @@
 .vue-modal-default-button {
   float: right;
 }
-.modal-enter, .modal-leave {
+.modal-enter,
+.modal-leave {
   opacity: 0;
 }
 
@@ -122,30 +118,30 @@
   transform: scale(1.1);
 }
 
-#antri2 td{
-	vertical-align: middle;
+#antri2 td {
+  vertical-align: middle;
 }
 
-#antri2 img{
-	float: left;
-	margin-right: 15px;
+#antri2 img {
+  float: left;
+  margin-right: 15px;
 }
 
-#antri2 .status-antrian{
-	font-weight: bold;
-	text-transform: uppercase;
+#antri2 .status-antrian {
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.formkaryawan select{
-	margin-bottom: 10px;
+.formkaryawan select {
+  margin-bottom: 10px;
 }
 
-.action{
-	margin-top: 50px;
-    text-align: right;
+.action {
+  margin-top: 50px;
+  text-align: right;
 }
 
-#filterLaporanObat{
-  background: #0073B7;
-  color: #FFFFFF;
+#filterLaporanObat {
+  background: #0073b7;
+  color: #ffffff;
 }
