@@ -80,7 +80,7 @@ class Login extends MX_Controller
 			echo "You don\'t have permission to access this page. <a href=$link>Login</a>";
 			die();
 		} else {
-			if ($this->session->userdata('uppwd') == 1) redirect('');
+			if ($this->session->userdata('uppwd') === 1) redirect('/login/signup', 'refresh');
 		}
 	}
 
