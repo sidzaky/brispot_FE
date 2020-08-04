@@ -1,35 +1,43 @@
-<div class="container-fluid">
-	<div class="row bg-title">
-	</div>
-	<div class="col-md-12">
-		<div class="white-box">
-			<h3 class="box-title m-b-0" align="center"><b>Data Klaster BRIspot 0.2 <?php echo $this->session->userdata('name_uker'); ?></b></h3>
-			<div id="result">
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			Data Klaster BRIspot 0.3
+			<?php echo $this->session->userdata('name_uker'); ?>
+		</h1>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="box box-solid">
+			<div id="result" class="box-body">
+				<div class="container-fluid control-box">
+					<div class="row">
+						<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.open('cluster/dldata')" type="button"><i class="fa fa-download"></i> Download All Data</button>
+						<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open('cluster/report_unit')" type="button"><i class="fa fa-info"></i> Rekap unit</button>
+						<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open('cluster/getreport/harian')" type="button"><i class="fa fa-info"></i> Laporan Harian</button>
+						<?php if ($this->session->userdata('permission') > 3) {
+							echo '<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'cluster/getreport/\')" type="button"><i class="fa fa-info"></i> Report akhir</button>';
+						}
+						?>
+					</div>
+				</div>
 				<script>
 					$(document).ready(function() {
-						$('#example').DataTable({
+						$('#table-cluster-kanpus').DataTable({
 							"scrollX": true,
 							"processing": true,
 							"serverSide": true,
+							"deferRender": true,
 							"ajax": {
 								"url": "<?php echo base_url(); ?>cluster/getdata",
 								"type": "POST"
 							},
-
 						});
-						var tambah = '';
-						var download = '&nbsp<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.open(\'\cluster/dldata\')" type="button"><i class="fa fa-download"></i> Download All Data</button>';
-						var reportunit = '&nbsp<button class="btn btn-info waves-effect waves-light btn-sm"onclick="window.open(\'\cluster/report_unit\')" type="button"><i class="fa fa-info"></i> Rekap unit</button>';
-						var report = '&nbsp<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'\cluster/getreport/harian\')" type="button"><i class="fa fa-info"></i> Laporan Harian</button><?php echo ($this->session->userdata('permission') > 3 ? '&nbsp<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\\\'\cluster/getreport/\\\')" type="button"><i class="fa fa-info"></i> Report akhir</button>\'' : '\'') ?>;
-
-						var logout = '&nbsp<button class="btn btn-warning waves-effect waves-light btn-sm" onclick="window.location = \'\login/logout\';" type="button"><i class="fa fa-sign-out"></i> Keluar</button>';
-						var userm = '&nbsp<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="userm();" type="button"><i class="fa fa-sign-out"></i> Ganti Password Uker</button>';
-						$("#example_length").append(<?php echo ($this->session->userdata('permission') > 2 ? 'report+reportunit' : '') ?> + userm + logout);
-
 					});
 				</script>
-				<div class="col-sm-12">
-					<table id="example" class="table table-striped table-bordered" style="width:100%">
+				<div class="table-responsive">
+					<table id="table-cluster-kanpus" class="table table-striped table-bordered" width="100%">
 						<thead>
 							<tr>
 								<th>No</th>
@@ -43,13 +51,11 @@
 								<th>Action</th>
 							</tr>
 						</thead>
-						<tbody>
-						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 </div>
 <!-- Modal -->
 <style>
@@ -438,46 +444,6 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- modal-->
-
-<div class="modal " id="modalz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" onclick="$('#modalz').hide();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h5 class="modal-title">Form klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
-			</div>
-			<div class="modal-body">
-				<div id="mod-content">
-					<div class="row">
-						<?php
-						$dker = '<label for="thedata" class="col-sm-2 control-label">Kode Uker</label><div id="chker"></div>
-			<div class="col-sm-12">
-					<input type="number" class="form-control"   id="kode_uker_c" onchange="getuker(this.value);" placeholder="required" value="" required>
-			</div>';
-						echo ($this->session->userdata('permission') > 1 ? $dker : '');
-						?>
-
-						<label for="thedata" class="col-sm-12 control-label">Password Baru</label>
-						<div class="col-sm-12">
-							<input type="password" onchange="myFunction();" class="form-control" placeholder="Password" name="password" id="password">
-							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
-						<label for="thedata" class="col-sm-12 control-label">RePassword Baru</label>
-						<div class="col-sm-12">
-							<input type="password" onchange="myFunction();" class="form-control" placeholder="Confirm Password" name="Cpassword" id="Cpassword">
-							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary waves-effect waves-light" onclick="$('#modalz').hide();">Batal</button>
-				<button class="btn btn-success waves-effect waves-light" disabled id="dsubmit" onclick="userm(true);">Kirim</button>
-			</div>
-		</div>
-	</div>
-</div>
 <?php if ($this->session->userdata('notif') == 1) { ?>
 	<div class="modal " id="modalnotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog modal-lg">
@@ -910,20 +876,6 @@
 					$('#example').DataTable().ajax.reload(null, false);
 				}
 			});
-		}
-	}
-
-	function myFunction() {
-		var pass1 = $("#password").val();
-		var pass2 = $("#Cpassword").val();
-		if (pass1 !== pass2) {
-			document.getElementById("password").style.borderColor = "#E34234";
-			document.getElementById("Cpassword").style.borderColor = "#E34234";
-			$("#dsubmit").attr("disabled", "disabled");
-		} else {
-			document.getElementById("password").style.borderColor = "";
-			document.getElementById("Cpassword").style.borderColor = "";
-			$("#dsubmit").removeAttr("disabled");
 		}
 	}
 

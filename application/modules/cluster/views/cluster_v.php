@@ -468,44 +468,6 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- modal-->
-<div class="modal" id="modalz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" onclick="$('#modalz').hide();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h5 class="modal-title">Form klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
-			</div>
-			<div class="modal-body">
-				<form>
-					<?php
-					$dker = '
-						<div class="form-group">
-							<label class="control-label">Kode Uker</label>
-							<div id="chker"></div>
-							<input type="number" class="form-control" id="kode_uker_c" onchange="getuker(this.value);" placeholder="required" value="" required>
-						</div>';
-					echo ($this->session->userdata('permission') > 1 ? $dker : '');
-					?>
-					<div class="form-group has-feedback">
-						<label class="control-label">Password Baru</label>
-						<input type="password" onchange="checkPassword()" class="form-control" placeholder="Password" name="password" id="password">
-						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-					</div>
-					<div class="form-group has-feedback">
-						<label class="control-label">Ketik Ulang Password Baru</label>
-						<input type="password" onchange="checkPassword();" class="form-control" placeholder="Confirm Password" name="Cpassword" id="Cpassword">
-						<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary waves-effect waves-light" onclick="$('#modalz').hide();">Batal</button>
-				<button class="btn btn-success waves-effect waves-light" disabled id="dsubmit">Kirim</button>
-			</div>
-		</div>
-	</div>
-</div>
 <?php if ($this->session->userdata('notif') == 1) { ?>
 	<div class="modal " id="modalnotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog modal-lg">
@@ -575,7 +537,6 @@
 					}
 				}
 			});
-
 		}
 
 		function fju(i) {
@@ -634,8 +595,6 @@
 <?php }
 
 ?>
-
-
 
 <script src="./assets/js/send.js"></script>
 
@@ -852,30 +811,6 @@
 	function vfex(newid, rfex = null) {
 		$("#fotoverifikasiexpor").append('<div class="col-sm-4"  id="mfex_' + newid + '"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btn-file"><i class="fa fa-upload"></i> Upload ' + (newid + 1) + '<input class="fex" type="file" id="fex_' + newid + '"  onchange="readURL(this,\'fex_' + newid + '\');" >	 <input type="hidden"  name="rfex" id="rfex_' + newid + '" value=""> <input type="hidden" name="tfex" id="tfex_' + newid + '" value="">  <input type="hidden" name="idfex" id="idfex_' + newid + '" value=""> </span><span class="btn btn-default btn-file" onclick="minform(\'mfex_' + newid + '\');"><i class="fa fa-close"></i>  Hapus</span></span></div><img class="img-upload" id="shfex_' + newid + '" src="' + (rfex != null ? rfex : '') + '"/></div>');
 	}
-
-	/* function userm(i = false) {
-		if (i == false) {
-			var dd = $('.form-control');
-			for (var j = 0; j < dd.length; j++) {
-				dd[j].value = "";
-			}
-			$('#modalz').show();
-		} else {
-			var data1 = {
-				'kode_uker_c': $('#kode_uker_c').val(),
-				'password': $('#password').val()
-			};
-			$.ajax({
-				type: "POST",
-				url: "./login/chpassuker",
-				data: data1,
-				success: function(smsg) {
-					alert('ganti password uker berhasil');
-					$('#modalz').hide();
-				}
-			});
-		}
-	} */
 
 	function inputform() {
 		if (document.getElementById("checkvalidkunjungan").checked == true && document.getElementById("checkvalidpotensi").checked == true) {
@@ -1167,20 +1102,6 @@
 					$('#example').DataTable().ajax.reload(null, false);
 				}
 			});
-		}
-	}
-
-	function checkPassword() {
-		var pass1 = $("#password").val();
-		var pass2 = $("#Cpassword").val();
-		if (pass1 !== pass2) {
-			document.getElementById("password").style.borderColor = "#E34234";
-			document.getElementById("Cpassword").style.borderColor = "#E34234";
-			$("#dsubmit").attr("disabled", "disabled");
-		} else {
-			document.getElementById("password").style.borderColor = "";
-			document.getElementById("Cpassword").style.borderColor = "";
-			$("#dsubmit").removeAttr("disabled");
 		}
 	}
 
