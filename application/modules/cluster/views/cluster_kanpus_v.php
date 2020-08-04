@@ -444,46 +444,6 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<!-- modal-->
-
-<div class="modal " id="modalz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" onclick="$('#modalz').hide();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h5 class="modal-title">Form klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
-			</div>
-			<div class="modal-body">
-				<div id="mod-content">
-					<div class="row">
-						<?php
-						$dker = '<label for="thedata" class="col-sm-2 control-label">Kode Uker</label><div id="chker"></div>
-			<div class="col-sm-12">
-					<input type="number" class="form-control"   id="kode_uker_c" onchange="getuker(this.value);" placeholder="required" value="" required>
-			</div>';
-						echo ($this->session->userdata('permission') > 1 ? $dker : '');
-						?>
-
-						<label for="thedata" class="col-sm-12 control-label">Password Baru</label>
-						<div class="col-sm-12">
-							<input type="password" onchange="myFunction();" class="form-control" placeholder="Password" name="password" id="password">
-							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
-						<label for="thedata" class="col-sm-12 control-label">RePassword Baru</label>
-						<div class="col-sm-12">
-							<input type="password" onchange="myFunction();" class="form-control" placeholder="Confirm Password" name="Cpassword" id="Cpassword">
-							<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-primary waves-effect waves-light" onclick="$('#modalz').hide();">Batal</button>
-				<button class="btn btn-success waves-effect waves-light" disabled id="dsubmit" onclick="userm(true);">Kirim</button>
-			</div>
-		</div>
-	</div>
-</div>
 <?php if ($this->session->userdata('notif') == 1) { ?>
 	<div class="modal " id="modalnotif" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		<div class="modal-dialog modal-lg">
@@ -916,20 +876,6 @@
 					$('#example').DataTable().ajax.reload(null, false);
 				}
 			});
-		}
-	}
-
-	function myFunction() {
-		var pass1 = $("#password").val();
-		var pass2 = $("#Cpassword").val();
-		if (pass1 !== pass2) {
-			document.getElementById("password").style.borderColor = "#E34234";
-			document.getElementById("Cpassword").style.borderColor = "#E34234";
-			$("#dsubmit").attr("disabled", "disabled");
-		} else {
-			document.getElementById("password").style.borderColor = "";
-			document.getElementById("Cpassword").style.borderColor = "";
-			$("#dsubmit").removeAttr("disabled");
 		}
 	}
 

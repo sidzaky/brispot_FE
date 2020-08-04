@@ -537,7 +537,6 @@
 					}
 				}
 			});
-
 		}
 
 		function fju(i) {
@@ -596,8 +595,6 @@
 <?php }
 
 ?>
-
-
 
 <script src="./assets/js/send.js"></script>
 
@@ -814,30 +811,6 @@
 	function vfex(newid, rfex = null) {
 		$("#fotoverifikasiexpor").append('<div class="col-sm-4"  id="mfex_' + newid + '"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btn-file"><i class="fa fa-upload"></i> Upload ' + (newid + 1) + '<input class="fex" type="file" id="fex_' + newid + '"  onchange="readURL(this,\'fex_' + newid + '\');" >	 <input type="hidden"  name="rfex" id="rfex_' + newid + '" value=""> <input type="hidden" name="tfex" id="tfex_' + newid + '" value="">  <input type="hidden" name="idfex" id="idfex_' + newid + '" value=""> </span><span class="btn btn-default btn-file" onclick="minform(\'mfex_' + newid + '\');"><i class="fa fa-close"></i>  Hapus</span></span></div><img class="img-upload" id="shfex_' + newid + '" src="' + (rfex != null ? rfex : '') + '"/></div>');
 	}
-
-	/* function userm(i = false) {
-		if (i == false) {
-			var dd = $('.form-control');
-			for (var j = 0; j < dd.length; j++) {
-				dd[j].value = "";
-			}
-			$('#modalz').show();
-		} else {
-			var data1 = {
-				'kode_uker_c': $('#kode_uker_c').val(),
-				'password': $('#password').val()
-			};
-			$.ajax({
-				type: "POST",
-				url: "./login/chpassuker",
-				data: data1,
-				success: function(smsg) {
-					alert('ganti password uker berhasil');
-					$('#modalz').hide();
-				}
-			});
-		}
-	} */
 
 	function inputform() {
 		if (document.getElementById("checkvalidkunjungan").checked == true && document.getElementById("checkvalidpotensi").checked == true) {
@@ -1129,20 +1102,6 @@
 					$('#example').DataTable().ajax.reload(null, false);
 				}
 			});
-		}
-	}
-
-	function checkPassword() {
-		var pass1 = $("#password").val();
-		var pass2 = $("#Cpassword").val();
-		if (pass1 !== pass2) {
-			document.getElementById("password").style.borderColor = "#E34234";
-			document.getElementById("Cpassword").style.borderColor = "#E34234";
-			$("#dsubmit").attr("disabled", "disabled");
-		} else {
-			document.getElementById("password").style.borderColor = "";
-			document.getElementById("Cpassword").style.borderColor = "";
-			$("#dsubmit").removeAttr("disabled");
 		}
 	}
 
