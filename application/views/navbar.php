@@ -27,7 +27,12 @@
               <a><?php echo Date('d-M-Y'); ?></a>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo ($this->session->userdata('name_uker')) ? $this->session->userdata('name_uker') : 'Administrator'; ?> <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <?php
+                echo ($this->session->userdata('name_uker')) ?
+                  $this->session->userdata('name_uker') : ($this->session->userdata('kode_uker') === "kanpus" ? "Kantor Pusat" : "Administrator");
+                ?>
+                <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#" id="showModalChangePassword"><i class="fa fa-key"></i> Ganti Password Uker</a></li>
                 <li><a href="<?php echo base_url(); ?>login/logout"><i class="fa fa-power-off"></i> Logout</a></li>

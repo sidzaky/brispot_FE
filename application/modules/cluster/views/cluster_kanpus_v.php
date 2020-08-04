@@ -1,35 +1,43 @@
-<div class="container-fluid">
-	<div class="row bg-title">
-	</div>
-	<div class="col-md-12">
-		<div class="white-box">
-			<h3 class="box-title m-b-0" align="center"><b>Data Klaster BRIspot 0.2 <?php echo $this->session->userdata('name_uker'); ?></b></h3>
-			<div id="result">
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			Data Klaster BRIspot 0.3
+			<?php echo $this->session->userdata('name_uker'); ?>
+		</h1>
+	</section>
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="box box-solid">
+			<div id="result" class="box-body">
+				<div class="container-fluid control-box">
+					<div class="row">
+						<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.open('cluster/dldata')" type="button"><i class="fa fa-download"></i> Download All Data</button>
+						<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open('cluster/report_unit')" type="button"><i class="fa fa-info"></i> Rekap unit</button>
+						<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open('cluster/getreport/harian')" type="button"><i class="fa fa-info"></i> Laporan Harian</button>
+						<?php if ($this->session->userdata('permission') > 3) {
+							echo '<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'cluster/getreport/\')" type="button"><i class="fa fa-info"></i> Report akhir</button>';
+						}
+						?>
+					</div>
+				</div>
 				<script>
 					$(document).ready(function() {
-						$('#example').DataTable({
+						$('#table-cluster-kanpus').DataTable({
 							"scrollX": true,
 							"processing": true,
 							"serverSide": true,
+							"deferRender": true,
 							"ajax": {
 								"url": "<?php echo base_url(); ?>cluster/getdata",
 								"type": "POST"
 							},
-
 						});
-						var tambah = '';
-						var download = '&nbsp<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.open(\'\cluster/dldata\')" type="button"><i class="fa fa-download"></i> Download All Data</button>';
-						var reportunit = '&nbsp<button class="btn btn-info waves-effect waves-light btn-sm"onclick="window.open(\'\cluster/report_unit\')" type="button"><i class="fa fa-info"></i> Rekap unit</button>';
-						var report = '&nbsp<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'\cluster/getreport/harian\')" type="button"><i class="fa fa-info"></i> Laporan Harian</button><?php echo ($this->session->userdata('permission') > 3 ? '&nbsp<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\\\'\cluster/getreport/\\\')" type="button"><i class="fa fa-info"></i> Report akhir</button>\'' : '\'') ?>;
-
-						var logout = '&nbsp<button class="btn btn-warning waves-effect waves-light btn-sm" onclick="window.location = \'\login/logout\';" type="button"><i class="fa fa-sign-out"></i> Keluar</button>';
-						var userm = '&nbsp<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="userm();" type="button"><i class="fa fa-sign-out"></i> Ganti Password Uker</button>';
-						$("#example_length").append(<?php echo ($this->session->userdata('permission') > 2 ? 'report+reportunit' : '') ?> + userm + logout);
-
 					});
 				</script>
-				<div class="col-sm-12">
-					<table id="example" class="table table-striped table-bordered" style="width:100%">
+				<div class="table-responsive">
+					<table id="table-cluster-kanpus" class="table table-striped table-bordered" width="100%">
 						<thead>
 							<tr>
 								<th>No</th>
@@ -43,13 +51,11 @@
 								<th>Action</th>
 							</tr>
 						</thead>
-						<tbody>
-						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 </div>
 <!-- Modal -->
 <style>
