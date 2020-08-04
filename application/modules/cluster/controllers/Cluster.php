@@ -110,7 +110,6 @@ class Cluster extends MX_Controller
 		}
 	}
 
-
 	public function inputdata()
 	{
 		switch ($_POST['jenis_usaha']) {
@@ -248,10 +247,7 @@ class Cluster extends MX_Controller
 		$data['total']['Pariwisata'] = 0;
 		//karena Mapping belum jelas maka dicheck satu persatu
 		foreach ($q as $row) {
-			echo '<pre>';
-			var_dump($row);
-			echo '</pre>';
-			if ($row['kanwil'] != "") {
+			if ($row['kanwil'] != false) {
 				switch ($row['jenis_usaha']) {
 					case "Pertanian - Pangan":
 					case "Pertanian - Holtikultura":
@@ -259,12 +255,12 @@ class Cluster extends MX_Controller
 					case "Peternakan":
 					case "Jasa Pertanian dan Perburuan":
 					case "Kehutanan & Penebangan Kayu":
-						$data['kanwil'][$row['kanwil']]['PERTANIAN, PERBURUAN, DAN KEHUTANAN']++;
-						$data['total']['PERTANIAN, PERBURUAN, DAN KEHUTANAN']++;
+						(isset($data['kanwil'][$row['kanwil']]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'])) ? $data['kanwil'][$row['kanwil']]['PERTANIAN, PERBURUAN, DAN KEHUTANAN']++ : $data['kanwil'][$row['kanwil']]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] = 1;
+						(isset($data['total']['PERTANIAN, PERBURUAN, DAN KEHUTANAN'])) ? $data['total']['PERTANIAN, PERBURUAN, DAN KEHUTANAN']++ : $data['total']['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] = 1;
 						break;
 					case "Perikanan":
-						$data['kanwil'][$row['kanwil']]['Perikanan']++;
-						$data['total']['Perikanan']++;
+						(isset($data['kanwil'][$row['kanwil']]['Perikanan'])) ? $data['kanwil'][$row['kanwil']]['Perikanan']++ : $data['kanwil'][$row['kanwil']]['Perikanan'] = 1;
+						(isset($data['total']['Perikanan'])) ? $data['total']['Perikanan']++ : $data['total']['Perikanan'] = 1;
 						break;
 					case 'Pertambangan Minyak & Gas Bumi':
 					case 'Pertambangan Batubara & Lignit':
@@ -286,8 +282,8 @@ class Cluster extends MX_Controller
 					case 'Industri Alat Angkutan':
 					case 'Industri Furnitur':
 					case 'Industri Pengolahan Lainnya, Jasa Reparasi dan Pemasangan Mesin dan Peralatan':
-						$data['kanwil'][$row['kanwil']]['INDUSTRI PENGOLAHAN']++;
-						$data['total']['INDUSTRI PENGOLAHAN']++;
+						(isset($data['kanwil'][$row['kanwil']]['INDUSTRI PENGOLAHAN'])) ? $data['kanwil'][$row['kanwil']]['INDUSTRI PENGOLAHAN']++ : $data['kanwil'][$row['kanwil']]['INDUSTRI PENGOLAHAN'] = 1;
+						(isset($data['total']['INDUSTRI PENGOLAHAN'])) ? $data['total']['INDUSTRI PENGOLAHAN']++ : $data['total']['INDUSTRI PENGOLAHAN'] = 1;
 						break;
 					case 'Pengadaan Listrik dan Gas':
 					case 'Pengadaan Gas dan Produksi Es':
@@ -308,22 +304,24 @@ class Cluster extends MX_Controller
 					case 'Jasa Pendidikan':
 					case 'Jasa Kesehatan dan Kegiatan Lainnya':
 					case 'Jasa Lainnya':
-						$data['kanwil'][$row['kanwil']]['JASA-JASA']++;
-						$data['total']['JASA-JASA']++;
+						(isset($data['kanwil'][$row['kanwil']]['JASA-JASA'])) ? $data['kanwil'][$row['kanwil']]['JASA-JASA']++ : $data['kanwil'][$row['kanwil']]['JASA-JASA'] = 1;
+						(isset($data['total']['JASA-JASA'])) ? $data['total']['JASA-JASA']++ : $data['total']['JASA-JASA'] = 1;
 						break;
 					case 'Perdagangan Mobil, Sepeda Motor dan Reparasinya':
 					case 'Perdagangan Besar dan Eceran, bukan Mobil dan Sepeda':
-						$data['kanwil'][$row['kanwil']]['PERDAGANGAN']++;
-						$data['total']['PERDAGANGAN']++;
+						(isset($data['kanwil'][$row['kanwil']]['PERDAGANGAN'])) ? $data['kanwil'][$row['kanwil']]['PERDAGANGAN']++ : $data['kanwil'][$row['kanwil']]['PERDAGANGAN'] = 1;
+						(isset($data['total']['PERDAGANGAN'])) ? $data['total']['PERDAGANGAN']++ : $data['total']['PERDAGANGAN'] = 1;
 						break;
 					case "Pariwisata":
-						$data['kanwil'][$row['kanwil']]['Pariwisata']++;
-						$data['total']['Pariwisata']++;
+						(isset($data['kanwil'][$row['kanwil']]['Pariwisata'])) ? $data['kanwil'][$row['kanwil']]['Pariwisata']++ : $data['kanwil'][$row['kanwil']]['Pariwisata'] = 1;
+						(isset($data['total']['Pariwisata'])) ? $data['total']['Pariwisata']++ : $data['total']['Pariwisata'] = 1;
 						break;
 				}
 			}
 		}
 		$data['harian'] = $harian;
+		$data['navbar'] = '';
+		$data['sidebar'] = '';
 		$data['content'] = 'cluster_report_v';
 		$this->load->view('template', $data);
 	}
