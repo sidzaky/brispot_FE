@@ -226,8 +226,6 @@ class Cluster extends MX_Controller
 			unset($_POST['efex']);
 		}
 
-
-
 		if ($_POST['id'] != "") {
 			$this->cluster_m->updatedata_m($rfex, $rfku);
 			echo "update";
@@ -423,7 +421,6 @@ class Cluster extends MX_Controller
 			$update = '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$action = ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
 
-
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -503,20 +500,27 @@ class Cluster extends MX_Controller
 		$z = array();
 		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
 			foreach ($this->cluster_m->report_unit_count_m($row['kode_kanwil']) as $srow) {
-				$z[$row['kode_kanwil']][$srow['kode_uker']]++;
+				(isset($z[$row['kode_kanwil']][$srow['kode_uker']])) ? $z[$row['kode_kanwil']][$srow['kode_uker']]++ : $z[$row['kode_kanwil']][$srow['kode_uker']] = 1;
 			};
 		}
 		$i = 0;
 		foreach ($this->cluster_m->report_unit_m() as $srow) {
 			$pdata['data'][$srow['REGION']]['RGDESC'] = $srow['RGDESC'];
 			$pdata['data'][$srow['REGION']]['REGION'] = $srow['REGION'];
-			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) $pdata['data'][$srow['REGION']]['kosong']++;
-			else {
-				if ($z[$srow['REGION']][$srow['BRANCH']] == 1)  $pdata['data'][$srow['REGION']]['isi_sebagian']++;
-				else if ($z[$srow['REGION']][$srow['BRANCH']] > 1)  $pdata['data'][$srow['REGION']]['terisi']++;
+			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) {
+				(isset($pdata['data'][$srow['REGION']]['kosong'])) ? $pdata['data'][$srow['REGION']]['kosong']++ : $pdata['data'][$srow['REGION']]['kosong'] = 1;
+			} else {
+				if ($z[$srow['REGION']][$srow['BRANCH']] == 1) {
+					(isset($pdata['data'][$srow['REGION']]['isi_sebagian'])) ? $pdata['data'][$srow['REGION']]['isi_sebagian']++ : $pdata['data'][$srow['REGION']]['isi_sebagian'] = 1;
+				}
+				if ($z[$srow['REGION']][$srow['BRANCH']] > 1) {
+					(isset($pdata['data'][$srow['REGION']]['terisi'])) ? $pdata['data'][$srow['REGION']]['terisi']++ : $pdata['data'][$srow['REGION']]['terisi'] = 1;
+				}
 			}
 			$i++;
 		}
+		$pdata['navbar'] = "";
+		$pdata['sidebar'] = "";
 		$pdata['content'] = 'cluster_report_unit_v';
 		$this->load->view('template', $pdata);
 	}
