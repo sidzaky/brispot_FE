@@ -45,9 +45,9 @@ class Dashboard extends MX_Controller
         $query["order"] = "kanwil";
         break;
       default:
-        $query["value"] = "admin";
-        $query["admin"] = null;
-        $query["order"] = "kanwil";
+        $query["value"] = "";
+        $query["admin"] = "";
+        $query["order"] = "admin";
     }
     $data['report'] = $this->generateReport($query);
     $data['icons'] =  array(
@@ -66,11 +66,14 @@ class Dashboard extends MX_Controller
 
   function generateReport($query)
   {
-    $where = "where " . $query["code"] . " = '" . $query["value"] . "' order by " . $query["order"] . " ASC";
+    $where = '';
+    $keyword = 'kanwil';
+    if ($this->session->userdata('permission') !== "4") {
+      $where = "where " . $query["code"] . " = '" . $query["value"] . "' order by " . $query["order"] . " ASC";
+      $keyword = $query["order"];
+    }
     ini_set('memory_limit', '-1');
     $q = $this->dashboard_m->getReport($where);
-
-    $keyword = $query["order"];
     //karena Mapping belum jelas maka dicheck satu persatu
     foreach ($q as $row) {
       if ($row[$keyword] != false) {
