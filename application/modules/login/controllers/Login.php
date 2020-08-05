@@ -24,21 +24,27 @@ class Login extends MX_Controller
 
 	public function index()
 	{
-		if ($this->session->userdata('logged_in') === true) {
-			redirect('cluster');
-		}
-		$data['content'] = 'login';
-		$data['navbar'] = null;
-		$data['sidebar'] = null;
-		$this->load->view('template', $data);
+		header('Location: http://www.klasterkuhidupku.com');
+			// if ($this->session->userdata('logged_in')!=true){
+					// $data['content'] = 'login';
+					// $data['navbar'] = null;
+					// $data['sidebar'] = null;
+					// $this->load->view('template', $data); 
+					// //echo "sorry, masih main tenes servernya. doain aja bisa cepet kerja lagi";
+				// }
+			// else redirect ('http://www.klasterkuhidupku.com',refresh); 
 	}
 
 	public function signup()
 	{
-		$data['content'] = 'signup_v';
-		$data['navbar'] = null;
-		$data['sidebar'] = null;
-		$this->load->view('template', $data);
+		if ($this->session->userdata('logged_in')!=true){
+					$data['content'] = 'login';
+					$data['navbar'] = null;
+					$data['sidebar'] = null;
+					$this->load->view('template', $data); 
+					//echo "sorry, masih main tenes servernya. doain aja bisa cepet kerja lagi";
+				}
+			else redirect ('http://www.klasterkuhidupku.com',refresh); 
 	}
 
 	function changePasswordFirstTime()
