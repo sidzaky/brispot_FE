@@ -403,10 +403,12 @@ class Cluster extends MX_Controller
 			$data['kelompok_usaha'] = $_POST['kelompok_usaha'];
 			$data['id'] = $_POST['id'];
 			$data['content'] = 'cluster_anggota';
+			$data['navbar'] = '';
+			$data['sidebar'] = '';
 			$this->load->view('template', $data);
 		} else {
 			echo "<script>alert('ups, ada kesalahan')</script>";
-			redirect('cluster', refresh);
+			redirect('cluster', 'refresh');
 		}
 	}
 
