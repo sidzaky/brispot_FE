@@ -33,6 +33,20 @@ class Login extends MX_Controller
 		$this->load->view('template', $data);
 	}
 
+	public function signup()
+	{
+		$data['content'] = 'signup_v';
+		$data['navbar'] = null;
+		$data['sidebar'] = null;
+		$this->load->view('template', $data);
+	}
+
+	function changePasswordFirstTime()
+	{
+		$res = $this->user_m->signup_m();
+		if ($res === true) $this->logout();
+	}
+
 	public function chpassuker()
 	{
 		$this->user_m->chpassuker_m();
@@ -79,9 +93,8 @@ class Login extends MX_Controller
 			$link = base_url();
 			echo "You don\'t have permission to access this page. <a href=$link>Login</a>";
 			die();
-		} else {
-			if ($this->session->userdata('uppwd') === 1) redirect('/login/signup', 'refresh');
 		}
+		if ($this->session->userdata('uppwd') === "1") redirect('/login/signup');
 	}
 
 	function logout()

@@ -35,7 +35,8 @@ class User_m extends CI_Model
 	{
 		$password = md5($_POST['password']);
 		$sql = "update user set password='" . $password . "', uppwd='0' where username='" . $this->session->userdata('kode_uker') . "'";
-		$this->db->query($sql);
+		$res = $this->db->query($sql);
+		return !!$res;
 	}
 
 
