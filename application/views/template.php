@@ -21,7 +21,7 @@ if ($content != null) {
 ?>
 
 <?php
-if ($content != 'login' && $content != 'installer') {
+if ($content != 'login' && $content != 'signup_v') {
 	$this->load->view('footer');
 }
 ?>

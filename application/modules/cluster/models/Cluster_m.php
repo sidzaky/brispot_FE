@@ -31,7 +31,6 @@ class Cluster_m extends CI_Model
 				break;
 		}
 
-
 		if ($_POST['search']['value'] != "") $sql .= "  and ";
 		foreach ($this->column_search as $item) // looping awal
 		{
@@ -48,9 +47,9 @@ class Cluster_m extends CI_Model
 			}
 			$i++;
 		}
-
 		return $sql . " order by timestamp desc";
 	}
+
 	public function count_all()
 	{
 		$sql  = $this->get_datatables();
