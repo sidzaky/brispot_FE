@@ -11,7 +11,7 @@
  Target Server Version : 100126
  File Encoding         : 65001
 
- Date: 27/07/2020 23:07:10
+ Date: 06/08/2020 01:09:12
 */
 
 SET NAMES utf8mb4;
@@ -59,9 +59,9 @@ CREATE TABLE `cluster`  (
   `personal_number` varchar(100) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `handphone_pekerja` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `kelompok_usaha` text CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL,
-  `sektor_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
-  `jenis_usaha_map` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
-  `jenis_usaha` text CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL,
+  `id_cluster_sektor_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `id_cluster_jenis_usaha_map` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `id_cluster_jenis_usaha` text CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL,
   `hasil_produk` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `pasar_ekspor` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `pasar_ekspor_tahun` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
@@ -100,6 +100,10 @@ CREATE TABLE `cluster`  (
   `simpanan_bank` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `jenis_usaha_old` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `userlatestupdate` varchar(20) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `checker_status` int(10) NULL DEFAULT NULL,
+  `checker_user_update` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `signer_status` int(10) NULL DEFAULT NULL,
+  `signer_user_update` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id`(`id`, `kode_uker`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
@@ -123,7 +127,7 @@ CREATE TABLE `cluster_anggota`  (
   `timeinput` varchar(100) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `userlastupdate` varchar(100) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_ca`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9434 CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 19662 CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for cluster_doc_ekspor
@@ -145,6 +149,35 @@ CREATE TABLE `cluster_foto_usaha`  (
   `id_cluster` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `timestampt` int(100) NULL DEFAULT NULL,
   `location` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL
+) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for cluster_jenis_usaha
+-- ----------------------------
+DROP TABLE IF EXISTS `cluster_jenis_usaha`;
+CREATE TABLE `cluster_jenis_usaha`  (
+  `id_cluster_jenis_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `id_cluster_jenis_usaha_map` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `nama_cluster_jenis_usaha` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL
+) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for cluster_jenis_usaha_map
+-- ----------------------------
+DROP TABLE IF EXISTS `cluster_jenis_usaha_map`;
+CREATE TABLE `cluster_jenis_usaha_map`  (
+  `id_cluster_jenis_usaha_map` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `id_cluster_sektor_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `nama_cluster_jenis_usaha_map` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL
+) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for cluster_sektor_usaha
+-- ----------------------------
+DROP TABLE IF EXISTS `cluster_sektor_usaha`;
+CREATE TABLE `cluster_sektor_usaha`  (
+  `id_cluster_sektor_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
+  `keterangan_cluster_sektor_usaha` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL
 ) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
