@@ -2,7 +2,7 @@
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
 		<h1>
-			Data Klaster BRIspot 0.3
+			Data Pengajuan Klaster UMKM
 			<?php echo $this->session->userdata('name_uker'); ?>
 		</h1>
 	</section>
