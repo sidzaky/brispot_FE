@@ -26,7 +26,6 @@ class Dashboard extends MX_Controller
 
   public function index()
   {
-    $this->load->library('DashboardCommon');
     $query = array();
     switch ($this->session->userdata("permission")) {
       case '1':
