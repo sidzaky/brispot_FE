@@ -182,7 +182,7 @@
 
 						<div class="form-group required">
 							<label class="control-label">Sektor Usaha</label>
-							<select class="form-control dform required" required onchange="fjum(this);" id="sektor_usaha">
+							<select class="form-control dform required" onchange="fjum(this.value)" id="id_cluster_sektor_usaha" required>
 								<option value="1">Produksi</option>
 								<option value="2">Non Produksi</option>
 							</select>
@@ -190,13 +190,13 @@
 
 						<div class="form-group">
 							<label class="control-label">Kategori Jenis Usaha</label>
-							<select class="form-control dform required" onchange="fju(this);" id="jenis_usaha_map">
+							<select class="form-control dform required" onchange="fju(this.value);" id="id_cluster_jenis_usaha_map">
 							</select>
 						</div>
 
 						<div class="form-group">
 							<label class="control-label drequired">Jenis Usaha</label>
-							<select class="form-control dform required" id="jenis_usaha">
+							<select class="form-control dform required" id="id_cluster_jenis_usaha">
 							</select>
 						</div>
 
@@ -225,7 +225,7 @@
 
 						<div class="form-group">
 							<label class="control-label drequired">Foto/Dokument Ekspor</label>
-							<button class="btn btn-primary waves-effect waves-light btn-sm" id="bfex" onclick="tambahform('fex');"><i class="fa fa-plus"></i> Tambah Foto Ekspor</button>
+							<button type="button" class="btn btn-primary waves-effect waves-light btn-sm" id="bfex" onclick="tambahform('fex');"><i class="fa fa-plus"></i> Tambah Foto Ekspor</button>
 							<div id="fotoverifikasiexpor"></div>
 						</div>
 
@@ -324,7 +324,7 @@
 
 						<div class="form-group">
 							<label class="control-label">Foto Kluster Usaha</label>
-							<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="tambahform('fku');"><i class="fa fa-plus"></i> Tambah Foto</button></label>
+							<button type="button" class="btn btn-primary waves-effect waves-light btn-sm" onclick="tambahform('fku');"><i class="fa fa-plus"></i> Tambah Foto</button></label>
 							<div id="fotoklusterusaha" class="col-sm-12"></div>
 						</div>
 
@@ -519,45 +519,17 @@
 	</div>
 	</div>
 	<script>
-		function fjum(i) {
-			var data1 = {
-				'id_cluster_sektor_usaha': i.value
-			};
-			$.ajax({
-				type: "POST",
-				url: "./cluster/fjum",
-				data: data1,
-				success: function(smsg) {
-					var msg = JSON.parse(smsg);
-					var select = document.getElementById('jenis_usaha_map');
-					$(select).empty();
-					$(select).append('<option> Pilih Kategori Usaha</option>');
-					for (var i = 0; i <= msg.length; i++) {
-						$(select).append('<option value="' + msg[i]['id_cluster_jenis_usaha_map'] + '">' + msg[i]['nama_cluster_jenis_usaha_map'] + '</option>');
-					}
-				}
-			});
-		}
+		
+	</script>
+<?php }
 
-		function fju(i) {
-			var data1 = {
-				'id_cluster_jenis_usaha_map': i.value,
-			};
-			$.ajax({
-				type: "POST",
-				url: "./cluster/fju",
-				data: data1,
-				success: function(smsg) {
-					var msg = JSON.parse(smsg);
-					var select = document.getElementById('jenis_usaha');
-					$(select).empty();
-					$(select).append('<option> Pilih Jenis Usaha</option>')
-					for (var i = 0; i <= msg.length; i++) {
-						$(select).append('<option value="' + msg[i]['id_cluster_jenis_usaha'] + '">' + msg[i]['nama_cluster_jenis_usaha'] + '</option>');
-					}
-				}
-			});
-		}
+?>
+
+<script src="./assets/js/send.js"></script>
+
+<script>
+
+	
 
 		function te(i) {
 			if (i.value === "Ya") {
@@ -571,34 +543,8 @@
 				$("#bfex").attr("disabled", "disabled");
 			}
 		}
-
-		function tambahform(id) {
-			var count = $('.' + id);
-			var newid;
-			var ccount = count.length == 0 ? 0 : count.length;
-			if (count.length == 0) newid = 0
-			else {
-				count = count[(count.length) - 1].id.split("_");
-				newid = parseInt(count[1]) + 1;
-			}
-
-			switch (id) {
-				case ('fku'):
-					if (ccount < 5) vfku(newid);
-					break;
-				case ('fex'):
-					if (ccount < 3) vfex(newid);
-					break;
-			}
-		}
-	</script>
-<?php }
-
-?>
-
-<script src="./assets/js/send.js"></script>
-
-<script>
+		
+		
 	function tambahform(id) {
 		var count = $('.' + id);
 		var newid;
@@ -749,9 +695,10 @@
 					getkelurahan(msg[0].kecamatan, msg[0].kelurahan);
 
 
-					document.getElementById('sektor_usaha').value = msg[0].sektor_usaha;
-					document.getElementById('jenis_usaha').value = msg[0].jenis_usaha;
-
+					document.getElementById('id_cluster_sektor_usaha').value = msg[0].id_cluster_sektor_usaha;
+					fjum(msg[0].id_cluster_sektor_usaha,msg[0].id_cluster_jenis_usaha_map);
+					fju(msg[0].id_cluster_jenis_usaha_map,msg[0].id_cluster_jenis_usaha);
+					
 					document.getElementById('pasar_ekspor').value = msg[0].pasar_ekspor;
 					document.getElementById('pasar_ekspor_tahun').value = msg[0].pasar_ekspor_tahun;
 					document.getElementById('pasar_ekspor_nilai').value = msg[0].pasar_ekspor_tahun;
@@ -803,6 +750,53 @@
 			document.getElementById('kelompok_jumlah_anggota').value = "15";
 		}
 	}
+	
+	function fjum(i,j=""){
+			var data1 = {
+				'id_cluster_sektor_usaha': i
+			};
+			$.ajax({
+				type: "POST",
+				url: "./cluster/fjum",
+				data: data1,
+				success: function(smsg) {
+					var msg = JSON.parse(smsg);
+					var select = document.getElementById('id_cluster_jenis_usaha_map');
+					$(select).empty();
+					$(select).append('<option value=""> Pilih Kategori Usaha</option>');
+					var selected;
+					for (var i = 0; i <= msg.length; i++) {
+						selected="";
+						if (j!="" && j==msg[i]['id_cluster_jenis_usaha_map']) selected="selected";
+						$(select).append('<option value="' + msg[i]['id_cluster_jenis_usaha_map'] +'" '+selected+'>' + msg[i]['nama_cluster_jenis_usaha_map'] + '</option>');
+					}
+				}
+			});
+			$(document.getElementById('id_cluster_jenis_usaha')).empty();
+		}
+
+		function fju(i,j="") {
+			var data1 = {
+				'id_cluster_jenis_usaha_map': i
+			};
+			$.ajax({
+				type: "POST",
+				url: "./cluster/fju",
+				data: data1,
+				success: function(smsg) {
+					var msg = JSON.parse(smsg);
+					var select = document.getElementById('id_cluster_jenis_usaha');
+					$(select).empty();
+					$(select).append('<option value=""> Pilih Jenis Usaha</option>')
+					var selected;
+					for (var i = 0; i <= msg.length; i++) {
+						selected="";
+						if (j!="" && j==msg[i]['id_cluster_jenis_usaha']) selected="selected";
+						$(select).append('<option value="' + msg[i]['id_cluster_jenis_usaha'] + '" '+selected+'>' + msg[i]['nama_cluster_jenis_usaha'] + '</option>');
+					}
+				}
+			});
+		}
 
 	function vfku(newid, rfku = null) {
 		$("#fotoklusterusaha").append('<div class="col-sm-4"  id="mfku_' + newid + '"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btn-file"><i class="fa fa-upload"></i> Upload ' + (newid + 1) + '<input class="fku" type="file" id="fku_' + newid + '"  onchange="readURL(this,\'fku_' + newid + '\');" > 	 <input type="hidden" name="rfku" id="rfku_' + newid + '" value=""> <input type="hidden" name="tfku" id="tfku_' + newid + '" value="">  <input type="hidden" name="idfku" id="idfku_' + newid + '" value=""> </span><span class="btn btn-default btn-file" onclick="minform(\'mfku_' + newid + '\');"><i class="fa fa-close"></i>  Hapus</span></span></div><img class="img-upload" id="shfku_' + newid + '"  src="' + (rfku != null ? rfku : '') + '"/></div>');
@@ -882,7 +876,7 @@
 							alert('data berhasil diinput');
 							$("#sbt").removeAttr("disabled");
 							$('#modal').hide();
-							$('#example').DataTable().ajax.reload(null, false);
+							$('#table-cluster').DataTable().ajax.reload(null, false);
 						}
 					});
 				} else alert(msg);
@@ -964,8 +958,9 @@
 		msg += (validatoroptnumber(document.getElementById('nominal_pinjaman')) == false ? "data nominal_pinjaman  tidak valid \n" : "");
 		msg += (validatoroptnumber(document.getElementById('norek_pinjaman_bri')) == false ? "data norek_pinjaman_bri  tidak valid \n" : "");
 		msg += (document.getElementById('kelompok_anggota_pinjaman').value == "" ? "data kelompok angota pinjaman tidak boleh kosong \n" : "");
-		msg += (document.getElementById('sektor_usaha').value == "" ? "data sektor usaha tidak boleh kosong \n" : "");
-		msg += (document.getElementById('jenis_usaha').value == "" ? "data  Jenis usaha tidak boleh kosong \n" : "");
+		msg += (document.getElementById('id_cluster_sektor_usaha').value == "" ? "data sektor usaha tidak boleh kosong \n" : "");
+		msg += (document.getElementById('id_cluster_jenis_usaha_map').value == "" ? "data kategori Jenis usaha tidak boleh kosong \n" : "");
+		msg += (document.getElementById('id_cluster_jenis_usaha').value == "" ? "data Jenis usaha tidak boleh kosong \n" : "");
 		msg += (document.getElementById('pasar_ekspor').value == "" ? "data Pasar Ekspor tidak boleh kosong\n" : "");
 		msg += (document.getElementById('kebutuhan_sarana').value == "" ? "data  Kebutuhan Sarana tidak boleh kosong\n" : "");
 		msg += (document.getElementById('kebutuhan_pendidikan').value == "" ? "data Kebutuhan pendidikan tidak boleh kosong\n" : "");
