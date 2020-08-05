@@ -59,6 +59,7 @@ class Dashboard_m extends CI_Model
     left join kabupaten_kota c on a.kabupaten=c.id
     left join kecamatan d on a.kecamatan=d.id
     left join kelurahan e on a.kelurahan=e.id ' . $where;
-    return $this->db->query($sql)->result_array();
+    $result = $this->db->query($sql)->result_array();
+    return $result;
   }
 }
