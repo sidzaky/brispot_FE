@@ -11,7 +11,7 @@
  Target Server Version : 100126
  File Encoding         : 65001
 
- Date: 06/08/2020 01:09:12
+ Date: 06/08/2020 22:46:56
 */
 
 SET NAMES utf8mb4;
@@ -158,7 +158,8 @@ DROP TABLE IF EXISTS `cluster_jenis_usaha`;
 CREATE TABLE `cluster_jenis_usaha`  (
   `id_cluster_jenis_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `id_cluster_jenis_usaha_map` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
-  `nama_cluster_jenis_usaha` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL
+  `nama_cluster_jenis_usaha` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL,
+  `status` int(255) NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -168,7 +169,8 @@ DROP TABLE IF EXISTS `cluster_jenis_usaha_map`;
 CREATE TABLE `cluster_jenis_usaha_map`  (
   `id_cluster_jenis_usaha_map` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
   `id_cluster_sektor_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
-  `nama_cluster_jenis_usaha_map` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL
+  `nama_cluster_jenis_usaha_map` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL,
+  `status` int(255) NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -177,7 +179,8 @@ CREATE TABLE `cluster_jenis_usaha_map`  (
 DROP TABLE IF EXISTS `cluster_sektor_usaha`;
 CREATE TABLE `cluster_sektor_usaha`  (
   `id_cluster_sektor_usaha` varchar(255) CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL DEFAULT NULL,
-  `keterangan_cluster_sektor_usaha` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL
+  `keterangan_cluster_sektor_usaha` tinytext CHARACTER SET armscii8 COLLATE armscii8_general_ci NULL,
+  `status` int(255) NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = armscii8 COLLATE = armscii8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------

@@ -64,12 +64,7 @@ class Dashboard_m extends CI_Model
     left join kelurahan e on a.kelurahan=e.id 
 	left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
 	left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
-	left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha
-	' 
-	
-	
-	
-	. $where;
+	left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha ' . $where;
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
