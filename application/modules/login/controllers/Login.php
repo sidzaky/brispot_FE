@@ -24,27 +24,28 @@ class Login extends MX_Controller
 
 	public function index()
 	{
-		header('Location: http://www.klasterkuhidupku.com');
-			// if ($this->session->userdata('logged_in')!=true){
-					// $data['content'] = 'login';
-					// $data['navbar'] = null;
-					// $data['sidebar'] = null;
-					// $this->load->view('template', $data); 
-					// //echo "sorry, masih main tenes servernya. doain aja bisa cepet kerja lagi";
-				// }
-			// else redirect ('http://www.klasterkuhidupku.com',refresh); 
+			 if ($this->session->userdata('logged_in')!=true){
+					 $data['content'] = 'login';
+					 $data['navbar'] = null;
+					 $data['sidebar'] = null;
+					 $this->load->view('template', $data); 
+					 //echo "sorry, masih main tenes servernya. doain aja bisa cepet kerja lagi";
+				 }
+			else redirect ('cluster',refresh); 
 	}
 
-	public function signup()
-	{
-		if ($this->session->userdata('logged_in')!=true){
-					$data['content'] = 'login';
-					$data['navbar'] = null;
-					$data['sidebar'] = null;
-					$this->load->view('template', $data); 
-					//echo "sorry, masih main tenes servernya. doain aja bisa cepet kerja lagi";
-				}
-			else redirect ('http://www.klasterkuhidupku.com',refresh); 
+	public function signup(){
+		if ($_POST!=null) {
+			$this->user_m->signup_m();
+			$this->session->set_userdata('uppwd','0');
+			redirect('cluster',refresh);
+		}
+		else {
+				$data['content'] = 'signup_v';
+				$data['navbar'] = null;
+				$data['sidebar'] = null;
+				$this->load->view('template', $data); 
+		}
 	}
 
 	function changePasswordFirstTime()
