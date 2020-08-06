@@ -563,7 +563,7 @@
 				data: data1,
 				success: function(msg) {
 					alert('data berhasil dihapus');
-					$('#example').DataTable().ajax.reload(null, false);
+					$('#table-cluster').DataTable().ajax.reload(null, false);
 				}
 			});
 		}

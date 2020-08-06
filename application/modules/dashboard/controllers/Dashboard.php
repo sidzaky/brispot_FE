@@ -78,7 +78,7 @@ class Dashboard extends MX_Controller
     if (!empty($query)) {
       foreach ($query as $row) {
         if ($row[$keyword] != false) {
-          switch ($row['jenis_usaha']) {
+          switch ($row['nama_cluster_jenis_usaha']) {
             case "Pertanian - Pangan":
             case "Pertanian - Holtikultura":
             case "Pertanian - Perkebunan":
