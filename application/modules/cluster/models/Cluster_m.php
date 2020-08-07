@@ -241,6 +241,16 @@ class Cluster_m extends CI_Model
 		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
 		return $this->db->query($q)->result();
 	}
+	
+	public function getdata_j($i="")
+	{
+		if ($i=="") {
+			$i=isset($_POST['id_cluster_jenis_usaha']) ? $_POST['id_cluster_jenis_usaha'] : "0";
+		}
+		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha='".($i)."'";
+		return $this->db->query($q)->result_array();
+		
+	}
 
 	public function updatedata_m($rfex = null, $rfku = null)
 	{
@@ -252,7 +262,6 @@ class Cluster_m extends CI_Model
 		$_POST['uker'] = $query[0]['BRDESC'];
 		$_POST['kode_kanwil'] = $query[0]['REGION'];
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
-
 		$_POST['timestamp'] = time();
 		unset($_POST['id']);
 		$this->db->where('id', $id);
@@ -279,8 +288,8 @@ class Cluster_m extends CI_Model
 		$_POST['uker'] = $query[0]['BRDESC'];
 		$_POST['kode_kanwil'] = $query[0]['REGION'];
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
-
 		$_POST['timestamp'] = time();
+		
 		$this->db->insert('cluster', $_POST);
 
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');

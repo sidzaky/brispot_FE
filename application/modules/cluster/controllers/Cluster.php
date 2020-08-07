@@ -41,6 +41,9 @@ class Cluster extends MX_Controller
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
 			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
+	
+			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
+			
 			$del = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$ca = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
 			$update = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
@@ -54,8 +57,9 @@ class Cluster extends MX_Controller
 			$row[] = $field['uker'];
 			$row[] = $field['kelompok_usaha'];
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
-			$row[] = $field['jenis_usaha'];
+			$row[] = count($jenis_usaha)>0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
+			$row[] = "status on progress";
 			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
 			$data[] = $row;
 		}
@@ -112,78 +116,7 @@ class Cluster extends MX_Controller
 
 	public function inputdata()
 	{
-		switch ($_POST['jenis_usaha']) {
-			case "Pertanian - Pangan":
-			case "Pertanian - Holtikultura":
-			case "Pertanian - Perkebunan":
-			case "Peternakan":
-			case "Jasa Pertanian dan Perburuan":
-			case "Kehutanan & Penebangan Kayu":
-				$_POST['jenis_usaha_map'] = "PERTANIAN, PERBURUAN, DAN KEHUTANAN";
-				break;
-			case "Perikanan":
-				$_POST['jenis_usaha_map'] = "Perikanan";
-				break;
-			case 'Pertambangan Minyak & Gas Bumi':
-			case 'Pertambangan Batubara & Lignit':
-			case 'Pertambangan Biji Logam':
-			case 'Pertambangan & Penggalian Lainnya':
-			case 'Industri Batubara & Pengilangan Migas':
-			case 'Industri Makanan & Minuman':
-			case 'Pengolahan Tembakau':
-			case 'Industri Tekstil dan Pakaian Jadi':
-			case 'Industri Kulit, Barang dari Kulit dan Alas Kaki':
-			case 'Industri Kayu, Barang dari Kayu, Gabus dan Barang Anyaman dari Bambu, Rotan dan sejenisnya':
-			case 'Industri Kertas dan Barang dari kertas, Percetakan dan Reproduksi Media Rekaman':
-			case 'Industri Kimia, Farmasi dan Obat Tradisional':
-			case 'Industri Karet, Barang dari Karet dan Plastik':
-			case 'Industri Barang Galian bukan logam':
-			case 'Industri Logam Dasar':
-			case 'Industri Barang dari Logam, Komputer, Barang Elektronik, Optik dan Peralatan Listrik':
-			case 'Industri Mesin dan Perlengkapan':
-			case 'Industri Alat Angkutan':
-			case 'Industri Furnitur':
-			case 'Industri Pengolahan Lainnya, Jasa Reparasi dan Pemasangan Mesin dan Peralatan':
-				$_POST['jenis_usaha_map'] = "INDUSTRI PENGOLAHAN";
-				break;
-			case 'Pengadaan Listrik dan Gas':
-			case 'Pengadaan Gas dan Produksi Es':
-			case 'Pengadaan Air, Pengelolaan Sampah, Limbah dan Daur Ulang':
-			case 'Konstruksi':
-			case 'Transportasi Angkutan Rel':
-			case 'Transportasi Angkutan Darat':
-			case 'Transportasi Angkutan Laut':
-			case 'Transportasi Angkutan Sungai, Danau & Penyeberangan':
-			case 'Transportasi Angkutan Udara':
-			case 'Pergudangan dan Jasa Penunjang Angkutan, Pos dan Kurir':
-			case 'Penyediaan Akomodasi dan makan minum':
-			case 'Informasi dan Komunikasi':
-			case 'Jasa Keuangan dan Asuransi':
-			case 'Real Estate':
-			case 'Jasa Perusahaan':
-			case 'Administrasi Pemerintahan, Pertahanan dan Jaminan Sosial Wajib':
-			case 'Jasa Pendidikan':
-			case 'Jasa Kesehatan dan Kegiatan Lainnya':
-			case 'Jasa Lainnya':
-				$_POST['jenis_usaha_map'] = "JASA-JASA";
-				break;
-			case 'Perdagangan Mobil, Sepeda Motor dan Reparasinya':
-			case 'Perdagangan Besar dan Eceran, bukan Mobil dan Sepeda':
-				$_POST['jenis_usaha_map'] = "PERDAGANGAN";
-				break;
-			case "Pariwisata":
-				$_POST['jenis_usaha_map'] = "Pariwisata";
-				break;
-			default:
-				$_POST['jenis_usaha_map'] = "Lainnya";
-				break;
-		}
-
-		$query = $this->cluster_m->cekuker_m();
-		$_POST['kanwil'] = $query[0]['RGDESC'];
-		$_POST['kanca'] = $query[0]['MBDESC'];
-		$_POST['uker'] = $query[0]['BRDESC'];
-		$_POST['timestamp'] = time();
+		
 		$rfku = null;
 		$rfex = null;
 
@@ -376,7 +309,7 @@ class Cluster extends MX_Controller
 		echo json_encode($data);
 	}
 
-	public function getkotakab($select)
+	public function getkotakab($select=null)
 	{
 		$datakota = $this->cluster_m->getkotakab_m();
 		echo json_encode($datakota);
@@ -598,6 +531,43 @@ class Cluster extends MX_Controller
 	// }
 	// }
 
+
+	// function migrate(){
+		// ini_set('memory_limit', '-1');
+		
+		// $query="select * from cluster";
+		// $su=$this->db->query("select * from cluster_sektor_usaha")->result_array();
+		// $jum=$this->db->query("select * from cluster_jenis_usaha_map")->result_array();
+		// $ju=$this->db->query("select * from cluster_jenis_usaha")->result_array();
+		// foreach ($this->db->query($query)->result_array() as $q){
+				// foreach ($su as $rsu ){
+					// $isu="";
+					// if ($rsu['keterangan_cluster_sektor_usaha']==$q['id_cluster_sektor_usaha']) {
+							// $isu=$rsu['id_cluster_sektor_usaha'];
+							// break;
+					// }
+				// }
+				// foreach ($jum as $rjum ){
+					// $ijum="";
+					// if ($rjum['nama_cluster_jenis_usaha_map']==$q['id_cluster_jenis_usaha_map']) {
+							// $ijum=$rjum['id_cluster_jenis_usaha_map'];
+							// break;
+					// }
+				// }
+				// foreach ($ju as $rju ){
+					// $iju="";
+					// if ($rju['nama_cluster_jenis_usaha']==$q['id_cluster_jenis_usaha']) {
+							// $iju=$rju['id_cluster_jenis_usaha'];
+							// break;
+					// }
+				// }
+			
+				// echo "update cluster set id_cluster_sektor_usaha='".$isu."', id_cluster_jenis_usaha_map='".$ijum."', id_cluster_jenis_usaha='".$iju."' where id='".$q['id']."'; </br>";
+		// }
+		
+		
+		
+	// }
 
 	private function camphotoupload($i = null, $j = null)
 	{

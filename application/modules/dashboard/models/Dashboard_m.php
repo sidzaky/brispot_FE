@@ -27,10 +27,13 @@ class Dashboard_m extends CI_Model
       c.nama as kabupaten,
       d.nama as kecamatan,
       e.nama as kelurahan,
-      sektor_usaha,
-      jenis_usaha,
+      a.id_cluster_sektor_usaha,
+      a.id_cluster_jenis_usaha_map,
+      a.id_cluster_jenis_usaha,
+	  nama_cluster_jenis_usaha,
+	  nama_cluster_jenis_usaha_map,
+	  keterangan_cluster_sektor_usaha
       hasil_produk,
-      jenis_usaha_map, 
       pasar_ekspor,
       pasar_ekspor_tahun,
       pasar_ekspor_nilai,
@@ -58,7 +61,10 @@ class Dashboard_m extends CI_Model
     left join provinsi b on a.provinsi=b.id
     left join kabupaten_kota c on a.kabupaten=c.id
     left join kecamatan d on a.kecamatan=d.id
-    left join kelurahan e on a.kelurahan=e.id ' . $where;
+    left join kelurahan e on a.kelurahan=e.id 
+	left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
+	left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
+	left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha ' . $where;
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
