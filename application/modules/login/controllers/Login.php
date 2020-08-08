@@ -35,8 +35,6 @@ class Login extends MX_Controller
 			// else redirect ('http://www.klasterkuhidupku.com',refresh); 
 	}
 	
-	
-	
 	public function signup(){
 			if ($this->session->userdata('logged_in')!=true){
 					$data['content'] = 'login';
