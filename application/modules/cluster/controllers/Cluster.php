@@ -171,6 +171,7 @@ class Cluster extends MX_Controller
 
 	public function getreport($harian = "")
 	{
+		
 		ini_set('memory_limit', '-1');
 		$data['kanwil'] = array();
 		$q = $this->cluster_m->getreport_m($harian);
@@ -179,7 +180,7 @@ class Cluster extends MX_Controller
 		//karena Mapping belum jelas maka dicheck satu persatu
 		foreach ($q as $row) {
 			if ($row['kanwil'] != false) {
-				switch ($row['jenis_usaha']) {
+				switch ($row['nama_cluster_jenis_usaha']) {
 					case "Pertanian - Pangan":
 					case "Pertanian - Holtikultura":
 					case "Pertanian - Perkebunan":
@@ -251,8 +252,8 @@ class Cluster extends MX_Controller
 			}
 		}
 		$data['harian'] = $harian;
-		$data['navbar'] = '';
-		$data['sidebar'] = '';
+		$data['navbar'] = 'navbar';
+		$data['sidebar'] = 'sidebar';
 		$data['content'] = 'cluster_report_v';
 		$this->load->view('template', $data);
 	}

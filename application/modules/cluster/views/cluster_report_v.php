@@ -1,8 +1,11 @@
-     <div class="container-fluid">
-     	<div class="row bg-title">
-     	</div>
-     	<div class="col-md-12">
-     		<div class="white-box">
+<div class="content-wrapper">
+<!-- Content Header (Page header) -->
+
+	<!-- Main content -->
+	<section class="content">
+		<div class="box box-solid">
+			<div id="result" class="box-body">
+				<div class="container-fluid control-box">
      			<h3 class="box-title m-b-0" align="center"><b>Report Total Cluster BRIspot <?php echo ($harian != "" ? ' Per' . date('d M, Y', time()) : '') ?></b></h3>
      			<div id="result">
      				<div class="col-sm-12">
@@ -73,6 +76,7 @@
      		</div>
      	</div>
      </div>
+</section>
 
 
      <script type="text/javascript">
