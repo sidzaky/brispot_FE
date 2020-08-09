@@ -23,18 +23,12 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-<<<<<<< HEAD
-          <li><a href="<?php echo base_url(); ?>cluster/approve">Rekap Unit</a></li>
-          <li><a href="<?php echo base_url(); ?>cluster/approve">Laporan Harian</a></li>
-          <li><a href="<?php echo base_url(); ?>cluster/approve">Report Akhir</a></li>
-=======
           <li><a href="<?php echo base_url(); ?>cluster/getreport/report_unit">Rekap Unit</a></li>
           <li><a href="<?php echo base_url(); ?>cluster/getreport/harian">Laporan Harian</a></li>
           <li><a href="<?php echo base_url(); ?>cluster/getreport">Report Akhir</a></li>
->>>>>>> local
         </ul>
       </li>
-      <li> 
+      <li>  
 	  <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'/setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
     
     </ul><!-- /.sidebar-menu -->

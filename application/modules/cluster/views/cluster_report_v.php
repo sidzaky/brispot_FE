@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-<div class="content-wrapper">
-<!-- Content Header (Page header) -->
-
-	<!-- Main content -->
-	<section class="content">
-		<div class="box box-solid">
-			<div id="result" class="box-body">
-				<div class="container-fluid control-box">
-     			<h3 class="box-title m-b-0" align="center"><b>Report Total Cluster BRIspot <?php echo ($harian != "" ? ' Per' . date('d M, Y', time()) : '') ?></b></h3>
-=======
      <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	
@@ -19,7 +8,6 @@
 				<div class="container-fluid control-box">
 					<div class="row">
      			<h3 class="box-title m-b-0" align="center"><b>Report Total Cluster BRIspot <?php echo ($harian != "" ? ' Per' . date('d M, Y', time()) : '') ?> <?php echo $this->session->userdata('name_uker'); ?></b></h3>
->>>>>>> local
      			<div id="result">
      				<div class="col-sm-12">
      					<script>
@@ -39,7 +27,7 @@
 									<?php 
 										foreach ($listkategori as $s){
 												echo '<th>'.$s['nama_cluster_jenis_usaha_map'].'</th>';
-										} 
+										}
 									?>
      								<th>Grand Total </th>
      							</tr>
@@ -85,7 +73,6 @@
      	</div>
 <section class="content">
      </div>
-</section>
 
      <script type="text/javascript">
      	// JSON to CSV Converter

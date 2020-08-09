@@ -466,7 +466,7 @@ class Cluster_m extends CI_Model
 		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
 		return $data;
 	}
-
+ 
 	function report_unit_m()
 	{
 		$where = "";

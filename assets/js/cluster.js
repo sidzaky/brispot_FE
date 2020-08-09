@@ -229,7 +229,7 @@
 				url: "./cluster/fjum",
 				data: data1,
 				success: function(smsg) {
-					var msg = JSON.parse(smsg);
+					var msg = JSON.parse(smsg); 
 					var select = document.getElementById('id_cluster_jenis_usaha_map');
 					$(select).empty();
 					$(select).append('<option value=""> Pilih Kategori Usaha</option>');
