@@ -174,85 +174,28 @@ class Cluster extends MX_Controller
 		ini_set('memory_limit', '-1');
 		$data['kanwil'] = array();
 		$q = $this->cluster_m->getreport_m($harian);
-
-		$data['total']['Pariwisata'] = 0;
+		$data['listkategori']=$this->cluster_m->getlist_jum();
 		//karena Mapping belum jelas maka dicheck satu persatu
 		foreach ($q as $row) {
 			if ($row['kanwil'] != false) {
-				switch ($row['jenis_usaha']) {
-					case "Pertanian - Pangan":
-					case "Pertanian - Holtikultura":
-					case "Pertanian - Perkebunan":
-					case "Peternakan":
-					case "Jasa Pertanian dan Perburuan":
-					case "Kehutanan & Penebangan Kayu":
-						(isset($data['kanwil'][$row['kanwil']]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'])) ? $data['kanwil'][$row['kanwil']]['PERTANIAN, PERBURUAN, DAN KEHUTANAN']++ : $data['kanwil'][$row['kanwil']]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] = 1;
-						(isset($data['total']['PERTANIAN, PERBURUAN, DAN KEHUTANAN'])) ? $data['total']['PERTANIAN, PERBURUAN, DAN KEHUTANAN']++ : $data['total']['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] = 1;
-						break;
-					case "Perikanan":
-						(isset($data['kanwil'][$row['kanwil']]['Perikanan'])) ? $data['kanwil'][$row['kanwil']]['Perikanan']++ : $data['kanwil'][$row['kanwil']]['Perikanan'] = 1;
-						(isset($data['total']['Perikanan'])) ? $data['total']['Perikanan']++ : $data['total']['Perikanan'] = 1;
-						break;
-					case 'Pertambangan Minyak & Gas Bumi':
-					case 'Pertambangan Batubara & Lignit':
-					case 'Pertambangan Biji Logam':
-					case 'Pertambangan & Penggalian Lainnya':
-					case 'Industri Batubara & Pengilangan Migas':
-					case 'Industri Makanan & Minuman':
-					case 'Pengolahan Tembakau':
-					case 'Industri Tekstil dan Pakaian Jadi':
-					case 'Industri Kulit, Barang dari Kulit dan Alas Kaki':
-					case 'Industri Kayu, Barang dari Kayu, Gabus dan Barang Anyaman dari Bambu, Rotan dan sejenisnya':
-					case 'Industri Kertas dan Barang dari kertas, Percetakan dan Reproduksi Media Rekaman':
-					case 'Industri Kimia, Farmasi dan Obat Tradisional':
-					case 'Industri Karet, Barang dari Karet dan Plastik':
-					case 'Industri Barang Galian bukan logam':
-					case 'Industri Logam Dasar':
-					case 'Industri Barang dari Logam, Komputer, Barang Elektronik, Optik dan Peralatan Listrik':
-					case 'Industri Mesin dan Perlengkapan':
-					case 'Industri Alat Angkutan':
-					case 'Industri Furnitur':
-					case 'Industri Pengolahan Lainnya, Jasa Reparasi dan Pemasangan Mesin dan Peralatan':
-						(isset($data['kanwil'][$row['kanwil']]['INDUSTRI PENGOLAHAN'])) ? $data['kanwil'][$row['kanwil']]['INDUSTRI PENGOLAHAN']++ : $data['kanwil'][$row['kanwil']]['INDUSTRI PENGOLAHAN'] = 1;
-						(isset($data['total']['INDUSTRI PENGOLAHAN'])) ? $data['total']['INDUSTRI PENGOLAHAN']++ : $data['total']['INDUSTRI PENGOLAHAN'] = 1;
-						break;
-					case 'Pengadaan Listrik dan Gas':
-					case 'Pengadaan Gas dan Produksi Es':
-					case 'Pengadaan Air, Pengelolaan Sampah, Limbah dan Daur Ulang':
-					case 'Konstruksi':
-					case 'Transportasi Angkutan Rel':
-					case 'Transportasi Angkutan Darat':
-					case 'Transportasi Angkutan Laut':
-					case 'Transportasi Angkutan Sungai, Danau & Penyeberangan':
-					case 'Transportasi Angkutan Udara':
-					case 'Pergudangan dan Jasa Penunjang Angkutan, Pos dan Kurir':
-					case 'Penyediaan Akomodasi dan makan minum':
-					case 'Informasi dan Komunikasi':
-					case 'Jasa Keuangan dan Asuransi':
-					case 'Real Estate':
-					case 'Jasa Perusahaan':
-					case 'Administrasi Pemerintahan, Pertahanan dan Jaminan Sosial Wajib':
-					case 'Jasa Pendidikan':
-					case 'Jasa Kesehatan dan Kegiatan Lainnya':
-					case 'Jasa Lainnya':
-						(isset($data['kanwil'][$row['kanwil']]['JASA-JASA'])) ? $data['kanwil'][$row['kanwil']]['JASA-JASA']++ : $data['kanwil'][$row['kanwil']]['JASA-JASA'] = 1;
-						(isset($data['total']['JASA-JASA'])) ? $data['total']['JASA-JASA']++ : $data['total']['JASA-JASA'] = 1;
-						break;
-					case 'Perdagangan Mobil, Sepeda Motor dan Reparasinya':
-					case 'Perdagangan Besar dan Eceran, bukan Mobil dan Sepeda':
-						(isset($data['kanwil'][$row['kanwil']]['PERDAGANGAN'])) ? $data['kanwil'][$row['kanwil']]['PERDAGANGAN']++ : $data['kanwil'][$row['kanwil']]['PERDAGANGAN'] = 1;
-						(isset($data['total']['PERDAGANGAN'])) ? $data['total']['PERDAGANGAN']++ : $data['total']['PERDAGANGAN'] = 1;
-						break;
-					case "Pariwisata":
-						(isset($data['kanwil'][$row['kanwil']]['Pariwisata'])) ? $data['kanwil'][$row['kanwil']]['Pariwisata']++ : $data['kanwil'][$row['kanwil']]['Pariwisata'] = 1;
-						(isset($data['total']['Pariwisata'])) ? $data['total']['Pariwisata']++ : $data['total']['Pariwisata'] = 1;
-						break;
-				}
+				foreach ($data['listkategori']as $zrow){
+					if (!isset($data['total'][$zrow['id_cluster_jenis_usaha_map']])) {
+						$data['total'][$zrow['id_cluster_jenis_usaha_map']]=0;
+					}
+					if ($zrow['id_cluster_jenis_usaha_map']==$row['id_cluster_jenis_usaha_map']){
+							if (isset($data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']])) {
+								$data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']]++;
+							}
+							else $data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']]=1;					
+							$data['total'][$zrow['id_cluster_jenis_usaha_map']]++;
+							break;
+						}
+					}
 			}
 		}
 		$data['harian'] = $harian;
-		$data['navbar'] = '';
-		$data['sidebar'] = '';
+		$data['navbar'] = 'navbar';
+		$data['sidebar'] = 'sidebar';
 		$data['content'] = 'cluster_report_v';
 		$this->load->view('template', $data);
 	}
@@ -532,42 +475,42 @@ class Cluster extends MX_Controller
 	// }
 
 
-	// function migrate(){
-		// ini_set('memory_limit', '-1');
+	function migrate(){
+		ini_set('memory_limit', '-1');
 		
-		// $query="select * from cluster";
-		// $su=$this->db->query("select * from cluster_sektor_usaha")->result_array();
-		// $jum=$this->db->query("select * from cluster_jenis_usaha_map")->result_array();
-		// $ju=$this->db->query("select * from cluster_jenis_usaha")->result_array();
-		// foreach ($this->db->query($query)->result_array() as $q){
-				// foreach ($su as $rsu ){
-					// $isu="";
-					// if ($rsu['keterangan_cluster_sektor_usaha']==$q['id_cluster_sektor_usaha']) {
-							// $isu=$rsu['id_cluster_sektor_usaha'];
-							// break;
-					// }
-				// }
-				// foreach ($jum as $rjum ){
-					// $ijum="";
-					// if ($rjum['nama_cluster_jenis_usaha_map']==$q['id_cluster_jenis_usaha_map']) {
-							// $ijum=$rjum['id_cluster_jenis_usaha_map'];
-							// break;
-					// }
-				// }
-				// foreach ($ju as $rju ){
-					// $iju="";
-					// if ($rju['nama_cluster_jenis_usaha']==$q['id_cluster_jenis_usaha']) {
-							// $iju=$rju['id_cluster_jenis_usaha'];
-							// break;
-					// }
-				// }
+		$query="select * from cluster";
+		$su=$this->db->query("select * from cluster_sektor_usaha")->result_array();
+		$jum=$this->db->query("select * from cluster_jenis_usaha_map")->result_array();
+		$ju=$this->db->query("select * from cluster_jenis_usaha")->result_array();
+		foreach ($this->db->query($query)->result_array() as $q){
+				foreach ($su as $rsu ){
+					$isu="";
+					if (strtolower($rsu['keterangan_cluster_sektor_usaha'])==strtolower($q['id_cluster_sektor_usaha'])) {
+							$isu=$rsu['id_cluster_sektor_usaha'];
+							break;
+					}
+				}
+				foreach ($jum as $rjum ){
+					$ijum="";
+					if (strtolower($rjum['nama_cluster_jenis_usaha_map'])==strtolower($q['id_cluster_jenis_usaha_map'])) {
+							$ijum=$rjum['id_cluster_jenis_usaha_map'];
+							break;
+					}
+				}
+				foreach ($ju as $rju ){
+					$iju="";
+					if (strtolower($rju['nama_cluster_jenis_usaha'])==strtolower($q['id_cluster_jenis_usaha'])) {
+							$iju=$rju['id_cluster_jenis_usaha'];
+							break;
+					}
+				}
 			
-				// echo "update cluster set id_cluster_sektor_usaha='".$isu."', id_cluster_jenis_usaha_map='".$ijum."', id_cluster_jenis_usaha='".$iju."' where id='".$q['id']."'; </br>";
-		// }
+				$this->db->query("update cluster set id_cluster_sektor_usaha='".$isu."', id_cluster_jenis_usaha_map='".$ijum."', id_cluster_jenis_usaha='".$iju."' where id='".$q['id']."'");
+		}
 		
 		
 		
-	// }
+	}
 
 	private function camphotoupload($i = null, $j = null)
 	{
