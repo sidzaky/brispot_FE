@@ -12,7 +12,7 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li active="active"><a href="<?php echo base_url(); ?>cluster/approve">Daftar Klaster</a></li>
+          <!--  <li active="active"><a href="<?php echo base_url(); ?>cluster/approve">Daftar Klaster</a></li> -->
           <li><a href="<?php echo base_url(); ?>cluster">Pengajuan</a></li>
         </ul>
       </li>
@@ -23,8 +23,8 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="<?php echo base_url(); ?>cluster/getreport/report_unit">Rekap Unit</a></li>
-          <li><a href="<?php echo base_url(); ?>cluster/getreport/harian">Laporan Harian</a></li>
+          <!-- <li><a href="<?php echo base_url(); ?>cluster/getreport/report_unit">Rekap Unit</a></li> 
+          <li><a href="<?php echo base_url(); ?>cluster/getreport/harian">Laporan Harian</a></li> -->
           <li><a href="<?php echo base_url(); ?>cluster/getreport">Report Akhir</a></li>
         </ul>
       </li>

@@ -15,15 +15,6 @@
 					<div class="row">
 						<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
 						<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.open('cluster/dldata')" type="button"><i class="fa fa-download"></i> Download All Data</button>
-						<?php
-						if ($this->session->userdata('permission') > 2) {
-							echo '<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'\cluster/report_unit\')" type="button"><i class="fa fa-info"></i> Rekap unit</button> ';
-							echo '<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'\cluster/getreport/harian\')" type="button"><i class="fa fa-info"></i> Laporan Harian</button> ';
-						}
-						if ($this->session->userdata('permission') > 3) {
-							echo '<button class="btn btn-info waves-effect waves-light btn-sm" onclick="window.open(\'cluster/getreport/\')" type="button"><i class="fa fa-info"></i> Report akhir</button>';
-						}
-						?>
 					</div>
 				</div>
 				<script>
@@ -37,7 +28,6 @@
 								"url": "./cluster/getdata",
 								"type": "POST"
 							},
-
 						});
 					});
 				</script>
