@@ -28,7 +28,7 @@
           <li><a href="<?php echo base_url(); ?>cluster/getreport">Report Akhir</a></li>
         </ul>
       </li>
-      <li>
+      <li> 
 	  <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'/setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
     
     </ul><!-- /.sidebar-menu -->

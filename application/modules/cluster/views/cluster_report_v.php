@@ -27,7 +27,7 @@
 									<?php 
 										foreach ($listkategori as $s){
 												echo '<th>'.$s['nama_cluster_jenis_usaha_map'].'</th>';
-										}
+										} 
 									?>
      								<th>Grand Total </th>
      							</tr>

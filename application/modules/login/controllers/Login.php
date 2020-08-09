@@ -45,7 +45,7 @@ class Login extends MX_Controller
 				}
 			else redirect ('cluster',refresh); 
 	}
-
+ 
   function changePasswordFirstTime()
   {
     $res = $this->user_m->signup_m();
