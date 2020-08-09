@@ -266,28 +266,8 @@ class Cluster_m extends CI_Model
 				*/
 
 
-	public function getdata_jum()
-	{
-		$q = "select * from cluster_jenis_usaha_map where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
-		return $this->db->query($q)->result();
-	}
-
-	public function getdata_ju()
-	{
-		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
-		return $this->db->query($q)->result();
-	}
 	
-	public function getdata_j($i="")
-	{
-		if ($i=="") {
-			$i=isset($_POST['id_cluster_jenis_usaha']) ? $_POST['id_cluster_jenis_usaha'] : "0";
-		}
-		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha='".($i)."'";
-		return $this->db->query($q)->result_array();
-		
-	}
-
+	
 	public function updatedata_m($rfex = null, $rfku = null)
 	{
 		$id = $_POST['id'];
@@ -508,6 +488,36 @@ class Cluster_m extends CI_Model
 		$data = $this->db->query("select kode_uker from cluster where kode_kanwil='" . $j . "' and timestamp>1576085405 order by kode_uker ")->result_array();
 		return $data;
 	}
+	
+	public function getdata_jum()
+	{
+		$q = "select * from cluster_jenis_usaha_map where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
+		return $this->db->query($q)->result();
+	}
+
+	public function getdata_ju()
+	{
+		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
+		return $this->db->query($q)->result();
+	}
+	
+	public function getdata_j($i="")
+	{
+		if ($i=="") {
+			$i=isset($_POST['id_cluster_jenis_usaha']) ? $_POST['id_cluster_jenis_usaha'] : "0";
+		}
+		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha='".($i)."'";
+		return $this->db->query($q)->result_array();
+		
+	}
+	
+	function getlist_jum(){
+		$q="select * from cluster_jenis_usaha_map";
+		return $this->db->query($q)->result_array();
+		
+	}
+	
+	
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */

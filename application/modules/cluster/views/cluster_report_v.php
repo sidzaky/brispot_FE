@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="content-wrapper">
 <!-- Content Header (Page header) -->
 
@@ -7,6 +8,18 @@
 			<div id="result" class="box-body">
 				<div class="container-fluid control-box">
      			<h3 class="box-title m-b-0" align="center"><b>Report Total Cluster BRIspot <?php echo ($harian != "" ? ' Per' . date('d M, Y', time()) : '') ?></b></h3>
+=======
+     <div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+	
+	 
+<section class="content">
+		<div class="box box-solid">
+			<div id="result" class="box-body">
+				<div class="container-fluid control-box">
+					<div class="row">
+     			<h3 class="box-title m-b-0" align="center"><b>Report Total Cluster BRIspot <?php echo ($harian != "" ? ' Per' . date('d M, Y', time()) : '') ?> <?php echo $this->session->userdata('name_uker'); ?></b></h3>
+>>>>>>> local
      			<div id="result">
      				<div class="col-sm-12">
      					<script>
@@ -22,49 +35,42 @@
      						<thead>
      							<tr>
      								<th>No</th>
-     								<th>Kantor Wilayah</th>
-     								<th>PERTANIAN, PERBURUAN, DAN KEHUTANAN</th>
-     								<th>Perikanan</th>
-     								<th>INDUSTRI PENGOLAHAN</th>
-     								<th>JASA-JASA</th>
-     								<th>PERDAGANGAN</th>
-     								<th>Pariwisata</th>
+     								<th>Kanwil</th>
+									<?php 
+										foreach ($listkategori as $s){
+												echo '<th>'.$s['nama_cluster_jenis_usaha_map'].'</th>';
+										}
+									?>
      								<th>Grand Total </th>
      							</tr>
      						</thead>
      						<tbody>
      							<?php
 										$i = 1;
+										$grandtotal = 0;
 										foreach ($kanwil as $row => $value) {
-											$totalkanwil = $kanwil[$row]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] + $kanwil[$row]['Perikanan'] + $kanwil[$row]['INDUSTRI PENGOLAHAN'] + $kanwil[$row]['JASA-JASA'] + $kanwil[$row]['PERDAGANGAN'] + (isset($kanwil[$row]["Pariwisata"]) ? $kanwil[$row]['Pariwisata'] : 0);
+											$totalkanwil=0;
 											echo '<tr>
-																		<td>' . $i . '</td>
-																		<td>' . $row . '</td>
-																		<td>' . $kanwil[$row]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] . '</td>
-																		<td>' . $kanwil[$row]['Perikanan'] . '</td>
-																		<td>' . $kanwil[$row]['INDUSTRI PENGOLAHAN'] . '</td>
-																		<td>' . $kanwil[$row]['JASA-JASA'] . '</td>
-																		<td>' . $kanwil[$row]['PERDAGANGAN'] . '</td>
-																		<td>' . (isset($kanwil[$row]["Pariwisata"]) ? $kanwil[$row]['Pariwisata'] : 0) . '</td>
-																		<td>' . $totalkanwil . '<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="getcsv(\'' . $row . '\',\'' . $harian . '\',\'' . $i . '\')" id="button' . $i . '" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button></td>
-															</tr>';
+													 <td>' . $i . '</td>
+													 <td>'.$row.'</td>';
+											for ($z=1;$z<=count($listkategori);$z++){
+												if (!isset($value[$z])) $value[$z]=0;
+													$totalkanwil =$totalkanwil+$value[$z];
+													echo '<td>'.$value[$z].'</td>';
+												}
+											echo '<td>'.$totalkanwil.'<button class="btn btn-primary waves-effect waves-light btn-sm"><i class="fa fa-download"></i></button></td></tr>';
 											$i++;
 										}
 										echo '</tbody>
 																<tfoot>
 																	<tr>
 																		<td></td>
-																		<td>Grand Total</td>
-																		<td>' . $total['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] . '</td>
-																		<td>' . $total['Perikanan'] . '</td>
-																		<td>' . $total['INDUSTRI PENGOLAHAN'] . '</td>
-																		<td>' . $total['JASA-JASA'] . '</td>
-																		<td>' . $total['PERDAGANGAN'] . '</td>
-																		<td>' . $total['Pariwisata'] . '</td>
-																		<td>' . ($total['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] + $total['Perikanan'] + $total['INDUSTRI PENGOLAHAN'] + $total['JASA-JASA'] + $total['PERDAGANGAN'] + $total['Pariwisata']) . ($this->session->userdata('permission') == 4 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\'\',\'' . $harian . '\',\'all\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '') . '</td>
-																	</tr>
-																</tfoot>';
-
+																		<td>Grand Total</td>';
+										for ($z=1;$z<=count($listkategori);$z++){
+												echo '<td>'.$total[$z].'</td>';
+												$grandtotal=$grandtotal+$total[$z];
+										}
+										echo '<td>'.$grandtotal.($this->session->userdata('permission') == 4 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\'\',\'' . $harian . '\',\'all\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '') . '</td></tr></tfoot>';
 										?>
 
      					</table>
@@ -75,9 +81,11 @@
      			</div>
      		</div>
      	</div>
+     	</div>
+     	</div>
+<section class="content">
      </div>
 </section>
-
 
      <script type="text/javascript">
      	// JSON to CSV Converter

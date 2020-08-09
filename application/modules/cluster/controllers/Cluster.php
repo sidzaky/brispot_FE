@@ -175,11 +175,11 @@ class Cluster extends MX_Controller
 		ini_set('memory_limit', '-1');
 		$data['kanwil'] = array();
 		$q = $this->cluster_m->getreport_m($harian);
-
-		$data['total']['Pariwisata'] = 0;
+		$data['listkategori']=$this->cluster_m->getlist_jum();
 		//karena Mapping belum jelas maka dicheck satu persatu
 		foreach ($q as $row) {
 			if ($row['kanwil'] != false) {
+<<<<<<< HEAD
 				switch ($row['nama_cluster_jenis_usaha']) {
 					case "Pertanian - Pangan":
 					case "Pertanian - Holtikultura":
@@ -249,6 +249,21 @@ class Cluster extends MX_Controller
 						(isset($data['total']['Pariwisata'])) ? $data['total']['Pariwisata']++ : $data['total']['Pariwisata'] = 1;
 						break;
 				}
+=======
+				foreach ($data['listkategori']as $zrow){
+					if (!isset($data['total'][$zrow['id_cluster_jenis_usaha_map']])) {
+						$data['total'][$zrow['id_cluster_jenis_usaha_map']]=0;
+					}
+					if ($zrow['id_cluster_jenis_usaha_map']==$row['id_cluster_jenis_usaha_map']){
+							if (isset($data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']])) {
+								$data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']]++;
+							}
+							else $data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']]=1;					
+							$data['total'][$zrow['id_cluster_jenis_usaha_map']]++;
+							break;
+						}
+					}
+>>>>>>> local
 			}
 		}
 		$data['harian'] = $harian;
@@ -533,42 +548,42 @@ class Cluster extends MX_Controller
 	// }
 
 
-	// function migrate(){
-		// ini_set('memory_limit', '-1');
+	function migrate(){
+		ini_set('memory_limit', '-1');
 		
-		// $query="select * from cluster";
-		// $su=$this->db->query("select * from cluster_sektor_usaha")->result_array();
-		// $jum=$this->db->query("select * from cluster_jenis_usaha_map")->result_array();
-		// $ju=$this->db->query("select * from cluster_jenis_usaha")->result_array();
-		// foreach ($this->db->query($query)->result_array() as $q){
-				// foreach ($su as $rsu ){
-					// $isu="";
-					// if ($rsu['keterangan_cluster_sektor_usaha']==$q['id_cluster_sektor_usaha']) {
-							// $isu=$rsu['id_cluster_sektor_usaha'];
-							// break;
-					// }
-				// }
-				// foreach ($jum as $rjum ){
-					// $ijum="";
-					// if ($rjum['nama_cluster_jenis_usaha_map']==$q['id_cluster_jenis_usaha_map']) {
-							// $ijum=$rjum['id_cluster_jenis_usaha_map'];
-							// break;
-					// }
-				// }
-				// foreach ($ju as $rju ){
-					// $iju="";
-					// if ($rju['nama_cluster_jenis_usaha']==$q['id_cluster_jenis_usaha']) {
-							// $iju=$rju['id_cluster_jenis_usaha'];
-							// break;
-					// }
-				// }
+		$query="select * from cluster";
+		$su=$this->db->query("select * from cluster_sektor_usaha")->result_array();
+		$jum=$this->db->query("select * from cluster_jenis_usaha_map")->result_array();
+		$ju=$this->db->query("select * from cluster_jenis_usaha")->result_array();
+		foreach ($this->db->query($query)->result_array() as $q){
+				foreach ($su as $rsu ){
+					$isu="";
+					if (strtolower($rsu['keterangan_cluster_sektor_usaha'])==strtolower($q['id_cluster_sektor_usaha'])) {
+							$isu=$rsu['id_cluster_sektor_usaha'];
+							break;
+					}
+				}
+				foreach ($jum as $rjum ){
+					$ijum="";
+					if (strtolower($rjum['nama_cluster_jenis_usaha_map'])==strtolower($q['id_cluster_jenis_usaha_map'])) {
+							$ijum=$rjum['id_cluster_jenis_usaha_map'];
+							break;
+					}
+				}
+				foreach ($ju as $rju ){
+					$iju="";
+					if (strtolower($rju['nama_cluster_jenis_usaha'])==strtolower($q['id_cluster_jenis_usaha'])) {
+							$iju=$rju['id_cluster_jenis_usaha'];
+							break;
+					}
+				}
 			
-				// echo "update cluster set id_cluster_sektor_usaha='".$isu."', id_cluster_jenis_usaha_map='".$ijum."', id_cluster_jenis_usaha='".$iju."' where id='".$q['id']."'; </br>";
-		// }
+				$this->db->query("update cluster set id_cluster_sektor_usaha='".$isu."', id_cluster_jenis_usaha_map='".$ijum."', id_cluster_jenis_usaha='".$iju."' where id='".$q['id']."'");
+		}
 		
 		
 		
-	// }
+	}
 
 	private function camphotoupload($i = null, $j = null)
 	{

@@ -43,7 +43,7 @@ class Login extends MX_Controller
 					$this->load->view('template', $data); 
 					//echo "sorry, masih main tenes servernya. doain aja bisa cepet kerja lagi";
 				}
-			else redirect ('http://www.klasterkuhidupku.com',refresh); 
+			else redirect ('cluster',refresh); 
 	}
 
   function changePasswordFirstTime()
@@ -81,7 +81,7 @@ class Login extends MX_Controller
       redirect('dashboard');
     } else {
       $this->session->set_flashdata('message', 'kodeuker/password salah');
-      redirect(site_url());
+      redirect('login/signup');
     }
   }
 

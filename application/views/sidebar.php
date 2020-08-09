@@ -23,9 +23,15 @@
           <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
+<<<<<<< HEAD
           <li><a href="<?php echo base_url(); ?>cluster/approve">Rekap Unit</a></li>
           <li><a href="<?php echo base_url(); ?>cluster/approve">Laporan Harian</a></li>
           <li><a href="<?php echo base_url(); ?>cluster/approve">Report Akhir</a></li>
+=======
+          <li><a href="<?php echo base_url(); ?>cluster/getreport/report_unit">Rekap Unit</a></li>
+          <li><a href="<?php echo base_url(); ?>cluster/getreport/harian">Laporan Harian</a></li>
+          <li><a href="<?php echo base_url(); ?>cluster/getreport">Report Akhir</a></li>
+>>>>>>> local
         </ul>
       </li>
       <li>
