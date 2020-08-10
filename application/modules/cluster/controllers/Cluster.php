@@ -170,8 +170,7 @@ class Cluster extends MX_Controller
 
 
 	public function getreport($harian = "")
-	{
-		ini_set('memory_limit', '-1');
+	{	ini_set('memory_limit', '-1');
 		$data['kanwil'] = array();
 		$q = $this->cluster_m->getreport_m($harian);
 		$data['listkategori']=$this->cluster_m->getlist_jum();
@@ -397,24 +396,25 @@ class Cluster extends MX_Controller
 			}
 			$i++;
 		}
-		$pdata['navbar'] = "";
-		$pdata['sidebar'] = "";
+		$pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
 		$pdata['content'] = 'cluster_report_unit_v';
 		$this->load->view('template', $pdata);
 	}
 
 	public function report_unit_detail()
 	{
-
 		$pdata = array();
 		$data['kanwil'] = array();
 		$z = array();
 		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
 			foreach ($this->cluster_m->report_unit_count_m($row['kode_kanwil']) as $srow) {
+				if (!isset($z[$row['kode_kanwil']][$srow['kode_uker']])) $z[$row['kode_kanwil']][$srow['kode_uker']]=0;
 				$z[$row['kode_kanwil']][$srow['kode_uker']]++;
 			};
 		}
 		$i = 1;
+		$table="";
 		foreach ($this->cluster_m->report_unit_m() as $srow) {
 			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) {
 				if ($_POST['case'] == 'kosong') {
