@@ -17,19 +17,40 @@
         </ul>
       </li>
       <!-- <li><a href=""><i class="fa fa-file-text-o"></i> <span>Pengajuan Klaster</span></a></li> -->
-	  <li class="treeview">
-        <a href="#">
-          <i class="fa fa-book"></i> <span>Laporan Klaster</span>
-          <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="<?php echo base_url(); ?>cluster/getreport/report_unit">Rekap Unit</a></li>
-          <li><a href="<?php echo base_url(); ?>cluster/getreport/harian">Laporan Harian</a></li>
-          <li><a href="<?php echo base_url(); ?>cluster/getreport">Report Akhir</a></li>
-        </ul>
-      </li>
+	  
+	  <?php 
+		$lilaporan="";
+		if ($this->session->userdata('permission')>2){
+				$lilaporan= '<li class="treeview">
+							<a href="#">
+							  <i class="fa fa-book"></i> <span>Laporan Klaster</span>
+							  <i class="fa fa-angle-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">';
+				switch ($this->session->userdata('permission')) {
+					case (4):
+							$lilaporan .= '<li><a href="'.base_url().'cluster/getreport/">Rekap Total</a></li>
+												<li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
+												<li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+												</ul>
+											</li>';
+						break;
+					case (3):
+						$lilaporan .= '<li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
+											<li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+												</ul>
+											</li>';
+						break;
+					default : 
+						$lilaporan = " ";
+					break;
+			}
+		}
+		
+		echo $lilaporan;
+	  ?>
       <li> 
-	  <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'/setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
+	  <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
     
     </ul><!-- /.sidebar-menu -->
   </section>

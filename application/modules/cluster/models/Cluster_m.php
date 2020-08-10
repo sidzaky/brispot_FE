@@ -67,6 +67,9 @@ class Cluster_m extends CI_Model
 			case (3):
 				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
 				break;
+			default : 
+				$where .= " where false";
+				break;
 		}
 		if ($harian != "") $where .= " and timestamp>1576085405  ";
 		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
