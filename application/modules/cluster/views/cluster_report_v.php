@@ -1,7 +1,6 @@
      <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	
-	 
 <section class="content">
 		<div class="box box-solid">
 			<div id="result" class="box-body">
@@ -18,6 +17,7 @@
      								"scrollX": true,
      							});
      						})
+							
      					</script>
      					<table id="example" class="table table-striped table-bordered" style="width:100%">
      						<thead>
@@ -46,7 +46,7 @@
 													$totalkanwil =$totalkanwil+$value[$z];
 													echo '<td>'.$value[$z].'</td>';
 												}
-											echo '<td>'.$totalkanwil.'<button class="btn btn-primary waves-effect waves-light btn-sm"><i class="fa fa-download"></i></button></td></tr>';
+											echo '<td>'.$totalkanwil.($this->session->userdata('permission') == 4 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\''.$row.'\',\'' . $harian . '\',\''.$i.'\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '').'</td></tr>';
 											$i++;
 										}
 										echo '</tbody>
@@ -98,7 +98,6 @@
      	}
 
      	function getcsv(i = '', j, k) {
-     		console.log(i.length);
      		var data1 = {
      			'kanwil': i,
      		};
