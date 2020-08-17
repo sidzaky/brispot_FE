@@ -7,7 +7,7 @@ class Cluster_m extends CI_Model
 		$sql  = $this->get_datatables();
 		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
 		return $this->db->query($sql);
-	}
+	} 
 
 	var $column_search = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha');
 	var $order = array('timestamp' => 'desc');
