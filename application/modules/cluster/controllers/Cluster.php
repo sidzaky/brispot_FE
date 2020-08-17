@@ -34,9 +34,9 @@ class Cluster extends MX_Controller
 		$this->load->view('template', $data);
 	}
 
-	public function getdata()
-	{
-		$list = $this->cluster_m->get_datafield();
+	public function getdata($status=null)
+	{ 
+		$list = $this->cluster_m->get_datafield($status);
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
@@ -48,7 +48,8 @@ class Cluster extends MX_Controller
 			$ca = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
 			$update = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$upload = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
-			$action = '' . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del) . '';
+			$info	= '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="infocluster(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-Info"></i> Info</button>';
+			$action = $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -59,8 +60,13 @@ class Cluster extends MX_Controller
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha)>0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
-			$row[] = "status on progress";
-			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
+			if ($status==null)	{
+				$row[] = "status on progress";
+				$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
+			}
+			else {
+				$row[] = $info;
+			}
 			$data[] = $row;
 		}
 		$output = array(
@@ -85,6 +91,15 @@ class Cluster extends MX_Controller
 				echo json_encode($data[0]['BRDESC']);
 			} else echo json_encode("data uker tidak ditemukan");
 		}
+	}
+
+
+	public function approve(){
+		$data['navbar'] = 'navbar';
+		$data['sidebar'] = 'sidebar';
+		$data['content'] = 'cluster_approve_v';
+		$data['provinsi'] = $this->cluster_m->getprovinsi_m();
+		$this->load->view('template', $data);
 	}
 
 

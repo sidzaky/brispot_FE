@@ -9,7 +9,7 @@ class Cluster_m extends CI_Model
 		return $this->db->query($sql);
 	}
 
-	var $column_search = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha', 'sektor_usaha', 'jenis_usaha', 'hasil_produk');
+	var $column_search = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha');
 	var $order = array('timestamp' => 'desc');
 
 	public function get_datatables()
@@ -31,7 +31,7 @@ class Cluster_m extends CI_Model
 				break;
 		}
 
-		if ($_POST['search']['value'] != "") $sql .= "  and ";
+		if ($_POST['search']['value'] != "") $sql .= " and ";
 		foreach ($this->column_search as $item) // looping awal
 		{
 			if ($_POST['search']['value'] != "") // jika datatable mengirimkan pencarian dengan metode POST

@@ -6,7 +6,7 @@
 			<?php echo $this->session->userdata('name_uker'); ?>
 		</h1>
 	</section>
-  
+ 
 	<!-- Main content -->
 	<section class="content">
 		<div class="box box-solid">
@@ -14,7 +14,6 @@
 				<div class="container-fluid control-box">
 					<div class="row">
 						<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
-						<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.open('cluster/dldata')" type="button"><i class="fa fa-download"></i> Download All Data</button>
 					</div>
 				</div>
 				<script>
@@ -28,6 +27,7 @@
 								"url": "./cluster/getdata",
 								"type": "POST"
 							},
+
 						});
 					});
 				</script>
