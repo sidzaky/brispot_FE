@@ -34,9 +34,9 @@ class Cluster extends MX_Controller
 		$this->load->view('template', $data);
 	}
 
-	public function getdata()
+	public function getdata($status=null)
 	{
-		$list = $this->cluster_m->get_datafield();
+		$list = $this->cluster_m->get_datafield($status);
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
@@ -48,7 +48,8 @@ class Cluster extends MX_Controller
 			$ca = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
 			$update = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$upload = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
-			$action = '' . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del) . '';
+			$info	= '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="infocluster(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-Info"></i> Info</button>';
+			$action = $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -59,8 +60,13 @@ class Cluster extends MX_Controller
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha)>0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
-			$row[] = "status on progress";
-			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
+			if ($status==null)	{
+				$row[] = "status on progress";
+				$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
+			}
+			else {
+				$row[] = $info;
+			}
 			$data[] = $row;
 		}
 		$output = array(
@@ -85,6 +91,15 @@ class Cluster extends MX_Controller
 				echo json_encode($data[0]['BRDESC']);
 			} else echo json_encode("data uker tidak ditemukan");
 		}
+	}
+
+
+	public function approve(){
+		$data['navbar'] = 'navbar';
+		$data['sidebar'] = 'sidebar';
+		$data['content'] = 'cluster_approve_v';
+		$data['provinsi'] = $this->cluster_m->getprovinsi_m();
+		$this->load->view('template', $data);
 	}
 
 
@@ -207,7 +222,7 @@ class Cluster extends MX_Controller
 			'No', 'Waktu Input', 'kanwil', 'kanca',
 			"Kode Kanca", "Uker", "Kode Uker", "Nama Kaunit", "PN Kaunit", "Handphone Kaunit", "Nama Mantri", "PN Mantri", "Handphone Mantri",
 			"Nama Kelompok Usaha", "Jumlah Anggota (orang)", "Pinjaman anggota Kelompok", "Lokasi Usaha", "Kode Pos", "Provinsi", "Kabupaten/Kota", "Kecamantan", "Kelurahan",
-			"Sektor Usaha", "Jenis Usaha", "Hasil Produk", "Jenis Usaha Map", "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
+			"Sektor Usaha", "Jenis Usaha Map", "Jenis Usaha", "Hasil Produk",  "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
 			"Luas Lahan/Tempat Usaha (m2)", "Omset Usaha Perbulan (total Kelompok - Rp)",
 			"Nama Ketua Kelompok", "Jenis Kelamin", "NIK", "Handphone Ketua Kelompok", "Tanggal Lahir", "Tempat lahir",
 			"Punya Pinjaman", "Nominal Pinjaman BRI", "Norek Pinjaman BRI", "Kebutuhan Kredit",
@@ -474,7 +489,6 @@ class Cluster extends MX_Controller
 	// }
 	// }
 
- 
 	function migrate(){
 		ini_set('memory_limit', '-1');
 		
