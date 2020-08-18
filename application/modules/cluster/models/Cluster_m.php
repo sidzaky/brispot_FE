@@ -47,13 +47,30 @@ class Cluster_m extends CI_Model
 			}
 			$i++;
 		}
-		return $sql .( $status !=null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
+		$sql= $sql .' and cluster_status=1 ' . ( $status !=null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
+		return $sql;
 	}
 
 	public function count_all()
 	{
 		$sql  = $this->get_datatables();
 		return  $this->db->query($sql)->num_rows();
+	}
+
+
+	public function get_cluster_kebutuhan_pendidikan_pelatihan(){
+		$sql="select * from cluster_kebutuhan_pendidikan_pelatihan";
+		return $this->db->query($sql)->result_array();
+	}
+
+	public function get_cluster_kebutuhan_sarana(){
+		$sql="select * from cluster_kebutuhan_sarana";
+		return $this->db->query($sql)->result_array();
+	}
+
+	public function get_cluster_kebutuhan_skema_kredit(){
+		$sql="select * from cluster_kebutuhan_skema_kredit";
+		return $this->db->query($sql)->result_array();
 	}
 
 
@@ -173,7 +190,7 @@ class Cluster_m extends CI_Model
 	public function deldata_m()
 	{
 		if (isset($_POST['id'])) {
-			$sql = "delete from cluster where id='" . $_POST['id'] . "'";
+			$sql = "update cluster set cluster_status=0 where id='" . $_POST['id'] . "'";
 			$this->db->query($sql);
 		}
 	}
@@ -316,6 +333,7 @@ class Cluster_m extends CI_Model
 		$_POST['kode_kanwil'] = $query[0]['REGION'];
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
 		$_POST['timestamp'] = time();
+		$_POST['cluster_status'] = 1;
 		unset($_POST['id']);
 		$this->db->where('id', $id);
 		$this->db->update('cluster', $_POST);
@@ -332,7 +350,7 @@ class Cluster_m extends CI_Model
 
 
 	public function insertdata_m($rfex = null, $rfku = null)
-	{
+	{	
 		$query = $this->db->query("select * from branch where BRANCH='" . $_POST['kode_uker'] . "'")->result_array();
 		$_POST['id'] = $this->uuid->v4(true);
 		$_POST['userlatestupdate'] = $this->session->userdata('kode_uker');
