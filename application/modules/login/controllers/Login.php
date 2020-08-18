@@ -76,7 +76,7 @@ class Login extends MX_Controller
       redirect('dashboard');
     } else {
       $this->session->set_flashdata('message', 'kodeuker/password salah');
-      redirect('login/signup');
+      redirect('login');
     }
   }
 
