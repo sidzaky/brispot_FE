@@ -1,9 +1,12 @@
-  <div class="container-fluid">
-                <div class="row bg-title">
-                </div>
-				<div class="col-md-12">
+<div class="content-wrapper">
+	<!-- Content Header (Page header) -->
+    <section class="content">
+		<div class="box box-solid">
+			<div id="result" class="box-body">
+				<div class="container-fluid control-box">
+					<div class="row">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0"  align="center"><b>Data Anggota Kelompok <div id="nk"><?php echo $kelompok_usaha?></div></b></h3>
+                            <h3 class="box-title m-b-0"  alignt="center"><b>Data Anggota Kelompok <div id="nk"><?php echo $kelompok_usaha?></div></b></h3>
 							<div id="result">
 							<script>
 									var id_cluster= "<?php echo $id ?>";
@@ -47,6 +50,9 @@
 					</div>
 				</div>
             </div>
+        </div>
+    </section>
+</div>
 		<style>
 			.modal-body{
 					max-height: calc(100vh - 200px);
