@@ -6,7 +6,7 @@
 				<div class="container-fluid control-box">
 					<div class="row">
                         <div class="white-box">
-                            <h3 class="box-title m-b-0"  alignt="center"><b>Data Anggota Kelompok <div id="nk"><?php echo $kelompok_usaha?></div></b></h3>
+                            <h3 class="box-title m-b-0" align="center"><b>Data Anggota Kelompok <div id="nk"><?php echo $kelompok_usaha?></div></b></h3>
 							<div id="result">
 							<script>
 									var id_cluster= "<?php echo $id ?>";
