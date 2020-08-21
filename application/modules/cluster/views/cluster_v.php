@@ -97,7 +97,7 @@
 					<form>
 						<div class="col-sm-12">
 							<label for="thedata" class="col-sm-12 control-label">
-								<h3 align="center">Isian terkait Unit BRI</h3>
+								<h3 alignt="center">Isian terkait Unit BRI</h3>
 							</label>
 						</div>
 
@@ -147,7 +147,7 @@
 
 						<div class="col-sm-12">
 							<label for="thedata" class="col-sm-12 control-label">
-								<h3 align="center">Isian terkait Kelompok Usaha / Klaster</h3>
+								<h3 alignt="center">Isian terkait Kelompok Usaha / Klaster</h3>
 							</label>
 						</div>
 
@@ -268,10 +268,10 @@
 						<div class="form-group">
 							<label class="control-label drequired">Kebutuhan sarana / prasarana untuk peningkatan usaha kelompok? (usulan RAB Maks Rp 2 juta)</label>
 							<select class="form-control dform required" id="kebutuhan_sarana">
-								<option value="Renovasi tempat ibadah">Renovasi tempat ibadah</option>
-								<option value="Sarana air bersih (Misal. MCK Umum, Penampungan Air, Pompa Air, Sumur Bor)">Sarana air bersih (Misal. MCK Umum, Penampungan Air, Pompa Air, Sumur Bor)</option>
-								<option value="Peralatan penunjang produksi (Misal. Cangkul, Hand Traktor, Hand Press, Alat Bor)">Peralatan penunjang produksi (Misal. Cangkul, Hand Traktor, Hand Press, Alat Bor)</option>
-								<option value="Lainnya">Lainnya</option>
+								<?php foreach ($cluster_kebutuhan_sarana as $row) {
+											echo '<option value="'.$row['id_cluster_kebutuhan_sarana'].'">'.$row["kebutuhan_sarana"].'</option>';
+									}
+								?>
 							</select>
 						</div>
 
@@ -283,28 +283,20 @@
 						<div class="form-group">
 							<label class="control-label drequired">Kebutuhan Pendidikan & Pelatihan untuk peningkatan usaha kelompok</label>
 							<select class="form-control dform required" id="kebutuhan_pendidikan">
-								<option value="Kepemimpinan">Kepemimpinan</option>
-								<option value="Pola Pikir & Cara Pandang">Pola Pikir & Cara Pandang</option>
-								<option value="Budaya Inovasi">Budaya Inovasi</option>
-								<option value="Manajemen Pemasaran">Manajemen Pemasaran</option>
-								<option value="Manajemen Operasional">Manajemen Operasional</option>
-								<option value="Manajemen Keuangan">Manajemen Keuangan</option>
-								<option value="Manajemen SDM">Manajemen SDM</option>
-								<option value="Legalitas & Kepatuhan">Legalitas & Kepatuhan</option>
-								<option value="Kepedulian Sosial & Lingkungan">Kepedulian Sosial & Lingkungan</option>
-								<option value="Pemahaman Industri & Pasar">Pemahaman Industri & Pasar</option>
-								<option value="Manajemen Rantai Pasok">Manajemen Rantai Pasok</option>
-								<option value="Skala Usaha / Ekspor">Skala Usaha / Ekspor</option>
+								<?php foreach ($cluster_kebutuhan_pendidikan_pelatihan as $row) {
+											echo '<option value="'.$row['id_cluster_kebutuhan_pendidikan_pelatihan'].'">'.$row["kebutuhan_pendidikan_pelatihan"].'</option>';
+									}
+								?>
 							</select>
 						</div>
 
 						<div class="form-group required">
 							<label class="control-label">Kebutuhan skema kredit / pinjaman BRI ?</label>
 							<select class="form-control dform required" id="kebutuhan_skema_kredit">
-								<option value="KUR  Mikro">KUR Mikro</option>
-								<option value="KUR Retail">KUR Retail</option>
-								<option value="Kredit Kemitraan">Kredit Kemitraan</option>
-								<option value="Kupedes">Kupedes</option>
+								<?php foreach ($cluster_kebutuhan_skema_kredit as $row) {
+											echo '<option value="'.$row['id_cluster_kebutuhan_skema_kredit'].'">'.$row["kebutuhan_skema_kredit"].'</option>';
+									}
+								?>
 							</select>
 						</div>
 
@@ -321,7 +313,7 @@
 
 						<!-- Isian untuk Ketua Kelompok / Klaster -->
 						<label for="thedata" class="col-sm-12 control-label">
-							<h3 align="center">Isian Ketua Kelompok</h3>
+							<h3 alignt="center">Isian Ketua Kelompok</h3>
 						</label>
 
 						<div class="form-group required">
