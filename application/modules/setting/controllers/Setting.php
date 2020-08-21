@@ -29,5 +29,11 @@ class Setting extends MX_Controller {
 		$data['con']=$this;
         $this->load->view('template', $data);    
     }
+
+
+    public function updateform(){
+        
+
+    }
 }
 ?>    
