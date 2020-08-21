@@ -18,7 +18,6 @@
 <script src="<?php echo base_url(); ?>assets/js/app.min.js"></script>
 <!-- mY sCRIPTS -->
 <script src="<?php echo base_url(); ?>assets/js/myScript.js"></script>
-
 <!-- iCheck -->
 <!-- <script src="<?php echo base_url(); ?>assets/plugins/iCheck/icheck.min.js"></script> -->
 <!-- Toastr -->
@@ -26,11 +25,11 @@
 
 <div id="sendserver"></div>
 <script>
+  var baseURL = "<?php echo base_url(); ?>";
   $("#calendar").datepicker();
   $(window).load(function() {
     $(".loader").fadeOut("slow");
   })
-
 
   function loading(i) {
     document.getElementById(i).innerHTML = '<img src="<?php echo base_url() ?>assets/img/loading_funny.gif" style="display:block;margin:auto;overflow:hidden;max-width:500px;">';
