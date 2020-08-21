@@ -12,16 +12,6 @@ class Dashboard_m extends CI_Model
       kode_kanca, 
       uker, 
       kode_uker,
-      kaunit_nama,
-      kaunit_pn,
-      CONCAT("\'",kaunit_handphone) as kaunit_handphone,
-      nama_pekerja,
-      personal_number, 
-      CONCAT("\'",handphone_pekerja) as handphone_pekerja,
-      kelompok_usaha, 
-      kelompok_jumlah_anggota,
-      kelompok_anggota_pinjaman,
-      lokasi_usaha,
       e.kode_pos,
       b.nama as provinsi,
       c.nama as kabupaten,
@@ -31,32 +21,7 @@ class Dashboard_m extends CI_Model
       a.id_cluster_jenis_usaha_map,
       a.id_cluster_jenis_usaha,
 	  nama_cluster_jenis_usaha,
-	  nama_cluster_jenis_usaha_map,
-	  keterangan_cluster_sektor_usaha
-      hasil_produk,
-      pasar_ekspor,
-      pasar_ekspor_tahun,
-      pasar_ekspor_nilai,
-      kelompok_pihak_pembeli, 
-      CONCAT("\'",kelompok_pihak_pembeli_handphone) as  kelompok_pihak_pembeli_handphone,
-      kelompok_suplier_produk,				
-      CONCAT("\'",kelompok_suplier_handphone)  as kelompok_suplier_handphone,
-      kelompok_luas_usaha,
-      CONCAT("\'",kelompok_omset) as  kelompok_omset,
-      kelompok_perwakilan,
-      kelompok_jenis_kelamin,
-      CONCAT("\'",kelompok_NIK) as kelompok_NIK,
-      CONCAT("\'",kelompok_handphone) as kelompok_handphone,
-      kelompok_perwakilan_tgl_lahir,
-      kelompok_perwakilan_tempat_lahir,
-      pinjaman,CONCAT("\'",nominal_pinjaman) as nominal_pinjaman, 
-      CONCAT("\'",norek_pinjaman_bri) as norek_pinjaman_bri,
-      kebutuhan_skema_kredit,
-      kebutuhan_sarana, 
-      kebutuhan_sarana_lainnya, 
-      kebutuhan_pendidikan,
-      simpanan_bank,
-      agen_brilink 
+	  nama_cluster_jenis_usaha_map
     from cluster a
     left join provinsi b on a.provinsi=b.id
     left join kabupaten_kota c on a.kabupaten=c.id
@@ -65,6 +30,48 @@ class Dashboard_m extends CI_Model
 	left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
 	left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
 	left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha ' . $where;
+    $result = $this->db->query($sql)->result_array();
+    return $result;
+  }
+
+  function getLoanNeedsReport($active_user)
+  {
+    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = " . $active_user["value"];
+    $sql = "select b.kebutuhan_skema_kredit as kredit, COUNT(*) as total FROM cluster a JOIN cluster_kebutuhan_skema_kredit b ON a.kebutuhan_skema_kredit = b.id_cluster_kebutuhan_skema_kredit WHERE a.kebutuhan_skema_kredit IN (
+      SELECT * FROM
+      (
+          SELECT id_cluster_kebutuhan_skema_kredit
+          FROM cluster_kebutuhan_skema_kredit
+      ) AS subquery
+    ) AND $where group by a.kebutuhan_skema_kredit order by total DESC";
+    $result = $this->db->query($sql)->result_array();
+    return $result;
+  }
+
+  function getToolNeedsReport($active_user)
+  {
+    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = " . $active_user["value"];
+    $sql = "select b.kebutuhan_sarana as sarana, COUNT(*) as total FROM cluster a JOIN cluster_kebutuhan_sarana b ON a.kebutuhan_sarana = b.id_cluster_kebutuhan_sarana WHERE a.kebutuhan_sarana IN (
+      SELECT * FROM
+      (
+          SELECT id_cluster_kebutuhan_sarana
+          FROM cluster_kebutuhan_sarana
+      ) AS subquery
+    ) AND $where group by a.kebutuhan_sarana order by total DESC";
+    $result = $this->db->query($sql)->result_array();
+    return $result;
+  }
+
+  function getTrainingNeedsReport($active_user)
+  {
+    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = " . $active_user["value"];
+    $sql = "select b.kebutuhan_pendidikan_pelatihan as pendidikan, COUNT(*) as total FROM cluster a JOIN cluster_kebutuhan_pendidikan_pelatihan b ON a.kebutuhan_pendidikan = b.id_cluster_kebutuhan_pendidikan_pelatihan WHERE a.kebutuhan_pendidikan IN (
+      SELECT * FROM
+      (
+          SELECT id_cluster_kebutuhan_pendidikan_pelatihan
+          FROM cluster_kebutuhan_pendidikan_pelatihan
+      ) AS subquery
+    ) AND $where group by a.kebutuhan_pendidikan order by total DESC";
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
