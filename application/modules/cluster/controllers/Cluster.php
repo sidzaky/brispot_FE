@@ -369,7 +369,7 @@ class Cluster extends MX_Controller
 
 	public function dldataanggota()
 	{
-		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
+		$headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja' , 'Nama Kelompok Usaha' , 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
 
 		$data = $this->cluster_m->dldataanggota_m();
 		$no = 1;
@@ -472,7 +472,57 @@ class Cluster extends MX_Controller
 						<tbody>' . $table . '
 						</tbody>
 					 </table>';
-	}
+    }
+    
+
+    public function report_anggota(){
+        ini_set('memory_limit', '-1');
+        $data['kanwil'] = array();
+		$z = array();
+		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
+			foreach($this->cluster_m->report_anggota_m($row['kode_kanwil']) as $zrow){
+                if (!isset($z[$row['kanwil']]['kosong'])) {
+                    $z[$row['kanwil']]['kode_kanwil']=$row['kode_kanwil'];
+                    $z[$row['kanwil']]['kosong']=0;
+                    $z[$row['kanwil']]['terisi']=0;
+                    $z[$row['kanwil']]['total_anggota']=0;
+                }
+                if ($zrow['total_anggota']==0) $z[$row['kanwil']]['kosong']++;
+                else $z[$row['kanwil']]['terisi']++;
+
+                $z[$row['kanwil']]['total_anggota'] = $z[$row['kanwil']]['total_anggota'] + $zrow['total_anggota'];
+            };
+        };
+        $pdata['anggota']=$z;
+        $pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
+		$pdata['content'] = 'cluster_report_anggota_v';
+		$this->load->view('template', $pdata);
+    }
+
+    public function dldatareportanggota(){
+
+        $headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja' , 'Nama Kelompok Usaha' , 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
+        foreach($this->cluster_m->get_cluster_by_kanwil_m($_POST['kode_kanwil']) as $zrow){
+            $no = 1;
+            $z = 1;
+            $data = $this->cluster_m->dldataanggota_m($zrow['id']);
+                foreach ($data as $cell) {
+                    $col = 0;
+                    $headerexcel[$z][$col] = $no;
+                    foreach (array_keys($cell) as $key) {
+                        $col++;
+                        $headerexcel[$z][$col] = $cell[$key];
+                    }
+                    $z++;
+                    $no++;
+                }
+        }
+
+		echo json_encode($headerexcel);
+
+
+    }
 
 
 

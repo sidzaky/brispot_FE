@@ -502,9 +502,14 @@ class Cluster_m extends CI_Model
 		}
 	}
 
-	function dldataanggota_m()
-	{
-		$sql = "select ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) from cluster_anggota where id_cluster='" . $_POST['id_cluster'] . "'";
+	function dldataanggota_m($id=null)
+	{   
+        if (isset($_POST['id_cluster'])) $id= $_POST['id_cluster'];
+        $sql = "select a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
+                       ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+                from cluster_anggota b
+                left join cluster a on b.id_cluster=a.id 
+                where id_cluster='" . $id . "'";
 		return $this->db->query($sql)->result_array();
 	}
 
@@ -570,8 +575,28 @@ class Cluster_m extends CI_Model
 		$q="select * from cluster_jenis_usaha_map";
 		return $this->db->query($q)->result_array();
 		
-	}
-	
+    }
+
+    function get_cluster_by_kanwil_m($i=null){
+        $q="select id, kelompok_usaha from cluster where cluster_status=1 and kode_kanwil='".$i."'";
+        return $this->db->query($q)->result_array();
+    }
+    
+    function report_anggota_m($i=null){
+        $q="SELECT a.kanwil, a.kode_kanwil, a.id, a.kelompok_usaha, count( b.id_ca ) as total_anggota 
+            FROM cluster a
+            left join cluster_anggota b on a.id=b.id_cluster
+            WHERE a.cluster_status=1 and a.kode_kanwil='".$i."' group by a.id";
+        return $this->db->query($q)->result_array();
+    }
+
+
+    function get_total_anggota_m(){
+        $q="select a.kanwil, a.kode_kanwil , count(b.id_ca) from cluster a 
+            inner join cluster_anggota b on a.id=b.id_cluster
+            GROUP BY a.kode_kanwil";
+            return $this->db->query($q)->result_array();
+    }
 	
 }
 /* End of file user_m.php */
