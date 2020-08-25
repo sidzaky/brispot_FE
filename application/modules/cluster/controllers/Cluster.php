@@ -29,6 +29,9 @@ class Cluster extends MX_Controller
 	{
 		$data['navbar'] = 'navbar';
 		$data['sidebar'] = 'sidebar';
+		$data['cluster_kebutuhan_pendidikan_pelatihan'] = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
+		$data['cluster_kebutuhan_sarana'] = $this->cluster_m->get_cluster_kebutuhan_sarana();
+		$data['cluster_kebutuhan_skema_kredit'] = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
 		$data['content'] = $this->session->userdata('kode_uker') == 'kanpus' ? 'cluster_kanpus_v' : 'cluster_v';
 		$data['provinsi'] = $this->cluster_m->getprovinsi_m();
 		$this->load->view('template', $data);
@@ -293,8 +296,8 @@ class Cluster extends MX_Controller
 			$data['kelompok_usaha'] = $_POST['kelompok_usaha'];
 			$data['id'] = $_POST['id'];
 			$data['content'] = 'cluster_anggota';
-			$data['navbar'] = '';
-			$data['sidebar'] = '';
+			$data['navbar'] = 'navbar';
+			$data['sidebar'] = 'sidebar';
 			$this->load->view('template', $data);
 		} else {
 			echo "<script>alert('ups, ada kesalahan')</script>";
@@ -366,7 +369,7 @@ class Cluster extends MX_Controller
 
 	public function dldataanggota()
 	{
-		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
+		$headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja' , 'Nama Kelompok Usaha' , 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
 
 		$data = $this->cluster_m->dldataanggota_m();
 		$no = 1;
@@ -469,7 +472,57 @@ class Cluster extends MX_Controller
 						<tbody>' . $table . '
 						</tbody>
 					 </table>';
-	}
+    }
+    
+
+    public function report_anggota(){
+        ini_set('memory_limit', '-1');
+        $data['kanwil'] = array();
+		$z = array();
+		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
+			foreach($this->cluster_m->report_anggota_m($row['kode_kanwil']) as $zrow){
+                if (!isset($z[$row['kanwil']]['kosong'])) {
+                    $z[$row['kanwil']]['kode_kanwil']=$row['kode_kanwil'];
+                    $z[$row['kanwil']]['kosong']=0;
+                    $z[$row['kanwil']]['terisi']=0;
+                    $z[$row['kanwil']]['total_anggota']=0;
+                }
+                if ($zrow['total_anggota']==0) $z[$row['kanwil']]['kosong']++;
+                else $z[$row['kanwil']]['terisi']++;
+
+                $z[$row['kanwil']]['total_anggota'] = $z[$row['kanwil']]['total_anggota'] + $zrow['total_anggota'];
+            };
+        };
+        $pdata['anggota']=$z;
+        $pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
+		$pdata['content'] = 'cluster_report_anggota_v';
+		$this->load->view('template', $pdata);
+    }
+
+    public function dldatareportanggota(){
+
+        $headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja' , 'Nama Kelompok Usaha' , 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
+        foreach($this->cluster_m->get_cluster_by_kanwil_m($_POST['kode_kanwil']) as $zrow){
+            $no = 1;
+            $z = 1;
+            $data = $this->cluster_m->dldataanggota_m($zrow['id']);
+                foreach ($data as $cell) {
+                    $col = 0;
+                    $headerexcel[$z][$col] = $no;
+                    foreach (array_keys($cell) as $key) {
+                        $col++;
+                        $headerexcel[$z][$col] = $cell[$key];
+                    }
+                    $z++;
+                    $no++;
+                }
+        }
+
+		echo json_encode($headerexcel);
+
+
+    }
 
 
 
@@ -489,42 +542,40 @@ class Cluster extends MX_Controller
 	// }
 	// }
 
-	function migrate(){
+	/*function migrate(){
 		ini_set('memory_limit', '-1');
 		
-		$query="select * from cluster";
-		$su=$this->db->query("select * from cluster_sektor_usaha")->result_array();
-		$jum=$this->db->query("select * from cluster_jenis_usaha_map")->result_array();
-		$ju=$this->db->query("select * from cluster_jenis_usaha")->result_array();
+		$query="select * from cluster order by timestamp desc";
+		$a=$this->db->query("select * from cluster_kebutuhan_pendidikan_pelatihan")->result_array();
+		$b=$this->db->query("select * from cluster_kebutuhan_sarana")->result_array();
+		$c=$this->db->query("select * from cluster_kebutuhan_skema_kredit")->result_array();
 		foreach ($this->db->query($query)->result_array() as $q){
-				foreach ($su as $rsu ){
-					$isu="";
-					if (strtolower($rsu['keterangan_cluster_sektor_usaha'])==strtolower($q['id_cluster_sektor_usaha'])) {
-							$isu=$rsu['id_cluster_sektor_usaha'];
+				foreach ($a as $ra ){
+					$ia="";
+					if (strtolower($ra['kebutuhan_pendidikan_pelatihan'])==strtolower($q['kebutuhan_pendidikan'])) {
+							$ia=$ra['id_cluster_kebutuhan_pendidikan_pelatihan'];
 							break;
 					}
 				}
-				foreach ($jum as $rjum ){
-					$ijum="";
-					if (strtolower($rjum['nama_cluster_jenis_usaha_map'])==strtolower($q['id_cluster_jenis_usaha_map'])) {
-							$ijum=$rjum['id_cluster_jenis_usaha_map'];
+				foreach ($b as $rb ){
+					$ib="";
+					if (strtolower($rb['kebutuhan_sarana'])==strtolower($q['kebutuhan_sarana'])) {
+							$ib=$rb['id_cluster_kebutuhan_sarana'];
 							break;
 					}
 				}
-				foreach ($ju as $rju ){
-					$iju="";
-					if (strtolower($rju['nama_cluster_jenis_usaha'])==strtolower($q['id_cluster_jenis_usaha'])) {
-							$iju=$rju['id_cluster_jenis_usaha'];
+				foreach ($c as $rc ){
+					$ic="";
+					if (($rc['kebutuhan_skema_kredit'])==($q['kebutuhan_skema_kredit'])) {
+							$ic=$rc['id_cluster_kebutuhan_skema_kredit'];
 							break;
 					}
 				}
-			
-				$this->db->query("update cluster set id_cluster_sektor_usaha='".$isu."', id_cluster_jenis_usaha_map='".$ijum."', id_cluster_jenis_usaha='".$iju."' where id='".$q['id']."'");
+				$nq="update cluster set kebutuhan_pendidikan='".$ia."', kebutuhan_sarana='".$ib."', kebutuhan_skema_kredit='".$ic."' where id='".$q['id']."'";
+				//echo $nq.'</br>';
+				$this->db->query($nq);
 		}
-		
-		
-		
-	}
+	}*/
 
 	private function camphotoupload($i = null, $j = null)
 	{

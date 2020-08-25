@@ -23,22 +23,6 @@
   clear: left;
 }
 
-.antrian .number {
-  font-weight: bolder;
-  margin-right: 15px;
-  margin-left: 15px;
-}
-
-.antrian img {
-  width: 100%;
-  max-width: 55px;
-  height: auto;
-}
-
-.antrian > li .tools {
-  line-height: 55px;
-}
-
 .searchTable {
   margin-bottom: 10px;
 }
@@ -49,10 +33,6 @@
 
 .control-label {
   font-weight: 600;
-}
-
-#modalObat input {
-  background: #f5f5f5;
 }
 
 .modal-title {
@@ -70,83 +50,29 @@
   border-top-color: #e4e4e4;
 }
 
-/*
-*------------ MODAL TRANSITION -------------------*/
-.vue-modal-mask {
-  position: fixed;
-  z-index: 1050;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: block;
-  transition: opacity 0.3s ease;
-  overflow-y: auto;
+/* Dashboard */
+.section-heading {
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
 
-.vue-modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+.section-heading > img {
+  width: 50px;
+  height: auto;
+  margin-right: 1rem;
 }
 
-.vue-modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
-}
-
-.vue-modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-}
-
-.vue-modal-body {
-  margin: 20px 0;
-}
-
-.vue-modal-default-button {
-  float: right;
-}
-.modal-enter,
-.modal-leave {
-  opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
-
-#antri2 td {
-  vertical-align: middle;
-}
-
-#antri2 img {
-  float: left;
-  margin-right: 15px;
-}
-
-#antri2 .status-antrian {
+.section-heading > .title {
+  font-size: 18px;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
-.formkaryawan select {
-  margin-bottom: 10px;
+.cluster-needs-list {
+  padding: 1em;
 }
 
-.action {
-  margin-top: 50px;
-  text-align: right;
-}
-
-#filterLaporanObat {
-  background: #0073b7;
-  color: #ffffff;
+.cluster-needs-list .row {
+  padding: 0.5em 0;
+  font-size: 16px;
 }

@@ -31,13 +31,15 @@
 					case (4):
 							$lilaporan .= '<li><a href="'.base_url().'cluster/getreport/">Rekap Total</a></li>
 												<li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
-												<li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+                                                <li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+                                                <li><a href="'.base_url().'cluster/report_anggota">Rekap Anggota Klaster</a></li>
 												</ul>
 											</li>';
 						break;
 					case (3):
 						$lilaporan .= '<li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
-											<li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+                                            <li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+                                            <li><a href="'.base_url().'cluster/report_anggota">Rekap Anggota Klaster</a></li>
 												</ul>
 											</li>';
 						break;

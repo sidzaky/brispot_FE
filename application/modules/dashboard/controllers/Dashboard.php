@@ -26,29 +26,8 @@ class Dashboard extends MX_Controller
 
   public function index()
   {
-    $query = array();
-    switch ($this->session->userdata("permission")) {
-      case '1':
-        $query["value"] = $this->session->userdata("kode_uker");
-        $query["code"] = "kode_uker";
-        $query["order"] = "uker";
-        break;
-      case '2':
-        $query["value"] = $this->session->userdata("kode_kanca");
-        $query["code"] = "kode_kanca";
-        $query["order"] = "kanca";
-        break;
-      case '3':
-        $query["value"] = $this->session->userdata("kode_kanwil");
-        $query["code"] = "kode_kanwil";
-        $query["order"] = "kanwil";
-        break;
-      default:
-        $query["value"] = "";
-        $query["admin"] = "";
-        $query["order"] = "admin";
-    }
-    $data['report'] = $this->generateReport($query);
+    $user = $this->getActiveUser();
+    $data['report'] = $this->generateReport($user);
     $data['icons'] =  array(
       "kehutanan" => base_url() . "assets/img/dashboard/kehutanan.png",
       "perikanan" => base_url() . "assets/img/dashboard/perikanan.png",
@@ -85,12 +64,10 @@ class Dashboard extends MX_Controller
             case "Peternakan":
             case "Jasa Pertanian dan Perburuan":
             case "Kehutanan & Penebangan Kayu":
-              //(isset($data[$row[$keyword]]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'])) ? $data[$row[$keyword]]['PERTANIAN, PERBURUAN, DAN KEHUTANAN']++ : $data[$row[$keyword]]['PERTANIAN, PERBURUAN, DAN KEHUTANAN'] = 1;
               (isset($data['kehutanan']['total'])) ? $data['kehutanan']['total']++ : $data['kehutanan']['total'] = 1;
               $data['kehutanan']['label'] = 'Pertanian, Perburuan, dan Kehutanan';
               break;
             case "Perikanan":
-              //(isset($data[$row[$keyword]]['Perikanan'])) ? $data[$row[$keyword]]['Perikanan']++ : $data[$row[$keyword]]['Perikanan'] = 1;
               (isset($data['perikanan']['total'])) ? $data['perikanan']['total']++ : $data['perikanan']['total'] = 1;
               $data['perikanan']['label'] = 'Perikanan';
               break;
@@ -114,7 +91,6 @@ class Dashboard extends MX_Controller
             case 'Industri Alat Angkutan':
             case 'Industri Furnitur':
             case 'Industri Pengolahan Lainnya, Jasa Reparasi dan Pemasangan Mesin dan Peralatan':
-              //  (isset($data[$row[$keyword]]['INDUSTRI PENGOLAHAN'])) ? $data[$row[$keyword]]['INDUSTRI PENGOLAHAN']++ : $data[$row[$keyword]]['INDUSTRI PENGOLAHAN'] = 1;
               (isset($data['pengolahan']['total'])) ? $data['pengolahan']['total']++ : $data['pengolahan']['total'] = 1;
               $data['pengolahan']['label'] = 'Industri Pengolahan';
               break;
@@ -137,18 +113,15 @@ class Dashboard extends MX_Controller
             case 'Jasa Pendidikan':
             case 'Jasa Kesehatan dan Kegiatan Lainnya':
             case 'Jasa Lainnya':
-              //(isset($data[$row[$keyword]]['JASA-JASA'])) ? $data[$row[$keyword]]['JASA-JASA']++ : $data[$row[$keyword]]['JASA-JASA'] = 1;
               (isset($data['jasa']['total'])) ? $data['jasa']['total']++ : $data['jasa']['total'] = 1;
               $data['jasa']['label'] = 'Jasa-jasa';
               break;
             case 'Perdagangan Mobil, Sepeda Motor dan Reparasinya':
             case 'Perdagangan Besar dan Eceran, bukan Mobil dan Sepeda':
-              //(isset($data[$row[$keyword]]['PERDAGANGAN'])) ? $data[$row[$keyword]]['PERDAGANGAN']++ : $data[$row[$keyword]]['PERDAGANGAN'] = 1;
               (isset($data['perdagangan']['total'])) ? $data['perdagangan']['total']++ : $data['perdagangan']['total'] = 1;
               $data['perdagangan']['label'] = 'Perdagangan';
               break;
             case "Pariwisata":
-              //(isset($data[$row[$keyword]]['Pariwisata'])) ? $data[$row[$keyword]]['Pariwisata']++ : $data[$row[$keyword]]['Pariwisata'] = 1;
               (isset($data['pariwisata']['total'])) ? $data['pariwisata']['total']++ : $data['pariwisata']['total'] = 1;
               $data['pariwisata']['label'] = 'Pariwisata';
               break;
@@ -157,5 +130,53 @@ class Dashboard extends MX_Controller
       }
     }
     return $data;
+  }
+
+  function getActiveUser()
+  {
+    $user = array();
+    switch ($this->session->userdata("permission")) {
+      case '1':
+        $user["value"] = $this->session->userdata("kode_uker");
+        $user["code"] = "kode_uker";
+        $user["order"] = "uker";
+        break;
+      case '2':
+        $user["value"] = $this->session->userdata("kode_kanca");
+        $user["code"] = "kode_kanca";
+        $user["order"] = "kanca";
+        break;
+      case '3':
+        $user["value"] = $this->session->userdata("kode_kanwil");
+        $user["code"] = "kode_kanwil";
+        $user["order"] = "kanwil";
+        break;
+      default:
+        $user["value"] = "";
+        $user["code"] = "admin";
+        $user["order"] = "admin";
+    }
+    return $user;
+  }
+
+  function getLoanNeeds()
+  {
+    $user = $this->getActiveUser();
+    $query = $this->dashboard_m->getLoanNeedsReport($user);
+    echo json_encode($query);
+  }
+
+  function getToolNeeds()
+  {
+    $user = $this->getActiveUser();
+    $query = $this->dashboard_m->getToolNeedsReport($user);
+    echo json_encode($query);
+  }
+
+  function getTrainingNeeds()
+  {
+    $user = $this->getActiveUser();
+    $query = $this->dashboard_m->getTrainingNeedsReport($user);
+    echo json_encode($query);
   }
 }
