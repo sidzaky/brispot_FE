@@ -490,7 +490,7 @@ class Cluster extends MX_Controller
                 if ($zrow['total_anggota']==0) $z[$row['kanwil']]['kosong']++;
                 else $z[$row['kanwil']]['terisi']++;
 
-                $z[$row['kanwil']]['total_anggota'] = $z[$row['kanwil']]['total_anggota'] + $zrow['total_anggota'];
+                $z[$row['kanwil']]['total_anggota'] += $zrow['total_anggota'];
             };
         };
         $pdata['anggota']=$z;
@@ -501,12 +501,11 @@ class Cluster extends MX_Controller
     }
 
     public function dldatareportanggota(){
-
+        ini_set('memory_limit', '-1');
         $headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja' , 'Nama Kelompok Usaha' , 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
-        foreach($this->cluster_m->get_cluster_by_kanwil_m($_POST['kode_kanwil']) as $zrow){
-            $no = 1;
-            $z = 1;
-            $data = $this->cluster_m->dldataanggota_m($zrow['id']);
+        $no = 1;
+        $z = 1;
+        $data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);
                 foreach ($data as $cell) {
                     $col = 0;
                     $headerexcel[$z][$col] = $no;
@@ -517,11 +516,7 @@ class Cluster extends MX_Controller
                     $z++;
                     $no++;
                 }
-        }
-
 		echo json_encode($headerexcel);
-
-
     }
 
 

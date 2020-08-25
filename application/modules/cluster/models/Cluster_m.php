@@ -596,7 +596,16 @@ class Cluster_m extends CI_Model
             left join cluster_anggota b on a.id=b.id_cluster
             WHERE a.cluster_status=1 and a.kode_kanwil='".$i."' group by a.id";
         return $this->db->query($q)->result_array();
-    }	
+    }
+    
+    function dl_report_anggota_m($i=null){
+        $q="select  a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
+                    ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+            from cluster a
+            inner join cluster_anggota b on a.id=b.id_cluster
+            where a.cluster_status=1 and a.kode_kanwil='".$i."'";
+        return $this->db->query($q)->result_array();
+    }
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */
