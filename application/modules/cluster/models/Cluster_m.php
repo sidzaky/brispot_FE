@@ -527,7 +527,7 @@ class Cluster_m extends CI_Model
 				$where .= " and true";
 				break;
 			case (3):
-				$where .= " and kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				$where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
 				break;
 		}
         if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';   
