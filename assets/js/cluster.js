@@ -94,7 +94,7 @@
 	}
 
 
-	var valuker = true;
+	var valuker = false;
 	var valhp = true;
 	var valnik = true;
 
@@ -116,6 +116,7 @@
 	}
 
 	function getform(i = null) {
+        valuker=false;
 		$("#sbt").removeAttr("disabled");
 		document.getElementById("checkvalidpotensi").checked = false;
 		document.getElementById("checkvalidkunjungan").checked = false;

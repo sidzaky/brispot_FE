@@ -36,7 +36,7 @@
                                                     $terisi += $value['terisi']; 
                                                     $totalanggota += $value['total_anggota'];
                                                 }
-                                                echo '<tr><td>20</td><td>Grand Total</td><td>'.$kosong.'</td><td>'.$terisi.'</td><td>'.$totalanggota.'</td></tr>';
+                                                echo '<tr><td>'.($i+1).'</td><td>Grand Total</td><td>'.$kosong.'</td><td>'.$terisi.'</td><td>'.$totalanggota.'</td></tr>';
 											?>
 										</tbody>
 									</table>

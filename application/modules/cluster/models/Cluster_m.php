@@ -521,8 +521,16 @@ class Cluster_m extends CI_Model
 
 	function get_data_kanwil_m()
 	{
-		$where = "";
-		if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';
+        $where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " and true";
+				break;
+			case (3):
+				$where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+		}
+        if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';   
 		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
 		return $data;
 	}
@@ -589,15 +597,15 @@ class Cluster_m extends CI_Model
             WHERE a.cluster_status=1 and a.kode_kanwil='".$i."' group by a.id";
         return $this->db->query($q)->result_array();
     }
-
-
-    function get_total_anggota_m(){
-        $q="select a.kanwil, a.kode_kanwil , count(b.id_ca) from cluster a 
+    
+    function dl_report_anggota_m($i=null){
+        $q="select  a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
+                    ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+            from cluster a
             inner join cluster_anggota b on a.id=b.id_cluster
-            GROUP BY a.kode_kanwil";
-            return $this->db->query($q)->result_array();
+            where a.cluster_status=1 and a.kode_kanwil='".$i."'";
+        return $this->db->query($q)->result_array();
     }
-	
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */
