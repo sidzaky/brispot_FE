@@ -118,18 +118,16 @@ class Cluster extends MX_Controller
 
 	function fjum()
 	{
-		if (isset($_POST['id_cluster_sektor_usaha'])) {
+		
 			$data = $this->cluster_m->getdata_jum();
 			echo json_encode($data);
-		}
+		
 	}
 
 	function fju()
 	{
-		if (isset($_POST['id_cluster_jenis_usaha_map'])) {
-			$data = $this->cluster_m->getdata_ju();
-			echo json_encode($data);
-		}
+		$data = $this->cluster_m->getdata_ju();
+		echo json_encode($data);
 	}
 
 	public function inputdata()
@@ -474,7 +472,6 @@ class Cluster extends MX_Controller
 					 </table>';
     }
     
-
     public function report_anggota(){
         ini_set('memory_limit', '-1');
         $data['kanwil'] = array();
@@ -490,7 +487,7 @@ class Cluster extends MX_Controller
                 if ($zrow['total_anggota']==0) $z[$row['kanwil']]['kosong']++;
                 else $z[$row['kanwil']]['terisi']++;
 
-                $z[$row['kanwil']]['total_anggota'] = $z[$row['kanwil']]['total_anggota'] + $zrow['total_anggota'];
+                $z[$row['kanwil']]['total_anggota'] += $zrow['total_anggota'];
             };
         };
         $pdata['anggota']=$z;
@@ -501,12 +498,11 @@ class Cluster extends MX_Controller
     }
 
     public function dldatareportanggota(){
-
+        ini_set('memory_limit', '-1');
         $headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja' , 'Nama Kelompok Usaha' , 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
-        foreach($this->cluster_m->get_cluster_by_kanwil_m($_POST['kode_kanwil']) as $zrow){
-            $no = 1;
-            $z = 1;
-            $data = $this->cluster_m->dldataanggota_m($zrow['id']);
+        $no = 1;
+        $z = 1;
+        $data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);
                 foreach ($data as $cell) {
                     $col = 0;
                     $headerexcel[$z][$col] = $no;
@@ -517,16 +513,93 @@ class Cluster extends MX_Controller
                     $z++;
                     $no++;
                 }
-        }
-
 		echo json_encode($headerexcel);
-
-
     }
 
+    public function custom_search(){
+        $data['kanwil'] = $this->cluster_m->get_data_kanwil_m();
+        $data['navbar'] = 'navbar';
+		$data['sidebar'] = 'sidebar';
+		$data['content'] = 'cluster_custom_search_v';
+		$this->load->view('template', $data);
+    }
 
+    public function getdatacustom($status=null)
+	{ 
+        if ($this->session->userdata('permission')>=3) {
+            $custom_search=null;
+            $list = $this->cluster_m->get_datafield_custom($status, $custom_search);
+            $data = array();
+            $no = $_POST['start'];
+            foreach ($list->result_array() as $field) {
+                $totalanggota = $this->cluster_m->countanggota_m($field['id']);
+        
+                $jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
+                
+                $del = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+                $ca = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
+                $update = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+                $upload = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
+                $info	= '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="infocluster(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-Info"></i> Info</button>';
+                $action = $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
+                $no++;
+                $row = array();
+                $row[] = $no;
+                $row[] = $field['kanwil'];
+                $row[] = $field['kanca'];
+                $row[] = $field['uker'];
+                $row[] = $field['kelompok_usaha'];
+                $row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
+                $row[] = count($jenis_usaha)>0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
+                $row[] = $field['hasil_produk'];
+                if ($status==null)	{
+                    $row[] = "status on progress";
+                    $row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
+                }
+                else {
+                    $row[] = $info;
+                }
+                $data[] = $row;
+            }
+            $output = array(
+                "draw" => $_POST['draw'],
+                "recordsTotal" => $list->num_rows(),
+                "recordsFiltered" => $this->cluster_m->count_all_custom($status, $custom_search),
+                "data" => $data,
+            );
+            echo json_encode($output);
+        }
+        else redirect('dashboard');
+    }
+    
+    public function get_kanca(){
 
+        $datakanca = $this->cluster_m->get_kanca_m();
+		echo json_encode($datakanca);
+    }
 
+    public function get_unit(){
+        $dataunit = $this->cluster_m->get_unit_m();
+		echo json_encode($dataunit);
+    }
+
+    function get_pendidikan()
+	{
+		$data = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
+		echo json_encode($data);
+    }
+    
+    function get_sarana()
+	{
+		$data = $this->cluster_m->get_cluster_kebutuhan_sarana();
+		echo json_encode($data);
+    }
+    
+    function get_kredit()
+	{
+		$data = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
+		echo json_encode($data);
+	}
 
 	// private function filephotoupload(){
 

@@ -14,6 +14,7 @@
         <ul class="treeview-menu">
           <li active="active"><a href="<?php echo base_url(); ?>cluster/approve">Daftar Klaster</a></li>
           <li><a href="<?php echo base_url(); ?>cluster">Pengajuan</a></li>
+          <?php echo ($this->session->userdata('permission')==4 ? '<li><a href="' . base_url() . 'cluster/custom_search">Custom Search</a></li>' : "") ?>
         </ul>
       </li>
       <!-- <li><a href=""><i class="fa fa-file-text-o"></i> <span>Pengajuan Klaster</span></a></li> -->

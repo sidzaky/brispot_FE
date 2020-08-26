@@ -521,8 +521,16 @@ class Cluster_m extends CI_Model
 
 	function get_data_kanwil_m()
 	{
-		$where = "";
-		if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';
+        $where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " and true";
+				break;
+			case (3):
+				$where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+		}
+        if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';   
 		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
 		return $data;
 	}
@@ -551,13 +559,17 @@ class Cluster_m extends CI_Model
 	
 	public function getdata_jum()
 	{
-		$q = "select * from cluster_jenis_usaha_map where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
+        $where = "";
+        if (isset($_POST['id_cluster_sektor_usaha'])) $where .="where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
+		$q = "select * from cluster_jenis_usaha_map " .$where;
 		return $this->db->query($q)->result();
 	}
 
 	public function getdata_ju()
-	{
-		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
+	{   
+        $where = "";
+        if (isset($_POST['id_cluster_jenis_usaha_map'])) $where .= " where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
+		$q = "select * from cluster_jenis_usaha ".$where;
 		return $this->db->query($q)->result();
 	}
 	
@@ -589,15 +601,71 @@ class Cluster_m extends CI_Model
             WHERE a.cluster_status=1 and a.kode_kanwil='".$i."' group by a.id";
         return $this->db->query($q)->result_array();
     }
-
-
-    function get_total_anggota_m(){
-        $q="select a.kanwil, a.kode_kanwil , count(b.id_ca) from cluster a 
+    
+    function dl_report_anggota_m($i=null){
+        $q="select  a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
+                    ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+            from cluster a
             inner join cluster_anggota b on a.id=b.id_cluster
-            GROUP BY a.kode_kanwil";
-            return $this->db->query($q)->result_array();
+            where a.cluster_status=1 and a.kode_kanwil='".$i."'";
+        return $this->db->query($q)->result_array();
     }
+
+
+
+    public function get_datafield_custom($status=null , $custom_search = null)
+	{
+        $sql  = $this->get_datatables_custom($status,$custom_search);
+        if ($custom_search!=null){
+            $sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
+        }
+        else $sql .= " LIMIT 0"; 
+		return $this->db->query($sql);
+	}
 	
+	public function get_datatables_custom($status=null , $custom_search = null)
+	{
+		$i = 0;
+		$sql = "select * from cluster where ";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$sql .= " true ";
+				break;
+			case (3):
+				$sql .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$sql .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$sql .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+		}
+
+	
+		$sql= $sql .' and cluster_status=1 ' . ( $status !=null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
+		return $sql;
+	}
+
+	public function count_all_custom($status=null , $custom_search = null)
+	{
+        $sql  = $this->get_datatables_custom($status,  $custom_search );
+        if ($custom_search==null) {
+            $sql .= " Limit 0";
+        }
+		return  $this->db->query($sql)->num_rows();
+    }
+    
+    public function get_kanca_m(){
+        $sql='select * from branch where REGION="'.$_POST['kode_kanwil'].'" and BRUNIT="B" and RGDESC<>MBDESC';
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function get_unit_m(){
+        $sql='select * from branch where MAINBR="'.$_POST['kode_kanca'].'" and BRANCH<>"'.$_POST['kode_kanca'].'"';
+        return $this->db->query($sql)->result_array();
+    }
+
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */
