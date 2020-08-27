@@ -6,7 +6,7 @@
 			<?php echo $this->session->userdata('name_uker'); ?><nbsp></nbsp>
 		</h1>
 	</section>
- 
+
 	<!-- Main content -->
 	<section class="content">
 		<div class="box box-solid">
@@ -269,8 +269,8 @@
 							<label class="control-label drequired">Kebutuhan sarana / prasarana untuk peningkatan usaha kelompok? (usulan RAB Maks Rp 2 juta)</label>
 							<select class="form-control dform required" id="kebutuhan_sarana">
 								<?php foreach ($cluster_kebutuhan_sarana as $row) {
-											echo '<option value="'.$row['id_cluster_kebutuhan_sarana'].'">'.$row["kebutuhan_sarana"].'</option>';
-									}
+									echo '<option value="' . $row['id_cluster_kebutuhan_sarana'] . '">' . $row["kebutuhan_sarana"] . '</option>';
+								}
 								?>
 							</select>
 						</div>
@@ -284,8 +284,8 @@
 							<label class="control-label drequired">Kebutuhan Pendidikan & Pelatihan untuk peningkatan usaha kelompok</label>
 							<select class="form-control dform required" id="kebutuhan_pendidikan">
 								<?php foreach ($cluster_kebutuhan_pendidikan_pelatihan as $row) {
-											echo '<option value="'.$row['id_cluster_kebutuhan_pendidikan_pelatihan'].'">'.$row["kebutuhan_pendidikan_pelatihan"].'</option>';
-									}
+									echo '<option value="' . $row['id_cluster_kebutuhan_pendidikan_pelatihan'] . '">' . $row["kebutuhan_pendidikan_pelatihan"] . '</option>';
+								}
 								?>
 							</select>
 						</div>
@@ -294,8 +294,8 @@
 							<label class="control-label">Kebutuhan skema kredit / pinjaman BRI ?</label>
 							<select class="form-control dform required" id="kebutuhan_skema_kredit">
 								<?php foreach ($cluster_kebutuhan_skema_kredit as $row) {
-											echo '<option value="'.$row['id_cluster_kebutuhan_skema_kredit'].'">'.$row["kebutuhan_skema_kredit"].'</option>';
-									}
+									echo '<option value="' . $row['id_cluster_kebutuhan_skema_kredit'] . '">' . $row["kebutuhan_skema_kredit"] . '</option>';
+								}
 								?>
 							</select>
 						</div>
@@ -500,13 +500,8 @@
 			</div>
 		</div>
 	</div>
-	</div>
-	<script>
-		
-	</script>
-<?php }
+<?php } ?>
 
-?>
-
+<?php include 'cluster_info.php'; ?>
 <script src="./assets/js/send.js"></script>
 <script src="./assets/js/cluster.js"></script>

@@ -25,7 +25,6 @@
 
 <div id="sendserver"></div>
 <script>
-  var baseURL = "<?php echo base_url(); ?>";
   $("#calendar").datepicker();
   $(window).load(function() {
     $(".loader").fadeOut("slow");

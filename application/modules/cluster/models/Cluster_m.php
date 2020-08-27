@@ -2,7 +2,7 @@
 
 class Cluster_m extends CI_Model
 {
-	public function get_datafield($status=null)
+	public function get_datafield($status = null)
 	{
 		$sql  = $this->get_datatables($status);
 		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
@@ -12,7 +12,7 @@ class Cluster_m extends CI_Model
 	var $column_search = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha');
 	var $order = array('timestamp' => 'desc');
 
-	public function get_datatables($status=null)
+	public function get_datatables($status = null)
 	{
 		$i = 0;
 		$sql = "select * from cluster where ";
@@ -47,7 +47,7 @@ class Cluster_m extends CI_Model
 			}
 			$i++;
 		}
-		$sql= $sql .' and cluster_status=1 ' . ( $status !=null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
+		$sql = $sql . ' and cluster_status=1 ' . ($status != null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
 		return $sql;
 	}
 
@@ -58,18 +58,21 @@ class Cluster_m extends CI_Model
 	}
 
 
-	public function get_cluster_kebutuhan_pendidikan_pelatihan(){
-		$sql="select * from cluster_kebutuhan_pendidikan_pelatihan";
+	public function get_cluster_kebutuhan_pendidikan_pelatihan()
+	{
+		$sql = "select * from cluster_kebutuhan_pendidikan_pelatihan";
 		return $this->db->query($sql)->result_array();
 	}
 
-	public function get_cluster_kebutuhan_sarana(){
-		$sql="select * from cluster_kebutuhan_sarana";
+	public function get_cluster_kebutuhan_sarana()
+	{
+		$sql = "select * from cluster_kebutuhan_sarana";
 		return $this->db->query($sql)->result_array();
 	}
 
-	public function get_cluster_kebutuhan_skema_kredit(){
-		$sql="select * from cluster_kebutuhan_skema_kredit";
+	public function get_cluster_kebutuhan_skema_kredit()
+	{
+		$sql = "select * from cluster_kebutuhan_skema_kredit";
 		return $this->db->query($sql)->result_array();
 	}
 
@@ -84,7 +87,7 @@ class Cluster_m extends CI_Model
 			case (3):
 				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
 				break;
-			default : 
+			default:
 				$where .= " where false";
 				break;
 		}
@@ -320,8 +323,8 @@ class Cluster_m extends CI_Model
 				*/
 
 
-	
-	
+
+
 	public function updatedata_m($rfex = null, $rfku = null)
 	{
 		$id = $_POST['id'];
@@ -350,7 +353,7 @@ class Cluster_m extends CI_Model
 
 
 	public function insertdata_m($rfex = null, $rfku = null)
-	{	
+	{
 		$query = $this->db->query("select * from branch where BRANCH='" . $_POST['kode_uker'] . "'")->result_array();
 		$_POST['id'] = $this->uuid->v4(true);
 		$_POST['userlatestupdate'] = $this->session->userdata('kode_uker');
@@ -360,7 +363,7 @@ class Cluster_m extends CI_Model
 		$_POST['kode_kanwil'] = $query[0]['REGION'];
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
 		$_POST['timestamp'] = time();
-		
+
 		$this->db->insert('cluster', $_POST);
 
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
@@ -502,10 +505,10 @@ class Cluster_m extends CI_Model
 		}
 	}
 
-	function dldataanggota_m($id=null)
-	{   
-        if (isset($_POST['id_cluster'])) $id= $_POST['id_cluster'];
-        $sql = "select a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
+	function dldataanggota_m($id = null)
+	{
+		if (isset($_POST['id_cluster'])) $id = $_POST['id_cluster'];
+		$sql = "select a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
                        ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
                 from cluster_anggota b
                 left join cluster a on b.id_cluster=a.id 
@@ -521,7 +524,7 @@ class Cluster_m extends CI_Model
 
 	function get_data_kanwil_m()
 	{
-        $where = "";
+		$where = "";
 		switch ($this->session->userdata('permission')) {
 			case (4):
 				$where .= " and true";
@@ -530,11 +533,11 @@ class Cluster_m extends CI_Model
 				$where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
 				break;
 		}
-        if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';   
+		if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';
 		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
 		return $data;
 	}
- 
+
 	function report_unit_m()
 	{
 		$where = "";
@@ -556,139 +559,153 @@ class Cluster_m extends CI_Model
 		$data = $this->db->query("select kode_uker from cluster where kode_kanwil='" . $j . "' and timestamp>1576085405 order by kode_uker ")->result_array();
 		return $data;
 	}
-	
+
 	public function getdata_jum()
 	{
-        $where = "";
-        if (isset($_POST['id_cluster_sektor_usaha'])) $where .="where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
-		$q = "select * from cluster_jenis_usaha_map " .$where;
+		$where = "";
+		if (isset($_POST['id_cluster_sektor_usaha'])) $where .= "where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
+		$q = "select * from cluster_jenis_usaha_map " . $where;
 		return $this->db->query($q)->result();
 	}
 
 	public function getdata_ju()
-	{   
-        $where = "";
-        if (isset($_POST['id_cluster_jenis_usaha_map'])) $where .= " where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
-		$q = "select * from cluster_jenis_usaha ".$where;
+	{
+		$where = "";
+		if (isset($_POST['id_cluster_jenis_usaha_map'])) $where .= " where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
+		$q = "select * from cluster_jenis_usaha " . $where;
 		return $this->db->query($q)->result();
 	}
-	
-	public function getdata_j($i="")
-	{
-		if ($i=="") {
-			$i=isset($_POST['id_cluster_jenis_usaha']) ? $_POST['id_cluster_jenis_usaha'] : "0";
-		}
-		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha='".($i)."'";
-		return $this->db->query($q)->result_array();
-		
-	}
-	
-	function getlist_jum(){
-		$q="select * from cluster_jenis_usaha_map";
-		return $this->db->query($q)->result_array();
-		
-    }
 
-    function get_cluster_by_kanwil_m($i=null){
-        $q="select id, kelompok_usaha from cluster where cluster_status=1 and kode_kanwil='".$i."'";
-        return $this->db->query($q)->result_array();
-    }
-    
-    function report_anggota_m($i=null){
-        $q="SELECT a.kanwil, a.kode_kanwil, a.id, a.kelompok_usaha, count( b.id_ca ) as total_anggota 
+	public function getdata_j($i = "")
+	{
+		if ($i == "") {
+			$i = isset($_POST['id_cluster_jenis_usaha']) ? $_POST['id_cluster_jenis_usaha'] : "0";
+		}
+		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha='" . ($i) . "'";
+		return $this->db->query($q)->result_array();
+	}
+
+	function getlist_jum()
+	{
+		$q = "select * from cluster_jenis_usaha_map";
+		return $this->db->query($q)->result_array();
+	}
+
+	function getClusterInfo($id)
+	{
+		$q = "select c.id, c.uker, c.kaunit_nama, c.kaunit_handphone, c.kelompok_usaha, c.hasil_produk, c.kelompok_pihak_pembeli, c.kelompok_pihak_pembeli_handphone, c.kelompok_suplier_produk, c.kelompok_suplier_handphone, c.kelompok_jumlah_anggota, c.kelompok_cerita_usaha, c.kelompok_perwakilan, c.kelompok_handphone, c.lokasi_usaha, c.agen_brilink, c.simpanan_bank, c.pinjaman, k.kebutuhan_pendidikan_pelatihan as pelatihan FROM cluster c INNER JOIN cluster_kebutuhan_pendidikan_pelatihan k ON k.id_cluster_kebutuhan_pendidikan_pelatihan = c.kebutuhan_pendidikan WHERE id = '" . $id . "'";
+		return $this->db->query($q)->row_array();
+	}
+
+	function getClusterPhotos($id)
+	{
+		$q = "select location as url from cluster_foto_usaha cluster where id_cluster = '" . $id . "'";
+		return $this->db->query($q)->result_array();
+	}
+
+	function get_cluster_by_kanwil_m($i = null)
+	{
+		$q = "select id, kelompok_usaha from cluster where cluster_status=1 and kode_kanwil='" . $i . "'";
+		return $this->db->query($q)->result_array();
+	}
+
+	function report_anggota_m($i = null)
+	{
+		$q = "SELECT a.kanwil, a.kode_kanwil, a.id, a.kelompok_usaha, count( b.id_ca ) as total_anggota 
             FROM cluster a
             left join cluster_anggota b on a.id=b.id_cluster
-            WHERE a.cluster_status=1 and a.kode_kanwil='".$i."' group by a.id";
-        return $this->db->query($q)->result_array();
-    }
-    
-    function dl_report_anggota_m($i=null){
-        $q="select  a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
+            WHERE a.cluster_status=1 and a.kode_kanwil='" . $i . "' group by a.id";
+		return $this->db->query($q)->result_array();
+	}
+
+	function dl_report_anggota_m($i = null)
+	{
+		$q = "select  a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
                     ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
             from cluster a
             inner join cluster_anggota b on a.id=b.id_cluster
-            where a.cluster_status=1 and a.kode_kanwil='".$i."'";
-        return $this->db->query($q)->result_array();
-    }
+            where a.cluster_status=1 and a.kode_kanwil='" . $i . "'";
+		return $this->db->query($q)->result_array();
+	}
 
 
 
-    public function get_datafield_custom($status=null , $custom_field = null)
+	public function get_datafield_custom($status = null, $custom_field = null)
 	{
-        $sql  = $this->get_datatables_custom($status,$custom_field);
-        if ($custom_field!=null){
-            $sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
-        }
-        else $sql .= " LIMIT 0"; 
+		$sql  = $this->get_datatables_custom($status, $custom_field);
+		if ($custom_field != null) {
+			$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
+		} else $sql .= " LIMIT 0";
 		return $this->db->query($sql);
 	}
-	
-	public function get_datatables_custom($status=null , $custom_field = null)
+
+	public function get_datatables_custom($status = null, $custom_field = null)
 	{
 		$i = 0;
-        $sql = "select * from cluster where cluster_status=1 ";
-        foreach ($custom_field as $row){
-            if (isset($row->df) && $row->df!=""){
-                switch ($row->sf){
-                    case "sektor" :
-                        $sql .= " and id_cluster_sektor_usaha = '".$row->df."' ";
-                    break;
-                    case "kategori" :
-                        $sql .=  " and id_cluster_jenis_usaha_map = '".$row->df."' ";
-                    break;
-                    case "jenis" :
-                        $sql .=  " and id_cluster_jenis_usaha= '".$row->df."' ";
-                    break;
-                    case "kebutuhan_pendidikan" :
-                        $sql .=  " and kebutuhan_pendidikan= '".$row->df."' ";
-                    break;
-                    case "kebutuhan_sarana" :
-                        $sql .=  " and kebutuhan_sarana= '".$row->df."' ";
-                    break;
-                    case "kebutuhan_skema_kredit" :
-                        $sql .=  " and kebutuhan_skema_kredit= '".$row->df."' ";
-                    break;
-                    case "kode_kanwil" :
-                        $sql .=  " and kode_kanwil= '".$row->df."' ";
-                    break;
-                    case "kode_kanca" :
-                        if ($row->df!=""){
-                            $sql .=  " and kode_kanca= '".$row->df."' ";
-                        }
-                    break;
-                    case "kode_uker" :
-                        $sql .=  " and kode_uker= '".$row->df."' ";
-                    break;
-                    default :
-                        $sql .= '  and  ( ' .$row->sf . ' LIKE "%' . $row->df .'%" ESCAPE "!")';
-                    break;
-                }
-                $i++;
-            }
-        }
-        //echo $sql;
+		$sql = "select * from cluster where cluster_status=1 ";
+		foreach ($custom_field as $row) {
+			if (isset($row->df) && $row->df != "") {
+				switch ($row->sf) {
+					case "sektor":
+						$sql .= " and id_cluster_sektor_usaha = '" . $row->df . "' ";
+						break;
+					case "kategori":
+						$sql .=  " and id_cluster_jenis_usaha_map = '" . $row->df . "' ";
+						break;
+					case "jenis":
+						$sql .=  " and id_cluster_jenis_usaha= '" . $row->df . "' ";
+						break;
+					case "kebutuhan_pendidikan":
+						$sql .=  " and kebutuhan_pendidikan= '" . $row->df . "' ";
+						break;
+					case "kebutuhan_sarana":
+						$sql .=  " and kebutuhan_sarana= '" . $row->df . "' ";
+						break;
+					case "kebutuhan_skema_kredit":
+						$sql .=  " and kebutuhan_skema_kredit= '" . $row->df . "' ";
+						break;
+					case "kode_kanwil":
+						$sql .=  " and kode_kanwil= '" . $row->df . "' ";
+						break;
+					case "kode_kanca":
+						if ($row->df != "") {
+							$sql .=  " and kode_kanca= '" . $row->df . "' ";
+						}
+						break;
+					case "kode_uker":
+						$sql .=  " and kode_uker= '" . $row->df . "' ";
+						break;
+					default:
+						$sql .= '  and  ( ' . $row->sf . ' LIKE "%' . $row->df . '%" ESCAPE "!")';
+						break;
+				}
+				$i++;
+			}
+		}
+		//echo $sql;
 		return $sql;
 	}
 
-	public function count_all_custom($status=null , $custom_field = null)
+	public function count_all_custom($status = null, $custom_field = null)
 	{
-        $sql  = $this->get_datatables_custom($status,  $custom_field );
-        if ($custom_field==null) {
-            $sql .= " Limit 0";
-        }
+		$sql  = $this->get_datatables_custom($status,  $custom_field);
+		if ($custom_field == null) {
+			$sql .= " Limit 0";
+		}
 		return  $this->db->query($sql)->num_rows();
-    }
-    
-    public function get_kanca_m(){
-        $sql='select * from branch where REGION="'.$_POST['kode_kanwil'].'" and BRUNIT="B" and RGDESC<>MBDESC';
-        return $this->db->query($sql)->result_array();
-    }
+	}
 
-    public function get_unit_m(){
-        $sql='select * from branch where MAINBR="'.$_POST['kode_kanca'].'" and BRANCH<>"'.$_POST['kode_kanca'].'"';
-        return $this->db->query($sql)->result_array();
-    }
+	public function get_kanca_m()
+	{
+		$sql = 'select * from branch where REGION="' . $_POST['kode_kanwil'] . '" and BRUNIT="B" and RGDESC<>MBDESC';
+		return $this->db->query($sql)->result_array();
+	}
 
+	public function get_unit_m()
+	{
+		$sql = 'select * from branch where MAINBR="' . $_POST['kode_kanca'] . '" and BRANCH<>"' . $_POST['kode_kanca'] . '"';
+		return $this->db->query($sql)->result_array();
+	}
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */
