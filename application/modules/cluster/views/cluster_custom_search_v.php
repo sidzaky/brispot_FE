@@ -118,9 +118,6 @@
                     "url": "./cluster/getdatacustom",
                     "type": "POST",
                     "data":  {
-                        "kode_kanwil"   : function() { return $("#kode_kanwil").val()},
-                        "kode_kanca"    : function() { return $("#kode_kanca").val()},
-                        "kode_uker"     : function() { return $("#kode_uker").val()},
                         "custom_field"  : function() { return getdatacustom()},
                         },
                     }
@@ -131,7 +128,7 @@
     
     function add_field(){
 
-        var select = '<div class="form-group" id="lf'+ count +'"><label class="control-label">Field '+ count +'</label><button class="btn btn-danger waves-effect waves-light" onclick="minform(\'' + count + '\');"><i class="fa fa-close"></i></button> <select class="form-control" id="sf' + count + '" onchange="set_customsearch(this, \''+ count +'\');"><option value=""> -- Pilih Filter --</option><option value="sektor">sektor usaha</option><option value="kategori">kategori usaha</option><option value="jenis">jenis usaha</option><option value="kebutuhan_pendidikan_pelatihan">kebutuhan pendidikan / pelatihan </option><option value="kebutuhan_sarana">Kebutuhan Sarana Penunjang</option><option value="kebutuhan_skema_kredit"> Kebutuhan Skema Kredit</option><option value="hasil_product">Hasil Produk</option></select><div id="rf'+ count +'"></div>';
+        var select = '<div class="form-group" id="lf'+ count +'"><label class="control-label">Field '+ count +'</label><button class="btn btn-danger waves-effect waves-light" onclick="minform(\'' + count + '\');"><i class="fa fa-close"></i></button> <select class="form-control" id="sf' + count + '" onchange="set_customsearch(this, \''+ count +'\');"><option value=""> -- Pilih Filter --</option><option value="sektor">sektor usaha</option><option value="kategori">kategori usaha</option><option value="jenis">jenis usaha</option><option value="kebutuhan_pendidikan_pelatihan">kebutuhan pendidikan / pelatihan </option><option value="kebutuhan_sarana">Kebutuhan Sarana Penunjang</option><option value="kebutuhan_skema_kredit"> Kebutuhan Skema Kredit</option><option value="hasil_produk">Hasil Produk</option></select><div id="rf'+ count +'"></div>';
         $("#field_custom_search").append('<div id="cm'+ count +'" class="col-sm-4">' + select + '</div>');
         count++;
     }
@@ -143,7 +140,20 @@
                     'sf' :    $('#sf'+i).val(),
                     'df' :    $('#df'+i).val()
                 });
-         }
+         }  
+        customfield.push({
+                'sf' : "kode_kanwil",
+                'df' : $("#kode_kanwil").val(),
+        });
+        customfield.push({
+            'sf' : "kode_kanca",
+            'df' : $("#kode_kanca").val(),
+        })
+        customfield.push({
+                'sf' : "kode_uker",
+                'df' : $("#kode_uker").val(),
+        });
+
         return JSON.stringify(customfield);
     }
 
@@ -200,7 +210,7 @@
                     text += '<option value="' + e.id_cluster_jenis_usaha +'">' + e.nama_cluster_jenis_usaha + '</option>';
                 });
             break;
-            case "kebutuhan_pendidikan_pelatihan" :
+            case "kebutuhan_pendidikan" :
                 var address = "./cluster/get_pendidikan";
                 var msg = sendajaxreturn("", address, 'json');
                 text='<select class="form-control" id="df' + j + '">';

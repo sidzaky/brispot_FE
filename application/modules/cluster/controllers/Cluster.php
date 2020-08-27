@@ -39,7 +39,7 @@ class Cluster extends MX_Controller
 
 	public function getdata($status=null)
 	{ 
-		$list = $this->cluster_m->get_datafield($status);
+        $list = $this->cluster_m->get_datafield($status);
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
@@ -527,8 +527,8 @@ class Cluster extends MX_Controller
     public function getdatacustom($status=null)
 	{ 	
         if ($this->session->userdata('permission')>=3) {
-            $custom_search=null;
-            $list = $this->cluster_m->get_datafield_custom($status, $custom_search);
+           
+            $list = $this->cluster_m->get_datafield_custom($status, json_decode($_POST['custom_field']));
             $data = array();
             $no = $_POST['start'];
             foreach ($list->result_array() as $field) {
@@ -564,7 +564,7 @@ class Cluster extends MX_Controller
             $output = array(
                 "draw" => $_POST['draw'],
                 "recordsTotal" => $list->num_rows(),
-                "recordsFiltered" => $this->cluster_m->count_all_custom($status, $custom_search),
+                "recordsFiltered" => $this->cluster_m->count_all_custom($status,  json_decode($_POST['custom_field'])),
                 "data" => $data,
             );
             echo json_encode($output);

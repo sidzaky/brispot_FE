@@ -613,44 +613,67 @@ class Cluster_m extends CI_Model
 
 
 
-    public function get_datafield_custom($status=null , $custom_search = null)
+    public function get_datafield_custom($status=null , $custom_field = null)
 	{
-        $sql  = $this->get_datatables_custom($status,$custom_search);
-        if ($custom_search!=null){
+        $sql  = $this->get_datatables_custom($status,$custom_field);
+        if ($custom_field!=null){
             $sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
         }
         else $sql .= " LIMIT 0"; 
 		return $this->db->query($sql);
 	}
 	
-	public function get_datatables_custom($status=null , $custom_search = null)
+	public function get_datatables_custom($status=null , $custom_field = null)
 	{
 		$i = 0;
-		$sql = "select * from cluster where ";
-		switch ($this->session->userdata('permission')) {
-			case (4):
-				$sql .= " true ";
-				break;
-			case (3):
-				$sql .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
-				break;
-			case (2):
-				$sql .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
-				break;
-			case (1):
-				$sql .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
-				break;
-		}
-
-	
-		$sql= $sql .' and cluster_status=1 ' . ( $status !=null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
+        $sql = "select * from cluster where cluster_status=1 ";
+        foreach ($custom_field as $row){
+            if (isset($row->df) && $row->df!=""){
+                switch ($row->sf){
+                    case "sektor" :
+                        $sql .= " and id_cluster_sektor_usaha = '".$row->df."' ";
+                    break;
+                    case "kategori" :
+                        $sql .=  " and id_cluster_jenis_usaha_map = '".$row->df."' ";
+                    break;
+                    case "jenis" :
+                        $sql .=  " and id_cluster_jenis_usaha= '".$row->df."' ";
+                    break;
+                    case "kebutuhan_pendidikan" :
+                        $sql .=  " and kebutuhan_pendidikan= '".$row->df."' ";
+                    break;
+                    case "kebutuhan_sarana" :
+                        $sql .=  " and kebutuhan_sarana= '".$row->df."' ";
+                    break;
+                    case "kebutuhan_skema_kredit" :
+                        $sql .=  " and kebutuhan_skema_kredit= '".$row->df."' ";
+                    break;
+                    case "kode_kanwil" :
+                        $sql .=  " and kode_kanwil= '".$row->df."' ";
+                    break;
+                    case "kode_kanca" :
+                        if ($row->df!=""){
+                            $sql .=  " and kode_kanca= '".$row->df."' ";
+                        }
+                    break;
+                    case "kode_uker" :
+                        $sql .=  " and kode_uker= '".$row->df."' ";
+                    break;
+                    default :
+                        $sql .= '  and  ( ' .$row->sf . ' LIKE "%' . $row->df .'%" ESCAPE "!")';
+                    break;
+                }
+                $i++;
+            }
+        }
+        //echo $sql;
 		return $sql;
 	}
 
-	public function count_all_custom($status=null , $custom_search = null)
+	public function count_all_custom($status=null , $custom_field = null)
 	{
-        $sql  = $this->get_datatables_custom($status,  $custom_search );
-        if ($custom_search==null) {
+        $sql  = $this->get_datatables_custom($status,  $custom_field );
+        if ($custom_field==null) {
             $sql .= " Limit 0";
         }
 		return  $this->db->query($sql)->num_rows();
