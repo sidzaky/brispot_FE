@@ -20,7 +20,7 @@
       <!-- <li><a href=""><i class="fa fa-file-text-o"></i> <span>Pengajuan Klaster</span></a></li> -->
 	  
 	  <?php 
-       
+        
         $lilaporan= '<li class="treeview">
                         <a href="#">
                             <i class="fa fa-book"></i> <span>Laporan Klaster</span>
@@ -40,9 +40,11 @@
             case (3) :
                     $lilaporan .= '         <li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
                                             <li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
-                                            <li><a href="'.base_url().'cluster/report_anggota">Rekap Anggota Klaster</a></li>
                                         </ul>
                                     </li>';
+            break;
+            default :
+                $lilaporan = '';
             break;
         }
 		
