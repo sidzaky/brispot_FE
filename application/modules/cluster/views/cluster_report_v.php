@@ -35,18 +35,23 @@
      						<tbody>
      							<?php
 										$i = 1;
-										$grandtotal = 0;
+                                        $grandtotal = 0;
+                                        $total;
 										foreach ($kanwil as $row => $value) {
 											$totalkanwil=0;
 											echo '<tr>
 													 <td>' . $i . '</td>
 													 <td>'.$row.'</td>';
 											for ($z=1;$z<=count($listkategori);$z++){
-												if (!isset($value[$z])) $value[$z]=0;
+												if (!isset($value[$z])) {
+                                                        $value[$z]=0;
+                                                        $total[$z]=0;
+                                                    }
+                                                    $total[$z] += $value[$z];
 													$totalkanwil =$totalkanwil+$value[$z];
 													echo '<td>'.$value[$z].'</td>';
 												}
-											echo '<td>'.$totalkanwil.($this->session->userdata('permission') == 4 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\''.$row.'\',\'' . $harian . '\',\''.$i.'\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '').'</td></tr>';
+											echo '<td>'.$totalkanwil.($this->session->userdata('permission') >= 3 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\''.$row.'\',\'' . $harian . '\',\''.$i.'\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '').'</td></tr>';
 											$i++;
 										}
 										echo '</tbody>
@@ -55,10 +60,10 @@
 																		<td></td>
 																		<td>Grand Total</td>';
 										for ($z=1;$z<=count($listkategori);$z++){
-												echo '<td>'.$total[$z].'</td>';
-												$grandtotal=$grandtotal+$total[$z];
+												echo '<td>'.($total[$z]/2).'</td>';
+												$grandtotal=$grandtotal+($total[$z]/2);
 										}
-										echo '<td>'.$grandtotal.($this->session->userdata('permission') == 4 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\'\',\'' . $harian . '\',\'all\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '') . '</td></tr></tfoot>';
+										echo '<td>'.$grandtotal.($this->session->userdata('permission') >= 3 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\'\',\'' . $harian . '\',\'all\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '') . '</td></tr></tfoot>';
 										?>
 
      					</table>

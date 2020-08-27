@@ -3,7 +3,7 @@
 	<section class="content-header">
 		<h1>
 			Data Pengajuan Klaster UMKM
-			<?php echo $this->session->userdata('name_uker'); ?>
+			<?php echo $this->session->userdata('name_uker'); ?><nbsp></nbsp>
 		</h1>
 	</section>
 
