@@ -559,13 +559,17 @@ class Cluster_m extends CI_Model
 	
 	public function getdata_jum()
 	{
-		$q = "select * from cluster_jenis_usaha_map where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
+        $where = "";
+        if (isset($_POST['id_cluster_sektor_usaha'])) $where .="where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
+		$q = "select * from cluster_jenis_usaha_map " .$where;
 		return $this->db->query($q)->result();
 	}
 
 	public function getdata_ju()
-	{
-		$q = "select * from cluster_jenis_usaha where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
+	{   
+        $where = "";
+        if (isset($_POST['id_cluster_jenis_usaha_map'])) $where .= " where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
+		$q = "select * from cluster_jenis_usaha ".$where;
 		return $this->db->query($q)->result();
 	}
 	
@@ -606,6 +610,88 @@ class Cluster_m extends CI_Model
             where a.cluster_status=1 and a.kode_kanwil='".$i."'";
         return $this->db->query($q)->result_array();
     }
+<<<<<<< HEAD
+=======
+
+
+
+    public function get_datafield_custom($status=null , $custom_field = null)
+	{
+        $sql  = $this->get_datatables_custom($status,$custom_field);
+        if ($custom_field!=null){
+            $sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
+        }
+        else $sql .= " LIMIT 0"; 
+		return $this->db->query($sql);
+	}
+	
+	public function get_datatables_custom($status=null , $custom_field = null)
+	{
+		$i = 0;
+        $sql = "select * from cluster where cluster_status=1 ";
+        foreach ($custom_field as $row){
+            if (isset($row->df) && $row->df!=""){
+                switch ($row->sf){
+                    case "sektor" :
+                        $sql .= " and id_cluster_sektor_usaha = '".$row->df."' ";
+                    break;
+                    case "kategori" :
+                        $sql .=  " and id_cluster_jenis_usaha_map = '".$row->df."' ";
+                    break;
+                    case "jenis" :
+                        $sql .=  " and id_cluster_jenis_usaha= '".$row->df."' ";
+                    break;
+                    case "kebutuhan_pendidikan" :
+                        $sql .=  " and kebutuhan_pendidikan= '".$row->df."' ";
+                    break;
+                    case "kebutuhan_sarana" :
+                        $sql .=  " and kebutuhan_sarana= '".$row->df."' ";
+                    break;
+                    case "kebutuhan_skema_kredit" :
+                        $sql .=  " and kebutuhan_skema_kredit= '".$row->df."' ";
+                    break;
+                    case "kode_kanwil" :
+                        $sql .=  " and kode_kanwil= '".$row->df."' ";
+                    break;
+                    case "kode_kanca" :
+                        if ($row->df!=""){
+                            $sql .=  " and kode_kanca= '".$row->df."' ";
+                        }
+                    break;
+                    case "kode_uker" :
+                        $sql .=  " and kode_uker= '".$row->df."' ";
+                    break;
+                    default :
+                        $sql .= '  and  ( ' .$row->sf . ' LIKE "%' . $row->df .'%" ESCAPE "!")';
+                    break;
+                }
+                $i++;
+            }
+        }
+        //echo $sql;
+		return $sql;
+	}
+
+	public function count_all_custom($status=null , $custom_field = null)
+	{
+        $sql  = $this->get_datatables_custom($status,  $custom_field );
+        if ($custom_field==null) {
+            $sql .= " Limit 0";
+        }
+		return  $this->db->query($sql)->num_rows();
+    }
+    
+    public function get_kanca_m(){
+        $sql='select * from branch where REGION="'.$_POST['kode_kanwil'].'" and BRUNIT="B" and RGDESC<>MBDESC';
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function get_unit_m(){
+        $sql='select * from branch where MAINBR="'.$_POST['kode_kanca'].'" and BRANCH<>"'.$_POST['kode_kanca'].'"';
+        return $this->db->query($sql)->result_array();
+    }
+
+>>>>>>> custom_search
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */
