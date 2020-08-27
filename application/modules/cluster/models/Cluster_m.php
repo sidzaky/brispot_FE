@@ -610,8 +610,6 @@ class Cluster_m extends CI_Model
             where a.cluster_status=1 and a.kode_kanwil='".$i."'";
         return $this->db->query($q)->result_array();
     }
-<<<<<<< HEAD
-=======
 
 
 
@@ -691,7 +689,6 @@ class Cluster_m extends CI_Model
         return $this->db->query($sql)->result_array();
     }
 
->>>>>>> custom_search
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */

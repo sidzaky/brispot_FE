@@ -514,8 +514,6 @@ class Cluster extends MX_Controller
                     $no++;
                 }
 		echo json_encode($headerexcel);
-<<<<<<< HEAD
-=======
     }
 
     public function custom_search(){
@@ -524,7 +522,6 @@ class Cluster extends MX_Controller
 		$data['sidebar'] = 'sidebar';
 		$data['content'] = 'cluster_custom_search_v';
 		$this->load->view('template', $data);
->>>>>>> custom_search
     }
 
     public function getdatacustom($status=null)
