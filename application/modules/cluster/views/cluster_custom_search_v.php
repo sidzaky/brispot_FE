@@ -6,34 +6,49 @@
 		</h1>
 	</section>
  
-	<!-- Main content -->
-	<section class="content">
+    <!-- Main content -->
+    <section class="content">
+		<div class="box box-solid">
+            <div id="result" class="box-body">
+            <h4>Field Pencarian</h4>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="control-label">Kanwil</label>
+                        <select class="form-control" onchange="set_kanca(this);" id="kode_kanwil">
+                            <option value="">semua</option>
+                            <?php foreach ($kanwil as $row){
+                                echo '<option value="'.$row['kode_kanwil'].'">'.$row['kanwil'].'</option>';
+                            }?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" id="selkanca">
+                        <label class="control-label">Kanca</label>
+                        <select class="form-control" onchange="set_unit(this);" id="kode_kanca">
+                            <option value="">semua</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group" id="selunit">
+                        <label class="control-label">unit</label>
+                        <select class="form-control" id="kode_uker">
+                            <option value="">semua</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="field_custom_search"></div>
+                <div class="col-sm-12">    
+                    <input type="hidden" id="finalresult" value="">
+                    <button class="btn btn-info waves-effect waves-light" onclick="add_field();">Tambah Field</button>
+                    <button class="btn btn-success waves-effect waves-light" id="sbt" onclick="$('#table-cluster').DataTable().ajax.reload(null, false);">Cari</button>
+                </div>
+            </div>
+        </div>
 		<div class="box box-solid">
 			<div id="result" class="box-body">
-                    <script>
-                        $(document).ready(function() {
-                            $('#table-cluster').DataTable({
-                                "searching":false,
-                                "scrollX": true,
-                                "processing": true,
-                                "serverSide": true,
-                                "deferRender": true,
-                                "ajax": {
-                                    "url": "./cluster/getdatacustom",
-                                    "type": "POST",
-                                    "data":  {
-                                        "s1"   : "",
-                                        "f1"   : "",
-                                        "s2"   : "",
-                                        "f2"   : "",
-                                        "s3"   : "",
-                                        "f3"   : "",
-                                    }
-                                },
-                            });
-                        });
-                    </script>
-                    <div class="col-sm-10">
+                    <div class="col-sm-12">
                         <div class="table-responsive">
                             <table id="table-cluster" width="100%">
                                 <thead>
@@ -52,33 +67,6 @@
                                 </thead>
                             </table>
                         </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <h4>Field Pencarian</h4>
-                        <div class="form-group">
-                            <label class="control-label">Kanwil</label>
-                           
-                            <select class="form-control" onchange="set_kanca(this);" id="kode_kanwil">
-                                <option value="all">semua</option>
-                                <?php foreach ($kanwil as $row){
-                                    echo '<option value="'.$row['kode_kanwil'].'">'.$row['kanwil'].'</option>';
-                                }?>
-							</select>
-                        </div>
-                        <div class="form-group" id="selkanca">
-							<label class="control-label">Kanca</label>
-							<select class="form-control" onchange="set_unit(this);" id="kode_kanca">
-							</select>
-                        </div>
-                        <div class="form-group" id="selunit">
-							<label class="control-label">unit</label>
-							<select class="form-control" id="kode_uker">
-							</select>
-                        </div>
-                        <div id="field_custom_search"></div>
-                       
-                        <button class="btn btn-info waves-effect waves-light" onclick="add_field();">Tambah Field</button>
-                        <button class="btn btn-success waves-effect waves-light" id="sbt" onclick="alert('zz')">Cari</button>
                     </div>
 			</div>
 		</div>
@@ -120,16 +108,47 @@
 <script src="../assets/js/send.js"></script>
 <script>
 
+    var table = $('#table-cluster').DataTable({
+                "searching":false,
+                "scrollX": true,
+                "processing": true,
+                "serverSide": true,
+                "deferRender": true,
+                "ajax": {
+                    "url": "./cluster/getdatacustom",
+                    "type": "POST",
+                    "data":  {
+                        "kode_kanwil"   : function() { return $("#kode_kanwil").val()},
+                        "kode_kanca"    : function() { return $("#kode_kanca").val()},
+                        "kode_uker"     : function() { return $("#kode_uker").val()},
+                        "custom_field"  : function() { return getdatacustom()},
+                        },
+                    }
+                });
+
+
     var count=1;
+    
     function add_field(){
 
-        var select = '<div class="form-group" id="lf'+ count +'"><label class="control-label">Field '+ count +'</label><button class="btn btn-danger waves-effect waves-light" onclick="minform(\'' + count + '\');"><i class="fa fa-close"></i></button> <select class="form-control" onchange="set_customsearch(this, \''+ count +'\');"><option value="sektor">sektor usaha</option><option value="kategori">kategori usaha</option><option value="jenis">jenis usaha</option><option value="pendidikan">kebutuhan pendidikan / pelatihan </option><option value="sarana">Kebutuhan Sarana Penunjang</option><option value="kredit"> Kebutuhan Skema Kredit</option><option value="hasil_product">Hasil Produk</option></select><div id="rf'+ count +'"></div>';
-        $("#field_custom_search").append(select);
+        var select = '<div class="form-group" id="lf'+ count +'"><label class="control-label">Field '+ count +'</label><button class="btn btn-danger waves-effect waves-light" onclick="minform(\'' + count + '\');"><i class="fa fa-close"></i></button> <select class="form-control" id="sf' + count + '" onchange="set_customsearch(this, \''+ count +'\');"><option value=""> -- Pilih Filter --</option><option value="sektor">sektor usaha</option><option value="kategori">kategori usaha</option><option value="jenis">jenis usaha</option><option value="kebutuhan_pendidikan_pelatihan">kebutuhan pendidikan / pelatihan </option><option value="kebutuhan_sarana">Kebutuhan Sarana Penunjang</option><option value="kebutuhan_skema_kredit"> Kebutuhan Skema Kredit</option><option value="hasil_product">Hasil Produk</option></select><div id="rf'+ count +'"></div>';
+        $("#field_custom_search").append('<div id="cm'+ count +'" class="col-sm-4">' + select + '</div>');
         count++;
     }
 
+    function getdatacustom(){
+        var customfield = [];    
+        for (var i=0; i<=count;i++){
+            customfield.push({ 
+                    'sf' :    $('#sf'+i).val(),
+                    'df' :    $('#df'+i).val()
+                });
+         }
+        return JSON.stringify(customfield);
+    }
+
     function minform(id) {
-				$('#lf' + id).remove();
+				$('#cm' + id).remove();
 	}
 
     function set_kanca(i){
@@ -163,7 +182,7 @@
         var text="";
         switch (i.value){
             case "sektor" :
-                text='<select class="form-control" id="df' + j + '"><option value="1">Prdoduksi</option> <option value="2">Non Prdoduksi</option> </select>';
+                text='<select class="form-control" id="df' + j + '"><option value="1">Produksi</option> <option value="2">Non Prdoduksi</option> </select>';
             break; 
             case "kategori" :
                 var address = "./cluster/fjum";
@@ -181,7 +200,7 @@
                     text += '<option value="' + e.id_cluster_jenis_usaha +'">' + e.nama_cluster_jenis_usaha + '</option>';
                 });
             break;
-            case "pendidikan" :
+            case "kebutuhan_pendidikan_pelatihan" :
                 var address = "./cluster/get_pendidikan";
                 var msg = sendajaxreturn("", address, 'json');
                 text='<select class="form-control" id="df' + j + '">';
@@ -189,7 +208,7 @@
                     text += '<option value="' + e.id_cluster_kebutuhan_pendidikan_pelatihan +'">' + e.kebutuhan_pendidikan_pelatihan + '</option>';
                 });
             break;
-            case "sarana" :
+            case "kebutuhan_sarana" :
                 var address = "./cluster/get_sarana";
                 var msg = sendajaxreturn("", address, 'json');
                 text='<select class="form-control" id="df' + j + '">';
@@ -197,7 +216,7 @@
                     text += '<option value="' + e.id_cluster_kebutuhan_sarana +'">' + e.kebutuhan_sarana + '</option>';
                 });
             break;
-            case "kredit" :
+            case "kebutuhan_skema_kredit" :
                 var address = "./cluster/get_kredit";
                 var msg = sendajaxreturn("", address, 'json');
                 text='<select class="form-control" id="df' + j + '">';
@@ -212,6 +231,8 @@
         }
         document.getElementById("rf"+j).innerHTML=text;
     }
+
+  
 
 </script>
 

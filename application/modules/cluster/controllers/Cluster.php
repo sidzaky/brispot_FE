@@ -525,7 +525,7 @@ class Cluster extends MX_Controller
     }
 
     public function getdatacustom($status=null)
-	{ 
+	{ 	
         if ($this->session->userdata('permission')>=3) {
             $custom_search=null;
             $list = $this->cluster_m->get_datafield_custom($status, $custom_search);
@@ -615,40 +615,40 @@ class Cluster extends MX_Controller
 	// }
 	// }
 
-	/*function migrate(){
-		ini_set('memory_limit', '-1');
+	// function migrate(){
+	// 	ini_set('memory_limit', '-1');
 		
-		$query="select * from cluster order by timestamp desc";
-		$a=$this->db->query("select * from cluster_kebutuhan_pendidikan_pelatihan")->result_array();
-		$b=$this->db->query("select * from cluster_kebutuhan_sarana")->result_array();
-		$c=$this->db->query("select * from cluster_kebutuhan_skema_kredit")->result_array();
-		foreach ($this->db->query($query)->result_array() as $q){
-				foreach ($a as $ra ){
-					$ia="";
-					if (strtolower($ra['kebutuhan_pendidikan_pelatihan'])==strtolower($q['kebutuhan_pendidikan'])) {
-							$ia=$ra['id_cluster_kebutuhan_pendidikan_pelatihan'];
-							break;
-					}
-				}
-				foreach ($b as $rb ){
-					$ib="";
-					if (strtolower($rb['kebutuhan_sarana'])==strtolower($q['kebutuhan_sarana'])) {
-							$ib=$rb['id_cluster_kebutuhan_sarana'];
-							break;
-					}
-				}
-				foreach ($c as $rc ){
-					$ic="";
-					if (($rc['kebutuhan_skema_kredit'])==($q['kebutuhan_skema_kredit'])) {
-							$ic=$rc['id_cluster_kebutuhan_skema_kredit'];
-							break;
-					}
-				}
-				$nq="update cluster set kebutuhan_pendidikan='".$ia."', kebutuhan_sarana='".$ib."', kebutuhan_skema_kredit='".$ic."' where id='".$q['id']."'";
-				//echo $nq.'</br>';
-				$this->db->query($nq);
-		}
-	}*/
+	// 	$query="select * from cluster order by timestamp desc";
+	// 	$a=$this->db->query("select * from cluster_kebutuhan_pendidikan_pelatihan")->result_array();
+	// 	$b=$this->db->query("select * from cluster_kebutuhan_sarana")->result_array();
+	// 	$c=$this->db->query("select * from cluster_kebutuhan_skema_kredit")->result_array();
+	// 	foreach ($this->db->query($query)->result_array() as $q){
+	// 			foreach ($a as $ra ){
+	// 				$ia="";
+	// 				if (strtolower($ra['kebutuhan_pendidikan_pelatihan'])==strtolower($q['kebutuhan_pendidikan'])) {
+	// 						$ia=$ra['id_cluster_kebutuhan_pendidikan_pelatihan'];
+	// 						break;
+	// 				}
+	// 			}
+	// 			foreach ($b as $rb ){
+	// 				$ib="";
+	// 				if (strtolower($rb['kebutuhan_sarana'])==strtolower($q['kebutuhan_sarana'])) {
+	// 						$ib=$rb['id_cluster_kebutuhan_sarana'];
+	// 						break;
+	// 				}
+	// 			}
+	// 			foreach ($c as $rc ){
+	// 				$ic="";
+	// 				if (($rc['kebutuhan_skema_kredit'])==($q['kebutuhan_skema_kredit'])) {
+	// 						$ic=$rc['id_cluster_kebutuhan_skema_kredit'];
+	// 						break;
+	// 				}
+	// 			}
+	// 			$nq="update cluster set kebutuhan_pendidikan='".$ia."', kebutuhan_sarana='".$ib."', kebutuhan_skema_kredit='".$ic."' where id='".$q['id']."'";
+	// 			//echo $nq.'</br>';
+	// 			$this->db->query($nq);
+	// 	}
+	// }
 
 	private function camphotoupload($i = null, $j = null)
 	{
