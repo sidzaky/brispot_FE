@@ -36,7 +36,7 @@ class Dashboard_m extends CI_Model
 
   function getLoanNeedsReport($active_user)
   {
-    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = " . $active_user["value"];
+    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = '" . $active_user["value"] . "'";
     $sql = "select b.kebutuhan_skema_kredit as kredit, COUNT(*) as total FROM cluster a JOIN cluster_kebutuhan_skema_kredit b ON a.kebutuhan_skema_kredit = b.id_cluster_kebutuhan_skema_kredit WHERE a.kebutuhan_skema_kredit IN (
       SELECT * FROM
       (
@@ -50,7 +50,7 @@ class Dashboard_m extends CI_Model
 
   function getToolNeedsReport($active_user)
   {
-    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = " . $active_user["value"];
+    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = '" . $active_user["value"] . "'";
     $sql = "select b.kebutuhan_sarana as sarana, COUNT(*) as total FROM cluster a JOIN cluster_kebutuhan_sarana b ON a.kebutuhan_sarana = b.id_cluster_kebutuhan_sarana WHERE a.kebutuhan_sarana IN (
       SELECT * FROM
       (
@@ -64,7 +64,7 @@ class Dashboard_m extends CI_Model
 
   function getTrainingNeedsReport($active_user)
   {
-    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = " . $active_user["value"];
+    $where = $active_user["code"] === "admin" ? true :  $active_user["code"] . " = '" . $active_user["value"] . "'";
     $sql = "select b.kebutuhan_pendidikan_pelatihan as pendidikan, COUNT(*) as total FROM cluster a JOIN cluster_kebutuhan_pendidikan_pelatihan b ON a.kebutuhan_pendidikan = b.id_cluster_kebutuhan_pendidikan_pelatihan WHERE a.kebutuhan_pendidikan IN (
       SELECT * FROM
       (
