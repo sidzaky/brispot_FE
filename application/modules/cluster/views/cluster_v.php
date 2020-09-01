@@ -110,7 +110,11 @@
 							<label class="control-label">Kode Uker</label>
 							<div id="hsuk"></div>
 							<input type="number" class="form-control dform" name="kode uker" <?php echo ($this->session->userdata('permission') > 1 ? '' : 'disabled') ?> id="kode_uker" onchange="getuker(this.value);" placeholder="required" value="<?php echo $this->session->userdata('kode_uker'); ?>" required>
+							<script>
+								var defaultuker='<?php echo ($this->session->userdata('permission')==1 ? $this->session->userdata('kode_uker') : ''); ?>';
+							</script>
 						</div>
+						</br>
 
 						<div class="form-group required">
 							<label class="control-label">Nama Kaunit BRI</label>
