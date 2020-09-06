@@ -2,9 +2,9 @@
 
 class Cluster_m extends CI_Model
 {
-	public function get_datafield($status = null)
+	public function get_datafield($status = null, $appr=0)
 	{
-		$sql  = $this->get_datatables($status);
+		$sql  = $this->get_datatables($status,$appr);
 		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
 		return $this->db->query($sql);
 	}
@@ -12,7 +12,7 @@ class Cluster_m extends CI_Model
 	var $column_search = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha');
 	var $order = array('timestamp' => 'desc');
 
-	public function get_datatables($status = null)
+	public function get_datatables($status = null, $appr=0)
 	{
 		$i = 0;
 		$sql = "select * from cluster where ";
@@ -29,7 +29,11 @@ class Cluster_m extends CI_Model
 			case (1):
 				$sql .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
 				break;
+
+
 		}
+
+		// if ($appr=1) $sql .= " approve ====="; //buat filter status approve
 
 		if ($_POST['search']['value'] != "") $sql .= " and ";
 		foreach ($this->column_search as $item) // looping awal
