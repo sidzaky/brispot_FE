@@ -14,6 +14,8 @@
                     List Jenis Usaha
                 </h3>
 				<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
+
+                <?php print_r ($jenisusaha);?>
             </div>
         </div>
        </div> 
@@ -64,37 +66,17 @@
 </div>
 <script>
 			$(document).ready(function() {
-				$('#table-cluster').DataTable({
+                $('#table-kategori_usaha').DataTable({
 						"scrollX": true,
 						"processing": true,
 						"serverSide": true,
 						"deferRender": true,
 						"ajax": {
-							"url": "./cluster/getdata",
+							"url": "./setting/get_jenisusahamap",
 							"type": "POST"
 						},
 					});
-				$('#table-cluster').DataTable({
-						"scrollX": true,
-						"processing": true,
-						"serverSide": true,
-						"deferRender": true,
-						"ajax": {
-							"url": "./cluster/getdata",
-							"type": "POST"
-						},
-					});
-				$('#table-cluster').DataTable({
-						"scrollX": true,
-						"processing": true,
-						"serverSide": true,
-						"deferRender": true,
-						"ajax": {
-							"url": "./cluster/getdata",
-							"type": "POST"
-						},
-					});
-			});
+			    });
 
 </script>
 
