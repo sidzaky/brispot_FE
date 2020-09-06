@@ -37,7 +37,7 @@ class Cluster extends MX_Controller
 		$this->load->view('template', $data);
 	}
 
-	public function getdata($status = null)
+	public function getdata($status = null, $approve=0)
 	{
 		$list = $this->cluster_m->get_datafield($status);
 		$data = array();
@@ -50,9 +50,13 @@ class Cluster extends MX_Controller
 			$del = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$ca = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
 			$update = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			$appr = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			$reject = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$upload = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
 			$info	= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
-			$action = $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
+			if ($approve==0) $action = $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
+			else $action = $appr . $reject;
+			
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -79,6 +83,7 @@ class Cluster extends MX_Controller
 		);
 		echo json_encode($output);
 	}
+
 
 	public function deldata()
 	{
