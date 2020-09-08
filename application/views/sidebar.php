@@ -53,7 +53,7 @@
 	  ?>
       <li> 
 	  <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
-    
+      <li><a href="<?php echo base_url(); ?>help"><i class="fa fa-question"></i> <span>Bantuan dan Pertanyaan</span></a></li>
     </ul><!-- /.sidebar-menu -->
   </section>
   <!-- /.sidebar -->
