@@ -51,9 +51,16 @@
 		
 		echo $lilaporan;
 	  ?>
-      <li> 
-	  <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
-      <li><a href="<?php echo base_url(); ?>help"><i class="fa fa-question"></i> <span>Bantuan dan Pertanyaan</span></a></li>
+      <li> <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
+      <?php 
+        $cp = "";
+        if ($this->session->userdata('permission') == 4){
+            $sql= "select * from faq where answer = '' and timeinput_answer = 0";
+            $cq = $this->db->query($sql)->num_rows();
+            if (  $cq > 0 ) $cp = '<span class="label label-warning pull-right" style=>'.$cq.'</span>';
+        }
+      ?>
+      <li><a href="<?php echo base_url(); ?>help"><i class="fa fa-question"></i> Bantuan <?php echo $cp ?> </a></li>
     </ul><!-- /.sidebar-menu -->
   </section>
   <!-- /.sidebar -->

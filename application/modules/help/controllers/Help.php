@@ -31,6 +31,7 @@ class Help extends MX_Controller
 		$data['sidebar'] = 'sidebar';
 		$data['content'] = 'help_v';
 		$this->load->view('template', $data);
+		
 	}
 
 	public function getdataquestion(){
@@ -41,15 +42,19 @@ class Help extends MX_Controller
 		
 		foreach ($list->result_array() as $q) {
 			$tabel='';
-			$tabel= '<table style="border:1px solid;">
-						<tr><td>'.$q['question'].'</td></tr>
-						<tr><td>'.$q['answer'].'</td></tr>
-					</table>';
+			$tabel= '<table class="table table-striped">
+						<tr><td><b>Pertanyaan</b></td><td align="right">'.date('d, M-Y ', $q['timeinput_question']) .'</td></tr>
+						<tr><td colspan="2"><p id="q_'.$q['id_help'].'">'.$q['question'].'</p></td></tr>
+						'.($q['answer']!="" ? '<tr><td>Jawaban</td><td align="right">'.date('d, M-Y ', $q['timeinput_answer']) .'</td></tr> <tr><td colspan="2">'.$q['answer'].'</td></tr>' : '').'
+						</table>';
 			$no++;
 			$row = array();
 			$row[] = $no;
 			$row[] = $q['BRDESC'];
 			$row[] = $tabel;
+			if ($this->session->userdata('permission') == 4){
+				$row[] = ($q['answer'] !="" ? '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" type="button" ><i class="fa fa-check"></i> Check </button> ': '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="answer(\'' . $q['id_help'] . '\')" type="button" ><i class="fa fa-pencil"></i> Jawab </button>');
+			}
 			$data[] = $row;
 		}
 		
@@ -66,4 +71,7 @@ class Help extends MX_Controller
 		$this->help_m->inputformhelp_m();
 	}
 
+	public function answerformhelp(){
+		$this->help_m->answerformhelp_m();
+	}
 }
