@@ -16,6 +16,7 @@ class help_m extends CI_Model
 	{
 		$sql  = $this->get_datatables($status);
 		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
+		
 		return $this->db->query($sql);
 	}
 
@@ -26,21 +27,15 @@ class help_m extends CI_Model
 	{
 		$i = 0;
         $sql = "select * from faq a
-                left join branch b on a.id_user = b.BRANCH ";
-		// switch ($this->session->userdata('permission')) {
-		// 	case (4):
-		// 		$sql .= " true ";
-		// 		break;
-		// 	case (3):
-		// 		$sql .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
-		// 		break;
-		// 	case (2):
-		// 		$sql .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
-		// 		break;
-		// 	case (1):
-		// 		$sql .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
-		// 		break;
-		// }
+                left join branch b on a.id_user = b.BRANCH where ";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$sql .= " true ";
+				break;
+			default :
+				$sql .= " id_user='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+		}
 
 		// if ($_POST['search']['value'] != "") $sql .= " and ";
 		// foreach ($this->column_search as $item) // looping awal
@@ -58,6 +53,7 @@ class help_m extends CI_Model
 		// 	}
 		// 	$i++;
 		// }
+		$sql .= " order by  timeinput_answer asc, timeinput_question desc ";
 		return $sql;
 	}
 
@@ -74,7 +70,7 @@ class help_m extends CI_Model
         $this->db->insert('faq',$_POST);
     }
 
-    public function updateformhelp_m(){
+    public function answerformhelp_m(){
         $id = $_POST['id_help'];
         $_POST['timeinput_answer'] = time();
         unset ($_POST['id_help']);
