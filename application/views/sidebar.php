@@ -55,7 +55,7 @@
       <?php 
         $cp = "";
         if ($this->session->userdata('permission') == 4){
-            $sql= "select * from faq where answer = '' and timeinput_answer = 0";
+            $sql= "select * from faq where timeinput_answer = 0";
             $cq = $this->db->query($sql)->num_rows();
             if (  $cq > 0 ) $cp = '<span class="label label-warning pull-right" style=>'.$cq.'</span>';
         }
