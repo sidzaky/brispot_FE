@@ -51,7 +51,6 @@ class User_m extends CI_Model
 	function closenotif_m()
 	{
 		$sql = "update user set notif=0 where username='" . $this->session->userdata('kode_uker') . "'";
-		echo $sql;
 		$this->db->query($sql);
 	}
 }
