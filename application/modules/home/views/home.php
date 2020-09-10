@@ -23,7 +23,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#" style="color: #FFFFFF">KlasterkuHidupku</a>
+        <a class="navbar-brand" href="#"><img src="<?php echo base_url() ?>assets/img/landing-page/logo.png" alt="logo-klasterku-hidupku" /></a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
