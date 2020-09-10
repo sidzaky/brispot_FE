@@ -3,6 +3,23 @@ jQuery(function ($) {
     $(window).scrollTop(0);
   });
 
+  $(".navbar-toggle").on("click", function () {
+    console.log($(this).hasClass("collapsed"));
+    if ($(this).hasClass("collapsed")) {
+      document.querySelector(".navbar-default").style.backgroundColor =
+        "#ffffff";
+      var menu = document.querySelectorAll(
+        "#navbar .navbar-nav li a.text-button"
+      );
+      menu.forEach(function (item) {
+        item.style.color = "#000000";
+      });
+    } else {
+      document.querySelector(".navbar-default").style.backgroundColor =
+        "transparent";
+    }
+  });
+
   $(window).on("scroll", function () {
     scrolls();
   });
@@ -12,38 +29,45 @@ jQuery(function ($) {
       document.body.scrollTop > 80 ||
       document.documentElement.scrollTop > 80
     ) {
-      document.querySelector(".navbar-default").style.padding = "1.5rem 5rem";
+      // navbar wrapper background
       document.querySelector(".navbar-default").style.backgroundColor =
         "#ffffff";
+      // navbar item
       var menu = document.querySelectorAll(
         "#navbar .navbar-nav li a.text-button"
       );
       menu.forEach(function (item) {
         item.style.color = "#000000";
       });
+      // navbar item active
       document.querySelector(
         "#navbar .navbar-nav li.active a.text-button"
       ).style.color = "#1f3ab4";
+      // navbar brand
       document.querySelector(".navbar-brand").style.color = "#000000";
-      document.getElementById("navbar").style.padding = "0 5rem";
+      // navbar border
       document.querySelector(".navbar-default").style.border =
         "1px solid rgb(239, 239, 239)";
       document.querySelector(".navbar-default").style.boxShadow =
         "0px 1px 12px 1px #e9e9e9";
     } else {
-      document.querySelector(".navbar-default").style.padding = "2rem 0";
+      // navbar wrapper background
       document.querySelector(".navbar-default").style.backgroundColor =
         "transparent";
+      // navbar item
       var menu = document.querySelectorAll(
         "#navbar .navbar-nav li a.text-button"
       );
       menu.forEach(function (item) {
         item.style.color = "#ffffff";
       });
+      // navbar brand
       document.querySelector(".navbar-brand").style.color = "#ffffff";
+      // navbar item active
       document.querySelector(
         "#navbar .navbar-nav li.active a.text-button"
       ).style.color = "#1f3ab4";
+      // navbar border
       document.querySelector(".navbar-default").style.boxShadow = "none";
       document.querySelector(".navbar-default").style.border = "none";
     }
