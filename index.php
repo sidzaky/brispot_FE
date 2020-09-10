@@ -54,7 +54,8 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 switch ($_SERVER['HTTP_HOST']) {
-	case 'localhost':
+    case 'localhost':
+    case 'antriclinic.net' : 
 		$env = 'development';
 		break;
 	case 'https://klasterkuhidupku.com/':

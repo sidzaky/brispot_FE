@@ -1,7 +1,7 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <p>Klaster Binaan BRI 0.3</p>
+      <p>Klaster Binaan BRI 0.4</p>
     </div><!-- /.login-logo -->
     <?php $alert = $this->session->flashdata('message'); ?>
     <?php if (!empty($alert))
