@@ -1,0 +1,379 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+.jumbotron {
+  height: 600px;
+  position: relative;
+  background-color: #fff;
+  background-image: url("../img/landing-page/hero-big.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.jumbotron .hero-heading {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+}
+
+.jumbotron p {
+  padding: 0 0.6rem;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  max-width: 500px;
+}
+
+.jumbotron .hero {
+  height: 100%;
+  display: flex;
+}
+
+.jumbotron .hero-heading > img {
+  max-width: 360px;
+  height: auto;
+}
+
+.jumbotron .hero-heading {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.jumbotron .hero-heading .title {
+  font-weight: 700;
+}
+
+.jumbotron .hero-image > img {
+  width: 100%;
+  height: auto;
+}
+
+.navbar-default {
+  background-color: #fff;
+  border: none;
+  padding: 2rem 0;
+}
+
+.shadow {
+  box-shadow: 0 13px 99px 0 rgba(0, 0, 0, 0.06);
+}
+
+.navbar-default {
+  background-color: transparent;
+  transition: 0.4s;
+}
+
+#navbar {
+  padding: 0 2.5rem;
+}
+
+#navbar .navbar-nav > li {
+  font-size: 16px;
+}
+
+#navbar .navbar-nav > li > a.text-button {
+  text-transform: capitalize;
+  color: rgb(243, 243, 243);
+}
+
+#navbar .navbar-nav > .active > a.text-button {
+  background: transparent;
+  color: #1f3ab4;
+  font-weight: 800;
+}
+
+#navbar .navbar-nav > li > button {
+  padding: 6px 25px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.btn-bri {
+  background-color: #ef8f2c;
+  border-color: #de8c38;
+}
+
+/**
+* Section
+**/
+
+section {
+  padding: 3rem 0 6rem;
+  margin-bottom: 30px;
+}
+
+.section-header {
+  padding: 3rem 0;
+}
+
+.section-heading {
+  font-size: 42px;
+  letter-spacing: 0.5;
+  font-weight: 800;
+}
+
+.section-subheading {
+  font-size: 18px;
+  letter-spacing: 0.4;
+  line-height: 1.7;
+  margin: 2rem 0;
+}
+
+/**
+* Card
+**/
+
+.card {
+  border-radius: 4px;
+  box-shadow: 0 13px 99px 0 rgba(0, 0, 0, 0.06);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1.5rem;
+  height: 350px;
+}
+
+.card > img {
+  width: 100px;
+  height: auto;
+}
+
+.card > .card-header {
+  font-weight: 700;
+  letter-spacing: 0.44;
+  font-size: 20px;
+}
+
+.card > .card-description {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  line-height: 22px;
+}
+
+.blue-bg {
+  background-color: #4d4545;
+  color: #ed8d8d;
+  height: 100%;
+}
+
+.circle {
+  font-weight: bold;
+  padding: 15px 20px;
+  border-radius: 50%;
+  background-color: #ed8d8d;
+  color: #4d4545;
+  max-height: 50px;
+  z-index: 2;
+}
+
+.how-it-works.row {
+  display: flex;
+}
+.how-it-works.row .col-2 {
+  display: inline-flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+}
+.how-it-works.row .col-2::after {
+  content: "";
+  position: absolute;
+  border-left: 3px solid #ed8d8d;
+  z-index: 1;
+}
+.how-it-works.row .col-2.bottom::after {
+  height: 50%;
+  left: 50%;
+  top: 50%;
+}
+.how-it-works.row .col-2.full::after {
+  height: 100%;
+  left: calc(50% - 3px);
+}
+.how-it-works.row .col-2.top::after {
+  height: 50%;
+  left: 50%;
+  top: 0;
+}
+
+/**
+* Timeline
+**/
+
+#timeline-content {
+  margin-top: 50px;
+  text-align: center;
+}
+/* Timeline */
+.timeline {
+  border-left: 4px solid #4a92ee;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #000000;
+  margin: 50px auto;
+  letter-spacing: 0.5px;
+  position: relative;
+  line-height: 1.4em;
+  font-size: 14px;
+  padding: 50px;
+  list-style: none;
+  text-align: left;
+  font-weight: 400;
+  max-width: 60%;
+}
+.timeline h2,
+.timeline h3 {
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  font-size: 20px;
+}
+.timeline .event {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 25px;
+  margin-bottom: 50px;
+  position: relative;
+}
+.timeline .event:last-of-type {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border: none;
+}
+.timeline .event:before,
+.timeline .event:after {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+.timeline .event:before {
+  left: -217.5px;
+  color: rgb(25 23 23);
+  content: "";
+  text-align: right;
+  font-weight: 100;
+  font-size: 0.9em;
+  width: 80px;
+  height: auto;
+  top: -30px;
+}
+.timeline .event:after {
+  box-shadow: 0 0 0 4px #2979e2;
+  left: -57.85px;
+  background: #ef8f2c;
+  border-radius: 50%;
+  height: 11px;
+  width: 11px;
+  content: "";
+  top: 5px;
+}
+
+#kelola-klaster {
+  background-color: #f2f6fa;
+}
+
+.event.klaster-event:before {
+  content: url("../img/landing-page/team.svg");
+}
+
+.event.kunjungan-event:before {
+  content: url("../img/landing-page/inspection.svg");
+}
+
+.event.data-event:before {
+  content: url("../img/landing-page/work-from-home.svg");
+}
+
+.event.identifikasi-event:before {
+  content: url("../img/landing-page/identifikasi.svg");
+}
+
+.event.pemberdayaan-event:before {
+  content: url("../img/landing-page/workshop.svg");
+}
+
+.event.eksekusi-event:before {
+  content: url("../img/landing-page/graph.svg");
+}
+
+.event.evaluasi-event:before {
+  content: url("../img/landing-page/checklist.svg");
+}
+
+.carousel-inner > .item > a > img,
+.carousel-inner > .item > img,
+.img-responsive,
+.thumbnail a > img,
+.thumbnail > img {
+  width: 100%;
+}
+
+#footer {
+  background-color: #212121;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+}
+
+#footer .container {
+  padding: 0 5%;
+}
+
+#footer .tail {
+  border-top: 1px solid rgb(221, 221, 221);
+  padding: 2rem 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .jumbotron {
+    background-position: right center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .jumbotron {
+    padding-top: 80px;
+    background-position: top right;
+  }
+
+  .jumbotron .hero-heading {
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+  }
+
+  .jumbotron p {
+    font-size: 16px;
+  }
+
+  .timeline {
+    max-width: 70%;
+  }
+
+  .timeline .event {
+    margin-bottom: 100px;
+  }
+
+  .timeline .event:before {
+    left: 0px;
+    top: -100px;
+  }
+
+  #footer address {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .jumbotron {
+    background-image: url("../img/landing-page/hero-mobile.png");
+    background-position: center;
+  }
+}
