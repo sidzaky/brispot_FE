@@ -31,10 +31,27 @@
 
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary waves-effect waves-light" onclick="$('#modalz').hide();">Batal</button>
-          <input type="submit" value="Simpan" class="btn btn-success waves-effect waves-light" disabled id="dsubmit" />
+          <button class="btn btn-warning waves-effect waves-light" onclick="$('#modalz').hide();">Batal</button>
+          <button type="submit" value="Simpan" class="btn btn-primary waves-effect waves-light" onclick="userm()" disabled id="dsubmit">Simpan</button>
         </div>
       </form>
     </div>
   </div>
 </div>
+<script>
+     function userm(i=false){
+                var data1 = { 
+                            'kode_uker_c' 	    :  $('#kode_uker_c').val(),
+                            'password'			: $('#password').val()
+                        };
+                $.ajax({ 
+                            type:"POST",
+                            url: "<?php echo base_url();?>login/chpassuker",
+                            data: data1,
+                            success:function(smsg){
+                                alert('ganti password uker berhasil');
+                                $('#modalz').hide();
+                            }
+                    });
+            }    
+    </script>
