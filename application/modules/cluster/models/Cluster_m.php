@@ -33,6 +33,8 @@ class Cluster_m extends CI_Model
 
 		}
 
+
+
 		// if ($appr=1) $sql .= " approve ====="; //buat filter status approve
 
 		if ($_POST['search']['value'] != "") $sql .= " and ";
@@ -186,6 +188,17 @@ class Cluster_m extends CI_Model
 	{
 		$query = $this->db->query("select * from cluster where id='" . $_POST['id'] . "'");
 		return $query->result_array();
+	}
+
+	public function approve()
+	{
+		if (isset($_POST['id'])) {
+			if ($user == "ceker" )
+			$sql = "update cluster set checker_status=1 where id='" . $_POST['id'] . "'";
+			elseif ($user == "singner" )
+			$sql = "update cluster set signer_status=1 where id='" . $_POST['id'] . "'";
+			$this->db->query($sql);
+		}
 	}
 
 	public function getdatafoto_m($db)
