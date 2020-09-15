@@ -501,7 +501,7 @@ function te(i) {
         : "";
     msg +=
       cekhp(document.getElementById("kaunit_handphone")) == false
-        ? "data PN Kaunit tidak valid \n"
+        ? "data handphone Kaunit tidak valid \n"
         : "";
   
     msg +=
