@@ -36,7 +36,6 @@
      							<?php
 										$i = 1;
                                         $grandtotal = 0;
-                                        $total;
 										foreach ($kanwil as $row => $value) {
 											$totalkanwil=0;
 											echo '<tr>
@@ -45,10 +44,8 @@
 											for ($z=1;$z<=count($listkategori);$z++){
 												if (!isset($value[$z])) {
                                                         $value[$z]=0;
-                                                        $total[$z]=0;
                                                     }
-                                                    $total[$z] += $value[$z];
-													$totalkanwil =$totalkanwil+$value[$z];
+													$totalkanwil = $totalkanwil+$value[$z];
 													echo '<td>'.$value[$z].'</td>';
 												}
 											echo '<td>'.$totalkanwil.($this->session->userdata('permission') >= 3 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\''.$row.'\',\'' . $harian . '\',\''.$i.'\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '').'</td></tr>';
@@ -60,8 +57,9 @@
 																		<td></td>
 																		<td>Grand Total</td>';
 										for ($z=1;$z<=count($listkategori);$z++){
-												echo '<td>'.($total[$z]/2).'</td>';
-												$grandtotal=$grandtotal+($total[$z]/2);
+										
+												echo '<td>'.(isset($total[$z]) ? $total[$z] : '0').'</td>';
+												$grandtotal += (isset($total[$z]) ? $total[$z] : 0 );
 										}
 										echo '<td>'.$grandtotal.($this->session->userdata('permission') >= 3 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\'\',\'' . $harian . '\',\'all\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '') . '</td></tr></tfoot>';
 										?>

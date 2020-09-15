@@ -2,7 +2,7 @@
 <div class="modal" id="modalz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form>
+     
         <div class="modal-header">
           <button type="button" class="close" onclick="$('#modalz').hide();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h5 class="modal-title">Form klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
@@ -32,9 +32,9 @@
         </div>
         <div class="modal-footer">
           <button class="btn btn-warning waves-effect waves-light" onclick="$('#modalz').hide();">Batal</button>
-          <button type="submit" value="Simpan" class="btn btn-primary waves-effect waves-light" onclick="userm()" disabled id="dsubmit">Simpan</button>
+          <button value="Simpan" class="btn btn-primary waves-effect waves-light" onclick="userm()" disabled id="dsubmit">Simpan</button>
         </div>
-      </form>
+      
     </div>
   </div>
 </div>
