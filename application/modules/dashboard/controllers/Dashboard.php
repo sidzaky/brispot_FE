@@ -44,10 +44,10 @@ class Dashboard extends MX_Controller
 
   function generateReport($query)
   {
-    $where = 'where timestamp >1576085405 ';
+    $where = 'where timestamp >1576085405 and cluster_status=1 ';
     $keyword = 'kanwil';
     if ($this->session->userdata('permission') !== "4") {
-      $where = "where " . $query["code"] . " = '" . $query["value"] . "' and timestamp >1576085405 order by " . $query["order"] . " ASC";
+      $where = "where " . $query["code"] . " = '" . $query["value"] . "' and timestamp >1576085405 and cluster_status=1  order by " . $query["order"] . " ASC";
       $keyword = $query["order"];
     }
     ini_set('memory_limit', '-1');

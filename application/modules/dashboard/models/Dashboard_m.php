@@ -43,7 +43,7 @@ class Dashboard_m extends CI_Model
           SELECT id_cluster_kebutuhan_skema_kredit
           FROM cluster_kebutuhan_skema_kredit
       ) AS subquery
-    ) AND $where and timestamp >1576085405 group by a.kebutuhan_skema_kredit order by total DESC";
+    ) AND $where and timestamp >1576085405 and cluster_status=1 group by a.kebutuhan_skema_kredit order by total DESC";
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
@@ -57,7 +57,7 @@ class Dashboard_m extends CI_Model
           SELECT id_cluster_kebutuhan_sarana
           FROM cluster_kebutuhan_sarana
       ) AS subquery
-    ) AND $where and timestamp >1576085405 group by a.kebutuhan_sarana order by total DESC";
+    ) AND $where and timestamp >1576085405 and cluster_status=1  group by a.kebutuhan_sarana order by total DESC";
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
@@ -71,7 +71,7 @@ class Dashboard_m extends CI_Model
           SELECT id_cluster_kebutuhan_pendidikan_pelatihan
           FROM cluster_kebutuhan_pendidikan_pelatihan
       ) AS subquery
-    ) AND $where and timestamp >1576085405 group by a.kebutuhan_pendidikan order by total DESC";
+    ) AND $where and timestamp >1576085405 and cluster_status=1  group by a.kebutuhan_pendidikan order by total DESC";
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
