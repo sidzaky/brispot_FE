@@ -497,215 +497,50 @@ function cnik(i = null, j = null) {
 
 function reval() {
   var msg = "";
-  msg +=
-    validatorreqtext(document.getElementById("kaunit_nama"), iname) == false
-      ? "data Nama Kaunit tidak valid \n"
-      : "";
-  msg +=
-    validatorreqnumber(document.getElementById("kaunit_pn")) == false
-      ? "data PN Kaunit tidak valid \n"
-      : "";
-  msg +=
-    cekhp(document.getElementById("kaunit_handphone")) == false
-      ? "data PN Kaunit tidak valid \n"
-      : "";
-
-  msg +=
-    validatorreqtext(document.getElementById("nama_pekerja"), iname) == false
-      ? "data nama_pekerja tidak valid \n"
-      : "";
-  msg +=
-    validatorreqnumber(document.getElementById("personal_number")) == false
-      ? "data personal_number pekerja tidak valid \n"
-      : "";
-  msg +=
-    cekhp(document.getElementById("handphone_pekerja")) == false
-      ? "data handphone_pekerja tidak valid \n"
-      : "";
-
-  msg +=
-    validatorreqtext(document.getElementById("kelompok_usaha"), iname) == false
-      ? "data Kelompok usaha tidak valid \n"
-      : "";
-  msg +=
-    validatorreqnumber(document.getElementById("kelompok_jumlah_anggota")) ==
-    false
-      ? "data kelompok_jumlah_anggota  tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(document.getElementById("hasil_produk"), ischar) == false
-      ? "data hasil_produk tidak valid \n"
-      : "";
-
-  msg +=
-    validatoroptnumber(document.getElementById("pasar_ekspor_tahun")) == false
-      ? "data pasar_ekspor_tahun  tidak valid \n"
-      : "";
-  msg +=
-    validatoroptnumber(document.getElementById("pasar_ekspor_nilai")) == false
-      ? "data pasar_ekspor_nilai  tidak valid \n"
-      : "";
-  msg +=
-    validatoroptnumber(document.getElementById("kelompok_luas_usaha")) == false
-      ? "data kelompok_luas_usaha  tidak valid \n"
-      : "";
-
-  msg +=
-    validatoropttext(
-      document.getElementById("kelompok_pihak_pembeli"),
-      ischar
-    ) == false
-      ? "data kelompok_pihak_pembeli  tidak valid \n"
-      : "";
-  msg +=
-    cekhpnor(document.getElementById("kelompok_pihak_pembeli_handphone")) ==
-    false
-      ? "data kelompok_pihak_pembeli_handphone tidak valid \n"
-      : "";
-  msg +=
-    validatoropttext(
-      document.getElementById("kelompok_suplier_produk"),
-      ischar
-    ) == false
-      ? "data kelompok_suplier_produk  tidak valid \n"
-      : "";
-  msg +=
-    cekhpnor(document.getElementById("kelompok_suplier_handphone")) == false
-      ? "data kelompok_suplier_handphone tidak valid \n"
-      : "";
-
-  msg +=
-    validatorreqtext(
-      document.getElementById("kebutuhan_sarana_milik"),
-      ischar
-    ) == false
-      ? "data kebutuhan_sarana_milik tidak valid \n"
-      : "";
-  msg +=
-    validatoropttext(
-      document.getElementById("kebutuhan_sarana_lainnya"),
-      ischar
-    ) == false
-      ? "data kebutuhan_sarana_lainnya tidak valid \n"
-      : "";
-
-  msg +=
-    validatorreqtext(document.getElementById("kelompok_perwakilan"), iname) ==
-    false
-      ? "data nama ketua kelompok tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(document.getElementById("lokasi_usaha"), ischar) == false
-      ? "data lokasi_usaha tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(
-      document.getElementById("kelompok_cerita_usaha"),
-      ischar
-    ) == false
-      ? "Cerita Usaha kosong atau mengandung karakter yang tidak diperbolehkan (!@#$%^&*()+=[]\\';/{}|\":<>?)  \n"
-      : "";
-
-  msg +=
-    validatorreqtext(document.getElementById("provinsi"), ischar) == false
-      ? "data provinsi tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(document.getElementById("kabupaten"), ischar) == false
-      ? "data kabupaten tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(document.getElementById("kecamatan"), ischar) == false
-      ? "data kecamatan tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(document.getElementById("kelurahan"), ischar) == false
-      ? "data kelurahan tidak valid \n"
-      : "";
-  msg +=
-    validatorreqnumber(document.getElementById("kode_pos")) == false
-      ? "data kode_pos pekerja tidak valid \n"
-      : "";
-
-  msg +=
-    cnik(document.getElementById("kelompok_NIK").value) == false
-      ? "data kelompok_NIK pekerja tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(
-      document.getElementById("kelompok_perwakilan_tgl_lahir"),
-      ischar
-    ) == false
-      ? "data kelompok_perwakilan_tgl_lahir pekerja tidak valid \n"
-      : "";
-  msg +=
-    validatorreqtext(
-      document.getElementById("kelompok_perwakilan_tempat_lahir"),
-      ischar
-    ) == false
-      ? "data kelompok_perwakilan_tempat_lahir tidak valid \n"
-      : "";
-  msg +=
-    cekhp(document.getElementById("kelompok_handphone")) == false
-      ? "data kelompok_handphone tidak valid \n"
-      : "";
-
-  msg +=
-    validatoroptnumber(document.getElementById("nominal_pinjaman")) == false
-      ? "data nominal_pinjaman  tidak valid \n"
-      : "";
-  msg +=
-    validatoroptnumber(document.getElementById("norek_pinjaman_bri")) == false
-      ? "data norek_pinjaman_bri  tidak valid \n"
-      : "";
-  msg +=
-    document.getElementById("kelompok_anggota_pinjaman").value == ""
-      ? "data kelompok angota pinjaman tidak boleh kosong \n"
-      : "";
-  msg +=
-    document.getElementById("id_cluster_sektor_usaha").value == ""
-      ? "data sektor usaha tidak boleh kosong \n"
-      : "";
-  msg +=
-    document.getElementById("id_cluster_jenis_usaha_map").value == ""
-      ? "data kategori Jenis usaha tidak boleh kosong \n"
-      : "";
-  msg +=
-    document.getElementById("id_cluster_jenis_usaha").value == ""
-      ? "data Jenis usaha tidak boleh kosong \n"
-      : "";
-  msg +=
-    document.getElementById("pasar_ekspor").value == ""
-      ? "data Pasar Ekspor tidak boleh kosong\n"
-      : "";
-  msg +=
-    document.getElementById("kebutuhan_sarana").value == ""
-      ? "data  Kebutuhan Sarana tidak boleh kosong\n"
-      : "";
-  msg +=
-    document.getElementById("kebutuhan_pendidikan").value == ""
-      ? "data Kebutuhan pendidikan tidak boleh kosong\n"
-      : "";
-  msg +=
-    document.getElementById("kebutuhan_skema_kredit").value == ""
-      ? "data Skema Kredit  tidak boleh kosong\n"
-      : "";
-  msg +=
-    document.getElementById("kelompok_jenis_kelamin").value == ""
-      ? "data  Jenis Kelamin ketua/Perwakilan usaha tidak boleh kosong\n"
-      : "";
-  msg +=
-    document.getElementById("pinjaman").value == ""
-      ? "data punya Pinjaman tidak boleh kosong\n"
-      : "";
-  msg +=
-    document.getElementById("simpanan_bank").value == ""
-      ? "data  simpanan tidak boleh kosong\n"
-      : "";
-  msg +=
-    document.getElementById("agen_brilink").value == ""
-      ? "data agen brilink tidak boleh kosong\n"
-      : "";
+  msg += validatorreqtext(document.getElementById("kaunit_nama"), iname) == false ? "data Nama Kaunit tidak valid \n" : "";
+  msg += validatorreqnumber(document.getElementById("kaunit_pn")) == false ? "data PN Kaunit tidak valid \n" : "";
+  msg += cekhp(document.getElementById("kaunit_handphone")) == false ? "data handphone Kaunit tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("nama_pekerja"), iname) == false ? "data nama_pekerja tidak valid \n" : "";
+  msg += validatorreqnumber(document.getElementById("personal_number")) == false ? "data personal_number pekerja tidak valid \n" : "";
+  msg += cekhp(document.getElementById("handphone_pekerja")) == false ? "data handphone_pekerja tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("kelompok_usaha"), iname) == false ? "data Kelompok usaha tidak valid \n" : "";
+  msg += validatorreqnumber(document.getElementById("kelompok_jumlah_anggota")) == false ? "data kelompok_jumlah_anggota  tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("hasil_produk"), ischar) == false ? "data hasil_produk tidak valid \n" : "";
+  msg += validatoroptnumber(document.getElementById("pasar_ekspor_tahun")) == false ? "data pasar_ekspor_tahun  tidak valid \n" : "";
+  msg += validatoroptnumber(document.getElementById("pasar_ekspor_nilai")) == false ? "data pasar_ekspor_nilai  tidak valid \n" : "";
+  msg += validatoroptnumber(document.getElementById("kelompok_luas_usaha")) == false ? "data kelompok_luas_usaha  tidak valid \n" : "";
+  msg += validatoropttext(document.getElementById("kelompok_pihak_pembeli"), ischar ) == false ? "data kelompok_pihak_pembeli  tidak valid \n" : "";
+  msg += cekhpnor(document.getElementById("kelompok_pihak_pembeli_handphone")) == false ? "data kelompok_pihak_pembeli_handphone tidak valid \n" : "";
+  msg += validatoropttext( document.getElementById("kelompok_suplier_produk"), ischar ) == false ? "data kelompok_suplier_produk  tidak valid \n" : "";
+  msg += cekhpnor(document.getElementById("kelompok_suplier_handphone")) == false ? "data kelompok_suplier_handphone tidak valid \n" : ""; 
+  msg += validatorreqtext( document.getElementById("kebutuhan_sarana_milik"), ischar ) == false ? "data kebutuhan_sarana_milik tidak valid \n" : "";
+  msg += validatoropttext( document.getElementById("kebutuhan_sarana_lainnya"), ischar ) == false ? "data kebutuhan_sarana_lainnya tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("kelompok_perwakilan"), iname) == false ? "data nama ketua kelompok tidak valid \n": "";
+  msg += validatorreqtext(document.getElementById("lokasi_usaha"), ischar) == false ? "data lokasi_usaha tidak valid \n" : "";
+  msg += validatorreqtext( document.getElementById("kelompok_cerita_usaha"), ischar ) == false ? "Cerita Usaha kosong atau mengandung karakter yang tidak diperbolehkan (!@#$%^&*()+=[]\\';/{}|\":<>?)  \n" : "";
+  msg += validatorreqtext(document.getElementById("provinsi"), ischar) == false ? "data provinsi tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("kabupaten"), ischar) == false ? "data kabupaten tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("kecamatan"), ischar) == false ? "data kecamatan tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("kelurahan"), ischar) == false ? "data kelurahan tidak valid \n" : "";
+  msg += validatorreqnumber(document.getElementById("kode_pos")) == false ? "data kode_pos pekerja tidak valid \n" : "";
+  msg += cnik(document.getElementById("kelompok_NIK").value) == false ? "data kelompok_NIK pekerja tidak valid \n" : "";
+  msg += validatorreqtext( document.getElementById("kelompok_perwakilan_tgl_lahir"), ischar) == false ? "data kelompok_perwakilan_tgl_lahir pekerja tidak valid \n" : "";
+  msg += validatorreqtext( document.getElementById("kelompok_perwakilan_tempat_lahir"), ischar ) == false ? "data kelompok_perwakilan_tempat_lahir tidak valid \n" : "";
+  msg += cekhp(document.getElementById("kelompok_handphone")) == false ? "data kelompok_handphone tidak valid \n" : "";
+  msg += validatoroptnumber(document.getElementById("nominal_pinjaman")) == false ? "data nominal_pinjaman  tidak valid \n" : "";
+  msg += validatoroptnumber(document.getElementById("norek_pinjaman_bri")) == false ? "data norek_pinjaman_bri  tidak valid \n" : "";
+  msg += document.getElementById("kelompok_anggota_pinjaman").value == "" ? "data kelompok angota pinjaman tidak boleh kosong \n" : "";
+  msg += document.getElementById("id_cluster_sektor_usaha").value == "" ? "data sektor usaha tidak boleh kosong \n" : "";
+  msg += document.getElementById("id_cluster_jenis_usaha_map").value == "" ? "data kategori Jenis usaha tidak boleh kosong \n" : "";
+  msg += document.getElementById("id_cluster_jenis_usaha").value == "" ? "data Jenis usaha tidak boleh kosong \n" : "";
+  msg += document.getElementById("pasar_ekspor").value == "" ? "data Pasar Ekspor tidak boleh kosong\n" : "";
+  msg += document.getElementById("kebutuhan_sarana").value == "" ? "data  Kebutuhan Sarana tidak boleh kosong\n" : "";
+  msg += document.getElementById("kebutuhan_pendidikan").value == "" ? "data Kebutuhan pendidikan tidak boleh kosong\n" : "";
+  msg += document.getElementById("kebutuhan_skema_kredit").value == "" ? "data Skema Kredit  tidak boleh kosong\n" : "";
+  msg += document.getElementById("kelompok_jenis_kelamin").value == "" ? "data  Jenis Kelamin ketua/Perwakilan usaha tidak boleh kosong\n" : "";
+  msg += document.getElementById("pinjaman").value == "" ? "data punya Pinjaman tidak boleh kosong\n" : "";
+  msg += document.getElementById("simpanan_bank").value == "" ? "data  simpanan tidak boleh kosong\n" : "";
+  msg += document.getElementById("agen_brilink").value == "" ? "data agen brilink tidak boleh kosong\n" : "";
   return msg;
 }
 
