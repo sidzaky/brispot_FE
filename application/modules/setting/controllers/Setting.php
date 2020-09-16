@@ -48,15 +48,25 @@ class Setting extends MX_Controller {
             $jenis_usaha_map = $this->get_jenisusahamap($row['id_cluster_sektor_usaha']);
             foreach ($jenis_usaha_map as $srow){
                 $jenis_usaha = $this->get_jenisusaha($srow['id_cluster_jenis_usaha_map']);
-                $tableb .= '<tr><td rowspan="'.(count($jenis_usaha)+1).'">'.$srow['nama_cluster_jenis_usaha_map'].'</td></tr>';
+                $tableb .= '<tr>';
+                $tableb .= '<td rowspan="'.(count($jenis_usaha)+1).'">'.$srow['nama_cluster_jenis_usaha_map'];
+                $tableb .= '<button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-pencil"></i></button>';
+                $tableb .= '</td></tr>';
                 $ca++;
                 foreach ($jenis_usaha  as $ssrow){
                     $ca++;
-                    $tableb .= '<tr><td>'.$ssrow['nama_cluster_jenis_usaha'].'</td></tr>';
+                    $tableb .= '<tr><td>';
+                    $tableb .= $ssrow['nama_cluster_jenis_usaha'];
+                    $tableb .= '<button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-pencil"></i></button>';
+                    $tableb .= '</td></tr>';
                 }
             }
             
-            $tablea .= '<tr><td rowspan="'.($ca+1).'">'.$row['keterangan_cluster_sektor_usaha'].'</td></tr>'.$tableb;
+            $tablea .= '<tr>';
+            $tablea .= '<td rowspan="'.($ca+1).'">'.$row['keterangan_cluster_sektor_usaha'];
+            $tablea .= '<button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-pencil"></i></button>';
+            $tablea .= '</td></tr>';
+            $tablea .= $tableb;
         }
         return $tablea;
     }

@@ -18,20 +18,20 @@
                     border: 1px solid black;
                     }
                     </style>
-				<table class="table table-striped table-bordered" width="100%">
+				<table class="table table-bordered" width="100%">
                     <thead>
                         <tr>
                             <th width="20%">
                                 Sektor Usaha
-                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
+                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i></button>
                             </th>
                             <th width="20%">
                                 Kategori Usaha
-                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
+                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i></button>
                             </th>
                             <th width="70%">
                                 Jenis Usaha
-                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
+                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i></button>
                             </th>
                         </tr>
                     </thead>
