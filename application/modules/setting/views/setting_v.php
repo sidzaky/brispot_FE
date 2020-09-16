@@ -7,13 +7,41 @@
     </section>
 	<section class="content">
 	<div class="row">
-      <div class="col-md-4">
+      <div class="col-md-12">
         <div class="box box-solid">
 			<div class="box-header with-border">
-                <h3 class="box-title">
-                    List Jenis Usaha
+                <h3 class="box-title" align="center">
+                    Tabel Usaha
                 </h3>
-				<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
+                <style>
+                    table, th, td {
+                    border: 1px solid black;
+                    }
+                    </style>
+				<table class="table table-striped table-bordered" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="20%">
+                                Sektor Usaha
+                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
+                            </th>
+                            <th width="20%">
+                                Kategori Usaha
+                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
+                            </th>
+                            <th width="70%">
+                                Jenis Usaha
+                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            echo $con->get_datausaha();
+                        ?>
+                    </tbody>
+                </table>
+
             </div>
         </div>
        </div> 
