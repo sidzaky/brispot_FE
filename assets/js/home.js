@@ -4,7 +4,6 @@ jQuery(function ($) {
   });
 
   $(".navbar-toggle").on("click", function () {
-    console.log($(this).hasClass("collapsed"));
     if ($(this).hasClass("collapsed")) {
       document.querySelector(".navbar-default").style.backgroundColor =
         "#ffffff";
