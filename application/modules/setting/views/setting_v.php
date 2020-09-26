@@ -11,13 +11,13 @@
         <div class="box box-solid">
 			<div class="box-header with-border" id="setting_content">
                 <?php 
-                    $con->setting_content();
+                    $con->get_setting_content();
                 ?>
             </div>
         </div>
-       </div> 
-<script src="./assets/js/send.js"></script>
+    </div>
 
+<script src="./assets/js/send.js"></script>
 <script>
 
         function getform(i){

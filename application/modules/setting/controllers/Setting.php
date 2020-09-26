@@ -34,11 +34,6 @@ class Setting extends MX_Controller {
         $this->load->view('template', $data);    
     }
 
-
-    public function updateform(){
-
-    }
-
     public function get_datausaha(){
         $sektor_usaha = $this->get_sektorusaha();
         $tablea="";
@@ -61,7 +56,7 @@ class Setting extends MX_Controller {
         return $tablea;
     }
 
-    public function setting_content(){
+    public function get_setting_content(){
         $this->load->view('setting_content');
     }
 
@@ -75,23 +70,23 @@ class Setting extends MX_Controller {
     }
 
     public function get_jenis_usaha(){
-       $data['jenis_usaha']= $this->setting_m->get_jenisusaha_m($i);
-        $this->load->view('setting_jenis_usaha_v',$data)
+       $data['jenis_usaha']= $this->setting_m->get_jenisusaha_m();
+        $this->load->view('setting_jenis_usaha_v',$data);
     }
 
     public function get_kebutuhan_sarana(){
         $data['kebutuhan_sarana']=$this->setting_m->get_kebutuhansarana_m();
-        $this->load->view('setting_kebutuhan_sarana_v',$data)
+        $this->load->view('setting_kebutuhan_sarana_v',$data);
     }
 
     public function get_kebutuhan_pendidikan_pelatihan(){
         $data['kebutuhan_pendidikan_pelatihan']=$this->setting_m->get_kebutuhanpendidikan_m();
-        $this->load->view('setting_kebutuhan_pendidikan_pelatihan_v',$data)
+        $this->load->view('setting_kebutuhan_pendidikan_pelatihan_v',$data);
     }
 
     public function get_kebutuhan_skema_kredit(){
         $data['kebutuhan_skema_kredit']=$this->setting->get_kebutuhanskemakredit_m();
-        $this->load->view('setting_kebutuhan_skema_kredit_v',$data)
+        $this->load->view('setting_kebutuhan_skema_kredit_v',$data);
     }
 
 
