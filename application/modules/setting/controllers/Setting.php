@@ -64,20 +64,62 @@ class Setting extends MX_Controller {
         $data['sektor_usaha']=$this->setting_m->get_sektorusaha_m();
         $this->load->view('setting_sektor_usaha_v',$data);
     }
+
+    public function up_sektor_usaha(){
+        $this->setting_m->up_sektor_usaha_m();
+        unset($_POST);
+        $this->get_sektor_usaha();
+    }
+
+    public function dis_sektor_usaha(){
+        $this->setting_m->dis_sektor_usaha_m();
+        unset($_POST);
+        $this->get_sektor_usaha();
+    }
+
     public function get_jenis_usaha_map(){
+        $data['sektor_usaha']=$this->setting_m->get_sektorusaha_m();
         $data['jenis_usaha_map']=$this->setting_m->get_jenisusahamap_m();
         $this->load->view('setting_jenis_usaha_map_v',$data);
     }
 
+    public function up_jenis_usaha_map(){
+        $this->setting_m->up_jenis_usaha_map_m();
+        unset($_POST);
+        $this->get_jenis_usaha_map();
+    }
+
+    public function dis_jenis_usaha_map(){
+        $this->setting_m->dis_jenis_usaha_map_m();
+        unset($_POST);
+        $this->get_jenis_usaha_map();
+    }
+
     public function get_jenis_usaha(){
-       $data['jenis_usaha']= $this->setting_m->get_jenisusaha_m();
+        $data['sektor_usaha']=$this->setting_m->get_sektorusaha_m();
+        $data['jenis_usaha_map']=$this->setting_m->get_jenisusahamap_m();
+        $data['jenis_usaha']= $this->setting_m->get_jenisusaha_m();
         $this->load->view('setting_jenis_usaha_v',$data);
+    }
+
+    public function up_jenis_usaha(){
+        $this->setting_m->up_jenis_usaha_m();
+        unset($_POST);
+        $this->get_jenis_usaha();
+    }
+
+    public function dis_jenis_usaha(){
+        $this->setting_m->dis_jenis_usaha_m();
+        unset($_POST);
+        $this->get_jenis_usaha();
     }
 
     public function get_kebutuhan_sarana(){
         $data['kebutuhan_sarana']=$this->setting_m->get_kebutuhansarana_m();
         $this->load->view('setting_kebutuhan_sarana_v',$data);
     }
+
+    
 
     public function get_kebutuhan_pendidikan_pelatihan(){
         $data['kebutuhan_pendidikan_pelatihan']=$this->setting_m->get_kebutuhanpendidikan_m();
