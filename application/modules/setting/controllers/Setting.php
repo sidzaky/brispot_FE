@@ -48,53 +48,50 @@ class Setting extends MX_Controller {
             $jenis_usaha_map = $this->get_jenisusahamap($row['id_cluster_sektor_usaha']);
             foreach ($jenis_usaha_map as $srow){
                 $jenis_usaha = $this->get_jenisusaha($srow['id_cluster_jenis_usaha_map']);
-                $tableb .= '<tr>';
-                $tableb .= '<td rowspan="'.(count($jenis_usaha)+1).'">'.$srow['nama_cluster_jenis_usaha_map'];
-                $tableb .= '<button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-pencil"></i></button>';
-                $tableb .= '</td></tr>';
+                $tableb .= '<tr><td rowspan="'.(count($jenis_usaha)+1).'">'.$srow['nama_cluster_jenis_usaha_map'].'<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> edit</button></td></tr>';
                 $ca++;
                 foreach ($jenis_usaha  as $ssrow){
                     $ca++;
-                    $tableb .= '<tr><td>';
-                    $tableb .= $ssrow['nama_cluster_jenis_usaha'];
-                    $tableb .= '<button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-pencil"></i></button>';
-                    $tableb .= '</td></tr>';
+                    $tableb .= '<tr><td>'.$ssrow['nama_cluster_jenis_usaha'].'<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> edit</button></td></tr>';
                 }
             }
             
-            $tablea .= '<tr>';
-            $tablea .= '<td rowspan="'.($ca+1).'">'.$row['keterangan_cluster_sektor_usaha'];
-            $tablea .= '<button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-pencil"></i></button>';
-            $tablea .= '</td></tr>';
-            $tablea .= $tableb;
+            $tablea .= '<tr><td rowspan="'.($ca+1).'">'.$row['keterangan_cluster_sektor_usaha'].'<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> edit</button></td></tr>'.$tableb;
         }
         return $tablea;
     }
 
-    public function get_sektorusaha(){
-        return $this->setting_m->get_sektorusaha_m();
- 
-    }
-    public function get_jenisusahamap($i){
-        return $this->setting_m->get_jenisusahamap_m($i);
+    public function setting_content(){
+        $this->load->view('setting_content');
     }
 
-    public function get_jenisusaha($i){
-        return $this->setting_m->get_jenisusaha_m($i);
+    public function get_sektor_usaha(){
+        $data['sektor_usaha']=$this->setting_m->get_sektorusaha_m();
+        $this->load->view('setting_sektor_usaha_v',$data);
+    }
+    public function get_jenis_usaha_map(){
+        $data['jenis_usaha_map']=$this->setting_m->get_jenisusahamap_m();
+        $this->load->view('setting_jenis_usaha_map_v',$data);
     }
 
-   
-
-    public function get_kebutuhansarana(){
-        return $this->setting_m->get_kebutuhansarana_m();
+    public function get_jenis_usaha(){
+       $data['jenis_usaha']= $this->setting_m->get_jenisusaha_m($i);
+        $this->load->view('setting_jenis_usaha_v',$data)
     }
 
-    public function get_kebutuhanpendidikan(){
-        return $this->setting_m->get_kebutuhanpendidikan_m();
+    public function get_kebutuhan_sarana(){
+        $data['kebutuhan_sarana']=$this->setting_m->get_kebutuhansarana_m();
+        $this->load->view('setting_kebutuhan_sarana_v',$data)
     }
 
-    public function get_kebutuhanskemakredit(){
-        return $this->setting->get_kebutuhanskemakredit_m();
+    public function get_kebutuhan_pendidikan_pelatihan(){
+        $data['kebutuhan_pendidikan_pelatihan']=$this->setting_m->get_kebutuhanpendidikan_m();
+        $this->load->view('setting_kebutuhan_pendidikan_pelatihan_v',$data)
+    }
+
+    public function get_kebutuhan_skema_kredit(){
+        $data['kebutuhan_skema_kredit']=$this->setting->get_kebutuhanskemakredit_m();
+        $this->load->view('setting_kebutuhan_skema_kredit_v',$data)
     }
 
 
