@@ -9,120 +9,22 @@
 	<div class="row">
       <div class="col-md-12">
         <div class="box box-solid">
-			<div class="box-header with-border">
-                <h3 class="box-title" align="center">
-                    Tabel Usaha
-                </h3>
-                <style>
-                    table, th, td {
-                    border: 1px solid black;
-                    }
-                    </style>
-				<table class="table table-striped table-bordered" width="100%">
-                    <thead>
-                        <tr>
-                            <th width="20%">
-                                Sektor Usaha
-                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
-                            </th>
-                            <th width="20%">
-                                Kategori Usaha
-                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
-                            </th>
-                            <th width="70%">
-                                Jenis Usaha
-                                <button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah</button>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            echo $con->get_datausaha();
-                        ?>
-                    </tbody>
-                </table>
+			<div class="box-header with-border" id="setting_content">
+                <?php 
+                    $con->get_setting_content();
+                ?>
+            </div>
+        </div>
+    </div>
 
-            </div>
-        </div>
-       </div> 
-	   <div class="col-md-4">
-        <div class="box box-solid">
-			<div class="box-header with-border">
-                <h3 class="box-title">
-                    List Kategori Usaha
-                </h3>
-				<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
-            </div>
-        </div>
-       </div>
-	    <div class="col-md-4">
-        <div class="box box-solid">
-			<div class="box-header with-border">
-                <h3 class="box-title">
-                    List Kebutuhan Pendidikan & Pelatihan
-                </h3>
-				<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
-            </div>
-        </div>
-       </div>
-	   
-	    <div class="col-md-4">
-        <div class="box box-solid">
-			<div class="box-header with-border">
-                <h3 class="box-title">
-                    List Kebutuhan Sarana
-                </h3>
-				<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
-            </div>
-        </div>
-       </div>
-	   
-	   
-	    <div class="col-md-4">
-        <div class="box box-solid">
-			<div class="box-header with-border">
-                <h3 class="box-title">
-                    List Kebutuhan Skema Kredit
-                </h3>
-				<button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
-            </div>
-        </div>
-       </div>
-    </section>
-</div>
+<script src="./assets/js/send.js"></script>
 <script>
-			$(document).ready(function() {
-				$('#table-cluster').DataTable({
-						"scrollX": true,
-						"processing": true,
-						"serverSide": true,
-						"deferRender": true,
-						"ajax": {
-							"url": "./cluster/getdata",
-							"type": "POST"
-						},
-					});
-				$('#table-cluster').DataTable({
-						"scrollX": true,
-						"processing": true,
-						"serverSide": true,
-						"deferRender": true,
-						"ajax": {
-							"url": "./cluster/getdata",
-							"type": "POST"
-						},
-					});
-				$('#table-cluster').DataTable({
-						"scrollX": true,
-						"processing": true,
-						"serverSide": true,
-						"deferRender": true,
-						"ajax": {
-							"url": "./cluster/getdata",
-							"type": "POST"
-						},
-					});
-			});
+
+        function getform(i){
+            var address = "./setting/get_"+i;
+            var element = "setting_content";
+            sendajax(null, address, element, null, null);   
+        }
 
 </script>
 
