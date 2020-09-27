@@ -177,9 +177,10 @@
 
 						<div class="form-group required">
 							<label class="control-label">Sektor Usaha</label>
-							<select class="form-control dform required" onchange="fjum(this.value)" id="id_cluster_sektor_usaha" required>
-								<option value="1">Produksi</option>
-								<option value="2">Non Produksi</option>
+                            <select class="form-control dform required" onchange="fjum(this.value)" id="id_cluster_sektor_usaha" required>
+                                <?php foreach ($cluster_sektor_usaha as $row) {
+                                        echo '<option value="' . $row['id_cluster_sektor_usaha'] . '">' . $row["keterangan_cluster_sektor_usaha"] . '</option>';
+                                    }?>
 							</select>
 						</div>
 
