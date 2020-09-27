@@ -28,7 +28,8 @@ class Cluster extends MX_Controller
 	public function index()
 	{
 		$data['navbar'] = 'navbar';
-		$data['sidebar'] = 'sidebar';
+        $data['sidebar'] = 'sidebar';
+        $data['cluster_sektor_usaha'] = $this->cluster_m->get_cluster_sektor_usaha();
 		$data['cluster_kebutuhan_pendidikan_pelatihan'] = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
 		$data['cluster_kebutuhan_sarana'] = $this->cluster_m->get_cluster_kebutuhan_sarana();
 		$data['cluster_kebutuhan_skema_kredit'] = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();

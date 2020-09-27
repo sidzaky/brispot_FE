@@ -61,22 +61,27 @@ class Cluster_m extends CI_Model
 		return  $this->db->query($sql)->num_rows();
 	}
 
+    public function get_cluster_sektor_usaha()
+	{
+		$sql = "select * from cluster_sektor_usaha where status=1";
+		return $this->db->query($sql)->result_array();
+	}
 
 	public function get_cluster_kebutuhan_pendidikan_pelatihan()
 	{
-		$sql = "select * from cluster_kebutuhan_pendidikan_pelatihan";
+		$sql = "select * from cluster_kebutuhan_pendidikan_pelatihan where status=1";
 		return $this->db->query($sql)->result_array();
 	}
 
 	public function get_cluster_kebutuhan_sarana()
 	{
-		$sql = "select * from cluster_kebutuhan_sarana";
+		$sql = "select * from cluster_kebutuhan_sarana where status=1";
 		return $this->db->query($sql)->result_array();
 	}
 
 	public function get_cluster_kebutuhan_skema_kredit()
 	{
-		$sql = "select * from cluster_kebutuhan_skema_kredit";
+		$sql = "select * from cluster_kebutuhan_skema_kredit where status=1";
 		return $this->db->query($sql)->result_array();
 	}
 
