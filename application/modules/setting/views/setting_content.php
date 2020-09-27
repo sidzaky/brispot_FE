@@ -8,7 +8,7 @@
     <table class="table table-striped table-bordered" width="100%">
         <thead>
             <tr>
-                <th width="20%">No</th>
+                <th width="10%">No</th>
                 <th>Form</th>
                 <th>Action</th>
             </tr>

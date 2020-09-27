@@ -114,23 +114,57 @@ class Setting extends MX_Controller {
         $this->get_jenis_usaha();
     }
 
-    public function get_kebutuhan_sarana(){
-        $data['kebutuhan_sarana']=$this->setting_m->get_kebutuhansarana_m();
-        $this->load->view('setting_kebutuhan_sarana_v',$data);
-    }
-
-    
-
     public function get_kebutuhan_pendidikan_pelatihan(){
         $data['kebutuhan_pendidikan_pelatihan']=$this->setting_m->get_kebutuhanpendidikan_m();
         $this->load->view('setting_kebutuhan_pendidikan_pelatihan_v',$data);
     }
 
-    public function get_kebutuhan_skema_kredit(){
-        $data['kebutuhan_skema_kredit']=$this->setting->get_kebutuhanskemakredit_m();
-        $this->load->view('setting_kebutuhan_skema_kredit_v',$data);
+    public function up_kebutuhan_pendidikan_pelatihan(){
+        $this->setting_m->up_kebutuhan_pendidikan_pelatihan_m();
+        unset($_POST);
+        $this->get_kebutuhan_pendidikan_pelatihan();
+    }
+
+    public function dis_kebutuhan_pendidikan_pelatihan(){
+        $this->setting_m->dis_kebutuhan_pendidikan_pelatihan_m();
+        unset($_POST);
+        $this->get_kebutuhan_pendidikan_pelatihan();
+    }
+
+    public function get_kebutuhan_sarana(){
+        $data['kebutuhan_sarana']=$this->setting_m->get_kebutuhansarana_m();
+        $this->load->view('setting_kebutuhan_sarana_v',$data);
+    }
+
+    public function up_kebutuhan_sarana(){
+        $this->setting_m->up_kebutuhan_sarana_m();
+        unset($_POST);
+        $this->get_kebutuhan_sarana();
+    }
+
+    public function dis_kebutuhan_sarana(){
+        $this->setting_m->dis_kebutuhan_sarana_m();
+        unset($_POST);
+        $this->get_kebutuhan_sarana();
     }
 
 
+    public function get_kebutuhan_skema_kredit(){
+        $data['kebutuhan_skema_kredit']=$this->setting_m->get_kebutuhanskemakredit_m();
+        $this->load->view('setting_kebutuhan_skema_kredit_v',$data);
+    }
+
+    public function up_kebutuhan_skema_kredit(){
+        $this->setting_m->up_kebutuhan_skema_kredit_m();
+        unset($_POST);
+        $this->get_kebutuhan_skema_kredit();
+    }
+
+    public function dis_kebutuhan_skema_kredit(){
+        $this->setting_m->dis_kebutuhan_skema_kredit_m();
+        unset($_POST);
+        $this->get_kebutuhan_skema_kredit();
+    }
+    
 }
 ?>    

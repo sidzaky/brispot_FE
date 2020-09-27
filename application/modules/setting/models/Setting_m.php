@@ -105,19 +105,85 @@ class setting_m extends CI_Model
         return $this->db->query($sql)->result_array();
     }
 
-    public function get_kebutuhansarana_m(){
-        $sql="select * from cluster_kebutuhan_sarana";
-        return $this->db->query($sql)->result();
-    }
-
     public function get_kebutuhanpendidikan_m(){
-        $sql="select * from cluster_kebutuhan_pendidikan_pelatihan";
-        return $this->db->query($sql)->result();
+        $sql="select * from cluster_kebutuhan_pendidikan_pelatihan where status=1";
+        return $this->db->query($sql)->result_array();
     }
 
+    public function up_kebutuhan_pendidikan_pelatihan_m(){
+        if (isset($_POST['idpp']) && $_POST['idpp']!="") {
+            $sql="update cluster_kebutuhan_pendidikan_pelatihan set 
+                    kebutuhan_pendidikan_pelatihan='".$_POST['ispp']."'
+                    where id_cluster_kebutuhan_pendidikan_pelatihan='".$_POST['idpp']."'";
+        }
+        else {
+            $sql="insert into cluster_kebutuhan_pendidikan_pelatihan
+                    values ('". $this->uuid->v4(true) ."',
+                            '".$_POST['ispp']."',
+                            1)";
+        }
+        $this->db->query($sql);
+    }
+
+    public function dis_kebutuhan_pendidikan_pelatihan_m(){
+        if (isset($_POST['idpp']) && $_POST['idpp']!="") {
+            $sql="update cluster_kebutuhan_pendidikan_pelatihan set status=0 where id_cluster_kebutuhan_pendidikan_pelatihan='".$_POST['idpp']."'";
+            $this->db->query($sql);
+        }
+    }
+
+    public function get_kebutuhansarana_m(){
+        $sql="select * from cluster_kebutuhan_sarana where status=1";
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function up_kebutuhan_sarana_m(){
+        if (isset($_POST['idks']) && $_POST['idks']!="") {
+            $sql="update cluster_kebutuhan_sarana set 
+                    kebutuhan_sarana='".$_POST['isks']."'
+                    where id_cluster_kebutuhan_sarana='".$_POST['idks']."'";
+        }
+        else {
+            $sql="insert into cluster_kebutuhan_sarana
+                    values ('". $this->uuid->v4(true) ."',
+                            '".$_POST['isks']."',
+                            1)";
+        }
+        $this->db->query($sql);
+    }
+
+    public function dis_kebutuhan_sarana_m(){
+        if (isset($_POST['idks']) && $_POST['idks']!="") {
+            $sql="update cluster_kebutuhan_sarana set status=0 where id_cluster_kebutuhan_sarana='".$_POST['idks']."'";
+            $this->db->query($sql);
+        }
+    }
+    
     public function get_kebutuhanskemakredit_m(){
-        $sql="select * from cluster_kebutuhan_skema_kredit";
-        return $this->db->query($sql)->result();
+        $sql="select * from cluster_kebutuhan_skema_kredit where status=1";
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function up_kebutuhan_skema_kredit_m(){
+        if (isset($_POST['idsk']) && $_POST['idsk']!="") {
+            $sql="update cluster_kebutuhan_skema_kredit set 
+                    kebutuhan_skema_kredit='".$_POST['issk']."'
+                    where id_cluster_kebutuhan_skema_kredit='".$_POST['idsk']."'";
+        }
+        else {
+            $sql="insert into cluster_kebutuhan_skema_kredit
+                    values ('". $this->uuid->v4(true) ."',
+                            '".$_POST['issk']."',
+                            1)";
+        }
+        $this->db->query($sql);
+    }
+
+    public function dis_kebutuhan_skema_kredit_m(){
+        if (isset($_POST['idsk']) && $_POST['idsk']!="") {
+            $sql="update cluster_kebutuhan_skema_kredit set status=0 where id_cluster_kebutuhan_skema_kredit='".$_POST['idsk']."'";
+            $this->db->query($sql);
+        }
     }
 }	
 	
