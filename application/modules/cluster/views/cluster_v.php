@@ -93,11 +93,18 @@
 				<h5 class="modal-title">Form klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
 			</div>
 			<div class="modal-body">
+                <div id="mod-loading" style="display:none">
+                    <div class="col-sm-12">
+                                <label for="thedata" class="col-sm-12 control-label">
+                                    <h3 align="center">Harap Menunggu, Data Sedang Dikirim</h3>
+                                </label>
+                            </div>
+                </div>
 				<div id="mod-content">
 					<form>
 						<div class="col-sm-12">
 							<label for="thedata" class="col-sm-12 control-label">
-								<h3 alignt="center">Isian terkait Unit BRI</h3>
+								<h3 align="center">Isian terkait Unit BRI</h3>
 							</label>
 						</div>
 
@@ -151,7 +158,7 @@
 
 						<div class="col-sm-12">
 							<label for="thedata" class="col-sm-12 control-label">
-								<h3 alignt="center">Isian terkait Kelompok Usaha / Klaster</h3>
+                                <h3 align="center">Isian terkait Kelompok Usaha / Klaster</h3>
 							</label>
 						</div>
 
@@ -318,7 +325,7 @@
 
 						<!-- Isian untuk Ketua Kelompok / Klaster -->
 						<label for="thedata" class="col-sm-12 control-label">
-							<h3 alignt="center">Isian Ketua Kelompok</h3>
+							<h3 align="center">Isian Ketua Kelompok</h3>
 						</label>
 
 						<div class="form-group required">

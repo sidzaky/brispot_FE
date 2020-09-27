@@ -127,6 +127,8 @@ function getuker(i) {
 }
 
 function getform(i = null) {
+  document.getElementById('mod-content').style.display="";
+  document.getElementById('mod-loading').style.display="none";
   valuker = false;
   $("#sbt").removeAttr("disabled");
   document.getElementById("checkvalidpotensi").checked = false;
@@ -445,6 +447,8 @@ function inputform() {
 
       if (msg == "") {
         $("#sbt").attr("disabled", "disabled");
+        document.getElementById('mod-content').style.display="none";
+        document.getElementById('mod-loading').style.display="";
         $.ajax({
           type: "POST",
           url: "./cluster/inputdata",
@@ -454,6 +458,8 @@ function inputform() {
             $("#sbt").removeAttr("disabled");
             $("#modal").hide();
             $("#table-cluster").DataTable().ajax.reload(null, false);
+            $("#mod-content").style.display="";
+            $("#mod-loading").style.display="none";
           },
         });
       } else alert(msg);
