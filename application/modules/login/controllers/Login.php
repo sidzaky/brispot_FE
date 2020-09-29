@@ -62,14 +62,16 @@ class Login extends MX_Controller
     if ($results != null) {
       foreach ($results as $result) {
         $sessions   = array(
-          'kode_kanwil'    => $result->REGION,
-          'kode_kanca'    => $result->MAINBR,
-          'kode_uker'     => $result->username,
-          'name_uker'      => $result->BRDESC,
-          'uppwd'          => $result->uppwd,
-          'permission'    => $result->permission,
-          'notif'          => $result->notif,
-          'logged_in'      => true
+            'id'              => $result->id,
+            'kode_kanwil'     => $result->REGION,
+            'kode_kanca'      => $result->MAINBR,
+            'kode_uker'       => $result->uker,
+            'name_uker'       => $result->BRDESC,
+            'uppwd'           => $result->uppwd,
+            'permission'      => $result->permission,
+            'notif'           => $result->notif,
+            'approve_level'   => $result->approve_level,
+            'logged_in'       => true
         );
         $this->session->set_userdata($sessions);
       };

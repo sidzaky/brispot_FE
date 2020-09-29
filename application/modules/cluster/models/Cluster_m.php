@@ -2,6 +2,9 @@
 
 class Cluster_m extends CI_Model
 {
+    ////////////////////////////////////////////////////////////
+    /////////////////get pengajuan klaster usaha ///////////////
+    ////////////////////////////////////////////////////////////
 	public function get_datafield($status = null, $appr = 0)
 	{
 		$sql  = $this->get_datatables($status, $appr);
@@ -59,7 +62,81 @@ class Cluster_m extends CI_Model
 	{
 		$sql  = $this->get_datatables();
 		return  $this->db->query($sql)->num_rows();
+    }
+    
+    ////////////////////////////////////////////////////////////
+    /////////////////end pengajuan klaster usaha ///////////////
+    ////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////
+    /////////////////get approved klaster usaha ////////////////
+    ////////////////////////////////////////////////////////////
+
+
+    public function get_clusterapprove_m($status = null, $appr = 0)
+	{
+		$sql  = $this->get_tableapproved_m($status, $appr);
+		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
+		return $this->db->query($sql);
 	}
+
+	var $column_search_approved = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha');
+	var $order_approved = array('timestamp' => 'desc');
+
+	public function get_tableapproved_m($status = null, $appr = 0)
+	{
+		$i = 0;
+		$sql = "select * from cluster where ";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$sql .= " true ";
+				break;
+			case (3):
+				$sql .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$sql .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$sql .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+		}
+
+
+
+		// if ($appr=1) $sql .= " approve ====="; //buat filter status approve
+
+		if ($_POST['search']['value'] != "") $sql .= " and ";
+		foreach ($this->column_search_approved as $item) // looping awal
+		{
+			if ($_POST['search']['value'] != "") // jika datatable mengirimkan pencarian dengan metode POST
+			{
+				if ($i === 0) // looping awal
+				{
+					$sql .= ' (' . $item . ' LIKE "%' . $_POST['search']['value'] . '%" ESCAPE "!" ';
+				} else {
+					$sql .= ' OR ' . $item . ' LIKE "%' . $_POST['search']['value'] . '%" ESCAPE "!" ';
+				}
+				if (count($this->column_search_approved) - 1 == $i)
+					$sql .= " ) ";
+			}
+			$i++;
+		}
+		$sql = $sql . ' and cluster_status=1 ' . ($status != null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
+		return $sql;
+	}
+
+	public function count_all_approved()
+	{
+		$sql  = $this->get_tableapproved_m();
+		return  $this->db->query($sql)->num_rows();
+    }
+
+    ////////////////////////////////////////////////////////////
+    /////////////////end approved klaster usaha ////////////////
+    ////////////////////////////////////////////////////////////
+
 
     public function get_cluster_sektor_usaha()
 	{
@@ -83,7 +160,11 @@ class Cluster_m extends CI_Model
 	{
 		$sql = "select * from cluster_kebutuhan_skema_kredit where status=1";
 		return $this->db->query($sql)->result_array();
-	}
+    }
+    
+
+
+
 
 
 	public function getreport_m($harian)

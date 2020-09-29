@@ -18,7 +18,7 @@ class User_m extends CI_Model
 	{
 		$uker = "";
 		if ($username != "admin") {
-			$uker = " left join branch b on a.username=b.BRANCH ";
+			$uker = " left join branch b on a.branch=b.BRANCH ";
 		}
 		$sql = "select * from user a " . $uker . " where username='" . $username . "' and password='" . $password . "'";
 
@@ -34,9 +34,12 @@ class User_m extends CI_Model
 	function signup_m()
 	{
 		$password = md5($_POST['password']);
-		$sql = "update user set password='" . $password . "', uppwd='0' where username='" . $this->session->userdata('kode_uker') . "'";
-		$res = $this->db->query($sql);
-		return !!$res;
+		$sql = "update user set password='" . $password . "', uppwd='0' where id='" . $this->session->userdata('id') . "'";
+        $res = $this->db->query($sql);
+        $sql = "insert into cluster_log values('','".$this->session->userdata('id')."', 'penggantian password pada uker " . $_POST['kode_uker_c'] . " ')";
+        $this->db->query($sql);
+        return !!$res;
+        
 	}
 
 
@@ -45,7 +48,10 @@ class User_m extends CI_Model
 		if (!isset($_POST['kode_uker_c'])) $_POST['kode_uker_c'] = $this->session->userdata('kode_uker');
 		$password = md5($_POST['password']);
 		$sql = "update user set password='" . $password . "' where username='" . $_POST['kode_uker_c'] . "'";
-		$this->db->query($sql);
+        $this->db->query($sql);
+        $sql = "insert into cluster_log values('','".$this->session->userdata('id')."', 'penggantian password pada uker " . $_POST['kode_uker_c'] . " ')";
+        $this->db->query($sql);
+
 	}
 
 	function closenotif_m()

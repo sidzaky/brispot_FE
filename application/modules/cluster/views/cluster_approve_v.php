@@ -21,7 +21,7 @@
 							"serverSide"    : true,
 							"deferRender"   : true,
 							"ajax"  : {
-								"url"   : "./cluster/getdata/approve",
+								"url"   : "./cluster/get_clusterapproved",
 								"type"  : "POST"
 							},
 						});
