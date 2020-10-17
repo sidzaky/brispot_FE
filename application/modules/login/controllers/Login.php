@@ -58,14 +58,14 @@ class Login extends MX_Controller
     $password   = md5($this->input->post('password'));
 
     $results = $this->user_m->login($username, $password);
-
+    
     if ($results != null) {
       foreach ($results as $result) {
         $sessions   = array(
             'id'              => $result->id,
             'kode_kanwil'     => $result->REGION,
             'kode_kanca'      => $result->MAINBR,
-            'kode_uker'       => $result->uker,
+            'kode_uker'       => $result->BRANCH,
             'name_uker'       => $result->BRDESC,
             'uppwd'           => $result->uppwd,
             'permission'      => $result->permission,

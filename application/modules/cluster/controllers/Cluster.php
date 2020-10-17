@@ -20,9 +20,9 @@ class Cluster extends MX_Controller
 
 		$this->load->module('login');
 		$this->login->is_logged_in();
-
 		$this->load->model('cluster_m');
 		$this->load->helper(array('url', 'form', 'html'));
+
     }
     
     ////////////////////////////////////////////////////////////
@@ -42,25 +42,68 @@ class Cluster extends MX_Controller
 		$this->load->view('template', $data);
 	}
 
-	public function getdata($status = null, $approve=0)
+	public function getdata()
 	{
-		$list = $this->cluster_m->get_datafield($status);
+		$list = $this->cluster_m->get_datafield();
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
 			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
 
 			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
+			$status=$field["checker_status"]=="" ? "check" : "sign";
+            $colstatus  = "";
+			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
+			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			$upload     = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
+            $info	    = '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
+            $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
+            $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setrejj(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
+             
+    ///////////////////// button for MCS /////////////////////////////////
+		if ($field["checker_status"]!=""){
 
-			$del = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
-			$ca = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
-			$update = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
-			$appr = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="approve(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
-			$reject = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
-			$upload = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
-			$info	= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
-			if ($approve==0) $action = $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
-			else $action = $appr . $reject;
+			if ($field["checker_status"]=='1'){
+				
+				if ($field["signer_status"]!=""){
+					if ($field["signer_status"]==0) $colstatus = " Pengajuan Ditolak Signer ";
+				}
+
+				else {
+					switch ($this->session->userdata['approve_level']) {
+						case (0) :
+						case (1) :
+							$colstatus = " Pengajuan telah disetujui oleh " . $field['checker_user_update'] . ",  sedang menunggu signer ";
+						break;
+	
+						case (2) :  
+							$colstatus = "Pengajuan telah disetujui oleh " . $field['checker_user_update'] . " </br> " . $appr . $reject;
+						break;
+					}
+				}
+			}
+
+			else {
+				
+				$colstatus =" Pengajuan ditolak oleh ". $field['checker_user_update'];
+			}
+		}
+		else {
+			switch ($this->session->userdata['approve_level']) {
+				case (0) :
+					$colstatus = " Pengajuan sedang menunggu Checker ";
+				break;
+
+				case (1) :
+				case (2) :  
+					$colstatus = $appr . $reject;
+				break;
+			}
+		}
+
+    ///////////////////// End button for MCS /////////////////////////////////
+			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
 			
 			$no++;
 			$row = array();
@@ -72,14 +115,11 @@ class Cluster extends MX_Controller
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
-			if ($status == null) {
-				$row[] = "status on progress";
-				$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
-			} else {
-				$row[] = $info;
-			}
+            $row[] = $colstatus;
+            $row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
 			$data[] = $row;
 		}
+
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $list->num_rows(),
@@ -93,6 +133,14 @@ class Cluster extends MX_Controller
 	public function deldata()
 	{
 		$this->cluster_m->deldata_m();
+	}
+
+	public function setapproved(){
+		$this->cluster_m->setapproved_m();
+	}
+
+	public function setreject(){
+		$this->cluster_m->setreject_m();
 	}
    
     ////////////////////////////////////////////////////////////
@@ -118,8 +166,7 @@ class Cluster extends MX_Controller
     }
     
     public function get_clusterapproved(){
-        $list = $this->cluster_m->get_clusterapprove_m($status);
-		$data = array();
+        $list = $this->cluster_m->get_clusterapprove_m();
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
 			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
@@ -137,7 +184,7 @@ class Cluster extends MX_Controller
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
-			$row[] = $ca . $info;
+			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $ca . $info . '</form>';
 			$data[] = $row;
 		}
 		$output = array(
@@ -752,24 +799,24 @@ class Cluster extends MX_Controller
     }
     
 
-    public function getalluser(){
-        $sql="select * from user ";
-        $i=1;
-        foreach ($this->db->query($sql)->result_array() as $row){
-            if ($row['username']!="admin" && $row['username']!="kanpus") {
-                echo $i." || ".$row['username']." || " . $row['approve_level'] ."</br>";
-                $checker=" insert into user values ('','" .$row['username']. "_c','".md5($row['username']."_c")."', '".$row['username']."' ,1,". $row['permission'].",1,1)";
-                $signer =" insert into user values ('','" .$row['username']. "_s','".md5($row['username']."_s")."', '".$row['username']."' ,1,". $row['permission'].",1,2)";
-                $maker  =" update user set approve_level='0' , branch='".$row['username']."' where username='".$row['username']."'"; 
-                echo $maker ."; </br>";
-                echo $checker."; </br>";
-                echo $signer."; </br>";
+    // public function getalluser(){
+    //     $sql="select * from user ";
+    //     $i=1;
+    //     foreach ($this->db->query($sql)->result_array() as $row){
+    //         if ($row['username']!="admin" && $row['username']!="kanpus") {
+    //             echo $i." || ".$row['username']." || " . $row['approve_level'] ."</br>";
+    //             $checker=" insert into user values ('','" .$row['username']. "_c','".md5($row['username']."_c")."', '".$row['username']."' ,1,". $row['permission'].",1,1)";
+    //             $signer =" insert into user values ('','" .$row['username']. "_s','".md5($row['username']."_s")."', '".$row['username']."' ,1,". $row['permission'].",1,2)";
+    //             $maker  =" update user set approve_level='0' , branch='".$row['username']."' where username='".$row['username']."'"; 
+    //             echo $maker ."; </br>";
+    //             echo $checker."; </br>";
+    //             echo $signer."; </br>";
 
-                $this->db->query($maker);
-                $this->db->query($checker);
-                $this->db->query($signer);
-                $i++;
-            }
-        }
-    }
+    //             $this->db->query($maker);
+    //             $this->db->query($checker);
+    //             $this->db->query($signer);
+    //             $i++;
+    //         }
+    //     }
+    // }
 }
