@@ -26,7 +26,10 @@ class Cluster_m extends CI_Model
 	public function get_datatables($status = null, $appr = 0)
 	{
 		$i = 0;
-		$sql = "select * from cluster where ";
+		$sql = "select cluster.*, b.username as checker_username, c.username as signer_username from cluster 
+				left join user b on b.id=cluster.checker_user_update
+				left join user c on c.id=cluster.signer_user_update
+				where ";
 		switch ($this->session->userdata('permission')) {
 			case (4):
 				$sql .= " true ";

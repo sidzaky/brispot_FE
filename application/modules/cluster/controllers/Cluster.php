@@ -61,7 +61,8 @@ class Cluster extends MX_Controller
             $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
             $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setrejj(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
              
-    ///////////////////// button for MCS /////////////////////////////////
+	///////////////////// button for MCS /////////////////////////////////
+
 		if ($field["checker_status"]!=""){
 
 			if ($field["checker_status"]=='1'){
@@ -74,11 +75,11 @@ class Cluster extends MX_Controller
 					switch ($this->session->userdata['approve_level']) {
 						case (0) :
 						case (1) :
-							$colstatus = " Pengajuan telah disetujui oleh " . $field['checker_user_update'] . ",  sedang menunggu signer ";
+							$colstatus = " Pengajuan telah diriview oleh " . $field['checker_username'] . ",  sedang menunggu signer ";
 						break;
 	
 						case (2) :  
-							$colstatus = "Pengajuan telah disetujui oleh " . $field['checker_user_update'] . " </br> " . $appr . $reject;
+							$colstatus = "Pengajuan telah diriview oleh " . $field['checker_username'] . " </br> " . ($this->session->userdata("kode_uker")==$field["kode_uker"] ? $appr . $reject : "");
 						break;
 					}
 				}
@@ -86,7 +87,7 @@ class Cluster extends MX_Controller
 
 			else {
 				
-				$colstatus =" Pengajuan ditolak oleh ". $field['checker_user_update'];
+				$colstatus =" Pengajuan ditolak oleh ". $field['checker_username'];
 			}
 		}
 		else {
@@ -97,7 +98,7 @@ class Cluster extends MX_Controller
 
 				case (1) :
 				case (2) :  
-					$colstatus = $appr . $reject;
+					$colstatus = ($this->session->userdata("kode_uker")==$field["kode_uker"] ? $appr . $reject : "Pengajuan sedang menunggu Checker");
 				break;
 			}
 		}
@@ -141,6 +142,11 @@ class Cluster extends MX_Controller
 
 	public function setreject(){
 		$this->cluster_m->setreject_m();
+	}
+
+	public function countpengajuan(){
+		$data = $this->cluster_m->get_datafield()->num_rows();
+		return $data;
 	}
    
     ////////////////////////////////////////////////////////////

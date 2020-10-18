@@ -13,7 +13,7 @@
         </a>
         <ul class="treeview-menu">
           <li active="active"><a href="<?php echo base_url(); ?>cluster/approve">Daftar Klaster</a></li>
-          <li><a href="<?php echo base_url(); ?>cluster">Pengajuan</a></li>
+          <li><a href="<?php echo base_url(); ?>cluster">Pengajuan </a> </li>
           <?php echo ($this->session->userdata('permission')==4 ? '<li><a href="' . base_url() . 'cluster/custom_search">Custom Search</a></li>' : "") ?>
         </ul>
       </li>
@@ -57,7 +57,7 @@
         if ($this->session->userdata('permission') == 4){
             $sql= "select * from faq where timeinput_answer = 0";
             $cq = $this->db->query($sql)->num_rows();
-            if (  $cq > 0 ) $cp = '<span class="label label-warning pull-right" style=>'.$cq.'</span>';
+            if (  $cq > 0 ) $cp = '<span class="label label-warning pull-right" style="">'.$cq.'</span>';
         }
       ?>
       <li><a href="<?php echo base_url(); ?>help"><i class="fa fa-question"></i> Bantuan <?php echo $cp ?> </a></li>
