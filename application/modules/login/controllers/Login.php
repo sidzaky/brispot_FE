@@ -105,4 +105,21 @@ class Login extends MX_Controller
     $this->session->unset_userdata($items);
     redirect('');
   }
+
+
+  function sendemail(){
+    $config = array();
+    $config['protocol'] = 'smtp';
+    $config['smtp_host'] = 'localhost';
+    $config['smtp_port'] = 25;
+    $this->load->library('email');
+    $this->email->initialize($config);
+    $this->email->from('no-reply@ecoira.id', 'no-reply@ecoira.id');
+    $this->email->to("si.dzaky@gmail.com"); 
+    $this->email->message("zzzz"); 
+    if ($this->email->send()) echo "aa"	;
+    else echo "bb";
+          // print_r ($result);
+          // echo "aa";
+  }
 }

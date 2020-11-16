@@ -1,7 +1,7 @@
 <body class="hold-transition login-page">
   <div class="login-box">
     <div class="login-logo">
-      <p>Klaster Binaan BRI</p>
+      <p>Ganti Password Anda</p>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
       <p class="login-box-msg">Silahkan Ganti Password anda Sebelum memulai session</p>
