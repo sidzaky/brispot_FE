@@ -1,3 +1,7 @@
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
+
 <div class="content-wrapper" id="dashboard">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -39,6 +43,30 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h2 class="box-title">Persebaran Klaster</h2>
+          </div><!-- /.box-header -->
+          <div class="box-body">
+             <div id="mapid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+        var map = L.map('mapid').setView([1.084149, 104.027813], 10);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+            accessToken: 'your.mapbox.access.token'
+        }).addTo(map);
+    </script>
+
     <div class="row">
       <div class="col-md-4">
         <div class="box" id="loan-needs">
@@ -76,6 +104,9 @@
     </div>
   </section>
 </div>
+
+
+
 <!-- dashboard scripts -->
 
 <script src="<?php echo base_url(); ?>assets/js/dashboard.js"></script>
