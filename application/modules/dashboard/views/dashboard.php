@@ -122,54 +122,46 @@
 </style>
 
 <script>
+$( document ).ready(function() {
+  $.ajax({
+          type: "POST",
+          url: "./dashboard/persebaranpetakanwil",
+          success: function (msg) {
+            Highcharts.mapChart('map', {
+                    chart: {
+                        map: 'countries/id/id-all'
+                    },
 
-var data= function () { 
-  var tmp=null;
-      $.ajax({
-        type: "POST",
-        url: "./dashboard/persebaranpetakanwil",
-        success: function (msg) {
-          tmp = msg;
-        }
-    });
-    return tmp;
-  }();
+                    title: {
+                        text: 'Persebaran Klaster BRI berdasarkan Kanwil'
+                    },
 
-console.log(data);
+                    subtitle: {
+                        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.js">Indonesia</a>'
+                    },
 
-// Create the chart
-Highcharts.mapChart('map', {
-    chart: {
-        map: 'countries/id/id-all'
-    },
+                    mapNavigation: {
+                        enabled: true,
+                        buttonOptions: {
+                            verticalAlign: 'bottom'
+                        }
+                    },
 
-    title: {
-        text: 'Persebaran Klaster BRI berdasarkan Kanwil'
-    },
-
-    subtitle: {
-        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.js">Indonesia</a>'
-    },
-
-    mapNavigation: {
-        enabled: true,
-        buttonOptions: {
-            verticalAlign: 'bottom'
-        }
-    },
-
-    series: [{
-        data: data,
-        name: 'Data klaster',
-        states: {
-            hover: {
-                color: '#BADA55'
-            }
-        },
-        dataLabels: {
-            enabled: true,
-            format: '{point.name}'
-        }
-    }]
+                    series: [{
+                        data: JSON.parse(msg),
+                        name: 'Data klaster',
+                        states: {
+                            hover: {
+                                color: '#BADA55'
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}'
+                        }
+                    }]
+                })
+          }
+      });
 });
 </script>
