@@ -1,5 +1,6 @@
-<script src="./assets/plugins/mapjs/mapdata.js"></script>
-<script src="./assets/plugins/mapjs/countrymap.js"></script>
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/mapdata/countries/id/id-all.js"></script>
 
 
 <div class="content-wrapper" id="dashboard">
@@ -106,3 +107,69 @@
 <!-- dashboard scripts -->
 
 <script src="<?php echo base_url(); ?>assets/js/dashboard.js"></script>
+
+<style>
+    #map {
+      height : 500px;
+      min-width: 310px; 
+      margin: 0 auto; 
+    }
+    .loading {
+      margin-top: 10em;
+      text-align: center;
+      color: gray;
+    }
+</style>
+
+<script>
+
+var data= function () { 
+  var tmp=null;
+      $.ajax({
+        type: "POST",
+        url: "./dashboard/persebaranpetakanwil",
+        success: function (msg) {
+          tmp = msg;
+        }
+    });
+    return tmp;
+  }();
+
+console.log(data);
+
+// Create the chart
+Highcharts.mapChart('map', {
+    chart: {
+        map: 'countries/id/id-all'
+    },
+
+    title: {
+        text: 'Persebaran Klaster BRI berdasarkan Kanwil'
+    },
+
+    subtitle: {
+        text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.js">Indonesia</a>'
+    },
+
+    mapNavigation: {
+        enabled: true,
+        buttonOptions: {
+            verticalAlign: 'bottom'
+        }
+    },
+
+    series: [{
+        data: data,
+        name: 'Data klaster',
+        states: {
+            hover: {
+                color: '#BADA55'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            format: '{point.name}'
+        }
+    }]
+});
+</script>

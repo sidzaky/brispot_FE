@@ -103,6 +103,7 @@ class Cluster_m extends CI_Model
 		if ($harian != "") $where .= " and timestamp>1576085405  ";
 		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								kanwil,
+								kode_kanwil,
 								kanca,
 								kode_kanca,
 								uker,
@@ -152,7 +153,7 @@ class Cluster_m extends CI_Model
 								kebutuhan_sarana_lainnya,
 								kebutuhan_pendidikan,
 								simpanan_bank,
-								agen_brilink 
+								agen_brilink
 					FROM	cluster a
 					left join provinsi b on a.provinsi=b.id
 					left join kabupaten_kota c on a.kabupaten=c.id
@@ -161,6 +162,7 @@ class Cluster_m extends CI_Model
 					left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
 					left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
 					left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha 
+					
 					' . $where . ' order by kanwil asc';
 		return $this->db->query($sql)->result_array();
 	}
@@ -554,7 +556,7 @@ class Cluster_m extends CI_Model
 				break;
 		}
 		if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';
-		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
+		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil, NEWMAPKODE from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
 		return $data;
 	}
 

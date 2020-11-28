@@ -22,6 +22,7 @@ class Dashboard extends MX_Controller
 
     $this->load->helper(array('url', 'form', 'html'));
     $this->load->model('dashboard_m');
+    $data["con"] = $this;
   }
 
   public function index()
@@ -130,6 +131,44 @@ class Dashboard extends MX_Controller
       }
     }
     return $data;
+  }
+
+  function persebaranpetakanwil(){
+    $this->load->module("cluster");
+    $this->load->model("cluster_m");
+    ini_set('memory_limit', '-1');
+		$data['kanwil'] = array();
+		$q = $this->cluster_m->getreport_m("");
+		$data['listkategori'] = $this->cluster_m->getlist_jum();
+		foreach ($q as $row) {
+			if ($row['kanwil'] != false) {
+				foreach ($data['listkategori'] as $zrow) {
+					if ($zrow['id_cluster_jenis_usaha_map'] == $row['id_cluster_jenis_usaha_map']) {
+						if (isset($data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']])) {
+              $data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']]++;
+            } 
+            else {
+              $data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']] = 1;
+            }
+					}
+				}
+			}
+    }
+    $zz;
+    $i=0;
+    foreach ($data["kanwil"] as $key => $values){
+        $b="";
+        $t=$this->db->query("select distinct(NEWMAPKODE) from branch where REGION ='" .$key. "';")->result_array();
+        foreach ($values as $skey => $svalues){
+            $u=$this->db->query("select nama_cluster_jenis_usaha_map from cluster_jenis_usaha_map where id_cluster_jenis_usaha_map = '". $skey. "'")->result_array();
+            foreach ($u as $su){
+              $b.= '<br>'.$su["nama_cluster_jenis_usaha_map"].' : '.$svalues; 
+            }
+        }
+      $zz[$i] = array ($t[0]["NEWMAPKODE"], $b);
+      $i++;
+    }
+    echo json_encode($zz);
   }
 
   function getActiveUser()
