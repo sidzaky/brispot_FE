@@ -170,6 +170,41 @@ class Dashboard extends MX_Controller
     }
     echo json_encode($zz);
   }
+ 
+  function persebaranpetaprovinsi(){ 
+    $this->load->module("cluster");
+    $this->load->model("cluster_m");
+    ini_set('memory_limit', '-1');
+    $data['kanwil'] = array();
+    $q = $this->cluster_m->getreport_m("true");
+    $data['listkategori'] = $this->cluster_m->getlist_jum();
+		foreach ($q as $row) {
+			if ($row['MAPKODE']!="") {
+				foreach ($data['listkategori'] as $zrow) {
+					if ($zrow['nama_cluster_jenis_usaha_map'] == $row['nama_cluster_jenis_usaha_map']) {
+						if (isset($data['kanwil'][$row['MAPKODE']][$zrow['nama_cluster_jenis_usaha_map']])) {
+                $data['kanwil'][$row['MAPKODE']][$zrow['nama_cluster_jenis_usaha_map']]++;
+            } 
+            else {
+              $data['kanwil'][$row['MAPKODE']][$zrow['nama_cluster_jenis_usaha_map']] = 1;
+            }
+					}
+				}
+			}
+    }
+    $zz;
+    $i=0;
+    foreach ($data["kanwil"] as $key => $values){
+        $b="";
+        $t=$key;
+        foreach ($values as $skey => $svalues){
+              $b.= '<br>'.$skey.' : '.$svalues; 
+        }
+      $zz[$i] = array ($t, $b);
+      $i++;
+    }
+    echo json_encode($zz);
+  }
 
   function getActiveUser()
   {

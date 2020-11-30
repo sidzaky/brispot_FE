@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-
+ 
     <div class="row">
       <div class="col-md-12">
         <div class="box">
@@ -125,7 +125,7 @@
 $( document ).ready(function() {
   $.ajax({
           type: "POST",
-          url: "./dashboard/persebaranpetakanwil",
+          url: "./dashboard/persebaranpetaprovinsi",
           success: function (msg) {
             Highcharts.mapChart('map', {
                     chart: {
