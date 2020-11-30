@@ -557,7 +557,7 @@ class Cluster_m extends CI_Model
 				break;
 		}
 		if (isset($_POST['case'])) $where = ' and kode_kanwil="' . $_POST['REGION'] . '"';
-		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil, NEWMAPKODE from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
+		$data = $this->db->query("select DISTINCT(kanwil),kode_kanwil from cluster where kanwil!='' " . $where . " GROUP BY kanwil")->result_array();
 		return $data;
 	}
 
