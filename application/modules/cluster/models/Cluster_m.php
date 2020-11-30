@@ -386,7 +386,7 @@ class Cluster_m extends CI_Model
 		$_POST['kode_kanwil'] = $query[0]['REGION'];
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
 		$_POST['timestamp'] = time();
-
+		$_POST['cluster_status'] = 1;
 		$this->db->insert('cluster', $_POST);
 
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
