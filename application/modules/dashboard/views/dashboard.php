@@ -133,7 +133,7 @@ $( document ).ready(function() {
                     },
 
                     title: {
-                        text: 'Persebaran Klaster BRI berdasarkan Kanwil'
+                        text: 'Persebaran Klaster BRI berdasarkan Provinsi'
                     },
 
                     subtitle: {
