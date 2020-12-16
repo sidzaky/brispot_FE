@@ -96,8 +96,11 @@ class Cluster_m extends CI_Model
 			case (3):
 				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
 				break;
-			default:
-				$where .= " where false";
+			case (2):
+				$where .= " where kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
 				break;
 		}
 		if ($harian != "") $where .= " and timestamp>1576085405  ";
@@ -364,6 +367,9 @@ class Cluster_m extends CI_Model
 		$this->db->where('id', $id);
 		$this->db->update('cluster', $_POST);
 
+		$this->insert_hasil_produk();
+		$this->insert_varian();
+
 		if ($rfex != null) {
 			$this->db->query('delete from cluster_doc_ekspor where id_cluster="' . $id . '"');
 			$this->uploadimage($rfex, $id, 'doc_ekspor');
@@ -389,8 +395,40 @@ class Cluster_m extends CI_Model
 		$_POST['cluster_status'] = 1;
 		$this->db->insert('cluster', $_POST);
 
+		$this->insert_hasil_produk();
+		$this->insert_varian();
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
 		if ($rfku != null) $this->uploadimage($rfku, $_POST['id'], 'foto_usaha');
+	}
+
+	function insert_hasil_produk(){
+		$qc='select * from cluster_hasil_produk where 
+					  id_cluster_jenis_usaha="'.$_POST['id_cluster_jenis_usaha'].'" and 
+					  hasil_produk="'.$_POST['hasil_produk'].'"';
+		if ($this->db->query($qc)->num_rows() == 0) {
+			$qi = 	'insert into cluster_hasil_produk 
+					 values (	"'.$this->uuid->v4(true).'",
+								"'.$_POST['id_cluster_jenis_usaha'].'",
+								"'.$_POST['hasil_produk'].'",
+								"1"
+							)';
+			$this->db->query($qi);
+		}
+	}
+
+	function insert_varian(){
+		$qc='select * from cluster_varian where 
+				hasil_produk="'.$_POST['hasil_produk'].'" and
+				varian = "'.$_POST['varian'].'"';
+		if ($this->db->query($qc)->num_rows() == 0) {
+			$qi = 	'insert into cluster_varian
+					 values (	"'.$this->uuid->v4(true).'",
+								"'.$_POST['hasil_produk'].'",
+								"'.$_POST['varian'].'",
+								"1"
+							)';
+			$this->db->query($qi);
+		}
 	}
 
 	public function uploadimage($newdata, $newid, $db)
@@ -612,9 +650,21 @@ class Cluster_m extends CI_Model
 
 	function getlist_jum()
 	{
-		$q = "select * from cluster_jenis_usaha_map";
+		$q = "select * from cluster_jenis_usaha_map where status=1";
 		return $this->db->query($q)->result_array();
 	}
+
+
+	function get_list_hasil_produk_m(){
+		$q='select * from cluster_hasil_produk where id_cluster_jenis_usaha="'.$_POST['id_cluster_jenis_usaha'].'" and status=1';
+		return $this->db->query($q)->result_array();
+	}
+
+	function get_list_varian_m(){
+		$q='select * from cluster_varian where hasil_produk="'.$_POST['hasil_produk'].'" and status=1';
+		return $this->db->query($q)->result_array();
+	}
+
 
 	function getClusterInfo($id)
 	{
@@ -731,6 +781,10 @@ class Cluster_m extends CI_Model
 		$sql = 'select * from branch where MAINBR="' . $_POST['kode_kanca'] . '" and BRANCH<>"' . $_POST['kode_kanca'] . '"';
 		return $this->db->query($sql)->result_array();
 	}
+
+
+
+
 }
 /* End of file user_m.php */
 /* Location: ./application/models/user_m.php */

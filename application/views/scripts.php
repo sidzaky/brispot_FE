@@ -7,7 +7,7 @@
 <!-- Moment -->
 <!-- <script src="<?php echo base_url(); ?>assets/plugins/daterangepicker/moment.min.js"></script> -->
 <!-- Datepicker -->
-<!-- <script src="<?php echo base_url(); ?>assets/plugins/datepicker/bootstrap-datepicker.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 <!-- Daterangepicker -->
 <!-- <script src="<?php echo base_url(); ?>assets/plugins/daterangepicker/daterangepicker.js"></script> -->
 <!-- ChartJS 1.0.1 -->

@@ -140,10 +140,12 @@ class Cluster extends MX_Controller
 		if (count($_POST['efku']) > 0) {
 			$z = 0;
 			for ($i = 0; $i < count($_POST['efku']); $i++) {
-
-				if ($_POST['rfku'][$i] != "") {
-					$rfku[$z] = $this->camphotoupload($_POST['rfku'][$i], $_POST['tfku'][$i]);
-					$z++;
+				
+				if (isset($_POST['rfku'])){
+					if ($_POST['rfku'][$i] != "") {
+						$rfku[$z] = $this->camphotoupload($_POST['rfku'][$i], $_POST['tfku'][$i]);
+						$z++;
+					}
 				} else {
 					if ($_POST['efku'][$i] != "") {
 						$rfku[$z] = $_POST['efku'][$i];
@@ -157,23 +159,25 @@ class Cluster extends MX_Controller
 			unset($_POST['efku']);
 		}
 
-		if (count($_POST['efex']) > 0) {
-			$z = 0;
-			for ($i = 0; $i < count($_POST['efex']); $i++) {
-				if ($_POST['rfex'][$i] != "") {
-					$rfex[$z] = $this->camphotoupload($_POST['rfex'][$i], $_POST['tfex'][$i]);
-					$z++;
-				} else {
-					if ($_POST['efex'][$i] != "") {
-						$rfex[$z] = $_POST['efex'][$i];
+		if (isset($_POST['efex'])){
+			if (count($_POST['efex']) > 0) {
+				$z = 0;
+				for ($i = 0; $i < count($_POST['efex']); $i++) {
+					if ($_POST['rfex'][$i] != "") {
+						$rfex[$z] = $this->camphotoupload($_POST['rfex'][$i], $_POST['tfex'][$i]);
 						$z++;
+					} else {
+						if ($_POST['efex'][$i] != "") {
+							$rfex[$z] = $_POST['efex'][$i];
+							$z++;
+						}
 					}
+					echo $z;
 				}
-				echo $z;
+				unset($_POST['rfex']);
+				unset($_POST['tfex']);
+				unset($_POST['efex']);
 			}
-			unset($_POST['rfex']);
-			unset($_POST['tfex']);
-			unset($_POST['efex']);
 		}
 
 		if ($_POST['id'] != "") {
@@ -605,6 +609,16 @@ class Cluster extends MX_Controller
 		echo json_encode($data);
 	}
 
+	function get_hp(){
+		$data = $this->cluster_m->get_list_hasil_produk_m();
+		echo json_encode($data);
+	}
+
+	function get_v(){
+		$data = $this->cluster_m->get_list_varian_m();
+		echo json_encode($data);
+	}
+
 	// private function filephotoupload(){
 
 	// $type = explode('.', $_FILES["foto"]["name"]);
@@ -653,6 +667,16 @@ class Cluster extends MX_Controller
 	// 			$this->db->query($nq);
 	// 	}
 	// }
+
+	function migrate_cluster_produk(){
+
+		$sql = $this->db->query('select DISTINCT(a.hasil_produk) as hasil, a.id_cluster_jenis_usaha, b.nama_cluster_jenis_usaha from cluster a
+		left join cluster_jenis_usaha b on a.id_cluster_jenis_usaha=b.id_cluster_jenis_usaha
+		where a.id_cluster_jenis_usaha !="" and a.hasil_produk!=""');
+		foreach ($sql->result_array() as $row){
+			echo "insert into cluster_hasil_produk values ('".$this->uuid->v4(true)."', '".$row['id_cluster_jenis_usaha']."', '".$row['hasil']."'); </br>";
+		}
+	}
 
 	private function camphotoupload($i = null, $j = null)
 	{

@@ -1,3 +1,8 @@
+
+$( document ).ready(function() {
+    $(".datepicker").datepicker();
+});
+
 function te(i) {
   if (i.value === "Ya") {
     $("#pasar_ekspor_tahun").removeAttr("disabled");
@@ -9,7 +14,7 @@ function te(i) {
     $("#bfex").attr("disabled", "disabled");
   }
 }
-
+ 
 function tambahform(id) {
   var count = $("." + id);
   var newid;
@@ -153,30 +158,21 @@ function getform(i = null) {
 
         document.getElementById("kaunit_nama").value = msg[0].kaunit_nama;
         document.getElementById("kaunit_pn").value = msg[0].kaunit_pn;
-        document.getElementById("kaunit_handphone").value =
-          msg[0].kaunit_handphone;
+        document.getElementById("kaunit_handphone").value = msg[0].kaunit_handphone;
 
         document.getElementById("nama_pekerja").value = msg[0].nama_pekerja;
-        document.getElementById("personal_number").value =
-          msg[0].personal_number;
-        document.getElementById("handphone_pekerja").value =
-          msg[0].handphone_pekerja;
+        document.getElementById("personal_number").value = msg[0].personal_number;
+        document.getElementById("handphone_pekerja").value = msg[0].handphone_pekerja;
 
         document.getElementById("kelompok_usaha").value = msg[0].kelompok_usaha;
-        document.getElementById("kelompok_jumlah_anggota").value =
-          msg[0].kelompok_jumlah_anggota;
-        document.getElementById("kelompok_perwakilan").value =
-          msg[0].kelompok_perwakilan;
-        document.getElementById("kelompok_jenis_kelamin").value =
-          msg[0].kelompok_jenis_kelamin;
+        document.getElementById("kelompok_jumlah_anggota").value = msg[0].kelompok_jumlah_anggota;
+        document.getElementById("kelompok_perwakilan").value = msg[0].kelompok_perwakilan;
+        document.getElementById("kelompok_jenis_kelamin").value = msg[0].kelompok_jenis_kelamin;
 
         document.getElementById("kelompok_NIK").value = msg[0].kelompok_NIK;
-        document.getElementById("kelompok_perwakilan_tgl_lahir").value =
-          msg[0].kelompok_perwakilan_tgl_lahir;
-        document.getElementById("kelompok_perwakilan_tempat_lahir").value =
-          msg[0].kelompok_perwakilan_tempat_lahir;
-        document.getElementById("kelompok_handphone").value =
-          msg[0].kelompok_handphone;
+        document.getElementById("kelompok_perwakilan_tgl_lahir").value = msg[0].kelompok_perwakilan_tgl_lahir;
+        document.getElementById("kelompok_perwakilan_tempat_lahir").value = msg[0].kelompok_perwakilan_tempat_lahir;
+        document.getElementById("kelompok_handphone").value = msg[0].kelompok_handphone;
         document.getElementById("lokasi_usaha").value = msg[0].lokasi_usaha;
 
         setprov(msg[0].provinsi);
@@ -184,51 +180,37 @@ function getform(i = null) {
         getkecamatan(msg[0].kabupaten, msg[0].kecamatan);
         getkelurahan(msg[0].kecamatan, msg[0].kelurahan);
 
-        document.getElementById("id_cluster_sektor_usaha").value =
-          msg[0].id_cluster_sektor_usaha;
+        document.getElementById("id_cluster_sektor_usaha").value = msg[0].id_cluster_sektor_usaha;
         fjum(msg[0].id_cluster_sektor_usaha, msg[0].id_cluster_jenis_usaha_map);
         fju(msg[0].id_cluster_jenis_usaha_map, msg[0].id_cluster_jenis_usaha);
+        ldataproduk(msg[0].id_cluster_jenis_usaha);
+        document.getElementById("hasil_produk").value = msg[0].hasil_produk;
+        ldatavarian(msg[0].hasil_produk);
+        document.getElementById("varian").value = msg[0].varian;
 
         document.getElementById("pasar_ekspor").value = msg[0].pasar_ekspor;
-        document.getElementById("pasar_ekspor_tahun").value =
-          msg[0].pasar_ekspor_tahun;
-        document.getElementById("pasar_ekspor_nilai").value =
-          msg[0].pasar_ekspor_tahun;
+        document.getElementById("pasar_ekspor_tahun").value = msg[0].pasar_ekspor_tahun;
+        document.getElementById("pasar_ekspor_nilai").value = msg[0].pasar_ekspor_tahun;
 
-        document.getElementById("kelompok_anggota_pinjaman").value =
-          msg[0].kelompok_anggota_pinjaman;
-        document.getElementById("hasil_produk").value = msg[0].hasil_produk;
-        document.getElementById("kelompok_pihak_pembeli").value =
-          msg[0].kelompok_pihak_pembeli;
-        document.getElementById("kelompok_pihak_pembeli_handphone").value =
-          msg[0].kelompok_pihak_pembeli_handphone;
-        document.getElementById("kelompok_suplier_produk").value =
-          msg[0].kelompok_suplier_produk;
-        document.getElementById("kelompok_suplier_handphone").value =
-          msg[0].kelompok_suplier_handphone;
-        document.getElementById("kelompok_luas_usaha").value =
-          msg[0].kelompok_luas_usaha;
+        document.getElementById("kelompok_anggota_pinjaman").value = msg[0].kelompok_anggota_pinjaman;
+        document.getElementById("kelompok_pihak_pembeli").value = msg[0].kelompok_pihak_pembeli;
+        document.getElementById("kelompok_pihak_pembeli_handphone").value = msg[0].kelompok_pihak_pembeli_handphone;
+        document.getElementById("kelompok_suplier_produk").value = msg[0].kelompok_suplier_produk;
+        document.getElementById("kelompok_suplier_handphone").value = msg[0].kelompok_suplier_handphone;
+        document.getElementById("kelompok_luas_usaha").value = msg[0].kelompok_luas_usaha;
         document.getElementById("kelompok_omset").value = msg[0].kelompok_omset;
-        document.getElementById("kelompok_cerita_usaha").value =
-          msg[0].kelompok_cerita_usaha;
+        document.getElementById("kelompok_cerita_usaha").value = msg[0].kelompok_cerita_usaha;
         document.getElementById("pinjaman").value = msg[0].pinjaman;
-        document.getElementById("nominal_pinjaman").value =
-          msg[0].nominal_pinjaman;
-        document.getElementById("norek_pinjaman_bri").value =
-          msg[0].norek_pinjaman_bri;
+        document.getElementById("nominal_pinjaman").value = msg[0].nominal_pinjaman;
+        document.getElementById("norek_pinjaman_bri").value = msg[0].norek_pinjaman_bri;
         document.getElementById("agen_brilink").value = msg[0].agen_brilink;
 
-        document.getElementById("kebutuhan_sarana_milik").value =
-          msg[0].kebutuhan_sarana_milik;
-        document.getElementById("kebutuhan_sarana").value =
-          msg[0].kebutuhan_sarana;
-        document.getElementById("kebutuhan_sarana_lainnya").value =
-          msg[0].kebutuhan_sarana_lainnya;
-        document.getElementById("kebutuhan_skema_kredit").value =
-          msg[0].kebutuhan_skema_kredit;
+        document.getElementById("kebutuhan_sarana_milik").value = msg[0].kebutuhan_sarana_milik;
+        document.getElementById("kebutuhan_sarana").value = msg[0].kebutuhan_sarana;
+        document.getElementById("kebutuhan_sarana_lainnya").value = msg[0].kebutuhan_sarana_lainnya;
+        document.getElementById("kebutuhan_skema_kredit").value = msg[0].kebutuhan_skema_kredit;
 
-        document.getElementById("kebutuhan_pendidikan").value =
-          msg[0].kebutuhan_pendidikan;
+        document.getElementById("kebutuhan_pendidikan").value = msg[0].kebutuhan_pendidikan;
         document.getElementById("simpanan_bank").value = msg[0].simpanan_bank;
         // end data cluster//
 
@@ -1057,4 +1039,30 @@ function showClusterInfo(id) {
           `);
     },
   });
+}
+
+function ldataproduk(i) {
+  var data1 = {
+    id_cluster_jenis_usaha: i,
+  };
+  var address = "./cluster/get_hp";
+  var get = sendajaxreturn(data1, address, "json");
+  var select = "";
+  get.forEach(function (e) {
+    select += "<option value='" +  e.hasil_produk + "'>";
+  });
+  document.getElementById("dataproduk").innerHTML = "" + select ;
+}
+
+function ldatavarian(i) {
+  var data1 = {
+    hasil_produk : i,
+  };
+  var address = "./cluster/get_v";
+  var get = sendajaxreturn(data1, address, "json");
+  var select = "";
+  get.forEach(function (e) {
+    select += "<option value='" +  e.varian + "'>";
+  });
+  document.getElementById("datavarian").innerHTML = "" + select ;
 }

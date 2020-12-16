@@ -199,13 +199,21 @@
 
 						<div class="form-group">
 							<label class="control-label drequired">Jenis Usaha</label>
-							<select class="form-control dform required" id="id_cluster_jenis_usaha">
+							<select class="form-control dform required" onchange="ldataproduk(this.value);" id="id_cluster_jenis_usaha">
 							</select>
 						</div>
 
 						<div class="form-group">
-							<label class="control-label drequired">Bentuk Produk / Jasa</label>
-							<input type="text" pattern="[a-zA-Z]" onchange="validatorreqtext(this, iname, this.id)" class="form-control dform  required" id="hasil_produk" value="" placeholder="required" required>
+							<label class="control-label drequired">Bentuk Produk / Jasa (isikan meskipun tidak ada dalam list)</label>
+							<datalist id="dataproduk"></datalist>
+							<input type="text" pattern="[a-zA-Z]" onchange="validatorreqtext(this, iname, this.id);ldatavarian(this.value);" class="form-control dform  required" list="dataproduk" id="hasil_produk" value="" placeholder="required" required>
+						</div>
+						
+
+						<div class="form-group">
+							<label class="control-label drequired">Varian (isikan meskipun tidak ada dalam list)</label>
+							<datalist id="datavarian"></datalist>
+							<input type="text" pattern="[a-zA-Z]" onchange="validatorreqtext(this, iname, this.id)" class="form-control dform" id="varian" value="" list="datavarian" placeholder="Optional" required>
 						</div>
 
 						<div class="form-group">
@@ -393,8 +401,13 @@
 						</div>
 
 						<div class="form-group required">
-							<label class="control-label">Tanggal Lahir Ketua Kelompok</label>
-							<input type="date" data-date-format="DD-MM-YYYY" class="form-control dform required" id="kelompok_perwakilan_tgl_lahir" value="" placeholder="required" required>
+						<label class="control-label">Tanggal Lahir Ketua Kelompok</label>
+							<div class="input-group date" data-provide="datepicker">
+								<input type="text" id="kelompok_perwakilan_tgl_lahir" data-date-format="dd/mm/yyyy" class="form-control dform datepicker required">
+								<div class="input-group-addon">
+									<span class="glyphicon glyphicon-th"></span>
+								</div>
+							</div>
 						</div>
 
 						<div class="form-group required">
