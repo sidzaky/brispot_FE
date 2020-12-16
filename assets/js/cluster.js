@@ -187,6 +187,8 @@ function getform(i = null) {
         document.getElementById("hasil_produk").value = msg[0].hasil_produk;
         ldatavarian(msg[0].hasil_produk);
         document.getElementById("varian").value = msg[0].varian;
+        document.getElementById("kapasitas_produksi").value = msg[0].kapasitas_produksi;
+        document.getElementById("periode_panen").value = msg[0].periode_panen;
 
         document.getElementById("pasar_ekspor").value = msg[0].pasar_ekspor;
         document.getElementById("pasar_ekspor_tahun").value = msg[0].pasar_ekspor_tahun;
@@ -243,6 +245,7 @@ function fjum(i, j = "") {
   var data1 = {
     id_cluster_sektor_usaha: i,
   };
+
   $.ajax({
     type: "POST",
     url: "./cluster/fjum",
@@ -269,6 +272,17 @@ function fjum(i, j = "") {
       }
     },
   });
+  if (i==1){
+    $("#varian").addClass("required");
+    $("#periode_panen").addClass("required");
+    $("#kapasitas_produksi").addClass("required");
+  }
+  else {
+    $("#varian").removeClass("required");
+    $("#periode_panen").removeClass("required");
+    $("#kapasitas_produksi").removeClass("required");
+  }
+
   $(document.getElementById("id_cluster_jenis_usaha")).empty();
 }
 
@@ -517,10 +531,10 @@ function reval() {
     false
       ? "data kelompok_jumlah_anggota  tidak valid \n"
       : "";
-  msg +=
-    validatorreqtext(document.getElementById("hasil_produk"), ischar) == false
-      ? "data hasil_produk tidak valid \n"
-      : "";
+      
+  msg += validatorreqtext(document.getElementById("hasil_produk"), ischar) == false ? "data hasil_produk tidak valid \n" : "";
+  msg += validatorreqtext(document.getElementById("varian"), ischar) == false ? "data varian tidak valid \n" : "";
+  msg += validatorreqnumber(document.getElementById("kapasitas_produksi")) == false ? "data kapasitas produksi tidak valid \n" : "";
 
   msg +=
     validatoroptnumber(document.getElementById("pasar_ekspor_tahun")) == false

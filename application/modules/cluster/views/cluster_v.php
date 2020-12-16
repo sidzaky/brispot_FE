@@ -246,6 +246,20 @@
 						</div>
 
 						<div class="form-group">
+							<label class="control-label">Kapasistas Produksi (ton)</label>
+							<input type="number" class="form-control dform" id="kapasitas_produksi" value="" placeholder="optional" required>
+						</div>
+
+						<div class="form-group">
+							<label class="control-label">Periode Panen</label>
+							<select class="form-control dform" id="periode_panen">
+								<option selected>2 kali setahun</option>
+								<option>3 kali setahun</option>
+								<option>Sepanjang tahun</option>
+							</select>
+						</div>
+
+						<div class="form-group">
 							<label class="control-label">Omset Usaha per Bulan (total kelompok - Rp)</label>
 							<input type="number" class="form-control dform" id="kelompok_omset" value="" placeholder="optional" required>
 						</div>
