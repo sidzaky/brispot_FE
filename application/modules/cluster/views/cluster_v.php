@@ -245,14 +245,14 @@
 							<input type="number" class="form-control dform" id="kelompok_luas_usaha" value="" placeholder="optional" required>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" id="fkapasitas_produksi">
 							<label class="control-label">Kapasistas Produksi (ton)</label>
-							<input type="number" class="form-control dform" id="kapasitas_produksi" value="" placeholder="optional" required>
+							<input type="number" class="form-control dform required" id="kapasitas_produksi" value="" placeholder="required" required>
 						</div>
 
-						<div class="form-group">
+						<div class="form-group" id="fperiode_panen">
 							<label class="control-label">Periode Panen</label>
-							<select class="form-control dform" id="periode_panen">
+							<select class="form-control dform required" id="periode_panen">
 								<option selected>2 kali setahun</option>
 								<option>3 kali setahun</option>
 								<option>Sepanjang tahun</option>

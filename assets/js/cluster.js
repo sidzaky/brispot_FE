@@ -273,14 +273,14 @@ function fjum(i, j = "") {
     },
   });
   if (i==1){
-    $("#varian").addClass("required");
-    $("#periode_panen").addClass("required");
-    $("#kapasitas_produksi").addClass("required");
+    $('#fperiode_panen').show();
+    $('#fkapasitas_produksi').show();
   }
   else {
-    $("#varian").removeClass("required");
-    $("#periode_panen").removeClass("required");
-    $("#kapasitas_produksi").removeClass("required");
+    $('#fperiode_panen').hide();
+    $('#periode_panen').val("");
+    $('#fkapasitas_produksi').hide();
+    $('#kapasitas_produksi').val("");
   }
 
   $(document.getElementById("id_cluster_jenis_usaha")).empty();
@@ -531,11 +531,17 @@ function reval() {
     false
       ? "data kelompok_jumlah_anggota  tidak valid \n"
       : "";
-      
-  msg += validatorreqtext(document.getElementById("hasil_produk"), ischar) == false ? "data hasil_produk tidak valid \n" : "";
-  msg += validatorreqtext(document.getElementById("varian"), ischar) == false ? "data varian tidak valid \n" : "";
-  msg += validatorreqnumber(document.getElementById("kapasitas_produksi")) == false ? "data kapasitas produksi tidak valid \n" : "";
 
+  msg += validatorreqtext(document.getElementById("hasil_produk"), ischar) == false ? "data hasil_produk tidak valid \n" : "";
+
+  /// for sektor usaha produksi///
+  if ($("#id_cluster_sektor_usaha").val()==1){
+    msg += validatorreqtext(document.getElementById("varian"), ischar) == false ? "data varian tidak valid \n" : "";
+    msg += validatorreqnumber(document.getElementById("kapasitas_produksi")) == false ? "data kapasitas produksi tidak valid \n" : "";
+  }
+  else {
+    msg += validatoropttext(document.getElementById("varian"), ischar) == false ? "data varian tidak valid \n" : "";
+  }
   msg +=
     validatoroptnumber(document.getElementById("pasar_ekspor_tahun")) == false
       ? "data pasar_ekspor_tahun  tidak valid \n"
