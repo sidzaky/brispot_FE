@@ -134,7 +134,7 @@ class Dashboard extends MX_Controller
       }
     }
     return $data;
-  }
+  } 
 
   function persebaranpetakanwil(){
     $this->load->module("cluster");

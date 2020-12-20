@@ -96,8 +96,18 @@ jQuery(function ($) {
 $(document).ready(function() {setfilter();});
 
 function setfilter(){
+  var data1 = {
+    id_cluster_sektor_usaha: $("#id_sektor_cluster_usaha").val(),
+    id_cluster_jenis_usaha_map: $("#id_cluster_jenis_usaha_map").val(),
+    id_cluster_jenis_usaha: $("#id_cluster_jenis_usaha").val(),
+    hasil_produk: $("#hasil_produk").val(),
+    varian: $("#varian").val(),
+    provinsi: $("#provinsi").val(),
+    kabupaten: $("#kabupaten").val()
+  };
   $.ajax({
         type: "POST",
+        data: data1,
         url: "./dashboard/persebaranpetaprovinsi",
         success: function (msg) {
           Highcharts.mapChart('map', {

@@ -58,7 +58,7 @@
                   <div class="col-sm-4">
                       <div class="form-group">
                           <label class="control-label">Sektor Usaha</label>
-                          <select class="form-control" onchange="fjum(this.value);" id="kode_kanwil">
+                          <select class="form-control" onchange="fjum(this.value);" id="id_sektor_cluster_usaha">
                               <option value="">semua</option>
                               <option value="1">Produksi</option>
                               <option value="2">Non Produksi</option>			
