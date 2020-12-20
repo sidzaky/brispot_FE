@@ -53,16 +53,82 @@
           </div><!-- /.box-header -->
           <div class="box-body">
             <div class="col-md-12">
+              <div id="result" class="box-body">
+              <h4>Filter</h4>
+                  <div class="col-sm-4">
+                      <div class="form-group">
+                          <label class="control-label">Sektor Usaha</label>
+                          <select class="form-control" onchange="set_kanca(this);" id="kode_kanwil">
+                              <option value="">semua</option>
+                              <?php foreach ($kanwil as $row){
+                                  echo '<option value="'.$row['kode_kanwil'].'">'.$row['kanwil'].'</option>';
+                              }?>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="form-group" id="selkanca">
+                          <label class="control-label">Kategori Usaha</label>
+                          <select class="form-control" onchange="set_unit(this);" id="kode_kanca">
+                              <option value="">semua</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-sm-4">
+                      <div class="form-group" id="selunit">
+                          <label class="control-label">Jenis Usaha</label>
+                          <select class="form-control" id="kode_uker">
+                              <option value="">semua</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-sm-3">
+                      <div class="form-group" id="selunit">
+                          <label class="control-label">Bentuk Usaha</label>
+                          <select class="form-control" id="kode_uker">
+                              <option value="">semua</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col-sm-3">
+                      <div class="form-group" id="selunit">
+                          <label class="control-label">Varian</label>
+                          <select class="form-control" id="kode_uker">
+                              <option value="">semua</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                      <div class="form-group" id="selunit">
+                          <label class="control-label">Lokasi</label>
+                          <select class="form-control" id="kode_uker">
+                              <option value="">semua</option>
+                          </select>
+                      </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                      <div class="form-group" id="selunit">
+                          <label class="control-label">Sub Lokasi</label>
+                          <select class="form-control" id="kode_uker">
+                              <option value="">semua</option>
+                          </select>
+                      </div>
+                  </div>
+                
+                  <div class="col-sm-12">    
+                      <input type="hidden" id="finalresult" value="">
+                      <button class="btn btn-info waves-effect waves-light" onclick="add_field();">Tambah Field</button>
+                      <button class="btn btn-success waves-effect waves-light" id="sbt" onclick="$('#table-cluster').DataTable().ajax.reload(null, false);">Cari</button>
+                  </div>
+              </div>
               <div id="map"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <script>
-
-    </script>
 
     <div class="row">
       <div class="col-md-4">
@@ -122,8 +188,9 @@
 </style>
 
 <script>
-$( document ).ready(function() {
-  $.ajax({
+  function setfilter(){
+
+    $.ajax({
           type: "POST",
           url: "./dashboard/persebaranpetaprovinsi",
           success: function (msg) {
@@ -131,22 +198,18 @@ $( document ).ready(function() {
                     chart: {
                         map: 'countries/id/id-all'
                     },
-
                     title: {
                         text: 'Persebaran Klaster BRI berdasarkan Provinsi'
                     },
-
                     subtitle: {
                         text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.js">Indonesia</a>'
                     },
-
                     mapNavigation: {
                         enabled: true,
                         buttonOptions: {
                             verticalAlign: 'bottom'
                         }
                     },
-
                     series: [{
                         data: JSON.parse(msg),
                         name: 'Data klaster',
@@ -163,5 +226,8 @@ $( document ).ready(function() {
                 })
           }
       });
-});
+  }  
+
+  $(document).ready(function() {setfilter();});
+
 </script>
