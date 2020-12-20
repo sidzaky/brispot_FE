@@ -37,6 +37,9 @@ class Dashboard extends MX_Controller
       "perdagangan" => base_url() . "assets/img/dashboard/perdagangan.png",
       "pariwisata" => base_url() . "assets/img/dashboard/pariwisata.png",
     );
+    $this->load->module('cluster');
+    $this->load->model('cluster_m');
+    $data['provinsi'] = $this->cluster_m->getprovinsi_m();
     $data['navbar'] = 'navbar';
     $data['sidebar'] = 'sidebar';
     $data['content'] = 'dashboard';

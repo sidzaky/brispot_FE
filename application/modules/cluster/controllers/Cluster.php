@@ -492,7 +492,6 @@ class Cluster extends MX_Controller
 				}
 				if ($zrow['total_anggota'] == 0) $z[$row['kanwil']]['kosong']++;
 				else $z[$row['kanwil']]['terisi']++;
-
 				$z[$row['kanwil']]['total_anggota'] += $zrow['total_anggota'];
 			};
 		};

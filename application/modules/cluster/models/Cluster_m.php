@@ -782,6 +782,8 @@ class Cluster_m extends CI_Model
 		return $this->db->query($sql)->result_array();
 	}
 
+	
+
 
 
 
