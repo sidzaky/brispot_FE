@@ -96,7 +96,7 @@ jQuery(function ($) {
 $(document).ready(function() {setfilter();});
 
 function setfilter(){
-  var data1 = {
+  var filter = {
     id_cluster_sektor_usaha: $("#id_sektor_cluster_usaha").val(),
     id_cluster_jenis_usaha_map: $("#id_cluster_jenis_usaha_map").val(),
     id_cluster_jenis_usaha: $("#id_cluster_jenis_usaha").val(),
@@ -107,7 +107,7 @@ function setfilter(){
   };
   $.ajax({
         type: "POST",
-        data: data1,
+        data: filter,
         url: "./dashboard/persebaranpetaprovinsi",
         success: function (msg) {
           Highcharts.mapChart('map', {
@@ -127,7 +127,7 @@ function setfilter(){
                       }
                   },
                   series: [{
-                      data: JSON.parse(msg),
+                      data: JSON.parse(msg!= null ? msg : ''),
                       name: 'Data klaster',
                       states: {
                           hover: {

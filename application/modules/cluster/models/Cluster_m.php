@@ -626,16 +626,16 @@ class Cluster_m extends CI_Model
 	public function getdata_jum()
 	{
 		$where = "";
-		if (isset($_POST['id_cluster_sektor_usaha'])) $where .= "where id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
-		$q = "select * from cluster_jenis_usaha_map " . $where;
+		if (isset($_POST['id_cluster_sektor_usaha'])) $where .= "and id_cluster_sektor_usaha='" . $_POST['id_cluster_sektor_usaha'] . "'";
+		$q = "select * from cluster_jenis_usaha_map where status=1 " . $where;
 		return $this->db->query($q)->result();
 	}
 
 	public function getdata_ju()
 	{
 		$where = "";
-		if (isset($_POST['id_cluster_jenis_usaha_map'])) $where .= " where id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
-		$q = "select * from cluster_jenis_usaha " . $where;
+		if (isset($_POST['id_cluster_jenis_usaha_map'])) $where .= " and id_cluster_jenis_usaha_map='" . $_POST['id_cluster_jenis_usaha_map'] . "'";
+		$q = "select * from cluster_jenis_usaha where status=1 " . $where;
 		return $this->db->query($q)->result();
 	}
 

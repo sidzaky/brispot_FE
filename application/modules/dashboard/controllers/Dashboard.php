@@ -137,11 +137,11 @@ class Dashboard extends MX_Controller
   } 
 
   function persebaranpetakanwil(){
-    $this->load->module("cluster");
-    $this->load->model("cluster_m");
+    $this->load->module('cluster');
+    $this->load->model('cluster_m');
     ini_set('memory_limit', '-1');
 		$data['kanwil'] = array();
-		$q = $this->cluster_m->getreport_m("");
+		$q = $this->dashboard_m->getreportdashboard_m("");
 		$data['listkategori'] = $this->cluster_m->getlist_jum();
 		foreach ($q as $row) {
 			if ($row['kanwil'] != false) {
@@ -157,7 +157,7 @@ class Dashboard extends MX_Controller
 				}
 			}
     }
-    $zz;
+    $zz="";
     $i=0;
     foreach ($data["kanwil"] as $key => $values){
         $b="";
@@ -175,11 +175,11 @@ class Dashboard extends MX_Controller
   }
  
   function persebaranpetaprovinsi(){ 
-    $this->load->module("cluster");
-    $this->load->model("cluster_m");
+    $this->load->module('cluster');
+    $this->load->model('cluster_m');
     ini_set('memory_limit', '-1');
     $data['kanwil'] = array();
-    $q = $this->cluster_m->getreport_m("true");
+    $q = $this->dashboard_m->getreportdashboard_m("true");
     $data['listkategori'] = $this->cluster_m->getlist_jum();
 		foreach ($q as $row) {
 			if ($row['MAPKODE']!="") {
@@ -195,7 +195,7 @@ class Dashboard extends MX_Controller
 				}
 			}
     }
-    $zz;
+    $zz="";
     $i=0;
     foreach ($data["kanwil"] as $key => $values){
         $b="";

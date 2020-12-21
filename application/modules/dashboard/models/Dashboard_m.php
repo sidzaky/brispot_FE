@@ -75,4 +75,62 @@ class Dashboard_m extends CI_Model
     $result = $this->db->query($sql)->result_array();
     return $result;
   }
+
+
+  public function getreportdashboard_m($harian)
+	{
+		$where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " where true ";
+				break;
+			case (3):
+				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$where .= " where kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+    }
+    
+   
+    /////////////////dashboar filter/////////////
+    if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
+    if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
+    if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
+    if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
+
+    if ($harian != "") $where .= " and timestamp>1576085405  ";
+
+		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
+								lokasi_usaha,
+								e.kode_pos,
+								b.MAPKODE,
+								b.nama AS provinsi,
+								c.nama AS kabupaten,
+								d.nama AS kecamatan,
+								e.nama AS kelurahan,
+								a.id_cluster_sektor_usaha,
+								a.id_cluster_jenis_usaha_map,
+								a.id_cluster_jenis_usaha,
+                nama_cluster_jenis_usaha,
+								nama_cluster_jenis_usaha_map,
+								hasil_produk,
+                varian
+					FROM	cluster a
+					left join provinsi b on a.provinsi=b.id
+					left join kabupaten_kota c on a.kabupaten=c.id
+					left join kecamatan d on a.kecamatan=d.id
+					left join kelurahan e on a.kelurahan=e.id 
+					left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
+					left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
+					left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha 
+					' . $where ;
+    return $this->db->query($sql)->result_array();
+	}
 }
