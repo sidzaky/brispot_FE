@@ -195,7 +195,7 @@ class Dashboard extends MX_Controller
 				}
 			}
     }
-    $zz="";
+    $zz;
     $i=0;
     foreach ($data["kanwil"] as $key => $values){
         $b="";
@@ -255,5 +255,12 @@ class Dashboard extends MX_Controller
     $user = $this->getActiveUser();
     $query = $this->dashboard_m->getTrainingNeedsReport($user);
     echo json_encode($query);
+  }
+
+  function summary(){
+    $data['navbar'] = 'navbar';
+    $data['sidebar'] = 'sidebar';
+    $data['content'] = 'summary';
+    $this->load->view('template', $data);
   }
 }

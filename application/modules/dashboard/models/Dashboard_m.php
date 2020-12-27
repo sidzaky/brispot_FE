@@ -97,13 +97,13 @@ class Dashboard_m extends CI_Model
     
    
     /////////////////dashboar filter/////////////
-    if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
-    if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
-    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
-    if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
-    if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
-    if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
-    if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
+    // if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
+    // if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
+    // if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    // if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
+    // if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
+    // if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
+    // if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
 
     if ($harian != "") $where .= " and timestamp>1576085405  ";
 

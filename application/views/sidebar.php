@@ -6,7 +6,6 @@
     <ul class="sidebar-menu" id="sidebar-app">
       <!-- Optionally, you can add icons to the links -->
       <li><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-pie-chart"></i> <span>Dashboard</span></a></li>
-      <li><a href="<?php echo base_url(); ?>summary"><i class="fa fa-map-pin "></i> <span>Summary</span></a></li>
       <li class="treeview">
         <a href="#">
           <i class="fa fa-check "></i> <span>Klaster</span>
@@ -21,7 +20,6 @@
       <!-- <li><a href=""><i class="fa fa-file-text-o"></i> <span>Pengajuan Klaster</span></a></li> -->
 	  
 	  <?php 
-        
         $lilaporan= '<li class="treeview">
                         <a href="#">
                             <i class="fa fa-bar-chart"></i> <span>Laporan Klaster</span>
