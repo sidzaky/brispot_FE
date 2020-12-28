@@ -93,7 +93,7 @@ jQuery(function ($) {
   };
 });
 
-$(document).ready(function() {setfilter();});
+$(document).ready(function() {setfilter();getkotakab();fjum($("#id_cluster_sektor_usaha").val());});
 
 function setfilter(){
   $.ajax({
@@ -282,7 +282,7 @@ function setprov(i) {
 
 function getkotakab(i, j = null) {
   var data1 = {
-    provinsi_id: i,
+    provinsi_id: $("#provinsi").val(),
   };
   var address = "./cluster/getkotakab";
   var get = sendajaxreturn(data1, address, "json");

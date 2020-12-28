@@ -667,15 +667,15 @@ class Cluster extends MX_Controller
 	// 	}
 	// }
 
-	function migrate_cluster_produk(){
+	// function migrate_cluster_produk(){
 
-		$sql = $this->db->query('select DISTINCT(a.hasil_produk) as hasil, a.id_cluster_jenis_usaha, b.nama_cluster_jenis_usaha from cluster a
-		left join cluster_jenis_usaha b on a.id_cluster_jenis_usaha=b.id_cluster_jenis_usaha
-		where a.id_cluster_jenis_usaha !="" and a.hasil_produk!=""');
-		foreach ($sql->result_array() as $row){
-			echo "insert into cluster_hasil_produk values ('".$this->uuid->v4(true)."', '".$row['id_cluster_jenis_usaha']."', '".$row['hasil']."'); </br>";
-		}
-	}
+	// 	$sql = $this->db->query('select DISTINCT(a.hasil_produk) as hasil, a.id_cluster_jenis_usaha, b.nama_cluster_jenis_usaha from cluster a
+	// 	left join cluster_jenis_usaha b on a.id_cluster_jenis_usaha=b.id_cluster_jenis_usaha
+	// 	where a.id_cluster_jenis_usaha !="" and a.hasil_produk!=""');
+	// 	foreach ($sql->result_array() as $row){
+	// 		echo "insert into cluster_hasil_produk values ('".$this->uuid->v4(true)."', '".$row['id_cluster_jenis_usaha']."', '".$row['hasil']."'); </br>";
+	// 	}
+	// }
 
 	private function camphotoupload($i = null, $j = null)
 	{

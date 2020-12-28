@@ -132,5 +132,56 @@ class Dashboard_m extends CI_Model
 					left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha 
 					' . $where ;
     return $this->db->query($sql)->result_array();
+  }
+  
+  public function getsummary(){
+    $where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " where true ";
+				break;
+			case (3):
+				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$where .= " where kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+    }
+
+    if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
+    if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
+    if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
+    if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
+   
+    $sql="select * from cluster a
+          left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
+          left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
+          " .$where;
+    return $this->db->query($sql)->result_array();
+  }
+
+  public function getprovinsi_m()
+	{
+		$sql = "select * from provinsi where id='".$_POST['provinsi']."'";
+		return $this->db->query($sql)->result_array();
 	}
+
+	public function getkotakab_m()
+	{
+		$sql = "select * from kabupaten_kota where id='" . $_POST['kabupaten'] . "'";
+		return $this->db->query($sql)->result_array();
+	}
+
+  function getlist_jum()
+	{
+		$q = "select * from cluster_jenis_usaha_map where id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."' and status=1";
+		return $this->db->query($q)->result_array();
+	}
+
 }
