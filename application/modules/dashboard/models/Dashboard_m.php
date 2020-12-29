@@ -169,6 +169,7 @@ class Dashboard_m extends CI_Model
                   a.kelompok_omset,
                   a.kelompok_luas_usaha,
                   hasil_produk,
+                  periode_panen,
                   varian,
                   a.agen_brilink,
                   a.kebutuhan_sarana,
@@ -201,6 +202,11 @@ class Dashboard_m extends CI_Model
 	{
 		$q = "select * from cluster_jenis_usaha_map where id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."' and status=1";
 		return $this->db->query($q)->result_array();
-	}
+  }
+  
+  function getmap_m(){
+    $q = "select nama, lat, kabupaten_kota.long from kabupaten_kota where id='".$_POST['kabupaten']."'";
+    return $this->db->query($q)->result_array();
+  }
 
 }

@@ -258,14 +258,15 @@ class Dashboard extends MX_Controller
   }
 
   function summary(){
-    $data['navbar'] = 'navbar';
-    $data['sidebar'] = 'sidebar';
-    $data['content'] = 'summary'; 
-    $data['cluster'] = $this->dashboard_m->getsummary();
-    $data['provinsi'] = $this->dashboard_m->getprovinsi_m();
-    $data['kabupaten'] = $this->dashboard_m->getkotakab_m();
-    $data['komoditas'] = $_POST['hasil_produk'].', '. ($_POST['varian'] == "" ? "Semua Varian" : $_POST['varian']);
-    $data['klaster']   = $this->dashboard_m->getlist_jum();
+    $data['navbar']     = 'navbar';
+    $data['sidebar']    = 'sidebar';
+    $data['content']    = 'summary'; 
+    $data['cluster']    = $this->dashboard_m->getsummary();
+    $data['provinsi']   = $this->dashboard_m->getprovinsi_m();
+    $data['kabupaten']  = $this->dashboard_m->getkotakab_m();
+    $data['komoditas']  = $_POST['hasil_produk'].', '. ($_POST['varian'] == "" ? "Semua Varian" : $_POST['varian']);
+    $data['klaster']    = $this->dashboard_m->getlist_jum();
+    $data['koordinat']  = $this->dashboard_m->getmap_m();
 
     // print_r ($data['provinsi']);
 
@@ -278,9 +279,10 @@ class Dashboard extends MX_Controller
     $data['performance'];
     $i=0;
     foreach ($data['cluster'] as $row ){
+      
         $data['performance']['luas_lahan'] += $row['kelompok_luas_usaha'];
         $data['performance']['kapasitas_produksi'] += $row['kapasitas_produksi'];
-        $data['performance']['panen'][$row['periode_panen']]++;
+        if ($row['periode_panen'] !="" ) $data['performance']['panen'][$row['periode_panen']]++;
         foreach ($kebutuhan_pendidikan as $kp){
           if ($row['kebutuhan_pendidikan']==$kp['id_cluster_kebutuhan_pendidikan_pelatihan']) {
             $data['performance']['kp'][$kp['kebutuhan_pendidikan_pelatihan']]++;
