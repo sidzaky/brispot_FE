@@ -147,7 +147,7 @@ function fjum(i, j = "") {
       var msg = JSON.parse(smsg);
       var select = document.getElementById("id_cluster_jenis_usaha_map");
       $(select).empty();
-      $(select).append('<option value="">semua </option>');
+      $(select).append('<option value=""> Pilih Salah Satu </option>');
       var selected;
       for (var i = 0; i <= msg.length; i++) {
         selected = "";
@@ -191,7 +191,7 @@ function fju(i, j = "") {
       var msg = JSON.parse(smsg);
       var select = document.getElementById("id_cluster_jenis_usaha");
       $(select).empty();
-      $(select).append('<option value="">semua </option>');
+      $(select).append('<option value=""> Pilih Salah Satu </option>');
       var selected;
       for (var i = 0; i <= msg.length; i++) {
         selected = "";
@@ -223,7 +223,7 @@ function fhp(i, j = "") {
       var msg = JSON.parse(smsg);
       var select = document.getElementById("hasil_produk");
       $(select).empty();
-      $(select).append('<option value="">semua </option>');
+      $(select).append('<option value=""> Pilih Salah Satu </option>');
       var selected ;;
       for (var i = 0; i <= msg.length; i++) {
         selected = "";
@@ -256,7 +256,7 @@ function fv(i, j = "") {
       var msg = JSON.parse(smsg);
       var select = document.getElementById("varian");
       $(select).empty();
-      $(select).append('<option value="">semua </option>');
+      $(select).append('<option value=""> Semua </option>');
       var selected  = "";
       for (var i = 0; i <= msg.length; i++) {
         selected = "";
@@ -287,7 +287,7 @@ function getkotakab(i, j = null) {
   var address = "./cluster/getkotakab";
   var get = sendajaxreturn(data1, address, "json");
   var select =
-    '<select class="form-control" id="kabupaten"><option value="">semua</option>';
+    '<select class="form-control" id="kabupaten"><option value=""> Pilih Salah Satu </option>';
   get.forEach(function (e) {
     select +=
       "<option value='" +

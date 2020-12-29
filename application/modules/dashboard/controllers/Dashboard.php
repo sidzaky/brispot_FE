@@ -264,7 +264,7 @@ class Dashboard extends MX_Controller
     $data['cluster'] = $this->dashboard_m->getsummary();
     $data['provinsi'] = $this->dashboard_m->getprovinsi_m();
     $data['kabupaten'] = $this->dashboard_m->getkotakab_m();
-    $data['komoditas'] = $_POST['hasil_produk'].', '. $_POST['varian'];
+    $data['komoditas'] = $_POST['hasil_produk'].', '. ($_POST['varian'] == "" ? "Semua Varian" : $_POST['varian']);
     $data['klaster']   = $this->dashboard_m->getlist_jum();
 
     // print_r ($data['provinsi']);
@@ -283,20 +283,20 @@ class Dashboard extends MX_Controller
         $data['performance']['panen'][$row['periode_panen']]++;
         foreach ($kebutuhan_pendidikan as $kp){
           if ($row['kebutuhan_pendidikan']==$kp['id_cluster_kebutuhan_pendidikan_pelatihan']) {
-            $data['performance']['kebutuhan_pendidikan_pelatihan'][$kp['kebutuhan_pendidikan_pelatihan']]++;
+            $data['performance']['kp'][$kp['kebutuhan_pendidikan_pelatihan']]++;
           }
         } 
         foreach ($kebutuhan_sarana as $ks){
           if ($row['kebutuhan_sarana']==$ks['id_cluster_kebutuhan_sarana']) {
-            $data['performance']['kebutuhan_sarana'][$ks['kebutuhan_sarana']]++;
+            $data['performance']['ks'][$ks['kebutuhan_sarana']]++;
           }
         }
         foreach ($kebutuhan_kredit as $kk){
-          if ($row['kebutuhan_kredit']==$kk['id_cluster_kebutuhan_skema_kredit']) {
-            $data['performance']['kebutuhan_kredit'][$kk['kebutuhan_skema_kredit']]++;
+          if ($row['kebutuhan_skema_kredit']==$kk['id_cluster_kebutuhan_skema_kredit']) {
+            $data['performance']['kk'][$kk['kebutuhan_skema_kredit']]++;
           }
         }
     }
-    $this->load->view('template', $data);
+   $this->load->view('template', $data);
   }
 }

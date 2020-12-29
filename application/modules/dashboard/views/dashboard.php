@@ -27,7 +27,7 @@
                     <form action="./dashboard/summary" method="POST" target="_blank">
                         <div class="form-group">
                                 <label class="control-label">Sektor Usaha</label>
-                                <select class="form-control" onchange="fjum(this.value);" name="id_cluster_sektor_usaha" id="id_cluster_sektor_usaha">
+                                <select class="form-control" onchange="fjum(this.value);" name="id_cluster_sektor_usaha" id="id_cluster_sektor_usaha" required >
                                     <option value="1">Produksi</option>
                                     <option value="2">Non Produksi</option>			
                                 </select>
@@ -36,21 +36,21 @@
                         <div class="col-sm-4">
                             <div class="form-group" id="selkanca">
                                 <label class="control-label">Kategori Usaha</label>
-                                <select class="form-control" onchange="fju(this.value);" name="id_cluster_jenis_usaha_map" id="id_cluster_jenis_usaha_map">
+                                <select class="form-control" onchange="fju(this.value);" name="id_cluster_jenis_usaha_map" id="id_cluster_jenis_usaha_map" required >
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group" id="selunit">
                                 <label class="control-label">Jenis Usaha</label>
-                                <select class="form-control" onchange="fhp(this.value)" name="id_cluster_jenis_usaha" id="id_cluster_jenis_usaha">
+                                <select class="form-control" onchange="fhp(this.value)" name="id_cluster_jenis_usaha" id="id_cluster_jenis_usaha" required >
                                 </select>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group" id="selunit">
                                 <label class="control-label">Bentuk/Produk Usaha</label>
-                                <select class="form-control" onchange="fv(this.value)" name="hasil_produk" id="hasil_produk">
+                                <select class="form-control" onchange="fv(this.value)" name="hasil_produk" id="hasil_produk" required >
                                 </select>
                             </div>
                         </div>
@@ -65,7 +65,7 @@
                         <div class="col-sm-3">
                             <div class="form-group" id="selunit">
                                 <label class="control-label">Lokasi</label>
-                                <select class="form-control" onchange="getkotakab(this.value);" name="provinsi" id="provinsi">
+                                <select class="form-control" onchange="getkotakab(this.value);" name="provinsi" id="provinsi" required >
                                     <?php foreach ($provinsi as $row) {
                                       echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
                                     } ?>
@@ -76,7 +76,7 @@
                         <div class="col-sm-3">
                             <div class="form-group" id="selunit">
                                 <label class="control-label">Sub Lokasi</label>
-                                <select class="form-control" name="kabupaten" id="kabupaten">
+                                <select class="form-control" name="kabupaten" id="kabupaten" required >
                                 </select>
                             </div>
                         </div>

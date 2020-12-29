@@ -20,44 +20,7 @@
           </div><!-- /.box-header -->
             <div class="box-body">
               <div id="map"></div>
-                <div id="list_data">
-                  <div class="table-responsive">
-                    <table id="table-cluster" class="table table-striped table-bordered" width="100%">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Nama Klaster</th>
-                          <th>Ketua Kelompok</th>
-                          <th>No Hp</th>
-                          <th>Jumlah Anggota</th>
-                          <th>Kapasitas Produksi</th>
-                          <th>Omset</th>
-                          <th>Luas Lahan (M<sup>2</sup></th>
-                          <th>Agen Brilink</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                          <?php 
-                          $i=1;
-                            foreach ($cluster as $row){
-                                echo '<tr>';
-                                echo '<td>'.$i.'</td>';
-                                echo '<td>'.$row['kelompok_usaha'].'</td>';
-                                echo '<td>'.$row['kelompok_perwakilan'].'</td>';
-                                echo '<td>'.$row['kelompok_handphone'].'</td>';
-                                echo '<td>'.$row['kelompok_jumlah_anggota'].'</td>';
-                                echo '<td>'.$row['kapasitas_produksi'].'</td>';
-                                echo '<td>'.$row['kelompok_omset'].'</td>';
-                                echo '<td>'.$row['kelompok_luas_usaha'].'</td>';
-                                echo '<td>'.($row['agen_brilink']== "Ya" ? "Ya" : "Belum").'</td>';
-                                echo '</tr>';
-                                $i++;
-                            }
-                          ?>
-                      </tobdy>
-                    </table>
-                  </div>
-                </div>
+              <div id="list_data"></div>
           </div>
         </div>
       </div>
@@ -80,41 +43,101 @@
             </div>
 
             <div class="box-header with-border">
-
-
-              <h2 class="box-title">Performa Daerah</h2>
+                <h2 class="box-title">Performa Daerah</h2>
             </div><!-- /.box-header -->
               <div class="box-body">
                   <div class="col-sm-4"><label class="control-label">Luas Lahan</label></div>
-                  <div class="col-sm-8"><?php echo $performance['luas_lahan']?> M<sup>2</sup> </div> 
+                  <div class="col-sm-8"><?php echo number_format($performance['luas_lahan'])?> M<sup>2</sup> </div> 
               </div>
               <div class="box-body">
                   <div class="col-sm-4"><label class="control-label">Kapasitas Produksi</label></div>
-                  <div class="col-sm-8"><?php echo $performance['kapasitas_produksi']?> Ton  </div> 
+                  <div class="col-sm-8"><?php echo number_format($performance['kapasitas_produksi'])?> Ton  </div> 
               </div>
               <div class="box-body">
                   <div class="col-sm-4"><label class="control-label">Periode Panen</label></div>
                   <div class="col-sm-8"><?php echo $performance['panen']?>  </div> 
               </div>
-          </div>
-      </div>
-      <div class="col-md-4">
-        <div class="box">
-            <div class="box-header with-border">
+              <div class="box-header with-border">
               <h2 class="box-title">Kebutuhan</h2>
             </div><!-- /.box-header -->
               <div class="box-body">
-                  <div class="col-sm-4"><label class="control-label">Saranan Prasana</label></div>
+                  <div class="col-sm-4"><label class="control-label">Kebutuhan Kredit</label></div>
                   <div class="col-sm-8"><ul class="list-group">
-                      <?php foreach ($performance['kebutuhan_pendidikan_pelatihan'] as $key => $value){
+                      <?php foreach ($performance['kk'] as $key => $value){
                             echo '<li>'.$key.' : '.$value.'</li>';
                   }?></ul>
-                  
-                </div> 
-              </div>
+                  </div> 
+                  <div class="col-sm-4"><label class="control-label">Kebutuhan Prasarana</label></div>
+                  <div class="col-sm-8"><ul class="list-group">
+                      <?php foreach ($performance['ks'] as $key => $value){
+                            echo '<li>'.$key.' : '.$value.'</li>';
+                  }?></ul>
+                  </div> 
+                  <div class="col-sm-4"><label class="control-label">Pelatihan dan Pendidikan</label></div>
+                  <div class="col-sm-8"><ul class="list-group">
+                      <?php foreach ($performance['kp'] as $key => $value){
+                            echo '<li>'.$key.' : '.$value.'</li>';
+                  }?></ul>
+                  </div> 
+            </div>
           </div>
       </div>
+   
     </div>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box">
+          <div class="box-header with-border">
+            <h2 class="box-title">List Klaster</h2>
+              <div class="table-responsive">
+                <table id="table-cluster" class="table table-striped table-bordered" width="100%">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Nama Klaster</th>
+                      <th>Ketua Kelompok</th>
+                      <th>No Hp</th>
+                      <th>Jumlah Anggota</th>
+                      <th>Kapasitas Produksi</th>
+                      <th>Omset</th>
+                      <th>Luas Lahan (M<sup>2</sup>)</th>
+                      <th>Kebutuhan</th>
+                      <th>Agen Brilink</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <?php 
+                      $i=1;
+                        foreach ($cluster as $row){
+                            echo '<tr>';
+                            echo '<td>'.$i.'</td>';
+                            echo '<td>'.$row['kelompok_usaha'].'</td>';
+                            echo '<td>'.$row['kelompok_perwakilan'].'</td>';
+                            echo '<td>'.$row['kelompok_handphone'].'</td>';
+                            echo '<td>'.$row['kelompok_jumlah_anggota'].'</td>';
+                            echo '<td>'.number_format(($row['kapasitas_produksi']=="" ? "0" : $row['kapasitas_produksi'])).'</td>';
+                            echo '<td>'.number_format($row['kelompok_omset']).'</td>';
+                            echo '<td>'.number_format($row['kelompok_luas_usaha']).'</td>';
+                            echo '<td><ul class="list-group">';
+                            echo    '<li> Kredit  : '.$row['nama_kebutuhan_skema_kredit'].' </li>';
+                            echo    '<li> Sarana  : '.$row['nama_kebutuhan_sarana'].' </li>';
+                            echo    '<li> Pelatihan  : '.$row['nama_kebutuhan_pendidikan_pelatihan'].' </li>';
+                            echo '</ul></td>';
+                            echo '<td>'.($row['agen_brilink']== "Ya" ? "Ya" : "Belum").'</td>';
+                            echo '</tr>';
+                            $i++;
+                        }
+                      ?>
+                  </tobdy>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 <script src="<?php echo base_url(); ?>assets/js/summary.js"></script>
 
@@ -152,8 +175,8 @@
 </script>
 <style>
 #mapid{
-	width: 600px;
-	height: 400px;
+	width: 800px;
+	height: 600px;
 }
 </style>
 

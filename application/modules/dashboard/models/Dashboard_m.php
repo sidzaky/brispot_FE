@@ -109,7 +109,7 @@ class Dashboard_m extends CI_Model
 
 		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								lokasi_usaha,
-								e.kode_pos,
+								a.kode_pos,
 								b.MAPKODE,
 								b.nama AS provinsi,
 								c.nama AS kabupaten,
@@ -159,9 +159,28 @@ class Dashboard_m extends CI_Model
     if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
     if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
    
-    $sql="select * from cluster a
+    $sql="select  
+                  lokasi_usaha,
+                  a.kelompok_handphone,
+                  a.kelompok_perwakilan,
+                  a.kelompok_usaha,
+                  a.kelompok_jumlah_anggota,
+                  a.kapasitas_produksi,
+                  a.kelompok_omset,
+                  a.kelompok_luas_usaha,
+                  hasil_produk,
+                  varian,
+                  a.agen_brilink,
+                  a.kebutuhan_sarana,
+                  a.kebutuhan_pendidikan,
+                  a.kebutuhan_skema_kredit,
+                  b.kebutuhan_sarana as nama_kebutuhan_sarana,
+                  c.kebutuhan_skema_kredit as nama_kebutuhan_skema_kredit,
+                  d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan
+          from cluster a
           left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
           left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
+          left join cluster_kebutuhan_pendidikan_pelatihan d on a.kebutuhan_pendidikan = d.id_cluster_kebutuhan_pendidikan_pelatihan 
           " .$where;
     return $this->db->query($sql)->result_array();
   }
