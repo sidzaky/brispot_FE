@@ -266,8 +266,16 @@ class Dashboard extends MX_Controller
     $data['kabupaten']  = $this->dashboard_m->getkotakab_m();
     $data['komoditas']  = $_POST['hasil_produk'].', '. ($_POST['varian'] == "" ? "Semua Varian" : $_POST['varian']);
     $data['klaster']    = $this->dashboard_m->getlist_jum();
-    $data['koordinat']  = $this->dashboard_m->getmap_m();
     
+    if ($_POST['provinsi']=="" && $_POST['kabupaten']=="") {
+      $data['koordinat'][0]['lat']='0.7893';
+      $data['koordinat'][0]['long']='113.9213';
+      $data['koordinat'][0]['zoom']='6';
+    }
+    else {
+      $data['koordinat']  = $this->dashboard_m->getmap_m();
+      $data['koordinat'][0]['zoom']='8';
+    }
 
     // print_r ($data['provinsi']);
 

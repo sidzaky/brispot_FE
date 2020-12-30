@@ -71,7 +71,7 @@
                       <div class="col-sm-3">
                           <div class="form-group" id="selunit">
                               <label class="control-label">Provinsi</label>
-                              <select class="form-control" onchange="getkotakab(this.value);" name="provinsi" id="provinsi" required >
+                              <select class="form-control" onchange="getkotakab(this.value);" name="provinsi" id="provinsi">
                                   <option value=""> Semua </option>
                                   <?php foreach ($provinsi as $row) {
                                     echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
@@ -79,11 +79,11 @@
                               </select>
                           </div>
                       </div>
-
                       <div class="col-sm-3">
                           <div class="form-group" id="selunit">
                               <label class="control-label">Kota / Kabupaten</label>
                               <select class="form-control" name="kabupaten" id="kabupaten"  >
+                                <option value=""> Semua </option>
                               </select>
                           </div>
                       </div>

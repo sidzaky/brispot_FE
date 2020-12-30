@@ -154,7 +154,7 @@
 <script src="<?php echo base_url(); ?>assets/js/summary.js"></script>
 
 <script>
-		var map = L.map('mapid').setView([<?php echo $koordinat[0]['lat'] .','. $koordinat[0]['long'] ?>], 8);
+		var map = L.map('mapid').setView([<?php echo $koordinat[0]['lat'] .','. $koordinat[0]['long'].'],'. $koordinat[0]['zoom'] ?>);
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 			attribution: 'klasterkuhidupku.com ; peta <?php echo $koordinat[0]['nama']; ?>',
 			maxZoom: 18,
