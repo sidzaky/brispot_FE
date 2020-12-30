@@ -223,7 +223,7 @@ function fhp(i, j = "") {
       var msg = JSON.parse(smsg);
       var select = document.getElementById("hasil_produk");
       $(select).empty();
-      $(select).append('<option value=""> Pilih Salah Satu </option>');
+      $(select).append('<option value=""> Semua </option>');
       var selected ;;
       for (var i = 0; i <= msg.length; i++) {
         selected = "";
@@ -276,27 +276,59 @@ function fv(i, j = "") {
   });
 }
 
-function setprov(i) {
-  $("#provinsi").val(i);
+function fp(){
+  var data1={
+    id_cluster_sektor_usaha : $("#id_cluster_sektor_usaha").val(),
+    id_cluster_jenis_usaha_map : $("#id_cluster_jenis_usaha_map").val(),
+    id_cluster_jenis_usaha : $("#id_cluster_jenis_usaha").val(),
+    hasil_produk : $("#hasil_produk").val(),
+    varian : $("#varian").val(),
+  }
+  var address = "./dashboard/getfilterprovinsikab";
+  var get = sendajaxreturn(data1, address, "json");
+  var selectprov ='<select class="form-control" id="provinsi"><option value=""> Semua </option>';
+  var selectkab ='<select class="form-control" id="kabupaten"><option value=""> Semua </option>';
+  if (get!=null){
+    get.provinsi.forEach(function (e) {
+      selectprov  +="<option value='" +e.provinsi_id+"'> " + e.nama_provinsi + "</option>";
+    });
+    get.kabupaten.forEach(function (e) {
+      selectkab   +="<option value='" +e.kabupaten_id+"'> " + e.nama_kabupaten + "</option>";
+    });
+  }
+  document.getElementById("provinsi").innerHTML = "" + selectprov + "</select>";
+  document.getElementById("kabupaten").innerHTML = "" + selectkab + "</select>";
+  
+
 }
 
+  
 function getkotakab(i, j = null) {
   var data1 = {
+    id_cluster_sektor_usaha : $("#id_cluster_sektor_usaha").val(),
+    id_cluster_jenis_usaha_map : $("#id_cluster_jenis_usaha_map").val(),
+    id_cluster_jenis_usaha : $("#id_cluster_jenis_usaha").val(),
+    hasil_produk : $("#hasil_produk").val(),
+    varian : $("#varian").val(),
     provinsi_id: $("#provinsi").val(),
   };
-  var address = "./cluster/getkotakab";
+  var address = "./dashboard/getfilterkotakab";
   var get = sendajaxreturn(data1, address, "json");
   var select =
-    '<select class="form-control" id="kabupaten"><option value=""> Pilih Salah Satu </option>';
-  get.forEach(function (e) {
-    select +=
-      "<option value='" +
-      e.id +
-      "' " +
-      (j != null ? (j == e.id ? "selected" : "") : "") +
-      ">" +
-      e.nama +
-      "</option>";
-  });
+    '<select class="form-control" id="kabupaten"><option value=""> Semua </option>';
+  var i=0;
+  if (get!=null){
+    get.forEach(function (e) {
+      select +=
+        "<option value='" +
+        e.id +
+        "' " +
+        (j != null ? (j == e.id ? "selected" : "") : "") +
+        ">" +
+        e.nama +
+        "</option>";
+        i++;
+    });
+  }
   document.getElementById("kabupaten").innerHTML = "" + select + "</select>";
 }

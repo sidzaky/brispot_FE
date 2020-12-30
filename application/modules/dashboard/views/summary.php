@@ -42,7 +42,7 @@
             </div>
             <div class="box-body">
                 <div class="col-sm-4"><label class="control-label">Lokasi</label></div>
-                <div class="col-sm-8"><?php echo $provinsi[0]['nama'] .', '.$kabupaten[0]['nama'] ?></div> 
+                <div class="col-sm-8"><?php echo ($provinsi[0]['nama']!="" ? $provinsi[0]['nama'] : "Semua Provinsi" ) .', '.($kabupaten[0]['nama']!="" ? $kabupaten[0]['nama'] : "Semua Kota Kabupaten")  ?></div> 
             </div>
         </div>  
       </div>
@@ -154,7 +154,7 @@
 <script src="<?php echo base_url(); ?>assets/js/summary.js"></script>
 
 <script>
-		var map = L.map('mapid').setView([<?php echo $koordinat[0]['lat'] .','. $koordinat[0]['long'] ?>], 10);
+		var map = L.map('mapid').setView([<?php echo $koordinat[0]['lat'] .','. $koordinat[0]['long'] ?>], 8);
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
 			attribution: 'klasterkuhidupku.com ; peta <?php echo $koordinat[0]['nama']; ?>',
 			maxZoom: 18,
@@ -172,7 +172,7 @@
 </style>
 
 <script>
-    $(document).ready(function() {$('#table-cluster').DataTable()});
+    //$(document).ready(function() {$('#table-cluster').DataTable()});
     Highcharts.chart('container', {
         chart: {
             plotBackgroundColor: null,

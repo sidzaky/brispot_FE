@@ -23,68 +23,76 @@
           <div class="box-body">
             <div class="col-md-12">
               <div id="result" class="box-body">
+                <?php if ($this->session->userdata('permission')==4) {?>
+                  <form action="./dashboard/summary" method="POST" target="_blank">
                   <div class="col-sm-4">
-                    <form action="./dashboard/summary" method="POST" target="_blank">
-                        <div class="form-group">
-                                <label class="control-label">Sektor Usaha</label>
-                                <select class="form-control" onchange="fjum(this.value);" name="id_cluster_sektor_usaha" id="id_cluster_sektor_usaha" required >
-                                    <option value="1">Produksi</option>
-                                    <option value="2">Non Produksi</option>			
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group" id="selkanca">
-                                <label class="control-label">Kategori Usaha</label>
-                                <select class="form-control" onchange="fju(this.value);" name="id_cluster_jenis_usaha_map" id="id_cluster_jenis_usaha_map" required >
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-                            <div class="form-group" id="selunit">
-                                <label class="control-label">Jenis Usaha</label>
-                                <select class="form-control" onchange="fhp(this.value)" name="id_cluster_jenis_usaha" id="id_cluster_jenis_usaha" required >
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group" id="selunit">
-                                <label class="control-label">Bentuk/Produk Usaha</label>
-                                <select class="form-control" onchange="fv(this.value)" name="hasil_produk" id="hasil_produk" required >
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="form-group" id="selunit">
-                                <label class="control-label">Varian</label>
-                                <select class="form-control" name="varian" id="varian">
-                                </select>
-                            </div>
-                        </div>
+                      <div class="form-group">
+                              <label class="control-label">Sektor Usaha</label>
+                              <select class="form-control" onchange="fjum(this.value);fp();" name="id_cluster_sektor_usaha" id="id_cluster_sektor_usaha" required >
+                                  <option value="">Pilih Salah Satu </option>
+                                  <option value="1">Produksi</option>
+                                  <option value="2">Non Produksi</option>			
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-sm-4">
+                          <div class="form-group" id="selkanca">
+                              <label class="control-label">Kategori Usaha</label>
+                              <select class="form-control" onchange="fju(this.value);fp();" name="id_cluster_jenis_usaha_map" id="id_cluster_jenis_usaha_map" required >
+                                <option value="">Pilih Salah Satu </option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-sm-4">
+                          <div class="form-group" id="selunit">
+                              <label class="control-label">Jenis Usaha</label>
+                              <select class="form-control" onchange="fhp(this.value);fp();" name="id_cluster_jenis_usaha" id="id_cluster_jenis_usaha" required >
+                                <option value="">Pilih Salah Satu </option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group" id="selunit">
+                              <label class="control-label">Bentuk/Produk Usaha</label>
+                              <select class="form-control" onchange="fv(this.value);fp();" name="hasil_produk" id="hasil_produk" required >
+                                <option value="">Pilih Salah Satu </option>
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-sm-3">
+                          <div class="form-group" id="selunit">
+                              <label class="control-label">Varian</label>
+                              <select class="form-control" onchange="fp();" name="varian" id="varian">
+                                <option value="">Pilih Salah Satu </option>
+                              </select>
+                          </div>
+                      </div>
 
-                        <div class="col-sm-3">
-                            <div class="form-group" id="selunit">
-                                <label class="control-label">Lokasi</label>
-                                <select class="form-control" onchange="getkotakab(this.value);" name="provinsi" id="provinsi" required >
-                                    <?php foreach ($provinsi as $row) {
-                                      echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
-                                    } ?>
-                                </select>
-                            </div>
-                        </div>
+                      <div class="col-sm-3">
+                          <div class="form-group" id="selunit">
+                              <label class="control-label">Provinsi</label>
+                              <select class="form-control" onchange="getkotakab(this.value);" name="provinsi" id="provinsi" required >
+                                  <option value=""> Semua </option>
+                                  <?php foreach ($provinsi as $row) {
+                                    echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
+                                  } ?>
+                              </select>
+                          </div>
+                      </div>
 
-                        <div class="col-sm-3">
-                            <div class="form-group" id="selunit">
-                                <label class="control-label">Sub Lokasi</label>
-                                <select class="form-control" name="kabupaten" id="kabupaten" required >
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">    
-                            <button type="submit" class="btn btn-success waves-effect waves-light" id="sbt">Cari</button>
-                        </div>
-                    </form>
-              </div>
+                      <div class="col-sm-3">
+                          <div class="form-group" id="selunit">
+                              <label class="control-label">Kota / Kabupaten</label>
+                              <select class="form-control" name="kabupaten" id="kabupaten"  >
+                              </select>
+                          </div>
+                      </div>
+                      <div class="col-sm-12">    
+                          <button type="submit" class="btn btn-success waves-effect waves-light" id="sbt">Cari</button>
+                      </div>
+                  </form>
+                    <?php } ?>
+                </div>
               <div id="map"></div>
             </div>
           </div>

@@ -267,6 +267,7 @@ class Dashboard extends MX_Controller
     $data['komoditas']  = $_POST['hasil_produk'].', '. ($_POST['varian'] == "" ? "Semua Varian" : $_POST['varian']);
     $data['klaster']    = $this->dashboard_m->getlist_jum();
     $data['koordinat']  = $this->dashboard_m->getmap_m();
+    
 
     // print_r ($data['provinsi']);
 
@@ -300,5 +301,36 @@ class Dashboard extends MX_Controller
         }
     }
    $this->load->view('template', $data);
+  }
+
+  function getfilterprovinsikab(){
+    $d = $this->dashboard_m->getfilterprovinsikab_m();
+    $i=0;
+    $j=0;
+    foreach ($d as $row){
+      if (!in_array($row['provinsi_id'], $s, true )){
+        $s[]=$row['provinsi_id'];
+        $data['provinsi'][$j]['provinsi_id']  = $row['provinsi_id'];
+        $data['provinsi'][$j]['nama_provinsi'] = $row['nama_provinsi'];
+        $j++;
+      }
+      $data['kabupaten'][$i]['kabupaten_id']  = $row['kabupaten_id'];
+      $data['kabupaten'][$i]['nama_kabupaten']=$row['nama_kabupaten'];
+      $i++;
+    }
+
+    echo json_encode($data);
+  }
+
+  function getfilterkotakab(){
+    $d = $this->dashboard_m->getfilterkab_m();
+    $i=0;
+    $j=0;
+    foreach ($d as $row){
+      $data[$i]['id']  = $row['id'];
+      $data[$i]['nama']=$row['nama'];
+      $i++;
+    }
+    echo json_encode($data);
   }
 }
