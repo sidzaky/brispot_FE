@@ -172,7 +172,7 @@
 </style>
 
 <script>
-    //$(document).ready(function() {$('#table-cluster').DataTable()});
+    $(document).ready(function() {$('#table-cluster').DataTable()});
     Highcharts.chart('container', {
         chart: {
             plotBackgroundColor: null,

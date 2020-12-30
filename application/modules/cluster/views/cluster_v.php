@@ -415,13 +415,8 @@
 						</div>
 
 						<div class="form-group required">
-						<label class="control-label">Tanggal Lahir Ketua Kelompok</label>
-							<div class="input-group date" data-provide="datepicker">
-								<input type="text" id="kelompok_perwakilan_tgl_lahir" data-date-format="dd/mm/yyyy" class="form-control dform datepicker required">
-								<div class="input-group-addon">
-									<span class="glyphicon glyphicon-th"></span>
-								</div>
-							</div>
+							<label class="control-label">Tanggal Lahir Ketua Kelompok</label>
+							<input type="date" data-date-format="DD-MM-YYYY" class="form-control dform required" id="kelompok_perwakilan_tgl_lahir" value="" placeholder="required" required>
 						</div>
 
 						<div class="form-group required">
