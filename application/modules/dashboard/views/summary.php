@@ -107,6 +107,8 @@
                       <tr>
                         <th>No</th>
                         <th>Nama Klaster</th>
+                        <th>Kelurahan</th>
+                        <th>Kecamatan</th>
                         <th>Ketua Kelompok</th>
                         <th>No Hp</th>
                         <th>Jumlah Anggota</th>
@@ -124,6 +126,8 @@
                               echo '<tr>';
                               echo '<td>'.$i.'</td>';
                               echo '<td>'.$row['kelompok_usaha'].'</td>';
+                              echo '<td>'.$row['nama_kelurahan'].'</td>';
+                              echo '<td>'.$row['nama_kecamatan'].'</td>';
                               echo '<td>'.$row['kelompok_perwakilan'].'</td>';
                               echo '<td>'.$row['kelompok_handphone'].'</td>';
                               echo '<td>'.$row['kelompok_jumlah_anggota'].'</td>';

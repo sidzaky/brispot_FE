@@ -171,6 +171,8 @@ class Dashboard_m extends CI_Model
                   hasil_produk,
                   periode_panen,
                   varian,
+                  e.nama as nama_kecamatan,
+                  f.nama as nama_kelurahan,
                   a.agen_brilink,
                   a.kebutuhan_sarana,
                   a.kebutuhan_pendidikan,
@@ -182,6 +184,8 @@ class Dashboard_m extends CI_Model
           left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
           left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
           left join cluster_kebutuhan_pendidikan_pelatihan d on a.kebutuhan_pendidikan = d.id_cluster_kebutuhan_pendidikan_pelatihan 
+          left join kecamatan e on e.id = a.kecamatan 
+          left join kelurahan f on f.id = a.kelurahan
           " .$where;
     return $this->db->query($sql)->result_array();
   }
