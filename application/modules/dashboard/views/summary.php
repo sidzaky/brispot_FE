@@ -1,10 +1,8 @@
 <script src="https://code.highcharts.com/maps/highmaps.js"></script>
 <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/mapdata/countries/id/id-all.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js" integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw==" crossorigin=""></script>
-
-
+<meta name="google-site-verification" content="-5c7n2yDdKK5fU1D1gLtok4-D8XLP2c_2YKWtk30MCc" />
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD-HjW_D_kUMx9W7MRP473fS-er_DgiYY&callback=initMap" async defer></script>
 <div class="content-wrapper" id="dashboard">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -104,7 +102,7 @@
           </div>
           <div class="box-body">
                 <div class="table-responsive">
-                  <table id="table-cluster" class="table table-striped table-bordered" width="100%">
+                  <table id="table-cluster" class="table table-striped dataTable table-bordered" width="100%">
                     <thead>
                       <tr>
                         <th>No</th>
@@ -153,26 +151,29 @@
 
 <script src="<?php echo base_url(); ?>assets/js/summary.js"></script>
 
-<script>
-		var map = L.map('mapid').setView([<?php echo $koordinat[0]['lat'] .','. $koordinat[0]['long'].'],'. $koordinat[0]['zoom'] ?>);
-		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-			attribution: 'klasterkuhidupku.com ; peta <?php echo $koordinat[0]['nama']; ?>',
-			maxZoom: 18,
-			id: 'mapbox.streets',
-			accessToken: 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
-		}).addTo(map);
-		var geojsonLayer = new L.GeoJSON.AJAX("geojson.json");       
-		geojsonLayer.addTo(map);
-	</script>
+	 <script>
+        // fungsi initialize untuk mempersiapkan peta
+        function initMap() {
+        var map = new google.maps.Map(document.getElementById('mapid'), {
+          center: {lat: <?php echo $koordinat[0]['lat']?>, lng: <?php echo $koordinat[0]['long']?>},
+          zoom: 8
+        });
+      }
+    </script>
+
 <style>
 #mapid{
 	width: 600px;
 	height: 400px;
 }
+table.dataTable td,
+table.dataTable th {
+    font-size: 13px;
+}
 </style>
 
 <script>
-    $(document).ready(function() {$('#table-cluster').DataTable()});
+    $(document).ready(function() {$('#table-cluster').DataTable({"scrollX": true});});
     Highcharts.chart('container', {
         chart: {
             plotBackgroundColor: null,
