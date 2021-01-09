@@ -27,7 +27,6 @@
 								"url": "./cluster/getdata",
 								"type": "POST"
 							},
-
 						});
 					});
 				</script>
@@ -85,6 +84,24 @@
 		width: 100%;
 	}
 </style>
+
+<div class="modal " id="modal-noncluster" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" onclick="$('#modal').hide();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h5 class="modal-title">Form klaster</h5>
+			</div>
+			<div class="modal-body">
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary waves-effect waves-light" onclick="$('#modal').hide();">Batal</button>
+				<button class="btn btn-success waves-effect waves-light" id="sbt" onclick="inputform();">Kirim</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <div class="modal " id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
@@ -488,3 +505,4 @@
 <?php include 'cluster_info.php'; ?>
 <script src="./assets/js/send.js"></script>
 <script src="./assets/js/cluster.js"></script>
+<script src="./assets/js/cluster_info.js"></script>

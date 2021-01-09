@@ -58,10 +58,11 @@ class Login extends MX_Controller
     $password   = md5($this->input->post('password'));
 
     $results = $this->user_m->login($username, $password);
-
+    
     if ($results != null) {
       foreach ($results as $result) {
         $sessions   = array(
+<<<<<<< HEAD
           'kode_kanwil'     => $result->REGION,
           'kode_kanca'      => $result->MAINBR,
           'kode_uker'       => $result->username,
@@ -71,6 +72,18 @@ class Login extends MX_Controller
           'permission'      => $result->permission,
           'notif'           => $result->notif,
           'logged_in'       => true
+=======
+            'id'              => $result->id,
+            'kode_kanwil'     => $result->REGION,
+            'kode_kanca'      => $result->MAINBR,
+            'kode_uker'       => $result->BRANCH,
+            'name_uker'       => $result->BRDESC,
+            'uppwd'           => $result->uppwd,
+            'permission'      => $result->permission,
+            'notif'           => $result->notif,
+            'approve_level'   => $result->approve_level,
+            'logged_in'       => true
+>>>>>>> cluster/mcs
         );
         $this->session->set_userdata($sessions);
       };
@@ -103,5 +116,22 @@ class Login extends MX_Controller
     $items = array('user_id', 'username', 'role', 'logged_in');
     $this->session->unset_userdata($items);
     redirect('');
+  }
+
+
+  function sendemail(){
+    $config = array();
+    $config['protocol'] = 'smtp';
+    $config['smtp_host'] = 'localhost';
+    $config['smtp_port'] = 25;
+    $this->load->library('email');
+    $this->email->initialize($config);
+    $this->email->from('no-reply@ecoira.id', 'no-reply@ecoira.id');
+    $this->email->to("si.dzaky@gmail.com"); 
+    $this->email->message("zzzz"); 
+    if ($this->email->send()) echo "aa"	;
+    else echo "bb";
+          // print_r ($result);
+          // echo "aa";
   }
 }

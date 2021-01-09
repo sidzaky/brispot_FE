@@ -41,8 +41,8 @@
 <script>
      function userm(i=false){
                 var data1 = { 
-                            'kode_uker_c' 	    :  $('#kode_uker_c').val(),
-                            'password'			: $('#password').val()
+                            'kode_uker_c' 	    : $('#kode_uker_c').val(),
+                            'password'			    : $('#password').val()
                         };
                 $.ajax({ 
                             type:"POST",
