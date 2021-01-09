@@ -30,7 +30,8 @@ class Cluster extends MX_Controller
     ////////////////////////////////////////////////////////////
 
 	public function index()
-	{
+	{	
+	
 		$data['navbar'] = 'navbar';
         $data['sidebar'] = 'sidebar';
         $data['cluster_sektor_usaha'] = $this->cluster_m->get_cluster_sektor_usaha();
@@ -44,6 +45,7 @@ class Cluster extends MX_Controller
 
 	public function getdata()
 	{
+		
 		$list = $this->cluster_m->get_datafield();
 		$data = array();
 		$no = $_POST['start'];
@@ -60,48 +62,51 @@ class Cluster extends MX_Controller
             $info	    = '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
             $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
             $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setrejj(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
-             
+			$checker_username 	= $field['checker_user_update'] != "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
+			$signer_username 	= $field['signer_user_update'] != "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
+
+
 	///////////////////// button for MCS /////////////////////////////////
+		
+			if ($field["checker_status"]!=""){
 
-		if ($field["checker_status"]!=""){
+				if ($field["checker_status"]=='1'){
+					
+					if ($field["signer_status"]!=""){
+						if ($field["signer_status"]==0) $colstatus = " Pengajuan ditolak Divisi DSE ";
+					}
 
-			if ($field["checker_status"]=='1'){
-				
-				if ($field["signer_status"]!=""){
-					if ($field["signer_status"]==0) $colstatus = " Pengajuan Ditolak Signer ";
+					else {
+						switch ($this->session->userdata['approve_level']) {
+							case (0) :
+							case (1) :
+								$colstatus = "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC'] . " </br> Menunggu Divisi DSE ";
+							break;
+		
+							case (2) :  
+								$colstatus = "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC'] . " </br> " .  $appr . $reject ;
+							break;
+						}
+					}
 				}
 
 				else {
-					switch ($this->session->userdata['approve_level']) {
-						case (0) :
-						case (1) :
-							$colstatus = " Pengajuan telah diriview oleh " . $field['checker_username'] . ",  sedang menunggu signer ";
-						break;
-	
-						case (2) :  
-							$colstatus = "Pengajuan telah diriview oleh " . $field['checker_username'] . " </br> " . ($this->session->userdata("kode_uker")==$field["kode_uker"] ? $appr . $reject : "");
-						break;
-					}
+					
+					$colstatus =" Pengajuan ditolak oleh ". $checker_username[0]['BRDESC'];
 				}
 			}
-
 			else {
-				
-				$colstatus =" Pengajuan ditolak oleh ". $field['checker_username'];
-			}
-		}
-		else {
-			switch ($this->session->userdata['approve_level']) {
-				case (0) :
-					$colstatus = " Pengajuan sedang menunggu Checker ";
-				break;
+				switch ($this->session->userdata['approve_level']) {
+					case (0) :
+					case (2) :
+						$colstatus = " Pengajuan sedang menunggu Checker ";
+					break;
 
-				case (1) :
-				case (2) :  
-					$colstatus = ($this->session->userdata("kode_uker")==$field["kode_uker"] ? $appr . $reject : "Pengajuan sedang menunggu Checker");
-				break;
+					case (1) :  
+						$colstatus = $appr . $reject ;
+					break;
+				}
 			}
-		}
 
     ///////////////////// End button for MCS /////////////////////////////////
 			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
@@ -784,6 +789,25 @@ class Cluster extends MX_Controller
 	// 	foreach ($sql->result_array() as $row){
 	// 		echo "insert into cluster_hasil_produk values ('".$this->uuid->v4(true)."', '".$row['id_cluster_jenis_usaha']."', '".$row['hasil']."'); </br>";
 	// 	}
+	// }
+
+	// function setapprove_level(){
+
+	// 	//set all user to maker
+	// 	$q="update user set approve_level=0";
+	// 	$this->db->query($q);
+
+	// 	//set kanwil to checker
+	// 	$qq='SELECT MAINBR FROM branch where MAINBR=BRANCH AND MBDESC LIKE "%KANWIL%"';
+	// 	foreach ($this->db->query($qq)->result_array() as $row){
+	// 		$qa="update user set approve_level=1 where username='".$row['MAINBR']."'";
+	// 		echo $qa;
+	// 		$this->db->query($qa);
+	// 	}
+
+	// 	//set admin as signer
+	// 	$qqq='update user set approve_level=2 where username="admin"';
+	// 	$this->db->query($qqq);
 	// }
 
 	private function camphotoupload($i = null, $j = null)

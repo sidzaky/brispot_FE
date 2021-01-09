@@ -26,10 +26,8 @@ class Cluster_m extends CI_Model
 	public function get_datatables($status = null, $appr = 0)
 	{
 		$i = 0;
-		$sql = "select cluster.*, b.username as checker_username, c.username as signer_username from cluster 
-				left join user b on b.id=cluster.checker_user_update
-				left join user c on c.id=cluster.signer_user_update
-				where ";
+		$sql = "select cluster.* from cluster where ";
+
 		switch ($this->session->userdata('permission')) {
 			case (4):
 				$sql .= " true ";
@@ -76,11 +74,11 @@ class Cluster_m extends CI_Model
 		$status="";
 		if ($_POST['status']=="check") {
 			$status ="checker_status=1, ";
-			$status .="checker_user_update = '". $this->session->userdata('id')."' ";
+			$status .="checker_user_update = '". $this->session->userdata('kode_uker')."' ";
 		}
 		if ($_POST['status']=="sign"){
 			$status  ="signer_status =1, ";
-			$status .="signer_user_update = '". $this->session->userdata('id')."', ";
+			$status .="signer_user_update = '". $this->session->userdata('kode_uker')."', ";
 			$status .="cluster_approval=1 ";
 		}
 		$sql="update cluster set ".$status." where id='". $_POST['id']. "'";
@@ -291,26 +289,30 @@ class Cluster_m extends CI_Model
 	}
 
 
-	public function cekuker_m()
+	public function cekuker_m($id=null)
 	{
 		$where = "";
-		switch ($this->session->userdata('permission')) {
-			case (4):
-				$where .= " and true ";
-				break;
-			case (3):
-				$where .= " and REGION='" . $this->session->userdata('kode_kanwil') . "' ";
-				break;
-			case (2):
-				$where .= " and MAINBR='" . $this->session->userdata('kode_kanca') . "' ";
-				break;
+		if (isset($_POST['kode_uker'])) {
+			$id=$_POST['kode_uker'];
+			switch ($this->session->userdata('permission')) {
+				case (4):
+					$where .= " and true ";
+					break;
+				case (3):
+					$where .= " and REGION='" . $this->session->userdata('kode_kanwil') . "' ";
+					break;
+				case (2):
+					$where .= " and MAINBR='" . $this->session->userdata('kode_kanca') . "' ";
+					break;
+			}
 		}
 
-		$query = $this->db->query("select * from branch where BRANCH='" . $_POST['kode_uker'] . "'" . $where);
+		$query = $this->db->query("select * from branch where BRANCH='" . $id . "'" . $where);
 		if ($query->num_rows() == 1) {
 			return $query->result_array();
 		} else return false;
 	}
+
 
 	public function getdata_m()
 	{

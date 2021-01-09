@@ -933,8 +933,8 @@ function setappr(i=null, j=null){
         }
         var notif   = "Approve Klaster Usaha Berhasil ";
         var address = "./cluster/setapproved";
-        sendajax(data, address, null, notif, null);
-        $("#table-cluster").DataTable().ajax.reload(null, false);
+        if (sendajaxreturn(data, address, null, notif, null) != "" ) { $("#table-cluster").DataTable().ajax.reload(null, false)};
+        alert ('zz');
     }
 }
 
@@ -946,12 +946,10 @@ function setrejj(i=null, j=null){
         }
         var notif   = "Tolak Pengajuan Klaster Usaha Berhasil ";
         var address = "./cluster/setreject";
-        sendajax(data, address, null, notif, null);
-        $("#table-cluster").DataTable().ajax.reload(null, false);
+        if (sendajaxreturn(data, address, null, notif, null) !="") {$("#table-cluster").DataTable().ajax.reload(null, false)};
     }
 }
 
-<<<<<<< HEAD
 function ldataproduk(i) {
   var data1 = {
     id_cluster_jenis_usaha: i,
@@ -977,5 +975,3 @@ function ldatavarian(i) {
   });
   document.getElementById("datavarian").innerHTML = "" + select ;
 }
-=======
->>>>>>> cluster/mcs
