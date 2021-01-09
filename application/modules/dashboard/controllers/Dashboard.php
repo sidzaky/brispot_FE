@@ -195,7 +195,7 @@ class Dashboard extends MX_Controller
 				}
 			}
     }
-    $zz="";
+    $zz;
     $i=0;
     foreach ($data["kanwil"] as $key => $values){
         $b="";
@@ -255,5 +255,90 @@ class Dashboard extends MX_Controller
     $user = $this->getActiveUser();
     $query = $this->dashboard_m->getTrainingNeedsReport($user);
     echo json_encode($query);
+  }
+
+  function summary(){
+    $data['navbar']     = 'navbar';
+    $data['sidebar']    = 'sidebar';
+    $data['content']    = 'summary'; 
+    $data['cluster']    = $this->dashboard_m->getsummary();
+    $data['provinsi']   = $this->dashboard_m->getprovinsi_m();
+    $data['kabupaten']  = $this->dashboard_m->getkotakab_m();
+    $data['komoditas']  = $_POST['hasil_produk'].', '. ($_POST['varian'] == "" ? "Semua Varian" : $_POST['varian']);
+    $data['klaster']    = $this->dashboard_m->getlist_jum();
+    
+    if ($_POST['provinsi']=="" && $_POST['kabupaten']=="") {
+      $data['koordinat'][0]['lat']='0.7893';
+      $data['koordinat'][0]['long']='113.9213';
+      $data['koordinat'][0]['zoom']='6';
+    }
+    else {
+      $data['koordinat']  = $this->dashboard_m->getmap_m();
+      $data['koordinat'][0]['zoom']='8';
+    }
+
+    // print_r ($data['provinsi']);
+
+    $this->load->module('cluster');
+    $this->load->model('cluster_m');
+    $kebutuhan_pendidikan = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
+    $kebutuhan_sarana     = $this->cluster_m->get_cluster_kebutuhan_sarana();
+    $kebutuhan_kredit     = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
+
+    $data['performance'];
+    $i=0;
+    foreach ($data['cluster'] as $row ){
+      
+        $data['performance']['luas_lahan'] += $row['kelompok_luas_usaha'];
+        $data['performance']['kapasitas_produksi'] += $row['kapasitas_produksi'];
+        if ($row['periode_panen'] !="" ) $data['performance']['panen'][$row['periode_panen']]++;
+        foreach ($kebutuhan_pendidikan as $kp){
+          if ($row['kebutuhan_pendidikan']==$kp['id_cluster_kebutuhan_pendidikan_pelatihan']) {
+            $data['performance']['kp'][$kp['kebutuhan_pendidikan_pelatihan']]++;
+          }
+        } 
+        foreach ($kebutuhan_sarana as $ks){
+          if ($row['kebutuhan_sarana']==$ks['id_cluster_kebutuhan_sarana']) {
+            $data['performance']['ks'][$ks['kebutuhan_sarana']]++;
+          }
+        }
+        foreach ($kebutuhan_kredit as $kk){
+          if ($row['kebutuhan_skema_kredit']==$kk['id_cluster_kebutuhan_skema_kredit']) {
+            $data['performance']['kk'][$kk['kebutuhan_skema_kredit']]++;
+          }
+        }
+    }
+   $this->load->view('template', $data);
+  }
+
+  function getfilterprovinsikab(){
+    $d = $this->dashboard_m->getfilterprovinsikab_m();
+    $i=0;
+    $j=0;
+    foreach ($d as $row){
+      if (!in_array($row['provinsi_id'], $s, true )){
+        $s[]=$row['provinsi_id'];
+        $data['provinsi'][$j]['provinsi_id']  = $row['provinsi_id'];
+        $data['provinsi'][$j]['nama_provinsi'] = $row['nama_provinsi'];
+        $j++;
+      }
+      $data['kabupaten'][$i]['kabupaten_id']  = $row['kabupaten_id'];
+      $data['kabupaten'][$i]['nama_kabupaten']=$row['nama_kabupaten'];
+      $i++;
+    }
+
+    echo json_encode($data);
+  }
+
+  function getfilterkotakab(){
+    $d = $this->dashboard_m->getfilterkab_m();
+    $i=0;
+    $j=0;
+    foreach ($d as $row){
+      $data[$i]['id']  = $row['id'];
+      $data[$i]['nama']=$row['nama'];
+      $i++;
+    }
+    echo json_encode($data);
   }
 }

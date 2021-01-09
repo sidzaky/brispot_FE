@@ -246,12 +246,12 @@
 						</div>
 
 						<div class="form-group" id="fkapasitas_produksi">
-							<label class="control-label">Kapasistas Produksi (ton)</label>
+							<label class="control-label">Kapasistas Panen / Produksi (ton)</label>
 							<input type="number" class="form-control dform required" id="kapasitas_produksi" value="" placeholder="required" required>
 						</div>
 
 						<div class="form-group" id="fperiode_panen">
-							<label class="control-label">Periode Panen</label>
+							<label class="control-label">Periode Panen / Produksi</label>
 							<select class="form-control dform required" id="periode_panen">
 								<option selected>2 kali setahun</option>
 								<option>3 kali setahun</option>
@@ -415,13 +415,8 @@
 						</div>
 
 						<div class="form-group required">
-						<label class="control-label">Tanggal Lahir Ketua Kelompok</label>
-							<div class="input-group date" data-provide="datepicker">
-								<input type="text" id="kelompok_perwakilan_tgl_lahir" data-date-format="dd/mm/yyyy" class="form-control dform datepicker required">
-								<div class="input-group-addon">
-									<span class="glyphicon glyphicon-th"></span>
-								</div>
-							</div>
+							<label class="control-label">Tanggal Lahir Ketua Kelompok</label>
+							<input type="date" data-date-format="DD-MM-YYYY" class="form-control dform required" id="kelompok_perwakilan_tgl_lahir" value="" placeholder="required" required>
 						</div>
 
 						<div class="form-group required">

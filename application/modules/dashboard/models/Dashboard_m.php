@@ -97,19 +97,19 @@ class Dashboard_m extends CI_Model
     
    
     /////////////////dashboar filter/////////////
-    if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
-    if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
-    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
-    if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
-    if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
-    if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
-    if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
+    // if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
+    // if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
+    // if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    // if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
+    // if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
+    // if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
+    // if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
 
     if ($harian != "") $where .= " and timestamp>1576085405  ";
 
 		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								lokasi_usaha,
-								e.kode_pos,
+								a.kode_pos,
 								b.MAPKODE,
 								b.nama AS provinsi,
 								c.nama AS kabupaten,
@@ -132,5 +132,122 @@ class Dashboard_m extends CI_Model
 					left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha 
 					' . $where ;
     return $this->db->query($sql)->result_array();
+  }
+  
+  public function getsummary(){
+    $where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " where true ";
+				break;
+			case (3):
+				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$where .= " where kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+    }
+
+    if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
+    if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
+    if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
+    if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
+   
+    $sql="select  
+                  lokasi_usaha,
+                  a.kelompok_handphone,
+                  a.kelompok_perwakilan,
+                  a.kelompok_usaha,
+                  a.kelompok_jumlah_anggota,
+                  a.kapasitas_produksi,
+                  a.kelompok_omset,
+                  a.kelompok_luas_usaha,
+                  hasil_produk,
+                  periode_panen,
+                  varian,
+                  e.nama as nama_kecamatan,
+                  f.nama as nama_kelurahan,
+                  a.agen_brilink,
+                  a.kebutuhan_sarana,
+                  a.kebutuhan_pendidikan,
+                  a.kebutuhan_skema_kredit,
+                  b.kebutuhan_sarana as nama_kebutuhan_sarana,
+                  c.kebutuhan_skema_kredit as nama_kebutuhan_skema_kredit,
+                  d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan
+          from cluster a
+          left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
+          left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
+          left join cluster_kebutuhan_pendidikan_pelatihan d on a.kebutuhan_pendidikan = d.id_cluster_kebutuhan_pendidikan_pelatihan 
+          left join kecamatan e on e.id = a.kecamatan 
+          left join kelurahan f on f.id = a.kelurahan
+          " .$where;
+    return $this->db->query($sql)->result_array();
+  }
+
+  public function getprovinsi_m($i=null)
+	{
+    if (isset($_POST['provinsi'])) $i=$_POST['provinsi'];
+		$sql = "select * from provinsi where id='".$i."'";
+		return $this->db->query($sql)->result_array();
 	}
+
+	public function getkotakab_m($i=null)
+	{ 
+    if (isset($_POST['kabupaten'])) $i=$_POST['kabupaten'];
+		$sql = "select * from kabupaten_kota where id='" . $i. "'";
+		return $this->db->query($sql)->result_array();
+	}
+
+  function getlist_jum()
+	{
+		$q = "select * from cluster_jenis_usaha_map where id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."' and status=1";
+		return $this->db->query($q)->result_array();
+  }
+  
+  function getmap_m(){
+    if ($_POST['kabupaten_kota']!="") $q = "select nama, lat, kabupaten_kota.long from kabupaten_kota where id='".$_POST['kabupaten']."'";
+    else $q ="select nama, lat, provinsi.long from provinsi where id='".$_POST['provinsi']."'";
+
+    return $this->db->query($q)->result_array();
+  }
+
+  function getfilterprovinsikab_m(){
+    $where ="where true";
+    if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
+    if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
+
+    $q= "select distinct(kabupaten) as kabupaten_id , b.nama as nama_kabupaten, b.provinsi_id, c.nama as nama_provinsi from cluster a 
+         inner join kabupaten_kota b on a.kabupaten=b.id
+         inner join provinsi c on b.provinsi_id=c.id
+    ". $where;
+    return $this->db->query($q)->result_array();
+
+  }
+
+  function getfilterkab_m(){
+    $where ="where true";
+    if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
+    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    if ($_POST['hasil_produk']!="") $where .=' and a.hasil_produk="'. $_POST['hasil_produk'] .'" ';
+    if ($_POST['varian']!="") $where .=' and a.varian="'. $_POST['varian'] .'" ';
+    if ($_POST['provinsi_id']!="") $where .=' and a.provinsi="'. $_POST['provinsi_id'] .'" ';
+
+
+    $q= "select distinct(kabupaten) as id , b.nama from cluster a 
+         inner join kabupaten_kota b on a.kabupaten=b.id
+    ". $where;
+    return $this->db->query($q)->result_array();
+
+  }
+
 }
