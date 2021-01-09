@@ -518,16 +518,10 @@ class Cluster_m extends CI_Model
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
 		$_POST['timestamp'] = time();
 		$_POST['cluster_status'] = 1;
-<<<<<<< HEAD
-=======
-		
 		$_POST['checker_status'] = null;
 		$_POST['checker_user_update'] = "";
 		$_POST['signer_status'] = null;
 		$_POST['signer_user_update'] = "";
-
-		
->>>>>>> cluster/mcs
 		$this->db->insert('cluster', $_POST);
 
 		$this->insert_hasil_produk();

@@ -62,17 +62,6 @@ class Login extends MX_Controller
     if ($results != null) {
       foreach ($results as $result) {
         $sessions   = array(
-<<<<<<< HEAD
-          'kode_kanwil'     => $result->REGION,
-          'kode_kanca'      => $result->MAINBR,
-          'kode_uker'       => $result->username,
-          'name_uker'       => $result->BRDESC,
-          'uppwd'           => $result->uppwd,
-          'kode_map'        => $result->MAPKODE,
-          'permission'      => $result->permission,
-          'notif'           => $result->notif,
-          'logged_in'       => true
-=======
             'id'              => $result->id,
             'kode_kanwil'     => $result->REGION,
             'kode_kanca'      => $result->MAINBR,
@@ -83,7 +72,6 @@ class Login extends MX_Controller
             'notif'           => $result->notif,
             'approve_level'   => $result->approve_level,
             'logged_in'       => true
->>>>>>> cluster/mcs
         );
         $this->session->set_userdata($sessions);
       };
