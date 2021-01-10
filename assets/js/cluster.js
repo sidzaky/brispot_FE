@@ -1,7 +1,4 @@
 
-$( document ).ready(function() {
-    $(".datepicker").datepicker();
-});
 
 function te(i) {
   if (i.value === "Ya") {
@@ -174,6 +171,8 @@ function getform(i = null) {
         document.getElementById("kelompok_perwakilan_tempat_lahir").value = msg[0].kelompok_perwakilan_tempat_lahir;
         document.getElementById("kelompok_handphone").value = msg[0].kelompok_handphone;
         document.getElementById("lokasi_usaha").value = msg[0].lokasi_usaha;
+        document.getElementById("latitude").value = msg[0].latitude;
+        document.getElementById("longitude").value = msg[0].longitude;
 
         setprov(msg[0].provinsi);
         getkotakab(msg[0].provinsi, msg[0].kabupaten);
@@ -974,4 +973,57 @@ function ldatavarian(i) {
     select += "<option value='" +  e.varian + "'>";
   });
   document.getElementById("datavarian").innerHTML = "" + select ;
+}
+
+var nd;
+var latitude;
+var longitude;
+
+$( document ).ready(function() {
+ navigator.geolocation.getCurrentPosition(showPosition);
+});
+
+function getLocation() {
+ if (navigator.geolocation) {
+   navigator.geolocation.getCurrentPosition(showPosition);
+ } else { 
+   x.innerHTML = "Geolocation is not supported by this browser.";
+ }
+}
+
+function showPosition(position) {
+ latitude =  position.coords.latitude;
+ longitude = position.coords.longitude;
+ $("#latitude").val(latitude);
+ $("#longitude").val(longitude);
+}
+
+function initMap(i="", j="") {
+  const myLatlng = { lat: i!="" ? i : latitude  , lng: j!="" ? j : longitude };
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 14,
+    center: myLatlng,
+  });
+  // Create the initial InfoWindow.
+  let infoWindow = new google.maps.InfoWindow({
+    content: "lokasi UMKM",
+    position: myLatlng,
+  });
+  infoWindow.open(map);
+  // Configure the click listener.
+  map.addListener("click", (mapsMouseEvent) => {
+    // Close the current InfoWindow.
+    infoWindow.close();
+    // Create a new InfoWindow.
+    infoWindow = new google.maps.InfoWindow({
+      position: mapsMouseEvent.latLng,
+    });
+    nd = mapsMouseEvent.latLng.toJSON();
+    $("#latitude").val(nd.lat);
+    $("#longitude").val(nd.lng);
+
+    infoWindow.setContent("Lokasi UMKM");
+    infoWindow.open(map);
+
+  });
 }
