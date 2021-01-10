@@ -438,6 +438,7 @@ class Cluster extends MX_Controller
 			$row[] = $no;
 			$row[] = $field['ca_nama'];
 			$row[] = $field['ca_nik'];
+			$row[] = $field['ca_cif'];
 			$row[] = $field['ca_jk'];
 			$row[] = $field['ca_kodepos'];
 			$row[] = $field['ca_pinjaman'];
@@ -486,7 +487,7 @@ class Cluster extends MX_Controller
 
 	public function dldataanggota()
 	{
-		$headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja', 'Nama Kelompok Usaha', 'Nama Anggota', 'NIK', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
+		$headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja', 'Nama Kelompok Usaha', 'Nama Anggota', 'NIK', 'CIF', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
 
 		$data = $this->cluster_m->dldataanggota_m();
 		$no = 1;

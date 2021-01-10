@@ -106,7 +106,10 @@
                     <thead>
                       <tr>
                         <th>No</th>
+                        <th>Nama Mantri</th>
+                        <th>Hp Mantri</th>
                         <th>Nama Klaster</th>
+                        <th>Kota/Kabupaten</th>
                         <th>Kelurahan</th>
                         <th>Kecamatan</th>
                         <th>Ketua Kelompok</th>
@@ -125,7 +128,10 @@
                           foreach ($cluster as $row){
                               echo '<tr>';
                               echo '<td>'.$i.'</td>';
+                              echo '<td>'.$row['nama_pekerja'].'</td>';
+                              echo '<td>'.$row['handphone_pekerja'].'</td>';
                               echo '<td>'.$row['kelompok_usaha'].'</td>';
+                              echo '<td>'.$row['nama_kabupaten'].'</td>';
                               echo '<td>'.$row['nama_kelurahan'].'</td>';
                               echo '<td>'.$row['nama_kecamatan'].'</td>';
                               echo '<td>'.$row['kelompok_perwakilan'].'</td>';

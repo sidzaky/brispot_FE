@@ -23,7 +23,7 @@
 													});
 													var tambah='&nbsp<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform_anggota()" type="button"><i class="fa fa-plus"></i> Tambah</button>';
 													var upl='&nbsp<button id="csv" class="btn btn-info waves-effect waves-light btn-sm" onclick="getcsv()"; type="button"><i class="fa fa-upload"></i> Upload XLS</button>';
-													var csvanggota='&nbsp<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.location.href=\'\../assets/form_anggota.xls\'" type="button"><i class="fa fa-file-excel-o"></i> Template XLS</button>';
+													var csvanggota='&nbsp<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.location.href=\'\../assets/form_anggota_2021.01.10.xls\'" type="button"><i class="fa fa-file-excel-o"></i> Template XLS</button>';
 													var dl='&nbsp<button class="btn bg-navy waves-effect waves-light btn-sm" onclick="dlcsv()" type="button"><i class="fa fa-download"></i> Download list</button>';
 													$("#example_length").append(<?php echo ($this->session->userdata('kode_uker')=='kanpus' ? '' : "tambah+upl+csvanggota+") ?>dl);
 											});</script>
@@ -34,6 +34,7 @@
 													<th>No</th>
 													<th>Nama Anggota</th>
 													<th>NIK</th>
+													<th>CIF</th>
 													<th>Jenis Kelamin</th>
 													<th>Kode Pos</th>
 													<th>Pinjaman</th>
@@ -80,6 +81,10 @@
 									<label for="thedata" class="col-sm-12 control-label drequired"> NIK</label>
 									<div class="col-sm-12">
 										<input type="number" class="form-control required"  id="ca_nik" value="" placeholder="required" required>
+									</div>
+									<label for="thedata" class="col-sm-12 control-label drequired"> CIF</label>
+									<div class="col-sm-12">
+										<input type="number" class="form-control"  id="ca_cif" value="" placeholder="optional">
 									</div>
 									
 									<label for="thedata" class="col-sm-12 control-label drequired">Jenis Kelamin</label>
@@ -201,23 +206,23 @@
 														value=value.replace("'","");
 														if (cnik(value,true)==false) 		{zerror +="- Format nik salah  </br>"; z++;}	
 														break;
-													case (2)  :
+													case (3)  :
 														value=cekjk(value.toLowerCase());
 														if (value=="")	{zerror +="- Format jenis kelamin salah </br>";z++;}
 														break;
-													case (3)  :
+													case (4)  :
 														value=value.replace("'","");
 														if (cekkpos(value, true)==false) 		{zerror +="- Format kodepos salah  </br>"; z++;}	
 														break;
-													case (4)  :
+													case (5)  :
 														value=value.toLowerCase();
 														if (simpin.includes(value)==false)		{zerror +="- Format pinjaman Salah </br>";z++;}
 														break;
-													case (5)  :
+													case (6)  :
 														value=value.toLowerCase();
 														if (simpin.includes(value)==false)		{zerror +="- Format Simpanan Salah </br>";z++;}
 														break;
-													case (6)  :
+													case (7)  :
 														value=value.replace("'","");
 														if (cekhp(value,true)==false) 			{zerror +="- Format handphone salah </br>";z++;}
 														break;
@@ -341,6 +346,7 @@
 												document.getElementById('id_ca').value=msg[0].id_ca;
 												document.getElementById('ca_nama').value=msg[0].ca_nama;
 												document.getElementById('ca_nik').value=msg[0].ca_nik;
+												document.getElementById('ca_cif').value=msg[0].ca_cif;
 												document.getElementById('ca_jk').value=msg[0].ca_jk;
 												document.getElementById('ca_kodepos').value=msg[0].ca_kodepos;
 												cekkpos(msg[0].ca_kodepos);
@@ -366,11 +372,12 @@
 					function inputform_anggota(){
 						console.log("1")
 						var data1 = { 
-								'id_ca' 					:  $('#id_ca').val(),
-								'id_cluster' 			:  id_cluster,
+								'id_ca' 			:  $('#id_ca').val(),
+								'id_cluster' 		:  id_cluster,
 								'ca_nama' 			:  $('#ca_nama').val(),
-								'ca_nik' 				:  $('#ca_nik').val(),
-								'ca_jk' 					:  $('#ca_jk').val(),
+								'ca_nik' 			:  $('#ca_nik').val(),
+								'ca_cif' 			:  $('#ca_cif').val(),
+								'ca_jk' 			:  $('#ca_jk').val(),
 								'ca_kodepos' 		:  $('#ca_kodepos').val(),
 								'ca_pinjaman' 		:  $('#ca_pinjaman').val(),
 								'ca_simpanan' 		:  $('#ca_simpanan').val(),
@@ -552,5 +559,5 @@
 					
 		
 			
-			</script>
+</script>
           <!-- Modal -->
