@@ -88,7 +88,7 @@
 	}
 
 	#map{
-	width: 600px;
+	width: auto;
 	height: 400px;
 }
 </style>
@@ -190,11 +190,6 @@
 						<div class="form-group required">
 							<label class="control-label">Nama Kelompok Usaha / Klaster</label>
 							<input type="text" pattern="[a-zA-Z]" class="form-control dform required" id="kelompok_usaha" value="" placeholder="required" required>
-						</div>
-
-						<div class="form-group required">
-							<label class="control-label">Lokasi Kelompok Usaha / Klaster</label>
-							<div id="map"></div>
 						</div>
 
 						<div class="form-group required">
@@ -437,6 +432,13 @@
 						<div class="form-group required">
 							<label class="control-label">Kode pos</label>
 							<input type="number" class="form-control required" id="kode_pos" value="" placeholder="required" required disabled>
+						</div>
+						
+						<div class="form-group required">
+							<label class="control-label">Lokasi Kelompok Usaha / Klaster</label>
+							<div id="map"></div>
+							<input type="hidden" class="form-control dform" id="latitude" value="" >
+							<input type="hidden"class="form-control dform" id="longitude" value="" >
 						</div>
 
 						<div class="form-group required">
