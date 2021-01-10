@@ -1,3 +1,6 @@
+
+<meta name="google-site-verification" content="-5c7n2yDdKK5fU1D1gLtok4-D8XLP2c_2YKWtk30MCc" />
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD-HjW_D_kUMx9W7MRP473fS-er_DgiYY&callback=initMap" defer></script>
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
@@ -13,7 +16,7 @@
 			<div id="result" class="box-body">
 				<div class="container-fluid control-box">
 					<div class="row">
-						<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform()" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
+						<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform();initMap();" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
 					</div>
 				</div>
 				<script>
@@ -83,6 +86,11 @@
 	.img-upload {
 		width: 100%;
 	}
+
+	#map{
+	width: 600px;
+	height: 400px;
+}
 </style>
 
 <div class="modal " id="modal-noncluster" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -182,6 +190,11 @@
 						<div class="form-group required">
 							<label class="control-label">Nama Kelompok Usaha / Klaster</label>
 							<input type="text" pattern="[a-zA-Z]" class="form-control dform required" id="kelompok_usaha" value="" placeholder="required" required>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Lokasi Kelompok Usaha / Klaster</label>
+							<div id="map"></div>
 						</div>
 
 						<div class="form-group required">

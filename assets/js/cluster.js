@@ -1,7 +1,24 @@
 
+
+ var latitude;
+ var longitude;
+
 $( document ).ready(function() {
-    $(".datepicker").datepicker();
+  navigator.geolocation.getCurrentPosition(showPosition);
 });
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  alert( "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude);
+}
 
 function te(i) {
   if (i.value === "Ya") {
@@ -974,4 +991,31 @@ function ldatavarian(i) {
     select += "<option value='" +  e.varian + "'>";
   });
   document.getElementById("datavarian").innerHTML = "" + select ;
+}
+
+function initMap() {
+  const myLatlng = { lat: latitude , lng: longitude };
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 4,
+    center: myLatlng,
+  });
+  // Create the initial InfoWindow.
+  let infoWindow = new google.maps.InfoWindow({
+    content: "Click the map to get Lat/Lng!",
+    position: myLatlng,
+  });
+  infoWindow.open(map);
+  // Configure the click listener.
+  map.addListener("click", (mapsMouseEvent) => {
+    // Close the current InfoWindow.
+    infoWindow.close();
+    // Create a new InfoWindow.
+    infoWindow = new google.maps.InfoWindow({
+      position: mapsMouseEvent.latLng,
+    });
+    infoWindow.setContent(
+      JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+    );
+    infoWindow.open(map);
+  });
 }
