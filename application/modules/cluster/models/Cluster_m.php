@@ -88,12 +88,14 @@ class Cluster_m extends CI_Model
 	public function setreject_m(){
 		$status="";
 		if ($_POST['status']=="check") {
-			$status ="checker_status=0, ";
-			$status .="checker_user_update = '". $this->session->userdata('id')."' ";
+			$status  = "reject_reason='".$_POST['reject_reason']."', ";
+			$status .= "checker_status=0, ";
+			$status .= "checker_user_update = '". $this->session->userdata('kode_uker')."' ";
 		}
 		if ($_POST['status']=="sign"){
-			$status  ="signer_status =0, ";
-			$status .="signer_user_update = '". $this->session->userdata('id')."' ";
+			$status  = "reject_reason='".$_POST['reject_reason']."', ";
+			$status  = "signer_status =0, ";
+			$status .= "signer_user_update = '". $this->session->userdata('kode_uker')."' ";
 		}
 		$sql="update cluster set ".$status." where id='". $_POST['id']. "'";
 		$this->db->query($sql);

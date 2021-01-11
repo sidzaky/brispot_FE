@@ -57,11 +57,11 @@ class Cluster extends MX_Controller
             $colstatus  = "";
 			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
-			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');initMap('.$field['latitude'].','.$field['longitude'].');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');initMap('. ($field['latitude'] != "" ? $field['latitude'] .','.$field['longitude'] : "").');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$upload     = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
             $info	    = '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
             $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
-            $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setrejj(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
+            $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="modalreject(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
 			$checker_username 	= $field['checker_user_update'] != "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
 			$signer_username 	= $field['signer_user_update'] != "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
 
@@ -73,14 +73,14 @@ class Cluster extends MX_Controller
 				if ($field["checker_status"]=='1'){
 					
 					if ($field["signer_status"]!=""){
-						if ($field["signer_status"]==0) $colstatus = " Pengajuan ditolak Divisi DSE ";
+						if ($field["signer_status"]==0) $colstatus = " Pengajuan ditolak Divisi SEI ";
 					}
 
 					else {
 						switch ($this->session->userdata['approve_level']) {
 							case (0) :
 							case (1) :
-								$colstatus = "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC'] . " </br> Menunggu Divisi DSE ";
+								$colstatus = "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC'] . " </br> Menunggu Divisi SEI ";
 							break;
 		
 							case (2) :  
@@ -92,7 +92,7 @@ class Cluster extends MX_Controller
 
 				else {
 					
-					$colstatus =" Pengajuan ditolak oleh ". $checker_username[0]['BRDESC'];
+					$colstatus =" Pengajuan ditolak oleh ". $checker_username[0]['BRDESC'] ."</br>". $field['reject_reason'];
 				}
 			}
 			else {

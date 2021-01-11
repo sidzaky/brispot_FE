@@ -927,26 +927,42 @@ function setkdpos(i, j = null) {
 function setappr(i=null, j=null){
     if (confirm("apakah anda menyetujui pengajuan klaster ini?")){
         var data= {
-          "id" : i,
-          "status" : j,
+          "id"            : i,
+          "status"        : j,
         }
         var notif   = "Approve Klaster Usaha Berhasil ";
         var address = "./cluster/setapproved";
         if (sendajaxreturn(data, address, null, notif, null) != "" ) { $("#table-cluster").DataTable().ajax.reload(null, false)};
-        alert ('zz');
     }
 }
 
-function setrejj(i=null, j=null){
+function setrejj(){
+  if ($("#reject").val()!=""){
     if (confirm("apakah anda Menolak pengajuan klaster ini?")){
         var data= {
-          "id" : i,
-          "status" : j,
+          "id" : $("#idreject").val(),
+          "status" : $("#statusreject").val(),
+          "reject_reason" : $("#reject").val()
         }
         var notif   = "Tolak Pengajuan Klaster Usaha Berhasil ";
         var address = "./cluster/setreject";
-        if (sendajaxreturn(data, address, null, notif, null) !="") {$("#table-cluster").DataTable().ajax.reload(null, false)};
+        if (sendajax(data, address, null, notif, null) !="") {
+          $("#table-cluster").DataTable().ajax.reload(null, false)
+          $('#modalreject').hide();
+        };
     }
+  }
+  else alert("harap isi alasannya");
+}
+
+function modalreject(i=null, j=null){
+  if (i!=null){
+    $('#modalreject').show();
+    document.getElementById("idreject").value = i;
+    document.getElementById("statusreject").value = j;
+    $("#reject").empty();
+  }
+  else alert("terjadi kesalahan");
 }
 
 function ldataproduk(i) {

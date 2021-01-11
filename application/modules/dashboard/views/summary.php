@@ -106,9 +106,9 @@
                     <thead>
                       <tr>
                         <th>No</th>
+                        <th>Nama Klaster</th>
                         <th>Nama Mantri</th>
                         <th>Hp Mantri</th>
-                        <th>Nama Klaster</th>
                         <th>Kota/Kabupaten</th>
                         <th>Kelurahan</th>
                         <th>Kecamatan</th>
@@ -128,9 +128,9 @@
                           foreach ($cluster as $row){
                               echo '<tr>';
                               echo '<td>'.$i.'</td>';
+                              echo '<td><form action="'.base_url().'cluster/cluster_anggota" target="_blank" method="POST"><a action="#" onclick="document.getElementById(\'actanggota'.$i.'\').click()">' .$row['kelompok_usaha'].'</a><input type="hidden" name="kelompok_usaha" value="' . $row['kelompok_usaha'] . '"><button  style="display:none;" id="actanggota'.$i.'" name="id" value="' . $field['id'] . '" type="submit"></button></form></td>';
                               echo '<td>'.$row['nama_pekerja'].'</td>';
                               echo '<td>'.$row['handphone_pekerja'].'</td>';
-                              echo '<td>'.$row['kelompok_usaha'].'</td>';
                               echo '<td>'.$row['nama_kabupaten'].'</td>';
                               echo '<td>'.$row['nama_kelurahan'].'</td>';
                               echo '<td>'.$row['nama_kecamatan'].'</td>';
