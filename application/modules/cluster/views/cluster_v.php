@@ -119,14 +119,14 @@
 				<h5 class="modal-title">Form Aproval klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
 			</div>
 			<div class="modal-body">
-                <div id="mod-loading" style="display:none">
+                <div id="mod-loadings" style="display:none">
                     <div class="col-sm-12">
                                 <label for="thedata" class="col-sm-12 control-label">
                                     <h3 align="center">Harap Menunggu, Data Sedang Dikirim</h3>
                                 </label>
                             </div>
                 </div>
-				<div id="mod-content">
+				<div id="mod-contents">
 				<div class="form-group required">
 							<label class="control-label">Berikan Alasan</label>
 							<input type="hidden" class="form-control " id="idreject" placeholder="required" value="">

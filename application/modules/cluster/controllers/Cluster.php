@@ -410,8 +410,12 @@ class Cluster extends MX_Controller
 	public function cluster_anggota()
 	{
 		if (isset($_POST['id'])) {
-			$data['kelompok_usaha'] = $_POST['kelompok_usaha'];
-			$data['id'] = $_POST['id'];
+			$cluster=$this->cluster_m->getdata_m();
+			foreach ($cluster as $row){
+				$data['id']				= $row['id'];
+				$data['kelompok_usaha']	= $row['kelompok_usaha'];
+				$data['approval']		= $row['cluster_approval'];
+			}
 			$data['content'] = 'cluster_anggota';
 			$data['navbar'] = 'navbar';
 			$data['sidebar'] = 'sidebar';
@@ -831,6 +835,8 @@ class Cluster extends MX_Controller
 			$clusterInfo["uker"] = empty($clusterInfo["uker"]) ? "-" : $clusterInfo["uker"];
 			$clusterInfo["kaunit_nama"] = empty($clusterInfo["kaunit_nama"]) ? "-" : $clusterInfo["kaunit_nama"];
 			$clusterInfo["kaunit_handphone"] = empty($clusterInfo["kaunit_handphone"]) ? "-" : $clusterInfo["kaunit_handphone"];
+			$clusterInfo["nama_pekerja"] = empty($clusterInfo["nama_pekerja"]) ? "-" : $clusterInfo["nama_pekerja"];
+			$clusterInfo["handphone_pekerja"] = empty($clusterInfo["handphone_pekerja"]) ? "-" : $clusterInfo["handphone_pekerja"];
 			$clusterInfo["kelompok_usaha"] = empty($clusterInfo["kelompok_usaha"]) ? "-" : $clusterInfo["kelompok_usaha"];
 			$clusterInfo["kelompok_pihak_pembeli"] = empty($clusterInfo["kelompok_pihak_pembeli"]) ? "-" : $clusterInfo["kelompok_pihak_pembeli"];
 			$clusterInfo["kelompok_pihak_pembeli_handphone"] = empty($clusterInfo["kelompok_pihak_pembeli_handphone"]) ? "-" : $clusterInfo["kelompok_pihak_pembeli_handphone"];
@@ -844,7 +850,10 @@ class Cluster extends MX_Controller
 			$clusterInfo["agen_brilink"] = empty($clusterInfo["agen_brilink"]) ? "-" : $clusterInfo["agen_brilink"];
 			$clusterInfo["simpanan_bank"] = empty($clusterInfo["simpanan_bank"]) ? "-" : $clusterInfo["simpanan_bank"];
 			$clusterInfo["pinjaman"] = empty($clusterInfo["pinjaman"]) ? "-" : $clusterInfo["pinjaman"];
-			$clusterInfo["pelatihan"] = empty($clusterInfo["pelatihan"]) ? "-" : $clusterInfo["pelatihan"];
+			$clusterInfo["varian"] = empty($clusterInfo["varian"]) ? "-" : $clusterInfo["varian"];
+			$clusterInfo["kapasitas_produksi"] = empty($clusterInfo["kapasitas_produksi"]) ? "-" : $clusterInfo["kapasitas_produksi"];
+			$clusterInfo["periode_panen"] = empty($clusterInfo["periode_panen"]) ? "-" : $clusterInfo["periode_panen"];
+
 
 			$clusterPhotos = $this->cluster_m->getClusterPhotos($id);
 			$clusterInfo["photos"] = $clusterPhotos;

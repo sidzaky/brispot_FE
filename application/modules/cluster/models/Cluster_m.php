@@ -801,7 +801,40 @@ class Cluster_m extends CI_Model
 
 	function getClusterInfo($id)
 	{
-		$q = "select c.id, c.uker, c.kaunit_nama, c.kaunit_handphone, c.kelompok_usaha, c.hasil_produk, c.kelompok_pihak_pembeli, c.kelompok_pihak_pembeli_handphone, c.kelompok_suplier_produk, c.kelompok_suplier_handphone, c.kelompok_jumlah_anggota, c.kelompok_cerita_usaha, c.kelompok_perwakilan, c.kelompok_handphone, c.lokasi_usaha, c.agen_brilink, c.simpanan_bank, c.pinjaman, k.kebutuhan_pendidikan_pelatihan as pelatihan FROM cluster c INNER JOIN cluster_kebutuhan_pendidikan_pelatihan k ON k.id_cluster_kebutuhan_pendidikan_pelatihan = c.kebutuhan_pendidikan WHERE id = '" . $id . "'";
+		$q = "SELECT
+					c.id,
+					c.uker,
+					c.kaunit_nama,
+					c.kaunit_handphone,
+					c.nama_pekerja,
+					c.handphone_pekerja,
+					c.kelompok_usaha,
+					c.hasil_produk,
+					c.varian,
+					c.kelompok_luas_usaha,
+					c.kapasitas_produksi,
+					c.periode_panen,
+					c.kelompok_pihak_pembeli,
+					c.kelompok_pihak_pembeli_handphone,
+					c.kelompok_suplier_produk,
+					c.kelompok_suplier_handphone,
+					c.kelompok_jumlah_anggota,
+					c.kelompok_cerita_usaha,
+					c.kelompok_perwakilan,
+					c.kelompok_handphone,
+					c.lokasi_usaha,
+					c.agen_brilink,
+					c.simpanan_bank,
+					c.pinjaman,
+					k.kebutuhan_pendidikan_pelatihan AS pelatihan,
+					ks.kebutuhan_sarana AS sarana,
+					kk.kebutuhan_skema_kredit AS skema_kredit
+	FROM cluster c
+	LEFT JOIN cluster_kebutuhan_pendidikan_pelatihan k ON k.id_cluster_kebutuhan_pendidikan_pelatihan = c.kebutuhan_pendidikan 
+	LEFT JOIN cluster_kebutuhan_sarana ks ON ks.id_cluster_kebutuhan_sarana = c.kebutuhan_sarana
+	LEFT JOIN cluster_kebutuhan_skema_kredit kk ON kk.id_cluster_kebutuhan_skema_kredit = c.kebutuhan_skema_kredit
+	WHERE
+		id = '" . $id . "'";
 		return $this->db->query($q)->row_array();
 	}
 

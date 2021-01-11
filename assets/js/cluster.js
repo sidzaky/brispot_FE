@@ -932,7 +932,7 @@ function setappr(i=null, j=null){
         }
         var notif   = "Approve Klaster Usaha Berhasil ";
         var address = "./cluster/setapproved";
-        if (sendajaxreturn(data, address, null, notif, null) != "" ) { $("#table-cluster").DataTable().ajax.reload(null, false)};
+        if (sendajax(data, address, null, notif, null) != "" ) { $("#table-cluster").DataTable().ajax.reload(null, false)};
     }
 }
 

@@ -25,6 +25,10 @@
 													var upl='&nbsp<button id="csv" class="btn btn-info waves-effect waves-light btn-sm" onclick="getcsv()"; type="button"><i class="fa fa-upload"></i> Upload XLS</button>';
 													var csvanggota='&nbsp<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="window.location.href=\'\../assets/form_anggota_2021.01.10.xls\'" type="button"><i class="fa fa-file-excel-o"></i> Template XLS</button>';
 													var dl='&nbsp<button class="btn bg-navy waves-effect waves-light btn-sm" onclick="dlcsv()" type="button"><i class="fa fa-download"></i> Download list</button>';
+													<?php if ($approval==1){
+														echo 'tambah="";';
+														echo 'upl="";';
+													}?>
 													$("#example_length").append(<?php echo ($this->session->userdata('kode_uker')=='kanpus' ? '' : "tambah+upl+csvanggota+") ?>dl);
 											});</script>
 								<div class="col-sm-12">

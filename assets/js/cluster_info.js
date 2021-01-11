@@ -17,7 +17,6 @@ function showClusterInfo(id) {
               <div class="row">
                 <div class="col-md-12 info-heading">
                   <h2>${info.kelompok_usaha}</h2>
-                  <h4>Produk : ${info.hasil_produk}</h4>
                   <h4>Anggota : ${info.kelompok_jumlah_anggota} orang
                   </h4>
                   <h4>Ketua: ${info.kelompok_perwakilan} / ${
@@ -30,12 +29,12 @@ function showClusterInfo(id) {
               <div class="row">
                 <div class="col-md-4">
                   <dl>
-                    <dt class="list-space">Ketua Unit</dt>
-                    <dd>${info.kaunit_nama}</dd>
                     <dt class="list-space">BRI Unit</dt>
                     <dd>${info.uker}</dd>
-                    <dt class="list-space">Kontak Kantor Unit</dt>
-                    <dd>${info.kaunit_handphone}</dd>
+                    <dt class="list-space">Ketua Unit</dt>
+                    <dd>${info.kaunit_nama} : ${info.kaunit_handphone}</dd>
+                    <dt class="list-space">Mantri Unit</dt>
+                    <dd>${info.nama_pekerja} : ${info.handphone_pekerja}</dd>
                   </dl>
                 </div>
                 <div class="col-md-4">
@@ -61,19 +60,50 @@ function showClusterInfo(id) {
                   </dl>
                 </div>
               </div>
-              <br/>
+              <hr>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
+                  <dt class="list-space">Cerita Usaha</dt>
                   <p>${info.kelompok_cerita_usaha}</p>
                 </div>
+                <div class="col-md-6">
+                  <div class="col-sm-6">
+                    <dt class="list-space">Produk : varian</dt>
+                    <dd>${info.hasil_produk} : ${info.varian}</dd>
+                  </div>
+                  <div class="col-sm-6">
+                    <dt class="list-space">Luas Usaha </dt>
+                    <dd>${info.kelompok_luas_usaha} M<sup>2</sup> </dd>
+                  </div>
+                  <div class="col-sm-6">
+                    <dt class="list-space">Kapasitas Produksi</dt>
+                    <dd>${info.kapasitas_produksi} Ton </dd>
+                  </div>
+                  <div class="col-sm-6">
+                    <dt class="list-space">Periode Panen</dt>
+                    <dd>${info.periode_panen}</dd>
+                  </div>
+                </div>
               </div>
-              <br/>
+              <hr>
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
                   <p><strong>Kebutuhan Pelatihan</strong></p>
                   <ul>
                     <li>${info.pelatihan}</li>
                   </ul>
+                </div>
+                <div class="col-md-4">
+                <p><strong>Kebutuhan Prasarana</strong></p>
+                <ul>
+                  <li>${info.sarana}</li>
+                </ul>
+                </div>
+                <div class="col-md-4">
+                <p><strong>Kebutuhan Skema Kredit</strong></p>
+                <ul>
+                  <li>${info.skema_kredit}</li>
+                </ul>
                 </div>
               </div>
               <br/>
