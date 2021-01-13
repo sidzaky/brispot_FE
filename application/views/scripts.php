@@ -18,6 +18,7 @@
 <script src="<?php echo base_url(); ?>assets/js/app.min.js"></script>
 <!-- mY sCRIPTS -->
 <script src="<?php echo base_url(); ?>assets/js/myScript.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/sidebar.js"></script>
 <!-- iCheck -->
 <!-- <script src="<?php echo base_url(); ?>assets/plugins/iCheck/icheck.min.js"></script> -->
 <!-- Toastr -->

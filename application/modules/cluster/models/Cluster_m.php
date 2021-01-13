@@ -109,7 +109,7 @@ class Cluster_m extends CI_Model
     ////////////////////////////////////////////////////////////
     /////////////////get approved klaster usaha ////////////////
     ////////////////////////////////////////////////////////////
-
+fa-search 
 
     public function get_clusterapprove_m($status = null, $appr = 0)
 	{
@@ -487,10 +487,15 @@ class Cluster_m extends CI_Model
 		$_POST['timestamp'] = time();
 		$_POST['cluster_status'] = 1;
 
+		$_POST['lh_flag']=0;
+		if ($_POST['lh0']==1 && $_POST['lh1']==1 && $_POST['lh2']==0 && $_POST['lh3']==1 && $_POST['lh4']==0) $_POST['lh_flag'] = 1;
+
+		////kalo ada yang update, balik lagi ke checker ///
 		$_POST['checker_status'] = null;
 		$_POST['checker_user_update'] = "";
 		$_POST['signer_status'] = null;
 		$_POST['signer_user_update'] = "";
+		///////////////////////////////////////////////////
 
 		unset($_POST['id']);
 		$this->db->where('id', $id);
@@ -526,6 +531,11 @@ class Cluster_m extends CI_Model
 		$_POST['checker_user_update'] = "";
 		$_POST['signer_status'] = null;
 		$_POST['signer_user_update'] = "";
+
+		$_POST['lh_flag']=0;
+		if ($_POST['lh0']==1 && $_POST['lh1']==1 && $_POST['lh2']==0 && $_POST['lh3']==1 && $_POST['lh4']==0) $_POST['lh_flag'] = 1;
+
+
 		$this->db->insert('cluster', $_POST);
 
 		$this->insert_hasil_produk();

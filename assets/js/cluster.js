@@ -173,6 +173,11 @@ function getform(i = null) {
         document.getElementById("lokasi_usaha").value = msg[0].lokasi_usaha;
         document.getElementById("latitude").value = msg[0].latitude;
         document.getElementById("longitude").value = msg[0].longitude;
+        document.getElementById("lh0").checked = msg[0].lh0 == 1 ? true : false ;
+        document.getElementById("lh1").checked = msg[0].lh1 == 1 ? true : false ;
+        document.getElementById("lh2").checked = msg[0].lh2 == 1 ? true : false ;
+        document.getElementById("lh3").checked = msg[0].lh3 == 1 ? true : false ;
+        document.getElementById("lh4").checked = msg[0].lh4 == 1 ? true : false ;
 
         setprov(msg[0].provinsi);
         getkotakab(msg[0].provinsi, msg[0].kabupaten);
@@ -392,6 +397,21 @@ function inputform() {
       data1["tfex"] = [];
       data1["idfex"] = [];
       data1["efex"] = [];
+     
+
+      var nlh = document.getElementsByClassName("nlh");
+      var clh=0;
+      for (var i = 0; i < nlh.length; i++) {
+        if (document.getElementById("lh"+i).checked == true){
+          data1['lh'+i] = '1';
+          clh++;
+        }
+        else {
+          data1['lh'+i] = '0';
+        }
+      }
+
+      if (clh==0) msg += "Harap isi Minimal 1 Pertanyaan untuk ketua klaster";
 
       if ($("input[name='rfku']").length != 0) {
         var rfku = $("input[name='rfku']")[$("input[name='rfku']").length - 1];

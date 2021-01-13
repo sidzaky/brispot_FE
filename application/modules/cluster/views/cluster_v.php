@@ -16,7 +16,8 @@
 			<div id="result" class="box-body">
 				<div class="container-fluid control-box">
 					<div class="row">
-						<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform();initMap();" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
+					<?php if ($this->session->userdata('permission')<3) echo '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform();initMap();" type="button"><i class="fa fa-plus"></i> Tambah Data</button>'; ?>
+						
 					</div>
 				</div>
 				<script>
@@ -165,7 +166,7 @@
 								<h3 align="center">Isian terkait Unit BRI</h3>
 							</label>
 						</div>
-
+ 
 						<div class="form-group" style="width: 0">
 							<label style="padding:0;" for="thedata" class="col-sm-10 control-label" id="setuker"></label>
 							<input type="hidden" class="form-control dform" id="id" placeholder="required" value="">
@@ -493,6 +494,44 @@
 							<label class="control-label">No Handphone Ketua Kelompok</label>
 							<input type="tel" onchange="cekhp(this);" class="form-control dform required" id="kelompok_handphone" value="" placeholder="08xxxxxxxx (required)" required>
 						</div>
+						
+						<hr>
+
+						<label for="thedata" class="col-sm-12 control-label">
+							<h3 align="center">Pertanyaan Untuk Ketua Kelompok</h3>
+						</label>
+
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg nlh" id="lh0" >
+							Memiliki <b>karakter baik dan inisiatif pemberdayaan</b> 
+							(dapat dilihat dari data SLIK OJK, tidak termasuk daftar hitam nasional/DHN)
+						</div>
+
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg nlh" id="lh1" >
+							Ketua Kelompok/ Pengurus Klaster merupakan <b>Inisiator</b> terbentuknya klaster dan 
+							sosok <b>Inspiratif</b> bagi anggota klaster.
+						</div>
+
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg nlh" id="lh2" >
+							Ketua Kelompok/ Pengurus Klaster melakukan <b>pemberdayaan/ pendampingan/ pelatihan</b> 
+							kepada anggota klasternya.
+						</div>
+
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg nlh" id="lh3" >
+							Ada <b>dampak atau peningkatan</b> (baik secara ekonomis, keahlian, pengetahuan dll) 
+							bagi anggota klaster dari aktifitas pemberdayaan ketua/pengurus klaster
+						</div>
+
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg nlh" id="lh4" >
+							Kegiatan pemberdayaan <b>tidak terlibat dalam kepentingan/aktivitas politik atau maksud tertentu</b> 
+							diluar kepentingan meningkatkan salausa klasternya.
+						</div>
+
+						<hr>
 
 						<div class="form-group required">
 							<label class="control-label">Sudah Punya Pinjaman?</label>

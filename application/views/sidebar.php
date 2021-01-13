@@ -6,17 +6,10 @@
     <ul class="sidebar-menu" id="sidebar-app">
       <!-- Optionally, you can add icons to the links -->
       <li><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-pie-chart"></i> <span>Dashboard</span></a></li>
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-check "></i> <span>Klaster</span>
-          <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li active="active"><a href="<?php echo base_url(); ?>cluster/approve">Daftar Klaster</a></li>
-          <li><a href="<?php echo base_url(); ?>cluster">Pengajuan </a> </li>
-          <?php echo ($this->session->userdata('permission')==4 ? '<li><a href="' . base_url() . 'cluster/custom_search">Custom Search</a></li>' : "") ?>
-        </ul>
-      </li>
+      <li><a href="<?php echo base_url(); ?>cluster/approve"><i class="fa fa-check "></i> Daftar Klaster</a></li>
+      <li> <a href="<?php echo base_url(); ?>cluster" id="cpclaster" ><i class="fa fa-book "></i>Pengajuan Klaster</a>  </li>
+      <?php echo ($this->session->userdata('permission')==4 ? '<li><a href="' . base_url() . 'cluster/custom_search"><i class="fa fa-search"></i>Custom Search</a></li>' : "") ?>
+
       <!-- <li><a href=""><i class="fa fa-file-text-o"></i> <span>Pengajuan Klaster</span></a></li> -->
 	  
 	  <?php 
@@ -51,15 +44,7 @@
 		echo $lilaporan;
 	  ?>
       <li> <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
-      <?php 
-        $cp = "";
-        if ($this->session->userdata('permission') == 4){
-            $sql= "select * from faq where timeinput_answer = 0";
-            $cq = $this->db->query($sql)->num_rows();
-            if (  $cq > 0 ) $cp = '<span class="label label-warning pull-right" style="">'.$cq.'</span>';
-        }
-      ?>
-      <li><a href="<?php echo base_url(); ?>help"><i class="fa fa-question"></i> Bantuan <?php echo $cp ?> </a></li>
+      <li><a href="<?php echo base_url(); ?>help" id="cpfaq"><i class="fa fa-question"></i> Bantuan </a></li>
     </ul><!-- /.sidebar-menu -->
   </section>
   <!-- /.sidebar -->

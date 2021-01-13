@@ -64,6 +64,9 @@ class Cluster extends MX_Controller
             $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="modalreject(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
 			$checker_username 	= $field['checker_user_update'] != "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
 			$signer_username 	= $field['signer_user_update'] != "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
+			
+			//exection button//
+			if ($this->session->userdata('permission')==3) $del="";
 
 
 	///////////////////// button for MCS /////////////////////////////////
@@ -91,7 +94,6 @@ class Cluster extends MX_Controller
 				}
 
 				else {
-					
 					$colstatus =" Pengajuan ditolak oleh ". $checker_username[0]['BRDESC'] ."</br>". $field['reject_reason'];
 				}
 			}
@@ -111,13 +113,16 @@ class Cluster extends MX_Controller
     ///////////////////// End button for MCS /////////////////////////////////
 			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
 			
+
+	///////////////////////check for local heroes/////////////////////////////
+			
 			$no++;
 			$row = array();
 			$row[] = $no;
 			$row[] = $field['kanwil'];
 			$row[] = $field['kanca'];
 			$row[] = $field['uker'];
-			$row[] = $field['kelompok_usaha'];
+			$row[] = $field['kelompok_usaha'] . ( $field['kelompok_usaha'] == 1 ? '' : '');
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
