@@ -906,6 +906,30 @@ class Cluster extends MX_Controller
 	// 	echo $s;
 	
 	// }
+
+	// /////////////////////set approve data///////////////////
+	// 	function clap(){
+	// 		$time=time();
+	// 		$q="select * from cluster";
+	// 		$r="SELECT a.username, b.REGION, b.BRDESC FROM user a 
+	// 			left join branch b on a.username=b.BRANCH
+	// 			where permission=3";
+	// 		$r=$this->db->query($r)->result_array();
+	// 		foreach ($this->db->query($q)->result_array()  as $row){
+	// 			$kodekanwil="";
+	// 			foreach ($r as $srow){
+	// 					if ($srow['REGION'] == $row['kode_kanwil']) $kodekanwil=$srow['username'];
+	// 			}
+	// 			$nq="update cluster set 
+	// 					checker_status=1,
+	// 					checker_user_update='".$kodekanwil."',
+	// 					signer_status=1,
+	// 					signer_user_update=2
+	// 					where id='".$row['id']."'; </br>";
+	// 			echo $nq;
+	// 		}
+	// 	}
+
     
 
     // public function getalluser(){
