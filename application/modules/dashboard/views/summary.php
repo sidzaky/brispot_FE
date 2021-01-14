@@ -173,7 +173,7 @@
 
 <style>
 #mapid{
-	width: 600px;
+	width: auto;
 	height: 400px;
 }
 table.dataTable td,

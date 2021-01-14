@@ -17,7 +17,7 @@
 														"serverSide": true,
 														 "ajax": {
 															"url"  : "<?php echo base_url();?>cluster/getdata_anggota",
-															"data" : function ( d ){d.id = id_cluster},
+															"data" : function ( d ){d.id = id_cluster; <?php if ($approval==1) echo 'd.approval="'.$approval.'";' ?>},
 															"type" : "POST"
 														},
 													});

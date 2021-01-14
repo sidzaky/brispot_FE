@@ -95,6 +95,7 @@ class Dashboard_m extends CI_Model
 				break;
     }
     
+    $where .=" and cluster_approval = 1 ";
    
     /////////////////dashboar filter/////////////
     // if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
@@ -150,6 +151,8 @@ class Dashboard_m extends CI_Model
 				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
 				break;
     }
+
+    $where .=" and cluster_approval = 1 ";
 
     if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
     if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
@@ -222,7 +225,7 @@ class Dashboard_m extends CI_Model
   }
 
   function getfilterprovinsikab_m(){
-    $where ="where true";
+    $where ="where true and cluster_approval=1 ";
     if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
     if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
     if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
@@ -238,7 +241,7 @@ class Dashboard_m extends CI_Model
   }
 
   function getfilterkab_m(){
-    $where ="where true";
+    $where ="where true and cluster_approval=1 ";
     if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
     if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
     if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';

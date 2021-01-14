@@ -23,7 +23,7 @@
           <div class="box-body">
             <div class="col-md-12">
               <div id="result" class="box-body">
-                <?php if ($this->session->userdata('permission')==4) {?>
+                <?php if ($this->session->userdata('permission')>2) {?>
                   <form action="./dashboard/summary" method="POST" target="_blank">
                   <div class="col-sm-4">
                       <div class="form-group">

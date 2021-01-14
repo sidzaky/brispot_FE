@@ -498,7 +498,10 @@
 						<hr>
 
 						<label for="thedata" class="col-sm-12 control-label">
-							<h3 align="center">Pertanyaan Untuk Ketua Kelompok</h3>
+							<h3 align="center">Penilaian Kriteria Local Heroes Klaster</h3>
+							<h5 align="center">Pilih kriteria di bawah ini sesuai dengan kondisi subyek yang sebenarnya 
+untuk menentukan Ketua Kelompok / Klaster termasuk Local Heroes atau bukan. 
+Parameter dapat dipilih lebih dari 1 kriteria sesuai dengan kondisi sebenarnya</h5>
 						</label>
 
 						<div class="form-group">
@@ -528,7 +531,7 @@
 						<div class="form-group">
 							<input type="checkbox" class="form-check-input form-control-lg nlh" id="lh4" >
 							Kegiatan pemberdayaan <b>tidak terlibat dalam kepentingan/aktivitas politik atau maksud tertentu</b> 
-							diluar kepentingan meningkatkan salausa klasternya.
+							diluar kepentingan meningkatkan skala klasternya.
 						</div>
 
 						<hr>

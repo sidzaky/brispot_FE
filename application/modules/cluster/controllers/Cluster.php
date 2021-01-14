@@ -122,7 +122,7 @@ class Cluster extends MX_Controller
 			$row[] = $field['kanwil'];
 			$row[] = $field['kanca'];
 			$row[] = $field['uker'];
-			$row[] = $field['kelompok_usaha'] . ( $field['kelompok_usaha'] == 1 ? '' : '');
+			$row[] = $field['kelompok_usaha'] . ( $field['lh_flag'] == 1 ? '<i class="fa fa-check" style="color:green"></i>' : '');
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
@@ -196,7 +196,7 @@ class Cluster extends MX_Controller
 			$row[] = $field['kanwil'];
 			$row[] = $field['kanca'];
 			$row[] = $field['uker'];
-			$row[] = $field['kelompok_usaha'];
+			$row[] = $field['kelompok_usaha'] . ( $field['lh_flag'] == 1 ? '<i class="fa fa-check" style="color:green"></i>' : '');
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
@@ -252,7 +252,6 @@ class Cluster extends MX_Controller
 
 	public function inputdata()
 	{
-
 		$rfku = null;
 		$rfex = null;
 
@@ -441,6 +440,8 @@ class Cluster extends MX_Controller
 			$del = '<button class="btn bg-maroon waves-effect waves-light btn-sm" onclick="deldata_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$update = '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$action = ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
+
+			if (isset($_POST['approval'])) $action="";
 
 			$no++;
 			$row = array();
@@ -864,7 +865,47 @@ class Cluster extends MX_Controller
 			$clusterInfo["photos"] = $clusterPhotos;
 			echo json_encode($clusterInfo);
 		}
-    }
+	}
+	
+	//////////////////cleansing data////////////////////
+	// function clq(){
+	// 	$q="select * from cluster_cek";
+	// 	$s="";
+	// 	$n=0;
+	// 	$t=0;
+	// 	$r=0;
+	// 	foreach ($this->db->query($q)->result_array() as $row){
+	// 		echo "id : ". $row['id'] ." || ".$row['kelompok_usaha'].' || '.$row['ketua_klaster'].' || '.$row['NIK'].' </br>';
+	// 		$nq='select * from cluster_backup where kelompok_NIK like "%'.$row['NIK'].'%" and kelompok_handphone like "%'.$row['hp_ketua_kaster'].'%" and cluster_status=1 ';
+	// 		$z=0;
+	// 		foreach ($this->db->query($nq)->result_array() as $srow){
+	// 			$this->db->insert('cluster',$srow);
+	// 			// $this->db->query("delete from cluster where id='".$srow['id']."'");
+
+	// 			echo 'id : '.$srow['id'].' || '.$srow['kelompok_usaha'].' || '.$srow['kelompok_perwakilan'].' || '.$srow['kelompok_NIK'].'</br>';
+	// 			$z++;
+	// 		}
+	// 		if ($z==0) {
+	// 			$t++;
+	// 			$s .='no data with id '.$row['id'].'</br>';
+	// 		}
+			
+	// 		elseif ($z==1){
+	// 			$n++;
+	// 			// $s .='data found id '.$row['id'].'</br>';
+	// 		}
+	// 		else {
+	// 			$r++;
+	// 			$s .='data duplicate '.$row['id'].'</br>';
+	// 		}
+	// 		echo '<hr></br>';
+	// 	}
+	// 	echo $n.'</br>';
+	// 	echo $r.'</br>';
+	// 	echo $t.'</br>';
+	// 	echo $s;
+	
+	// }
     
 
     // public function getalluser(){
