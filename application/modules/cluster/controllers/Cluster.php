@@ -792,15 +792,30 @@ class Cluster extends MX_Controller
 	// 	}
 	// }
 
-	// function migrate_cluster_produk(){
+	// 	function migrate_cluster_produk(){
 
-	// 	$sql = $this->db->query('select DISTINCT(a.hasil_produk) as hasil, a.id_cluster_jenis_usaha, b.nama_cluster_jenis_usaha from cluster a
-	// 	left join cluster_jenis_usaha b on a.id_cluster_jenis_usaha=b.id_cluster_jenis_usaha
-	// 	where a.id_cluster_jenis_usaha !="" and a.hasil_produk!=""');
-	// 	foreach ($sql->result_array() as $row){
-	// 		echo "insert into cluster_hasil_produk values ('".$this->uuid->v4(true)."', '".$row['id_cluster_jenis_usaha']."', '".$row['hasil']."'); </br>";
+	// 		$sql = $this->db->query('select DISTINCT(a.hasil_produk) as hasil, a.id_cluster_jenis_usaha, b.nama_cluster_jenis_usaha from cluster a
+	// 		left join cluster_jenis_usaha b on a.id_cluster_jenis_usaha=b.id_cluster_jenis_usaha
+	// 		where a.id_cluster_jenis_usaha !="" and a.hasil_produk!=""');
+	// 		foreach ($sql->result_array() as $row){
+	// 		    $q="insert into cluster_hasil_produk values ('".$this->uuid->v4(true)."', '".$row['id_cluster_jenis_usaha']."', '".$row['hasil']."','1');";
+	// 		    echo $q."</br>";
+	// 		  //  $this->db->query($q);
+				
+	// 		}
 	// 	}
-	// }
+		
+	// 	function migrate_cluster_varian(){
+	// 	    $sql = $this->db->query('select distinct(b.varian), a.hasil_produk  from cluster_hasil_produk a
+	//                 inner join cluster b on a.hasil_produk=b.hasil_produk
+	//                 where b.hasil_produk!="" and b.varian!=""');
+	// 		foreach ($sql->result_array() as $row){
+	// 		    $q="insert into cluster_varian values ('".$this->uuid->v4(true)."', '".$row['hasil_produk']."', '".$row['varian']."', '1');";
+	// 		    echo $q."</br>";
+	// 		  //  $this->db->query($q);
+				
+	// 		}
+	// 	}
 
 	// function setapprove_level(){
 
@@ -908,27 +923,30 @@ class Cluster extends MX_Controller
 	// }
 
 	// /////////////////////set approve data///////////////////
-	// 	function clap(){
-	// 		$time=time();
-	// 		$q="select * from cluster";
-	// 		$r="SELECT a.username, b.REGION, b.BRDESC FROM user a 
-	// 			left join branch b on a.username=b.BRANCH
-	// 			where permission=3";
-	// 		$r=$this->db->query($r)->result_array();
-	// 		foreach ($this->db->query($q)->result_array()  as $row){
-	// 			$kodekanwil="";
-	// 			foreach ($r as $srow){
-	// 					if ($srow['REGION'] == $row['kode_kanwil']) $kodekanwil=$srow['username'];
-	// 			}
-	// 			$nq="update cluster set 
-	// 					checker_status=1,
-	// 					checker_user_update='".$kodekanwil."',
-	// 					signer_status=1,
-	// 					signer_user_update=2
-	// 					where id='".$row['id']."'; </br>";
-	// 			echo $nq;
-	// 		}
-	// 	}
+		// function clap(){
+		// 	$time=time();
+		// 	$q="select * from cluster";
+		// 	$r="SELECT a.username, b.REGION, b.BRDESC FROM user a 
+		// 		left join branch b on a.username=b.BRANCH
+		// 		where permission=3";
+		// 	$r=$this->db->query($r)->result_array();
+		// 	foreach ($this->db->query($q)->result_array()  as $row){
+		// 		$kodekanwil="";
+		// 		foreach ($r as $srow){
+		// 				if ($srow['REGION'] == $row['kode_kanwil']) $kodekanwil=$srow['username'];
+		// 		}
+		// 		echo $nq;
+		// 		$nq="update cluster set 
+		// 				checker_status=1,
+		// 				checker_user_update='".$kodekanwil."',
+		// 				signer_status=1,
+		// 				signer_user_update=2,
+		// 				cluster_approval=1 
+		// 				where id='".$row['id']."'";
+		// 		$this->db->query($nq);
+				
+		// 	}
+		// }
 
     
 

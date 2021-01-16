@@ -246,7 +246,7 @@ function fhp(i, j = "") {
 
 function fv(i, j = "") {
   var data1 = {
-    bentuk_usaha : i,
+    hasil_produk : i,
   };
   $.ajax({
     type: "POST",

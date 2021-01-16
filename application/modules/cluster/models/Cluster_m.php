@@ -799,16 +799,16 @@ class Cluster_m extends CI_Model
 
 
 	function get_list_hasil_produk_m(){
-		$q='select * from cluster_hasil_produk where id_cluster_jenis_usaha="'.$_POST['id_cluster_jenis_usaha'].'" and status=1';
+		$q='select * from cluster_hasil_produk where id_cluster_jenis_usaha="'.$_POST['id_cluster_jenis_usaha'].'" and status=1 order by hasil_produk asc';
 		return $this->db->query($q)->result_array();
 	}
 
 	function get_list_varian_m(){
-		$q='select * from cluster_varian where hasil_produk="'.$_POST['hasil_produk'].'" and status=1';
+		$q='select * from cluster_varian where hasil_produk="'.$_POST['hasil_produk'].'" and status=1 order by varian asc';
 		return $this->db->query($q)->result_array();
 	}
 
-
+	
 	function getClusterInfo($id)
 	{
 		$q = "SELECT

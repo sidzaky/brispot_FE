@@ -18,7 +18,7 @@ class User_m extends CI_Model
 	{
 		$uker = "";
 		if ($username != "admin") {
-			$uker = " left join branch b on a.branch=b.BRANCH ";
+			$uker = " left join branch b on a.username=b.BRANCH ";
 		}
 		$sql = "select * from user a " . $uker . " where username='" . $username . "' and password='" . $password . "'";
 

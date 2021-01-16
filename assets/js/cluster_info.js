@@ -128,7 +128,7 @@ function showClusterInfo(id) {
                       ${info.photos.map(function (photo, index) {
                         return `
                           <div class="item">
-                            <img class="center-block" src="${photo.url}" alt="photo-${index}">
+                            <img class="center-block" src="`+baseURL+`${photo.url}" alt="photo-${index}">
                           </div>
                         `;
                       })}
