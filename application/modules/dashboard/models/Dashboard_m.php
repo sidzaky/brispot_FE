@@ -225,7 +225,19 @@ class Dashboard_m extends CI_Model
   }
 
   function getfilterprovinsikab_m(){
-    $where ="where true and cluster_approval=1 ";
+    $where ="where cluster_approval=1 ";
+    switch ($this->session->userdata('permission')) {
+      case (4):
+        $where .= " and true ";
+        break;
+      case (3):
+        $where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+        break;
+      default :
+        $where .= " and false ";
+        break;
+    }
+    
     if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
     if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
     if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';

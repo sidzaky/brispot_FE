@@ -22,7 +22,7 @@ class Cluster extends MX_Controller
 		$this->login->is_logged_in();
 		$this->load->model('cluster_m');
 		$this->load->helper(array('url', 'form', 'html'));
-
+		// print_r ($this->session->all_userdata());
     }
     
     ////////////////////////////////////////////////////////////
@@ -62,8 +62,8 @@ class Cluster extends MX_Controller
             $info	    = '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
             $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
             $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="modalreject(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
-			$checker_username 	= $field['checker_user_update'] != "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
-			$signer_username 	= $field['signer_user_update'] != "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
+			$checker_username 	= $field['checker_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
+			$signer_username 	= $field['signer_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
 			
 			//exection button//
 			if ($this->session->userdata('permission')==3) $del="";
