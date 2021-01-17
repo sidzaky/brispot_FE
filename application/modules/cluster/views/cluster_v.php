@@ -227,6 +227,59 @@
 						</div>
 
 						<div class="form-group required">
+							<label class="control-label">Alamat Lengkap Usaha</label>
+							<input type="text" class="form-control dform required" id="lokasi_usaha" value="" placeholder="required" required>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Provinsi</label>
+							<select class="form-control dform required" onchange="getkotakab(this.value);" id="provinsi">
+								<?php foreach ($provinsi as $row) {
+									echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
+								} ?>
+							</select>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Kabupaten</label>
+							<div id="selkab">
+								<select class="form-control dform required" onchange="getkecamatan(this.value)" id="kabupaten">
+
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Kecamatan</label>
+							<div id="selkec">
+								<select class="form-control dform required" onchange="getkelurahan(this.value)" id="kecamatan">
+
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Kelurahan</label>
+							<div id="selkel">
+								<select class="form-control dform required" id="kelurahan">
+
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group required">
+							<label class="control-label">Kode pos</label>
+							<input type="number" class="form-control required" id="kode_pos" value="" placeholder="required" required disabled>
+						</div>
+						
+						<div class="form-group required">
+							<label class="control-label">Lokasi Kelompok Usaha / Klaster</label>
+							<div id="map"></div>
+							<input type="hidden" class="form-control dform" id="latitude" value="" >
+							<input type="hidden"class="form-control dform" id="longitude" value="" >
+						</div>
+
+						<div class="form-group required">
 							<label class="control-label">Jumlah Anggota (orang)</label>
 							<input type="number" min="15" class="form-control dform required" id="kelompok_jumlah_anggota" value="" placeholder="required" required>
 						</div>
@@ -303,18 +356,35 @@
 							<label class="control-label">Luas lahan / tempat usaha (m2)</label>
 							<input type="number" class="form-control dform" id="kelompok_luas_usaha" value="" placeholder="optional" required>
 						</div>
-
+									
 						<div class="form-group" id="fkapasitas_produksi">
-							<label class="control-label">Kapasistas Panen / Produksi (ton)</label>
-							<input type="number" class="form-control dform required" id="kapasitas_produksi" value="" placeholder="required" required>
+							<div class="col-sm-6">
+							<label class="control-label">Kapasistas Panen / Produksi</label>
+								<input type="number" class="form-control dform required" id="kapasitas_produksi" value="" placeholder="required" required>
+							</div>
+							<div class="col-sm-6">
+							<label class="control-label">Satuan Produksi</label>
+								<select class="form-control dform required" id="satuan_produksi" placeholder="required">
+									<option value="ton">Ton</option>
+									<option value="pcs">Pcs</option>
+									<option value="ltr">Liter</option>
+								</select>
+							</div>
 						</div>
 
 						<div class="form-group" id="fperiode_panen">
 							<label class="control-label">Periode Panen / Produksi</label>
 							<select class="form-control dform required" id="periode_panen">
-								<option selected>2 kali setahun</option>
+								<option selected>Setiap Hari</option>
+								<option>Setiap minggu</option>
+								<option>Setiap 2 minggu</option>
+								<option>Setiap bulan</option>
+								<option>1 kali setahun</option>
+								<option>2 kali setahun</option>
 								<option>3 kali setahun</option>
-								<option>Sepanjang tahun</option>
+								<option>4 kali setahun</option>
+								<option>5 kali setahun</option>
+								<option>6 kali setahun</option>
 							</select>
 						</div>
 
@@ -375,12 +445,13 @@
 
 						<div class="form-group">
 							<label class="control-label drequired">Kebutuhan Pendidikan & Pelatihan untuk peningkatan usaha kelompok</label>
-							<select class="form-control dform required" id="kebutuhan_pendidikan">
+							<datalist id="datapendidikan">
 								<?php foreach ($cluster_kebutuhan_pendidikan_pelatihan as $row) {
-									echo '<option value="' . $row['id_cluster_kebutuhan_pendidikan_pelatihan'] . '">' . $row["kebutuhan_pendidikan_pelatihan"] . '</option>';
+									echo '<option value="' . $row['kebutuhan_pendidikan_pelatihan'] . '">';
 								}
 								?>
-							</select>
+							</datalist>
+							<input type="text" class="form-control dform" id="kebutuhan_pendidikan" value="" list="datapendidikan" placeholder="required" required>
 						</div>
 
 						<div class="form-group required">
@@ -422,58 +493,7 @@
 							</select>
 						</div>
 
-						<div class="form-group required">
-							<label class="control-label">Alamat Lengkap Usaha</label>
-							<input type="text" class="form-control dform required" id="lokasi_usaha" value="" placeholder="required" required>
-						</div>
-
-						<div class="form-group required">
-							<label class="control-label">Provinsi</label>
-							<select class="form-control dform required" onchange="getkotakab(this.value);" id="provinsi">
-								<?php foreach ($provinsi as $row) {
-									echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
-								} ?>
-							</select>
-						</div>
-
-						<div class="form-group required">
-							<label class="control-label">Kabupaten</label>
-							<div id="selkab">
-								<select class="form-control dform required" onchange="getkecamatan(this.value)" id="kabupaten">
-
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group required">
-							<label class="control-label">Kecamatan</label>
-							<div id="selkec">
-								<select class="form-control dform required" onchange="getkelurahan(this.value)" id="kecamatan">
-
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group required">
-							<label class="control-label">Kelurahan</label>
-							<div id="selkel">
-								<select class="form-control dform required" id="kelurahan">
-
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group required">
-							<label class="control-label">Kode pos</label>
-							<input type="number" class="form-control required" id="kode_pos" value="" placeholder="required" required disabled>
-						</div>
 						
-						<div class="form-group required">
-							<label class="control-label">Lokasi Kelompok Usaha / Klaster</label>
-							<div id="map"></div>
-							<input type="hidden" class="form-control dform" id="latitude" value="" >
-							<input type="hidden"class="form-control dform" id="longitude" value="" >
-						</div>
 
 						<div class="form-group required">
 							<label class="control-label">NIK Ketua Kelompok</label>

@@ -192,6 +192,7 @@ function getform(i = null) {
         ldatavarian(msg[0].hasil_produk);
         document.getElementById("varian").value = msg[0].varian;
         document.getElementById("kapasitas_produksi").value = msg[0].kapasitas_produksi;
+        document.getElementById("satuan_produksi").value = msg[0].satuan_produksi;
         document.getElementById("periode_panen").value = msg[0].periode_panen;
 
         document.getElementById("pasar_ekspor").value = msg[0].pasar_ekspor;
@@ -557,6 +558,7 @@ function reval() {
   if ($("#id_cluster_sektor_usaha").val()==1){
     msg += validatorreqtext(document.getElementById("varian"), ischar) == false ? "data varian tidak valid \n" : "";
     msg += validatorreqnumber(document.getElementById("kapasitas_produksi")) == false ? "data kapasitas produksi tidak valid \n" : "";
+    msg += document.getElementById("satuan_produksi").value == "" ? "data satuan produksi tidak valid \n" : "";
   }
   else {
     msg += validatoropttext(document.getElementById("varian"), ischar) == false ? "data varian tidak valid \n" : "";
@@ -605,6 +607,15 @@ function reval() {
     ) == false
       ? "data kebutuhan_sarana_milik tidak valid \n"
       : "";
+  
+  msg +=
+    validatorreqtext(
+      document.getElementById("kebutuhan_pendidikan"),
+      ischar
+    ) == false
+      ? "kelompok Pendidikan kosong atau mengandung karakter yang tidak diperbolehkan (!@#$%^&*()+=[]\\';/{}|\":<>?)  \n"
+      : "";
+    
   msg +=
     validatoropttext(
       document.getElementById("kebutuhan_sarana_lainnya"),
@@ -629,6 +640,7 @@ function reval() {
     ) == false
       ? "Cerita Usaha kosong atau mengandung karakter yang tidak diperbolehkan (!@#$%^&*()+=[]\\';/{}|\":<>?)  \n"
       : "";
+
 
   msg +=
     validatorreqtext(document.getElementById("provinsi"), ischar) == false

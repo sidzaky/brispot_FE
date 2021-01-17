@@ -817,6 +817,16 @@ class Cluster extends MX_Controller
 	// 		}
 	// 	}
 
+	function migrate_pendidikan(){
+			$sql="select * from cluster a
+					left join cluster_kebutuhan_pendidikan_pelatihan b on a.kebutuhan_pendidikan=b.id_cluster_kebutuhan_pendidikan_pelatihan ";
+			$data = $this->db->query($sql);
+			foreach ($data->result_array() as $row){
+				$q="update cluster set kebutuhan_pendidikan='".$row['kebutuhan_pendidikan_pelatihan']."' where id='".$row['id']."';";
+				echo $q."</br>";
+				$this->db->query($q);
+			}
+	}
 	// function setapprove_level(){
 
 	// 	//set all user to maker

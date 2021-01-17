@@ -1,0 +1,51 @@
+document.getElementById("id").value = "";
+document.getElementById("kode_uker").value = "6582";
+
+document.getElementById("kaunit_nama").value = "test";
+document.getElementById("kaunit_pn").value = "00291371";
+document.getElementById("kaunit_handphone").value = "085253723423";
+
+document.getElementById("nama_pekerja").value = "test";
+document.getElementById("personal_number").value = "002393434";
+document.getElementById("handphone_pekerja").value = "085253723423";
+
+document.getElementById("kelompok_usaha").value = "test"
+document.getElementById("kelompok_jumlah_anggota").value = 15;
+document.getElementById("kelompok_perwakilan").value = "test";
+document.getElementById("kelompok_jenis_kelamin").value = "Pria";
+
+document.getElementById("kelompok_NIK").value = "3578080083923490";
+document.getElementById("kelompok_perwakilan_tgl_lahir").value =  "2021-01-18";
+document.getElementById("kelompok_perwakilan_tempat_lahir").value = "probolinggo";
+document.getElementById("kelompok_handphone").value =   "085253723423";
+document.getElementById("kelompok_omset").value =   "20000";
+document.getElementById("lokasi_usaha").value = "probolinggo";
+document.getElementById("latitude").value = "-6.301410199999999";
+document.getElementById("longitude").value = "106.8198431";
+document.getElementById("lh0").checked = 1 ;
+document.getElementById("lh1").checked = 1 ;
+document.getElementById("lh2").checked = 1 ;
+document.getElementById("lh3").checked = 1 ;
+document.getElementById("lh4").checked = 1 ;
+
+document.getElementById("hasil_produk").value = "Padi";
+document.getElementById("varian").value = "bramo";
+document.getElementById("kapasitas_produksi").value = "2";
+document.getElementById("periode_panen").value = "Setiap Hari";
+
+
+document.getElementById("kelompok_anggota_pinjaman").value = "Seluruh anggota sudah punya pinjaman";
+document.getElementById("kelompok_luas_usaha").value = "2000";
+
+document.getElementById("kelompok_cerita_usaha").value = "test";
+document.getElementById("pinjaman").value = "Belum Ada";
+
+document.getElementById("agen_brilink").value = "Tidak";
+
+document.getElementById("kebutuhan_sarana").value = 1;
+
+document.getElementById("kebutuhan_skema_kredit").value = 1;
+document.getElementById("kebutuhan_sarana_milik").value = "test";
+
+document.getElementById("kebutuhan_pendidikan").value = "Kepemimpinan";
+document.getElementById("simpanan_bank").value = "Belum ada";

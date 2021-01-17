@@ -486,6 +486,8 @@ class Cluster_m extends CI_Model
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
 		$_POST['timestamp'] = time();
 		$_POST['cluster_status'] = 1;
+		$_POST['cluster_approval'] = 0;
+
 
 		$_POST['lh_flag']=0;
 		if ($_POST['lh0']==1 && $_POST['lh1']==1 && $_POST['lh2']==0 && $_POST['lh3']==1 && $_POST['lh4']==0) $_POST['lh_flag'] = 1;
@@ -503,6 +505,7 @@ class Cluster_m extends CI_Model
 
 		$this->insert_hasil_produk();
 		$this->insert_varian();
+		$this->insert_pendidikan();
 
 		if ($rfex != null) {
 			$this->db->query('delete from cluster_doc_ekspor where id_cluster="' . $id . '"');
@@ -531,6 +534,8 @@ class Cluster_m extends CI_Model
 		$_POST['checker_user_update'] = "";
 		$_POST['signer_status'] = null;
 		$_POST['signer_user_update'] = "";
+		$_POST['cluster_approval'] = 0;
+
 
 		$_POST['lh_flag']=0;
 		if ($_POST['lh0']==1 && $_POST['lh1']==1 && $_POST['lh2']==0 && $_POST['lh3']==1 && $_POST['lh4']==0) $_POST['lh_flag'] = 1;
@@ -540,6 +545,7 @@ class Cluster_m extends CI_Model
 
 		$this->insert_hasil_produk();
 		$this->insert_varian();
+		$this->insert_pendidikan();
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
 		if ($rfku != null) $this->uploadimage($rfku, $_POST['id'], 'foto_usaha');
 	}
@@ -573,6 +579,21 @@ class Cluster_m extends CI_Model
 			$this->db->query($qi);
 		}
 	}
+
+	function insert_pendidikan(){
+		$qc='select * from cluster_kebutuhan_pendidikan_pelatihan where 
+				kebutuhan_pendidikan_pelatihan="'.$_POST['kebutuhan_pendidikan'].'"';
+		if ($this->db->query($qc)->num_rows() == 0) {
+			$qi = 	'insert into cluster_kebutuhan_pendidikan_pelatihan
+					 values (	"'.$this->uuid->v4(true).'",
+								"'.strtoupper($_POST['kebutuhan_pendidikan']).'",
+								"1"
+							)';
+			$this->db->query($qi);
+		}
+	}
+
+
 
 	public function uploadimage($newdata, $newid, $db)
 	{
