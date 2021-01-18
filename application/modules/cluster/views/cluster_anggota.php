@@ -38,7 +38,7 @@
 													<th>No</th>
 													<th>Nama Anggota</th>
 													<th>NIK</th>
-													<th>CIF</th>
+													<th>Nomor Rekening</th>
 													<th>Jenis Kelamin</th>
 													<th>Kode Pos</th>
 													<th>Pinjaman</th>
@@ -86,9 +86,9 @@
 									<div class="col-sm-12">
 										<input type="number" class="form-control required"  id="ca_nik" value="" placeholder="required" required>
 									</div>
-									<label for="thedata" class="col-sm-12 control-label drequired"> CIF</label>
+									<label for="thedata" class="col-sm-12 control-label drequired"> Nomor Rekening</label>
 									<div class="col-sm-12">
-										<input type="number" class="form-control"  id="ca_cif" value="" placeholder="optional">
+										<input type="number" class="form-control"  id="ca_norek" value="" placeholder="optional">
 									</div>
 									
 									<label for="thedata" class="col-sm-12 control-label drequired">Jenis Kelamin</label>
@@ -350,7 +350,7 @@
 												document.getElementById('id_ca').value=msg[0].id_ca;
 												document.getElementById('ca_nama').value=msg[0].ca_nama;
 												document.getElementById('ca_nik').value=msg[0].ca_nik;
-												document.getElementById('ca_cif').value=msg[0].ca_cif;
+												document.getElementById('ca_norek').value=msg[0].ca_norek;
 												document.getElementById('ca_jk').value=msg[0].ca_jk;
 												document.getElementById('ca_kodepos').value=msg[0].ca_kodepos;
 												cekkpos(msg[0].ca_kodepos);
@@ -380,7 +380,7 @@
 								'id_cluster' 		:  id_cluster,
 								'ca_nama' 			:  $('#ca_nama').val(),
 								'ca_nik' 			:  $('#ca_nik').val(),
-								'ca_cif' 			:  $('#ca_cif').val(),
+								'ca_norek' 			:  $('#ca_norek').val(),
 								'ca_jk' 			:  $('#ca_jk').val(),
 								'ca_kodepos' 		:  $('#ca_kodepos').val(),
 								'ca_pinjaman' 		:  $('#ca_pinjaman').val(),

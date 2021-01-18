@@ -367,7 +367,7 @@
 								<select class="form-control dform required" id="satuan_produksi" placeholder="required">
 									<option value="ton">Ton</option>
 									<option value="pcs">Pcs</option>
-									<option value="ltr">Liter</option>
+									<option value="ekor">Ekor</option>
 								</select>
 							</div>
 						</div>

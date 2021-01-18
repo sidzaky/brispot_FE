@@ -715,7 +715,7 @@ class Cluster_m extends CI_Model
 		$pria = array('pria', 'laki-laki', 'lelaki', 'cowok');
 		$wanita = array('wanita', 'perempuan', 'gadis', 'cewek');
 		for ($i = 0; $i < count($anggota); $i++) {
-			$sql = "	insert cluster_anggota (id_cluster,ca_nama,ca_nik,ca_cif,ca_jk,ca_kodepos,ca_pinjaman,ca_simpanan,ca_handphone, timeinput, userlastupdate)  values('" . $_POST['id_cluster'] . "',";
+			$sql = "	insert cluster_anggota (id_cluster,ca_nama,ca_nik,ca_norek,ca_jk,ca_kodepos,ca_pinjaman,ca_simpanan,ca_handphone, timeinput, userlastupdate)  values('" . $_POST['id_cluster'] . "',";
 			$z = 0;
 			foreach ($anggota[$i] as $row => $val) {
 				if ($z == 2) {
@@ -734,7 +734,7 @@ class Cluster_m extends CI_Model
 	{
 		if (isset($_POST['id_cluster'])) $id = $_POST['id_cluster'];
 		$sql = "select a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
-                       ca_nama, concat(\"'\", ca_nik), ca_cif, ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+                       ca_nama, concat(\"'\", ca_nik), ca_norek, ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
                 from cluster_anggota b
                 left join cluster a on b.id_cluster=a.id 
                 where id_cluster='" . $id . "'";
