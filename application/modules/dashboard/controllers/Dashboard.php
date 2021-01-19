@@ -270,7 +270,7 @@ class Dashboard extends MX_Controller
     if ($_POST['provinsi']=="" && $_POST['kabupaten']=="") {
       $data['koordinat'][0]['lat']='0.7893';
       $data['koordinat'][0]['long']='113.9213';
-      $data['koordinat'][0]['zoom']='6';
+      $data['koordinat'][0]['zoom']='4';
     }
     else {
       $data['koordinat']  = $this->dashboard_m->getmap_m();
@@ -326,7 +326,17 @@ class Dashboard extends MX_Controller
       $data['kabupaten'][$i]['nama_kabupaten']=$row['nama_kabupaten'];
       $i++;
     }
+    echo json_encode($data);
+  }
 
+
+  function get_hp(){
+    $data = $this->dashboard_m->get_list_hasil_produk_m();
+    echo json_encode($data);
+  }
+
+  function get_v(){
+    $data = $this->dashboard_m->get_list_varian_m();
     echo json_encode($data);
   }
 
@@ -342,3 +352,4 @@ class Dashboard extends MX_Controller
     echo json_encode($data);
   }
 }
+

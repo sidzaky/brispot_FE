@@ -844,6 +844,7 @@ class Cluster_m extends CI_Model
 					c.varian,
 					c.kelompok_luas_usaha,
 					c.kapasitas_produksi,
+					c.satuan_produksi,
 					c.periode_panen,
 					c.kelompok_pihak_pembeli,
 					c.kelompok_pihak_pembeli_handphone,

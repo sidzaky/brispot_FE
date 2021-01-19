@@ -166,7 +166,7 @@
         function initMap() {
         var map = new google.maps.Map(document.getElementById('mapid'), {
           center: {lat: <?php echo $koordinat[0]['lat']?>, lng: <?php echo $koordinat[0]['long']?>},
-          zoom: 8
+          zoom: <?php echo $koordinat[0]['zoom']?>
         });
       }
     </script>

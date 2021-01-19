@@ -368,6 +368,8 @@
 									<option value="ton">Ton</option>
 									<option value="pcs">Pcs</option>
 									<option value="ekor">Ekor</option>
+									<option value="liter">Liter</option>
+									<option value="kontainer">Kontainer</option>
 								</select>
 							</div>
 						</div>

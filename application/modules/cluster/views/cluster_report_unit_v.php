@@ -12,9 +12,9 @@
 											<tr>
 												<th>No</th>
 												<th>Kantor Wilayah</th>
-												<th>Kosong</th>
-												<th>Terisi Sebagian</th>
-												<th>Terisi</th>
+												<th>Unit Belum Input Data</th>
+												<th>Unit Mengisi hanya 1</th>
+												<th>Unit Mengisi Lebih Dari 1</th>
 											</tr>
 										</thead>
 										<tbody>

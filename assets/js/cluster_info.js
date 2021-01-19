@@ -77,7 +77,7 @@ function showClusterInfo(id) {
                   </div>
                   <div class="col-sm-6">
                     <dt class="list-space">Kapasitas Produksi</dt>
-                    <dd>${info.kapasitas_produksi} Ton </dd>
+                    <dd>${info.kapasitas_produksi} ${info.satuan_produksi}  </dd>
                   </div>
                   <div class="col-sm-6">
                     <dt class="list-space">Periode Panen</dt>

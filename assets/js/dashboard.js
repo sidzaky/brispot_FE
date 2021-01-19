@@ -217,7 +217,7 @@ function fhp(i, j = "") {
   };
   $.ajax({
     type: "POST",
-    url: "./cluster/get_hp",
+    url: "./dashboard/get_hp",
     data: data1,
     success: function (smsg) {
       var msg = JSON.parse(smsg);
@@ -246,11 +246,12 @@ function fhp(i, j = "") {
 
 function fv(i, j = "") {
   var data1 = {
+    id_cluster_jenis_usaha : $("#id_cluster_jenis_usaha").val(),
     hasil_produk : i,
   };
   $.ajax({
     type: "POST",
-    url: "./cluster/get_v",
+    url: "./dashboard/get_v",
     data: data1,
     success: function (smsg) {
       var msg = JSON.parse(smsg);

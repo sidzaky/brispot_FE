@@ -22,8 +22,7 @@
 	
         switch ($this->session->userdata('permission')) {
             case (4) :
-                    $lilaporan .= '         <li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
-                                            <li><a href="'.base_url().'cluster/getreport/">Rekap Total</a></li>
+                    $lilaporan .= '         <li><a href="'.base_url().'cluster/getreport/harian">Rekap Klaster</a></li>
                                             <li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
                                             <li><a href="'.base_url().'cluster/report_anggota">Rekap Anggota Klaster</a></li>
                                         </ul>
@@ -44,7 +43,8 @@
 		echo $lilaporan;
 	  ?>
       <li> <?php if ($this->session->userdata("permission")==4) echo '<li><a href="'.base_url().'setting"><i class="fa fa-cogs"></i> <span>Pengaturan</span></a><li>' ;?>
-      <li><a href="<?php echo base_url(); ?>help" id="cpfaq"><i class="fa fa-question"></i> Bantuan </a></li>
+      <li><a href="<?php echo base_url(); ?>help" id="cpfaq"><i class="fa fa-info"></i> Bantuan </a></li>
+      <li><a href="<?php echo base_url(); ?>assets/QnAKlaster.pdf" id="cpfaq"><i class="fa fa-question"></i> Q&A Klaster </a></li>
     </ul><!-- /.sidebar-menu -->
   </section>
   <!-- /.sidebar -->

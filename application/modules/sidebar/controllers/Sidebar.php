@@ -12,12 +12,10 @@ class Sidebar extends MX_Controller {
         $sql="";
         switch ($this->session->userdata('approve_level')) {
 			case (2):
-                $sql = "select count(id) as total from cluster where cluster_status=1 and 
-                                checker_status=1";
+                $sql = "select count(id) as total from cluster where cluster_status=1 and checker_status=1 and signer_status is null";
 				break;
 			case (1):
-                $sql = 'select count(id) as total from cluster where cluster_status=1 and 
-                        checker_status is null ';
+                $sql = 'select count(id) as total from cluster where cluster_status=1 and checker_status is null ';
                 break;
 			case (0):
                 $sql ="select count(id) as total from cluster where cluster_status=1 and 

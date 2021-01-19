@@ -252,8 +252,62 @@ class Dashboard_m extends CI_Model
 
   }
 
+  function get_list_hasil_produk_m(){
+    $where ="where cluster_approval=1 ";
+  
+    switch ($this->session->userdata('permission')) {
+      case (4):
+        $where .= " and true ";
+        break;
+      case (3):
+        $where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+        break;
+      default :
+        $where .= " and false ";
+        break;
+    }
+    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    $q='select distinct(hasil_produk) from cluster '.$where.' and id_cluster_jenis_usaha="'.$_POST['id_cluster_jenis_usaha'].'" and cluster_status=1 order by hasil_produk asc';
+   
+    return $this->db->query($q)->result_array();
+  }
+  
+  function get_list_varian_m(){
+    $where ="where cluster_approval=1 ";
+    switch ($this->session->userdata('permission')) {
+      case (4):
+        $where .= " and true ";
+        break;
+      case (3):
+        $where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+        break;
+      default :
+        $where .= " and false ";
+        break;
+    }
+    if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
+    if ($_POST['hasil_produk']!="") $where .=' and hasil_produk="'. $_POST['hasil_produk'] .'" ';
+  
+    $q='select distinct(varian) from cluster '.$where.' and cluster_status=1 order by hasil_produk asc';
+        
+    return $this->db->query($q)->result_array();
+   
+  }
+
   function getfilterkab_m(){
-    $where ="where true and cluster_approval=1 ";
+    $where ="where true and cluster_approval=1 and cluster_status=1";
+    switch ($this->session->userdata('permission')) {
+      case (4):
+        $where .= " and true ";
+        break;
+      case (3):
+        $where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+        break;
+      default :
+        $where .= " and false ";
+        break;
+    }
+    
     if ($_POST['id_cluster_sektor_usaha']!="") $where .=' and a.id_cluster_sektor_usaha="'. $_POST['id_cluster_sektor_usaha'] .'" ';
     if ($_POST['id_cluster_jenis_usaha_map']!="") $where .=' and a.id_cluster_jenis_usaha_map="'. $_POST['id_cluster_jenis_usaha_map'] .'" ';
     if ($_POST['id_cluster_jenis_usaha']!="") $where .=' and a.id_cluster_jenis_usaha="'. $_POST['id_cluster_jenis_usaha'] .'" ';
@@ -270,3 +324,5 @@ class Dashboard_m extends CI_Model
   }
 
 }
+  
+

@@ -817,16 +817,27 @@ class Cluster extends MX_Controller
 	// 		}
 	// 	}
 
-	function migrate_pendidikan(){
-			$sql="select * from cluster a
-					left join cluster_kebutuhan_pendidikan_pelatihan b on a.kebutuhan_pendidikan=b.id_cluster_kebutuhan_pendidikan_pelatihan ";
-			$data = $this->db->query($sql);
-			foreach ($data->result_array() as $row){
-				$q="update cluster set kebutuhan_pendidikan='".$row['kebutuhan_pendidikan_pelatihan']."' where id='".$row['id']."';";
-				echo $q."</br>";
-				$this->db->query($q);
-			}
-	}
+	// function migrate_pendidikan(){
+	// 		$sql="select * from cluster a
+	// 				left join cluster_kebutuhan_pendidikan_pelatihan b on a.kebutuhan_pendidikan=b.id_cluster_kebutuhan_pendidikan_pelatihan ";
+	// 		$data = $this->db->query($sql);
+	// 		foreach ($data->result_array() as $row){
+	// 			$q="update cluster set kebutuhan_pendidikan='".$row['kebutuhan_pendidikan_pelatihan']."' where id='".$row['id']."';";
+	// 			echo $q."</br>";
+	// 			$this->db->query($q);
+	// 		}
+	// }
+
+	// function update_data_cleanshing(){
+	// 		$sql="select * from cluster where uker is null ";
+	// 		foreach ($this->db->query($sql)->result_array() as $row){
+	// 				$q="select BRDESC, RGDESC from branch where BRANCH='".$row['kode_uker']."'";
+	// 				foreach ($this->db->query($q)->result_array() as $srow){
+	// 					$w="update cluster set uker='".$srow['BRDESC']."' where id='".$row['id']."';";
+	// 					echo $w."</br>";
+	// 				}
+	// 			}
+	// }
 	// function setapprove_level(){
 
 	// 	//set all user to maker
@@ -884,6 +895,7 @@ class Cluster extends MX_Controller
 			$clusterInfo["varian"] = empty($clusterInfo["varian"]) ? "-" : $clusterInfo["varian"];
 			$clusterInfo["kapasitas_produksi"] = empty($clusterInfo["kapasitas_produksi"]) ? "-" : $clusterInfo["kapasitas_produksi"];
 			$clusterInfo["periode_panen"] = empty($clusterInfo["periode_panen"]) ? "-" : $clusterInfo["periode_panen"];
+			$clusterInfo["satuan_produksi"] = empty($clusterInfo["satuan_produksi"]) ? "-" : $clusterInfo["satuan_produksi"];
 
 
 			$clusterPhotos = $this->cluster_m->getClusterPhotos($id);
