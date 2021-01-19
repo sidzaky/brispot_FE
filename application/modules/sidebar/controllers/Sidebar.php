@@ -15,7 +15,7 @@ class Sidebar extends MX_Controller {
                 $sql = "select count(id) as total from cluster where cluster_status=1 and checker_status=1 and signer_status is null";
 				break;
 			case (1):
-                $sql = 'select count(id) as total from cluster where cluster_status=1 and checker_status is null ';
+                $sql = 'select count(id) as total from cluster where cluster_status=1 and kode_kanwil="'. $this->session->userdata('kode_kanwil') . '" and checker_status is null ';
                 break;
 			case (0):
                 $sql ="select count(id) as total from cluster where cluster_status=1 and 
@@ -23,6 +23,7 @@ class Sidebar extends MX_Controller {
                      (checker_status=0 or signer_status=0)";
 				break;
         }
+
         $cq = $this->db->query($sql)->result_array();
         echo $cq[0]['total'];
     }
