@@ -223,22 +223,26 @@ function fhp(i, j = "") {
       var msg = JSON.parse(smsg);
       var select = document.getElementById("hasil_produk");
       $(select).empty();
-      $(select).append('<option value=""> Semua </option>');
-      var selected ;;
-      for (var i = 0; i <= msg.length; i++) {
-        selected = "";
-        if (j != "" && j == msg[i]["hasil_produk"]) selected = "selected";
-        
-        $(select).append(
-          '<option value="' +
-            msg[i]["hasil_produk"] +
-            '" ' +
-            selected +
-            ">" +
-            msg[i]["hasil_produk"] +
-            "</option>"
-        );
+      if (msg.length==0){
+        $(select).append('<option value=""> Tidak Ada Data </option>');
       }
+      else {
+          var selected ;
+          for (var i = 0; i <= msg.length; i++) {
+            selected = "";
+            if (j != "" && j == msg[i]["hasil_produk"]) selected = "selected";
+            
+            $(select).append(
+              '<option value="' +
+                msg[i]["hasil_produk"] +
+                '" ' +
+                selected +
+                ">" +
+                msg[i]["hasil_produk"] +
+                "</option>"
+            );
+          }
+        }
     },
   });
 }
@@ -299,8 +303,6 @@ function fp(){
   }
   document.getElementById("provinsi").innerHTML = "" + selectprov + "</select>";
   document.getElementById("kabupaten").innerHTML = "" + selectkab + "</select>";
-  
-
 }
 
   

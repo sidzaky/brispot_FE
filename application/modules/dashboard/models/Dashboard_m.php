@@ -162,7 +162,7 @@ class Dashboard_m extends CI_Model
     if ($_POST['provinsi']!="") $where .=' and a.provinsi="'. $_POST['provinsi'] .'" ';
     if ($_POST['kabupaten']!="") $where .=' and a.kabupaten="'. $_POST['kabupaten'] .'" ';
    
-    $sql="select  
+    $sql="select  a.id,
                   lokasi_usaha,
                   nama_pekerja,
                   handphone_pekerja,
@@ -180,6 +180,8 @@ class Dashboard_m extends CI_Model
                   f.nama as nama_kecamatan,
                   g.nama as nama_kelurahan,
                   a.agen_brilink,
+                  a.latitude,
+                  a.longitude,
                   a.kebutuhan_sarana,
                   a.kebutuhan_pendidikan,
                   a.kebutuhan_skema_kredit,

@@ -1,3 +1,34 @@
+
+function initMap() {
+  const map = new google.maps.Map(document.getElementById("mapid"), {
+    zoom: zoomcenter,
+    center: { lat: latcenter, lng: longcenter },
+  });
+  setMarkers(map);
+}
+
+const shape = {
+  coords: [1, 1, 1, 20, 18, 20, 18, 1],
+  type: "poly",
+};
+
+function setMarkers(map) {
+ for (let i = 0; i < listloc.length; i++) {
+    const thlist = listloc[i];
+    new google.maps.Marker({
+      position: { lat: parseInt(thlist['lat']), lng: parseInt(thlist['long']) },
+      label : thlist['umkm'],
+      title : thlist['umkm'],
+      map,
+      shape: shape,
+      zIndex: thlist['count'],
+    });
+  }
+}
+
+
+
+
 function fjum(i, j = "") {
   var data1 = {
     id_cluster_sektor_usaha: i,

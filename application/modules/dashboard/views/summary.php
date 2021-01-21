@@ -1,8 +1,7 @@
-<script src="https://code.highcharts.com/maps/highmaps.js"></script>
-<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/mapdata/countries/id/id-all.js"></script>
 <meta name="google-site-verification" content="-5c7n2yDdKK5fU1D1gLtok4-D8XLP2c_2YKWtk30MCc" />
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD-HjW_D_kUMx9W7MRP473fS-er_DgiYY&callback=initMap" async defer></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD-HjW_D_kUMx9W7MRP473fS-er_DgiYY&callback=initMap" defer></script>
 <div class="content-wrapper" id="dashboard">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -128,7 +127,7 @@
                           foreach ($cluster as $row){
                               echo '<tr>';
                               echo '<td>'.$i.'</td>';
-                              echo '<td><form action="'.base_url().'cluster/cluster_anggota" target="_blank" method="POST"><a action="#" onclick="document.getElementById(\'actanggota'.$i.'\').click()">' .$row['kelompok_usaha'].'</a><input type="hidden" name="kelompok_usaha" value="' . $row['kelompok_usaha'] . '"><button  style="display:none;" id="actanggota'.$i.'" name="id" value="' . $field['id'] . '" type="submit"></button></form></td>';
+                              echo '<td><form action="'.base_url().'cluster/cluster_anggota" target="_blank" method="POST"><a action="#" onclick="document.getElementById(\'actanggota'.$i.'\').click()">' .$row['kelompok_usaha'].'</a><button  style="display:none;" id="actanggota'.$i.'" name="id" value="' . $row['id'] . '" type="submit"></button></form></td>';
                               echo '<td>'.$row['nama_pekerja'].'</td>';
                               echo '<td>'.$row['handphone_pekerja'].'</td>';
                               echo '<td>'.$row['nama_kabupaten'].'</td>';
@@ -161,15 +160,14 @@
 
 <script src="<?php echo base_url(); ?>assets/js/summary.js"></script>
 
-	 <script>
-        // fungsi initialize untuk mempersiapkan peta
-        function initMap() {
-        var map = new google.maps.Map(document.getElementById('mapid'), {
-          center: {lat: <?php echo $koordinat[0]['lat']?>, lng: <?php echo $koordinat[0]['long']?>},
-          zoom: <?php echo $koordinat[0]['zoom']?>
-        });
-      }
-    </script>
+<script>
+
+  let listloc      = <?php echo json_encode($listloc)?>;
+  let latcenter   = <?php echo $koordinat[0]['lat']?>;
+  let longcenter  = <?php echo $koordinat[0]['long']?>;
+  let zoomcenter  = <?php echo $koordinat[0]['zoom']?>;
+
+</script>
 
 <style>
 #mapid{
@@ -181,47 +179,6 @@ table.dataTable th {
     font-size: 13px;
 }
 </style>
-
-<script>
-    $(document).ready(function() {$('#table-cluster').DataTable({"scrollX": true});});
-    Highcharts.chart('container', {
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            type: 'pie'
-        },
-        title: {
-            text: 'Periode Panen'
-        },
-        accessibility: {
-            point: {
-                valueSuffix: '%'
-            }
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: true,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                }
-            }
-        },
-        series: [{
-            name: 'Jumlah',
-            colorByPoint: true,
-            data: [<?php $i=1;
-                    foreach ($performance['panen'] as $key => $value){
-                      echo "{";
-                      echo 'name : "'.$key.'",';
-                      echo 'y : '.$value ;
-                      echo "}";
-                      if ($i<count($performance['panen'])){$i++;echo ",";}
-                  }?>]
-          }]
-    });
-</script>
+<script src="<?php echo base_url()?>/assets/js/send.js"></script>
 
 
