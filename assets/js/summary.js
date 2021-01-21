@@ -13,18 +13,20 @@ const shape = {
 };
 
 function setMarkers(map) {
- for (let i = 0; i < listloc.length; i++) {
-    const thlist = listloc[i];
-    new google.maps.Marker({
-      position: { lat: parseInt(thlist['lat']), lng: parseInt(thlist['long']) },
-      label : thlist['umkm'],
-      title : thlist['umkm'],
-      map,
-      shape: shape,
-      zIndex: thlist['count'],
-    });
+  if (listloc.length!=0){
+    for (let i = 0; i < listloc.length; i++) {
+        const thlist = listloc[i];
+        new google.maps.Marker({
+          position: { lat: parseInt(thlist['lat']), lng: parseInt(thlist['long']) },
+          label : thlist['umkm'],
+          title : thlist['umkm'],
+          map,
+          shape: shape,
+          zIndex: thlist['count'],
+        });
+      }
+    }
   }
-}
 
 
 
