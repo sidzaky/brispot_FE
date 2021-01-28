@@ -273,7 +273,7 @@
 						</div>
 						
 						<div class="form-group required">
-							<label class="control-label">Lokasi Kelompok Usaha / Klaster</label>
+							<label class="control-label">Lokasi Kelompok Usaha / Klaster</label><button type="button" class="btn btn-warning waves-effect waves-light" id="nrmp" onclick="initMap();">Klik disini jika peta tidak muncul</button>
 							<div id="map"></div>
 							<input type="hidden" class="form-control dform" id="latitude" value="" >
 							<input type="hidden"class="form-control dform" id="longitude" value="" >

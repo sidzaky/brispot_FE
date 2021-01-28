@@ -129,120 +129,125 @@ function getuker(i) {
 }
 
 function getform(i = null) {
-  document.getElementById('mod-content').style.display="";
-  document.getElementById('mod-loading').style.display="none";
-  valuker = false;
-  $("#sbt").removeAttr("disabled");
-  document.getElementById("checkvalidpotensi").checked = false;
-  document.getElementById("checkvalidkunjungan").checked = false;
-  document.getElementById("fotoklusterusaha").innerHTML = "";
-  document.getElementById("fotoverifikasiexpor").innerHTML = "";
-  if (i != null) {
-    var data1 = {
-      id: i,
-    };
-    $.ajax({
-      type: "POST",
-      url: "./cluster/getdata_s",
-      data: data1,
-      success: function (nmsg) {
-        var tempdata = JSON.parse(nmsg);
-        var msg = tempdata.cluster;
-        //data cluster//
-        document.getElementById("id").value = msg[0].id;
-        document.getElementById("kode_uker").value = msg[0].kode_uker;
-        getuker(msg[0].kode_uker);
+  if (latitude === "" ||  longitude === "" ){
+    alert ("harap aktifkan geolocation pada browser anda");
+  }
+  else {
+    document.getElementById('mod-content').style.display="";
+    document.getElementById('mod-loading').style.display="none";
+    valuker = false;
+    $("#sbt").removeAttr("disabled");
+    document.getElementById("checkvalidpotensi").checked = false;
+    document.getElementById("checkvalidkunjungan").checked = false;
+    document.getElementById("fotoklusterusaha").innerHTML = "";
+    document.getElementById("fotoverifikasiexpor").innerHTML = "";
+    if (i != null) {
+      var data1 = {
+        id: i,
+      };
+      $.ajax({
+        type: "POST",
+        url: "./cluster/getdata_s",
+        data: data1,
+        success: function (nmsg) {
+          var tempdata = JSON.parse(nmsg);
+          var msg = tempdata.cluster;
+          //data cluster//
+          document.getElementById("id").value = msg[0].id;
+          document.getElementById("kode_uker").value = msg[0].kode_uker;
+          getuker(msg[0].kode_uker);
 
-        document.getElementById("kaunit_nama").value = msg[0].kaunit_nama;
-        document.getElementById("kaunit_pn").value = msg[0].kaunit_pn;
-        document.getElementById("kaunit_handphone").value = msg[0].kaunit_handphone;
+          document.getElementById("kaunit_nama").value = msg[0].kaunit_nama;
+          document.getElementById("kaunit_pn").value = msg[0].kaunit_pn;
+          document.getElementById("kaunit_handphone").value = msg[0].kaunit_handphone;
 
-        document.getElementById("nama_pekerja").value = msg[0].nama_pekerja;
-        document.getElementById("personal_number").value = msg[0].personal_number;
-        document.getElementById("handphone_pekerja").value = msg[0].handphone_pekerja;
+          document.getElementById("nama_pekerja").value = msg[0].nama_pekerja;
+          document.getElementById("personal_number").value = msg[0].personal_number;
+          document.getElementById("handphone_pekerja").value = msg[0].handphone_pekerja;
 
-        document.getElementById("kelompok_usaha").value = msg[0].kelompok_usaha;
-        document.getElementById("kelompok_jumlah_anggota").value = msg[0].kelompok_jumlah_anggota;
-        document.getElementById("kelompok_perwakilan").value = msg[0].kelompok_perwakilan;
-        document.getElementById("kelompok_jenis_kelamin").value = msg[0].kelompok_jenis_kelamin;
+          document.getElementById("kelompok_usaha").value = msg[0].kelompok_usaha;
+          document.getElementById("kelompok_jumlah_anggota").value = msg[0].kelompok_jumlah_anggota;
+          document.getElementById("kelompok_perwakilan").value = msg[0].kelompok_perwakilan;
+          document.getElementById("kelompok_jenis_kelamin").value = msg[0].kelompok_jenis_kelamin;
 
-        document.getElementById("kelompok_NIK").value = msg[0].kelompok_NIK;
-        document.getElementById("kelompok_perwakilan_tgl_lahir").value = msg[0].kelompok_perwakilan_tgl_lahir;
-        document.getElementById("kelompok_perwakilan_tempat_lahir").value = msg[0].kelompok_perwakilan_tempat_lahir;
-        document.getElementById("kelompok_handphone").value = msg[0].kelompok_handphone;
-        document.getElementById("lokasi_usaha").value = msg[0].lokasi_usaha;
-        document.getElementById("latitude").value = msg[0].latitude;
-        document.getElementById("longitude").value = msg[0].longitude;
-        document.getElementById("lh0").checked = msg[0].lh0 == 1 ? true : false ;
-        document.getElementById("lh1").checked = msg[0].lh1 == 1 ? true : false ;
-        document.getElementById("lh2").checked = msg[0].lh2 == 1 ? true : false ;
-        document.getElementById("lh3").checked = msg[0].lh3 == 1 ? true : false ;
-        document.getElementById("lh4").checked = msg[0].lh4 == 1 ? true : false ;
+          document.getElementById("kelompok_NIK").value = msg[0].kelompok_NIK;
+          document.getElementById("kelompok_perwakilan_tgl_lahir").value = msg[0].kelompok_perwakilan_tgl_lahir;
+          document.getElementById("kelompok_perwakilan_tempat_lahir").value = msg[0].kelompok_perwakilan_tempat_lahir;
+          document.getElementById("kelompok_handphone").value = msg[0].kelompok_handphone;
+          document.getElementById("lokasi_usaha").value = msg[0].lokasi_usaha;
+          document.getElementById("latitude").value = msg[0].latitude;
+          document.getElementById("longitude").value = msg[0].longitude;
+          document.getElementById("lh0").checked = msg[0].lh0 == 1 ? true : false ;
+          document.getElementById("lh1").checked = msg[0].lh1 == 1 ? true : false ;
+          document.getElementById("lh2").checked = msg[0].lh2 == 1 ? true : false ;
+          document.getElementById("lh3").checked = msg[0].lh3 == 1 ? true : false ;
+          document.getElementById("lh4").checked = msg[0].lh4 == 1 ? true : false ;
 
-        setprov(msg[0].provinsi);
-        getkotakab(msg[0].provinsi, msg[0].kabupaten);
-        getkecamatan(msg[0].kabupaten, msg[0].kecamatan);
-        getkelurahan(msg[0].kecamatan, msg[0].kelurahan);
+          setprov(msg[0].provinsi);
+          getkotakab(msg[0].provinsi, msg[0].kabupaten);
+          getkecamatan(msg[0].kabupaten, msg[0].kecamatan);
+          getkelurahan(msg[0].kecamatan, msg[0].kelurahan);
+ 
+          document.getElementById("id_cluster_sektor_usaha").value = msg[0].id_cluster_sektor_usaha;
+          fjum(msg[0].id_cluster_sektor_usaha, msg[0].id_cluster_jenis_usaha_map);
+          fju(msg[0].id_cluster_jenis_usaha_map, msg[0].id_cluster_jenis_usaha);
+          ldataproduk(msg[0].id_cluster_jenis_usaha);
+          document.getElementById("hasil_produk").value = msg[0].hasil_produk;
+          ldatavarian(msg[0].hasil_produk);
+          document.getElementById("varian").value = msg[0].varian;
+          document.getElementById("kapasitas_produksi").value = msg[0].kapasitas_produksi;
+          document.getElementById("satuan_produksi").value = msg[0].satuan_produksi;
+          document.getElementById("periode_panen").value = msg[0].periode_panen;
 
-        document.getElementById("id_cluster_sektor_usaha").value = msg[0].id_cluster_sektor_usaha;
-        fjum(msg[0].id_cluster_sektor_usaha, msg[0].id_cluster_jenis_usaha_map);
-        fju(msg[0].id_cluster_jenis_usaha_map, msg[0].id_cluster_jenis_usaha);
-        ldataproduk(msg[0].id_cluster_jenis_usaha);
-        document.getElementById("hasil_produk").value = msg[0].hasil_produk;
-        ldatavarian(msg[0].hasil_produk);
-        document.getElementById("varian").value = msg[0].varian;
-        document.getElementById("kapasitas_produksi").value = msg[0].kapasitas_produksi;
-        document.getElementById("satuan_produksi").value = msg[0].satuan_produksi;
-        document.getElementById("periode_panen").value = msg[0].periode_panen;
+          document.getElementById("pasar_ekspor").value = msg[0].pasar_ekspor;
+          document.getElementById("pasar_ekspor_tahun").value = msg[0].pasar_ekspor_tahun;
+          document.getElementById("pasar_ekspor_nilai").value = msg[0].pasar_ekspor_tahun;
 
-        document.getElementById("pasar_ekspor").value = msg[0].pasar_ekspor;
-        document.getElementById("pasar_ekspor_tahun").value = msg[0].pasar_ekspor_tahun;
-        document.getElementById("pasar_ekspor_nilai").value = msg[0].pasar_ekspor_tahun;
+          document.getElementById("kelompok_anggota_pinjaman").value = msg[0].kelompok_anggota_pinjaman;
+          document.getElementById("kelompok_pihak_pembeli").value = msg[0].kelompok_pihak_pembeli;
+          document.getElementById("kelompok_pihak_pembeli_handphone").value = msg[0].kelompok_pihak_pembeli_handphone;
+          document.getElementById("kelompok_suplier_produk").value = msg[0].kelompok_suplier_produk;
+          document.getElementById("kelompok_suplier_handphone").value = msg[0].kelompok_suplier_handphone;
+          document.getElementById("kelompok_luas_usaha").value = msg[0].kelompok_luas_usaha;
+          document.getElementById("kelompok_omset").value = msg[0].kelompok_omset;
+          document.getElementById("kelompok_cerita_usaha").value = msg[0].kelompok_cerita_usaha;
+          document.getElementById("pinjaman").value = msg[0].pinjaman;
+          document.getElementById("nominal_pinjaman").value = msg[0].nominal_pinjaman;
+          document.getElementById("norek_pinjaman_bri").value = msg[0].norek_pinjaman_bri;
+          document.getElementById("agen_brilink").value = msg[0].agen_brilink;
 
-        document.getElementById("kelompok_anggota_pinjaman").value = msg[0].kelompok_anggota_pinjaman;
-        document.getElementById("kelompok_pihak_pembeli").value = msg[0].kelompok_pihak_pembeli;
-        document.getElementById("kelompok_pihak_pembeli_handphone").value = msg[0].kelompok_pihak_pembeli_handphone;
-        document.getElementById("kelompok_suplier_produk").value = msg[0].kelompok_suplier_produk;
-        document.getElementById("kelompok_suplier_handphone").value = msg[0].kelompok_suplier_handphone;
-        document.getElementById("kelompok_luas_usaha").value = msg[0].kelompok_luas_usaha;
-        document.getElementById("kelompok_omset").value = msg[0].kelompok_omset;
-        document.getElementById("kelompok_cerita_usaha").value = msg[0].kelompok_cerita_usaha;
-        document.getElementById("pinjaman").value = msg[0].pinjaman;
-        document.getElementById("nominal_pinjaman").value = msg[0].nominal_pinjaman;
-        document.getElementById("norek_pinjaman_bri").value = msg[0].norek_pinjaman_bri;
-        document.getElementById("agen_brilink").value = msg[0].agen_brilink;
+          document.getElementById("kebutuhan_sarana_milik").value = msg[0].kebutuhan_sarana_milik;
+          document.getElementById("kebutuhan_sarana").value = msg[0].kebutuhan_sarana;
+          document.getElementById("kebutuhan_sarana_lainnya").value = msg[0].kebutuhan_sarana_lainnya;
+          document.getElementById("kebutuhan_skema_kredit").value = msg[0].kebutuhan_skema_kredit;
 
-        document.getElementById("kebutuhan_sarana_milik").value = msg[0].kebutuhan_sarana_milik;
-        document.getElementById("kebutuhan_sarana").value = msg[0].kebutuhan_sarana;
-        document.getElementById("kebutuhan_sarana_lainnya").value = msg[0].kebutuhan_sarana_lainnya;
-        document.getElementById("kebutuhan_skema_kredit").value = msg[0].kebutuhan_skema_kredit;
+          document.getElementById("kebutuhan_pendidikan").value = msg[0].kebutuhan_pendidikan;
+          document.getElementById("simpanan_bank").value = msg[0].simpanan_bank;
+          // end data cluster//
 
-        document.getElementById("kebutuhan_pendidikan").value = msg[0].kebutuhan_pendidikan;
-        document.getElementById("simpanan_bank").value = msg[0].simpanan_bank;
-        // end data cluster//
+          for (var i = 0; i < tempdata.rfku.length; i++) {
+            vfku(i, tempdata.rfku[i].location);
+          }
+          for (var i = 0; i < tempdata.rfex.length; i++) {
+            vfex(i, tempdata.rfex[i].location);
+          }
 
-        for (var i = 0; i < tempdata.rfku.length; i++) {
-          vfku(i, tempdata.rfku[i].location);
-        }
-        for (var i = 0; i < tempdata.rfex.length; i++) {
-          vfex(i, tempdata.rfex[i].location);
-        }
-
+          $("#modal").show();
+        },
+      });
+    } else {
+      var dd = $(".form-control");
+      document.getElementById("setuker").innerHTML = "";
+      for (var j = 0; j < dd.length; j++) {
+        dd[j].value = "";
+        valnik = false;
+        valhp = false;
         $("#modal").show();
-      },
-    });
-  } else {
-    var dd = $(".form-control");
-    document.getElementById("setuker").innerHTML = "";
-    for (var j = 0; j < dd.length; j++) {
-      dd[j].value = "";
-      valnik = false;
-      valhp = false;
-      $("#modal").show();
+      }
+      if (defaultuker != "") valuker = true;
+      document.getElementById("kode_uker").value = defaultuker;
+      document.getElementById("kelompok_jumlah_anggota").value = "15";
     }
-    if (defaultuker != "") valuker = true;
-    document.getElementById("kode_uker").value = defaultuker;
-    document.getElementById("kelompok_jumlah_anggota").value = "15";
   }
 }
 
@@ -1024,27 +1029,23 @@ function ldatavarian(i) {
 }
 
 var nd;
-var latitude;
-var longitude;
+var latitude="";
+var longitude="";
 
 $( document ).ready(function() {
- navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        latitude =  position.coords.latitude;
+        longitude = position.coords.longitude;
+        $("#latitude").val(latitude);
+        $("#longitude").val(longitude);
+      }.bind(this),
+      function(error) {
+          toastr.error("Harap aktifkan geolocation pada browser anda");
+      }
+    )
 });
 
-function getLocation() {
- if (navigator.geolocation) {
-   navigator.geolocation.getCurrentPosition(showPosition);
- } else { 
-   x.innerHTML = "Geolocation is not supported by this browser.";
- }
-}
-
-function showPosition(position) {
- latitude =  position.coords.latitude;
- longitude = position.coords.longitude;
- $("#latitude").val(latitude);
- $("#longitude").val(longitude);
-}
 
 function initMap(i="", j="") {
   const myLatlng = { lat: i!="" ? i : latitude  , lng: j!="" ? j : longitude };
