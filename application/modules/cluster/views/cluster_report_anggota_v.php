@@ -36,7 +36,7 @@
                                                     $terisi += $value['terisi']; 
                                                     $totalanggota += $value['total_anggota'];
                                                 }
-                                                echo '<tr><td>'.($i+1).'</td><td>Grand Total</td><td>'.$kosong.'</td><td>'.$terisi.'</td><td>'.$totalanggota.'</td></tr>';
+                                                echo '<tr><td>'.($i+1).'</td><td>Grand Total</td><td>'.$kosong.'</td><td>'.$terisi.'</td><td><button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\'\', \'all\', \'all\')" name="kanwil" value="all" type="submit"><i class="fa fa-download"></i></button>'.$totalanggota.'</td></tr>';
 											?>
 										</tbody>
 									</table>

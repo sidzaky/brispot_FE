@@ -95,6 +95,7 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
+<?php include 'cluster_form.php'; ?>
+<?php include 'cluster_info.php'; ?>
 <script src="../assets/js/send.js"></script>
 <script src="../assets/js/cluster_info.js"></script>

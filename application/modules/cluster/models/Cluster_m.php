@@ -59,7 +59,17 @@ class Cluster_m extends CI_Model
 			}
 			$i++;
 		}
-		$sql = $sql . ' and cluster_status=1 and cluster_approval=0 ' . ($status != null ? " and checker_status=1 and signer_status=1 " : "") . " order by timestamp desc";
+		$order="";
+		switch ($this->session->userdata('approve_level')) {
+			case (2) :
+				$order = "case when signer_status is null then 0 else 1 end, checker_status desc, ";
+				break;
+			case (1) : 
+				$order = "case when checker_status is null then 0 else 1 end, checker_status desc, ";
+				break;
+		}
+
+		$sql = $sql . ' and cluster_status=1 and cluster_approval=0 ' . ($status != null ? " and checker_status=1 and signer_status=1 " : "") . " order by ". $order . " timestamp desc  ";
 		return $sql;
 	}
 
@@ -222,7 +232,8 @@ class Cluster_m extends CI_Model
 				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
 				break;
 		}
-		if ($harian != "") $where .= " and timestamp>1576085405  ";
+		if ($harian != "") $where .= " and timestamp>1576085405 ";
+		$where .=" and cluster_approval=1 ";
 		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								kanwil,
 								kode_kanwil,
@@ -380,6 +391,7 @@ class Cluster_m extends CI_Model
 			}
 		} else $where = "kanwil='" . $_POST['kanwil'] . "'";
 		if ($harian != null) $where .= " and `timestamp`>1576085405 ";
+		$where .=" and cluster_approval=1 ";
 		$sql = 'SELECT	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								kanwil,
 								kanca,
@@ -489,8 +501,7 @@ class Cluster_m extends CI_Model
 		$_POST['cluster_approval'] = 0;
 
 
-		$_POST['lh_flag']=0;
-		if ($_POST['lh0']==1 && $_POST['lh1']==1 && $_POST['lh2']==0 && $_POST['lh3']==1 && $_POST['lh4']==0) $_POST['lh_flag'] = 1;
+		$_POST['lh_flag']=$this->lh();
 
 		////kalo ada yang update, balik lagi ke checker ///
 		$_POST['checker_status'] = null;
@@ -537,9 +548,7 @@ class Cluster_m extends CI_Model
 		$_POST['cluster_approval'] = 0;
 
 
-		$_POST['lh_flag']=0;
-		if ($_POST['lh0']==1 && $_POST['lh1']==1 && $_POST['lh2']==0 && $_POST['lh3']==1 && $_POST['lh4']==0) $_POST['lh_flag'] = 1;
-
+		$_POST['lh_flag']=$this->lh();
 
 		$this->db->insert('cluster', $_POST);
 
@@ -548,6 +557,11 @@ class Cluster_m extends CI_Model
 		$this->insert_pendidikan();
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
 		if ($rfku != null) $this->uploadimage($rfku, $_POST['id'], 'foto_usaha');
+	}
+
+	function lh(){
+		if ($_POST['lh0']==1 && $_POST['lh1']==1  && $_POST['lh3']==1) return 1;
+		else return 0;
 	}
 
 	function insert_hasil_produk(){
@@ -734,7 +748,7 @@ class Cluster_m extends CI_Model
 	{
 		if (isset($_POST['id_cluster'])) $id = $_POST['id_cluster'];
 		$sql = "select a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
-                       ca_nama, concat(\"'\", ca_nik), ca_norek, ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+                       ca_nama, concat(\"'\", ca_nik), concat(\"'\", ca_norek), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
                 from cluster_anggota b
                 left join cluster a on b.id_cluster=a.id 
                 where id_cluster='" . $id . "'";
@@ -893,11 +907,12 @@ class Cluster_m extends CI_Model
 
 	function dl_report_anggota_m($i = null)
 	{
+		if ($i != null) $where ="and a.kode_kanwil='" . $i . "'";
 		$q = "select  a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
-                    ca_nama, concat(\"'\", ca_nik), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+                    ca_nama, concat(\"'\", ca_nik), concat(\"'\", ca_norek), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
             from cluster a
             inner join cluster_anggota b on a.id=b.id_cluster
-            where a.cluster_status=1 and a.kode_kanwil='" . $i . "'";
+            where a.cluster_status=1 and cluster_approval=1 ".$where;
 		return $this->db->query($q)->result_array();
 	}
 

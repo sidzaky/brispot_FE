@@ -6,7 +6,7 @@
 			<div id="result" class="box-body">
 				<div class="container-fluid control-box">
 					<div class="row">
-     			<h3 class="box-title m-b-0" align="center"><b>Report Total Cluster BRIspot <?php echo ($harian != "" ? ' Per' . date('d M, Y', time()) : '') ?> <?php echo $this->session->userdata('name_uker'); ?></b></h3>
+     			<h3 class="box-title m-b-0" align="center"><b>Report Total Cluster BRIspot yang telah Disetujui <?php echo ($harian != "" ? ' Per' . date('d M, Y', time()) : '') ?> <?php echo $this->session->userdata('name_uker'); ?></b></h3>
      			<div id="result">
      				<div class="col-sm-12">
      					<script>

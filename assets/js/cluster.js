@@ -1,13 +1,11 @@
 
 
 function te(i) {
-  if (i.value === "Ya") {
-    $("#pasar_ekspor_tahun").removeAttr("disabled");
-    $("#pasar_ekspor_nilai").removeAttr("disabled");
+  if (i === "Ya") {
+    $(".eksporform").show();
     $("#bfex").removeAttr("disabled");
   } else {
-    $("#pasar_ekspor_tahun").attr("disabled", "disabled");
-    $("#pasar_ekspor_nilai").attr("disabled", "disabled");
+    $(".eksporform").hide();
     $("#bfex").attr("disabled", "disabled");
   }
 }
@@ -200,8 +198,9 @@ function getform(i = null) {
           document.getElementById("periode_panen").value = msg[0].periode_panen;
 
           document.getElementById("pasar_ekspor").value = msg[0].pasar_ekspor;
+          te(msg[0].pasar_ekspor);
           document.getElementById("pasar_ekspor_tahun").value = msg[0].pasar_ekspor_tahun;
-          document.getElementById("pasar_ekspor_nilai").value = msg[0].pasar_ekspor_tahun;
+          document.getElementById("pasar_ekspor_nilai").value = msg[0].pasar_ekspor_nilai;
 
           document.getElementById("kelompok_anggota_pinjaman").value = msg[0].kelompok_anggota_pinjaman;
           document.getElementById("kelompok_pihak_pembeli").value = msg[0].kelompok_pihak_pembeli;
@@ -233,7 +232,7 @@ function getform(i = null) {
           }
 
           $("#modal").show();
-        },
+        }, 
       });
     } else {
       var dd = $(".form-control");
@@ -247,6 +246,8 @@ function getform(i = null) {
       if (defaultuker != "") valuker = true;
       document.getElementById("kode_uker").value = defaultuker;
       document.getElementById("kelompok_jumlah_anggota").value = "15";
+      document.getElementById("pasar_ekspor").value = "Tidak";
+      te("Tidak");
     }
   }
 }

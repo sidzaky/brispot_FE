@@ -186,10 +186,12 @@ class Cluster extends MX_Controller
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
 			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
-
+			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');initMap('. ($field['latitude'] != "" ? $field['latitude'] .','.$field['longitude'] : "").');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
-			$ca     = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
-			$info	= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
+			$info		= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
+			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
+			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update);
+			
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -200,7 +202,7 @@ class Cluster extends MX_Controller
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
-			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $ca . $info . '</form>';
+			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
 			$data[] = $row;
 		}
 		$output = array(
@@ -210,8 +212,8 @@ class Cluster extends MX_Controller
 			"data" => $data,
 		);
 		echo json_encode($output);
-    }
-
+	}
+	
     ////////////////////////////////////////////////////////////
     /////////////////end approved klaster usaha ////////////////
     ////////////////////////////////////////////////////////////
@@ -507,6 +509,7 @@ class Cluster extends MX_Controller
 			$headerexcel[$z][$col] = $no;
 			foreach (array_keys($cell) as $key) {
 				$col++;
+				if ($cell[$key]=="'") $cell[$key]="-";
 				$headerexcel[$z][$col] = $cell[$key];
 			}
 			$z++;
@@ -639,6 +642,7 @@ class Cluster extends MX_Controller
 			$headerexcel[$z][$col] = $no;
 			foreach (array_keys($cell) as $key) {
 				$col++;
+				if ($cell[$key]=="'") $cell[$key]="-";
 				$headerexcel[$z][$col] = $cell[$key];
 			}
 			$z++;
