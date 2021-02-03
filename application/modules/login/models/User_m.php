@@ -49,7 +49,7 @@ class User_m extends CI_Model
 		$password = md5($_POST['password']);
 		$sql = "update user set password='" . $password . "' where username='" . $_POST['kode_uker_c'] . "'";
         $this->db->query($sql);
-        $sql = "insert into cluster_log values('','".$this->session->userdata('id')."', 'penggantian password pada uker " . $_POST['kode_uker_c'] . "', '".time()."' )";
+        $sql = "insert into cluster_log values('','".$this->session->userdata('id')."','".time()."' 'penggantian password pada uker " . $_POST['kode_uker_c'] . "', '".time()."' )";
         $this->db->query($sql);
 
 	}

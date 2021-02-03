@@ -355,6 +355,11 @@ class Cluster_m extends CI_Model
 		if (isset($_POST['id'])) {
 			$sql = "update cluster set cluster_status=0 where id='" . $_POST['id'] . "'";
 			$this->db->query($sql);
+
+			$msglog['log']="deactive data cluser on id : ". $_POST['id'];
+			$msglog['id_user']=$this->session->userdata('id');
+			$msglog['time']=time();
+			$this->db->insert('cluster_log', $msglog);
 		}
 	}
 	var $qdataall = array('select   FROM_UNIXTIME(timestamp, "%H:%i:%s %d %M %Y") as date, 
@@ -526,6 +531,11 @@ class Cluster_m extends CI_Model
 			$this->db->query('delete from cluster_foto_usaha where id_cluster="' . $id . '"');
 			$this->uploadimage($rfku, $id, 'foto_usaha');
 		}
+
+		$msglog['log']="update data cluser on id : ". $id ." { ". json_encode($_POST) . " } ";
+		$msglog['id_user']=$this->session->userdata('id');
+		$msglog['time']=time();
+		$this->db->insert('cluster_log', $msglog);
 	}
 
 
@@ -557,6 +567,11 @@ class Cluster_m extends CI_Model
 		$this->insert_pendidikan();
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
 		if ($rfku != null) $this->uploadimage($rfku, $_POST['id'], 'foto_usaha');
+
+		$msglog['log']="insert data cluster { ". json_encode($_POST). " } ";
+		$msglog['id_user']=$this->session->userdata('id');
+		$msglog['time']=time();
+		$this->db->insert('cluster_log', $msglog);
 	}
 
 	function lh(){
@@ -569,13 +584,18 @@ class Cluster_m extends CI_Model
 					  id_cluster_jenis_usaha="'.$_POST['id_cluster_jenis_usaha'].'" and 
 					  hasil_produk="'.$_POST['hasil_produk'].'"';
 		if ($this->db->query($qc)->num_rows() == 0) {
+			$id_hasil_produk=$this->uuid->v4(true);
 			$qi = 	'insert into cluster_hasil_produk 
-					 values (	"'.$this->uuid->v4(true).'",
+					 values (	"'.$id_hasil_produk.'",
 								"'.$_POST['id_cluster_jenis_usaha'].'",
 								"'.$_POST['hasil_produk'].'",
 								"1"
 							)';
 			$this->db->query($qi);
+			$msglog['log']="new data hasil_produk by form cluster { id : ".$id_hasil_produk.", hasil_produk : ". strtoupper($_POST['hasil_produk']) . " } ";
+			$msglog['id_user']=$this->session->userdata('id');
+			$msglog['time']=time();
+			$this->db->insert('cluster_log', $msglog);
 		}
 	}
 
@@ -584,13 +604,19 @@ class Cluster_m extends CI_Model
 				hasil_produk="'.$_POST['hasil_produk'].'" and
 				varian = "'.$_POST['varian'].'"';
 		if ($this->db->query($qc)->num_rows() == 0) {
+			$id_varian=$this->uuid->v4(true);
 			$qi = 	'insert into cluster_varian
-					 values (	"'.$this->uuid->v4(true).'",
+					 values (	"'.$id_varian.'",
 								"'.$_POST['hasil_produk'].'",
 								"'.$_POST['varian'].'",
 								"1"
 							)';
 			$this->db->query($qi);
+
+			$msglog['log']="new data varian by form cluster { id : ".$id_varian.", varian : ". strtoupper($_POST['varian']) . " } ";
+			$msglog['id_user']=$this->session->userdata('id');
+			$msglog['time']=time();
+			$this->db->insert('cluster_log', $msglog);
 		}
 	}
 
@@ -598,13 +624,21 @@ class Cluster_m extends CI_Model
 		$qc='select * from cluster_kebutuhan_pendidikan_pelatihan where 
 				kebutuhan_pendidikan_pelatihan="'.$_POST['kebutuhan_pendidikan'].'"';
 		if ($this->db->query($qc)->num_rows() == 0) {
+			$id_pendidikan=$this->uuid->v4(true);
 			$qi = 	'insert into cluster_kebutuhan_pendidikan_pelatihan
-					 values (	"'.$this->uuid->v4(true).'",
+					 values (	"'.$id_pendidikan.'",
 								"'.strtoupper($_POST['kebutuhan_pendidikan']).'",
 								"1"
 							)';
 			$this->db->query($qi);
+
+			$msglog['log']="new data pendidikan_pelatihan by form cluster { id : ".$id_pendidikan.", pendidikan : ". strtoupper($_POST['kebutuhan_pendidikan']) . " } ";
+			$msglog['id_user']=$this->session->userdata('id');
+			$msglog['time']=time();
+			$this->db->insert('cluster_log', $msglog);
+
 		}
+
 	}
 
 
@@ -704,6 +738,12 @@ class Cluster_m extends CI_Model
 		$_POST['timeinput'] = time();
 		$_POST['userlastupdate'] = $this->session->userdata('kode_uker');
 		$this->db->insert('cluster_anggota', $_POST);
+
+		
+		$msglog['log']="insert data anggota cluster { ". json_encode($_POST). " } ";
+		$msglog['id_user']=$this->session->userdata('id');
+		$msglog['time']=time();
+		$this->db->insert('cluster_log', $msglog);
 	}
 
 	public function updatedata_anggota_m()
@@ -714,6 +754,12 @@ class Cluster_m extends CI_Model
 		unset($_POST['id_ca']);
 		$this->db->where('id_ca', $id_ca);
 		$this->db->update('cluster_anggota', $_POST);
+
+		
+		$msglog['log']="update data anggota cluster where id = " . $id_ca . " { ". json_encode($_POST). " } ";
+		$msglog['id_user']=$this->session->userdata('id');
+		$msglog['time']=time();
+		$this->db->insert('cluster_log', $msglog);
 	}
 
 	public function deldata_anggota_m()
@@ -721,6 +767,12 @@ class Cluster_m extends CI_Model
 		if (isset($_POST['id_ca'])) {
 			$sql = "delete from cluster_anggota where id_ca='" . $_POST['id_ca'] . "'";
 			$this->db->query($sql);
+
+			$msglog['log']="deactive data anggota cluser on id : ". $_POST['id_ca'];
+			$msglog['id_user']=$this->session->userdata('id');
+			$msglog['time']=time();
+			$this->db->insert('cluster_log', $msglog);
+			
 		}
 	}
 
@@ -741,6 +793,13 @@ class Cluster_m extends CI_Model
 			}
 			$sql .= "" . time() . ",'" . $this->session->userdata('kode_uker') . "')";
 			$this->db->query($sql);
+
+			
+			$msglog['log']="insert data anggota cluster by excel { ". json_encode($sql). " } ";
+			$msglog['id_user']=$this->session->userdata('id');
+			$msglog['time']=time();
+			$this->db->insert('cluster_log', $msglog);
+
 		}
 	}
 
