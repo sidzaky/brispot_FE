@@ -112,7 +112,37 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
+<div class="modal " id="modalreject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" onclick="$('#modal').hide();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h5 class="modal-title">Form Aproval klaster <?php echo $this->session->userdata('nama_uker') ?></h5>
+			</div>
+			<div class="modal-body">
+                <div id="mod-loadings" style="display:none">
+                    <div class="col-sm-12">
+                                <label for="thedata" class="col-sm-12 control-label">
+                                    <h3 align="center">Harap Menunggu, Data Sedang Dikirim</h3>
+                                </label>
+                            </div>
+                </div>
+				<div id="mod-contents">
+				<div class="form-group required">
+							<label class="control-label">Berikan Alasan</label>
+							<input type="hidden" class="form-control " id="idreject" placeholder="required" value="">
+							<input type="hidden" class="form-control " id="statusreject" placeholder="required" value="">
+							<textarea type="text" class="form-control  required" id="reject" placeholder="required" required></textarea>
+						</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-primary waves-effect waves-light" onclick="$('#modalreject').hide();">Batal</button>
+				<button class="btn btn-success waves-effect waves-light" onclick="setrejj();">Kirim</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
