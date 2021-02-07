@@ -637,7 +637,7 @@ function reval() {
       : "";
   msg +=
     validatorreqtext(document.getElementById("lokasi_usaha"), ischar) == false
-      ? "data lokasi_usaha tidak valid \n"
+      ? "data lokasi_usaha tidak valid, yaitu  mengandung karakter yang tidak diperbolehkan (!@#$%^&*()+=[]\\';/{}|\":<>?) \n"
       : "";
   msg +=
     validatorreqtext(
