@@ -293,7 +293,8 @@ class Dashboard extends MX_Controller
         $data['listloc'][$i]['umkm']  = $row['kelompok_usaha'];
         $data['listloc'][$i]['lat']   = $row['latitude'];
         $data['listloc'][$i]['long']  = $row['longitude'];
-        $data['listloc'][$i]['count'] = $i+1;
+        $data['listloc'][$i]['count'] = $i;
+        $i++;
         $data['performance']['luas_lahan'] += $row['kelompok_luas_usaha'];
         $data['performance']['kapasitas_produksi'] += $row['kapasitas_produksi'];
         if ($row['periode_panen'] !="" ) $data['performance']['panen'][$row['periode_panen']]++;

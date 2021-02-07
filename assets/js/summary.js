@@ -17,7 +17,7 @@ function setMarkers(map) {
     for (let i = 0; i < listloc.length; i++) {
         const thlist = listloc[i];
         new google.maps.Marker({
-          position: { lat: parseInt(thlist['lat']), lng: parseInt(thlist['long']) },
+          position: { lat: parseFloat(thlist['lat']), lng: parseFloat(thlist['long']) },
           label : thlist['umkm'],
           title : thlist['umkm'],
           map,
