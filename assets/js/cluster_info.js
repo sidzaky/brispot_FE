@@ -108,8 +108,7 @@ function showClusterInfo(id) {
               </div>
               <br/>
               ${
-                info.photos.length > 0
-                  ? `
+                info.photos.length > 0 ? `
                 <div class="row">
                       <div class="col-md-12">
                       <p><strong>Galeri</strong></p>
@@ -146,11 +145,17 @@ function showClusterInfo(id) {
                       </div>
                     </div>
                 </div> `
-                : ``
+                : `<div class="row">
+                      <div class="col-md-12">
+                        <h3 align="center" style="color:red;"><strong>Galeri Terkait UMKM Belum Ada</strong></h3>
+                        </div>
+                       </div>
+                    ` 
               }
+              <hr>
               <div class="row">
                   <div class="col-md-12"> 
-                      <p><strong>Lokasi Usaha</strong></p>
+                      <h3 align="center" id="mapinfojudul"></h3>
                       <div id="mapinfo"></div>   
                   </div>
                 </div> 
@@ -170,9 +175,10 @@ function showClusterInfo(id) {
                 position: nkoord,
               });
               infoWindow.open(nmap);
+              document.getElementById("mapinfojudul").innerHTML='Lokasi UMKM ' + info.kelompok_usaha;
         }
         else {
-          document.getElementById("mapinfo").innerHTML='<h3 align="center">Lokasi UMKM belum ditentukan</h3>';
+          document.getElementById("mapinfojudul").innerHTML='Lokasi UMKM belum ditentukan';
         }
       },
       error: function (error) {
