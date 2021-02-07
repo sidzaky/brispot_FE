@@ -1,3 +1,5 @@
+<meta name="google-site-verification" content="-5c7n2yDdKK5fU1D1gLtok4-D8XLP2c_2YKWtk30MCc" />
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDD-HjW_D_kUMx9W7MRP473fS-er_DgiYY&callback=initMap" defer></script>
 <div class="content-wrapper">
 	<!-- Content Header (Page header) -->
 	<section class="content-header">
@@ -79,6 +81,12 @@
 	.img-upload {
 		width: 100%;
 	}
+	
+	#map{
+	width: auto;
+	height: 400px;
+	}
+
 </style>
 <div class="modal " id="cluster-info-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog modal-lg">

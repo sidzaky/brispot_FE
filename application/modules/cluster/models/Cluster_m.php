@@ -931,6 +931,8 @@ class Cluster_m extends CI_Model
 					c.agen_brilink,
 					c.simpanan_bank,
 					c.pinjaman,
+					c.latitude,
+					c.longitude,
 					k.kebutuhan_pendidikan_pelatihan AS pelatihan,
 					ks.kebutuhan_sarana AS sarana,
 					kk.kebutuhan_skema_kredit AS skema_kredit

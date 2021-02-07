@@ -14,3 +14,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  #mapinfo{
+    width: auto;
+    height: 400px;
+  }
+</style>

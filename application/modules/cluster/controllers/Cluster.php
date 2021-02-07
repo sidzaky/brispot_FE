@@ -900,6 +900,8 @@ class Cluster extends MX_Controller
 			$clusterInfo["kapasitas_produksi"] = empty($clusterInfo["kapasitas_produksi"]) ? "-" : $clusterInfo["kapasitas_produksi"];
 			$clusterInfo["periode_panen"] = empty($clusterInfo["periode_panen"]) ? "-" : $clusterInfo["periode_panen"];
 			$clusterInfo["satuan_produksi"] = empty($clusterInfo["satuan_produksi"]) ? "-" : $clusterInfo["satuan_produksi"];
+			$clusterInfo["longitude"] = $clusterInfo["longitude"] =="" ? "-" : $clusterInfo["longitude"];
+			$clusterInfo["latitude"] = $clusterInfo["latitude"] =="" ? "-" : $clusterInfo["latitude"];
 
 
 			$clusterPhotos = $this->cluster_m->getClusterPhotos($id);

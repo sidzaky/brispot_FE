@@ -111,49 +111,69 @@ function showClusterInfo(id) {
                 info.photos.length > 0
                   ? `
                 <div class="row">
-                  <div class="col-md-12">
-                  <p><strong>Galeri</strong></p>
-                  <div id="carousel-cluster-photos" class="carousel slide" data-ride="carousel">
-                  
-                    <ol class="carousel-indicators">
-                      ${info.photos.map(function (photo, index) {
-                        return `
-                          <li data-target="#carousel-cluster-photos" data-slide-to="${index}"></li>
-                        `;
-                      })}
-                    </ol>
-      
-                    <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox">
-                      ${info.photos.map(function (photo, index) {
-                        return `
-                          <div class="item">
-                            <img class="center-block" src="`+baseURL+`${photo.url}" alt="photo-${index}">
-                          </div>
-                        `;
-                      })}
+                      <div class="col-md-12">
+                      <p><strong>Galeri</strong></p>
+                      <div id="carousel-cluster-photos" class="carousel slide" data-ride="carousel">
+                      
+                        <ol class="carousel-indicators">
+                          ${info.photos.map(function (photo, index) {
+                            return `
+                              <li data-target="#carousel-cluster-photos" data-slide-to="${index}"></li>
+                            `;
+                          })}
+                        </ol>
+          
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                          ${info.photos.map(function (photo, index) {
+                            return `
+                              <div class="item">
+                                <img class="center-block" src="`+baseURL+`${photo.url}" alt="photo-${index}">
+                              </div>
+                            `;
+                          })}
+                        </div>
+          
+                        <!-- Controls -->
+                        <a class="left carousel-control" href="#carousel-cluster-photos" role="button" data-slide="prev">
+                          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-cluster-photos" role="button" data-slide="next">
+                          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </div>
                     </div>
-      
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-cluster-photos" role="button" data-slide="prev">
-                      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-cluster-photos" role="button" data-slide="next">
-                      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </div>
-                  </div>
-                </div>
-              `
-                  : ``
+                </div> `
+                : ``
               }
+              <div class="row">
+                  <div class="col-md-12"> 
+                      <p><strong>Lokasi Usaha</strong></p>
+                      <div id="mapinfo"></div>   
+                  </div>
+                </div> 
           `);
         $("#carousel-cluster-photos .item").first().addClass("active");
-        $("#carousel-cluster-photos .carousel-indicators > li")
-          .first()
-          .addClass("active");
+        $("#carousel-cluster-photos .carousel-indicators > li").first().addClass("active");
+        
+        if (info.latitude!="-" || info.longitude!="-"){
+              const nkoord = { lat: parseFloat(info.latitude)  , lng: parseFloat(info.longitude) };
+              const nmap = new google.maps.Map(document.getElementById("mapinfo"), {
+                zoom: 14,
+                center: nkoord,
+              });
+              // Create the initial InfoWindow.
+              let infoWindow = new google.maps.InfoWindow({
+                content: "lokasi UMKM",
+                position: nkoord,
+              });
+              infoWindow.open(nmap);
+        }
+        else {
+          document.getElementById("mapinfo").innerHTML='<h3 align="center">Lokasi UMKM belum ditentukan</h3>';
+        }
       },
       error: function (error) {
         console.log(error);
