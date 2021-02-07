@@ -23,7 +23,7 @@ class Cluster_m extends CI_Model
 	var $column_search = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha');
 	var $order = array('timestamp' => 'desc');
 
-	public function get_datatables($status = null, $appr = 0)
+	public function get_datatables($status = null,  $custom_field = null)
 	{
 		$i = 0;
 		$sql = "select cluster.* from cluster where ";
@@ -43,21 +43,44 @@ class Cluster_m extends CI_Model
 				break;
 		}
 
-		if ($_POST['search']['value'] != "") $sql .= " and ";
-		foreach ($this->column_search as $item) // looping awal
-		{
-			if ($_POST['search']['value'] != "") // jika datatable mengirimkan pencarian dengan metode POST
-			{
-				if ($i === 0) // looping awal
-				{
-					$sql .= ' (' . $item . ' LIKE "%' . $_POST['search']['value'] . '%" ESCAPE "!" ';
-				} else {
-					$sql .= ' OR ' . $item . ' LIKE "%' . $_POST['search']['value'] . '%" ESCAPE "!" ';
+		foreach ($custom_field as $row) {
+			if (isset($row->df) && $row->df != "") {
+				switch ($row->sf) {
+					case "sektor":
+						$sql .= " and id_cluster_sektor_usaha = '" . $row->df . "' ";
+						break;
+					case "kategori":
+						$sql .=  " and id_cluster_jenis_usaha_map = '" . $row->df . "' ";
+						break;
+					case "jenis":
+						$sql .=  " and id_cluster_jenis_usaha= '" . $row->df . "' ";
+						break;
+					case "kebutuhan_pendidikan":
+						$sql .=  " and kebutuhan_pendidikan= '" . $row->df . "' ";
+						break;
+					case "kebutuhan_sarana":
+						$sql .=  " and kebutuhan_sarana= '" . $row->df . "' ";
+						break;
+					case "kebutuhan_skema_kredit":
+						$sql .=  " and kebutuhan_skema_kredit= '" . $row->df . "' ";
+						break;
+					case "kode_kanwil":
+						$sql .=  " and cluster.kode_kanwil= '" . $row->df . "' ";
+						break;
+					case "kode_kanca":
+						if ($row->df != "") {
+							$sql .=  " and cluster.kode_kanca= '" . $row->df . "' ";
+						}
+						break;
+					case "kode_uker":
+						$sql .=  " and cluster.kode_uker= '" . $row->df . "' ";
+						break;
+					default:
+						$sql .= '  and  ( ' . $row->sf . ' LIKE "%' . $row->df . '%" ESCAPE "!")';
+						break;
 				}
-				if (count($this->column_search) - 1 == $i)
-					$sql .= " ) ";
+				$i++;
 			}
-			$i++;
 		}
 		$order="";
 		switch ($this->session->userdata('approve_level')) {
@@ -70,12 +93,17 @@ class Cluster_m extends CI_Model
 		}
 
 		$sql = $sql . ' and cluster_status=1 and cluster_approval=0 ' . ($status != null ? " and checker_status=1 and signer_status=1 " : "") . " order by ". $order . " timestamp desc  ";
+		//echo $sql;
 		return $sql;
 	}
 
-	public function count_all()
+	public function count_all($status = null, $custom_field = null)
 	{
-		$sql  = $this->get_datatables();
+		$sql  = $this->get_datatables(null, $custom_field);
+		if ($custom_field == null) {
+			$sql .= " Limit 0";
+		}
+		// echo $sql;
 		return  $this->db->query($sql)->num_rows();
 	}
 	

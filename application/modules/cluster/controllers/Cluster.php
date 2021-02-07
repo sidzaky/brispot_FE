@@ -38,15 +38,16 @@ class Cluster extends MX_Controller
 		$data['cluster_kebutuhan_pendidikan_pelatihan'] = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
 		$data['cluster_kebutuhan_sarana'] = $this->cluster_m->get_cluster_kebutuhan_sarana();
 		$data['cluster_kebutuhan_skema_kredit'] = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
+		$data['kanwil'] = $this->cluster_m->get_data_kanwil_m();
 		$data['content'] = $this->session->userdata('kode_uker') == 'kanpus' ? 'cluster_kanpus_v' : 'cluster_v';
 		$data['provinsi'] = $this->cluster_m->getprovinsi_m();
 		$this->load->view('template', $data);
 	}
 
-	public function getdata()
+	public function getdata($status = null)
 	{
-		
-		$list = $this->cluster_m->get_datafield();
+		$datafilter=json_decode($_POST['custom_field']);
+		$list = $this->cluster_m->get_datafield($status, $datafilter);
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
@@ -134,7 +135,7 @@ class Cluster extends MX_Controller
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $list->num_rows(),
-			"recordsFiltered" => $this->cluster_m->count_all(),
+			"recordsFiltered" => $this->cluster_m->count_all($status, $datafilter),
 			"data" => $data,
 		);
 		echo json_encode($output);

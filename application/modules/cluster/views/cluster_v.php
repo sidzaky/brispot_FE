@@ -13,6 +13,46 @@
 	<!-- Main content -->
 	<section class="content">
 		<div class="box box-solid">
+				<div id="result" class="box-body">
+				<h4>Field Pencarian</h4>
+					<?php if ($this->session->userdata('permission')>2) { ?>
+					<div class="col-sm-4">
+						<div class="form-group">
+							<label class="control-label">Kanwil</label>
+							<select class="form-control" onchange="set_kanca(this);" id="kode_kanwil">
+								<option value="">semua</option>
+								<?php foreach ($kanwil as $row){
+									echo '<option value="'.$row['kode_kanwil'].'">'.$row['kanwil'].'</option>';
+								}?>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group" id="selkanca">
+							<label class="control-label">Kanca</label>
+							<select class="form-control" onchange="set_unit(this);" id="kode_kanca">
+								<option value="">semua</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-4">
+						<div class="form-group" id="selunit">
+							<label class="control-label">unit</label>
+							<select class="form-control" id="fkode_uker">
+								<option value="">semua</option>
+							</select>
+						</div>
+					</div>
+					<?php } ?>
+					<div id="field_custom_search"></div>
+					<div class="col-sm-12">    
+						<input type="hidden" id="finalresult" value="">
+						<button class="btn btn-info waves-effect waves-light" onclick="add_field();">Tambah Field</button>
+						<button class="btn btn-success waves-effect waves-light" id="sbt" onclick="$('#table-cluster').DataTable().ajax.reload(null, false);">Cari</button>
+					</div>
+				</div>
+			</div>
+		<div class="box box-solid">
 			<div id="result" class="box-body">
 				<div class="container-fluid control-box">
 					<div class="row">
@@ -20,21 +60,7 @@
 						
 					</div>
 				</div>
-				<script>
-					$(document).ready(function() {
-						$('#table-cluster').DataTable({
-							"ordering": false,
-							"scrollX": true,
-							"processing": true,
-							"serverSide": true,
-							"deferRender": true,
-							"ajax": {
-								"url": "./cluster/getdata",
-								"type": "POST"
-							},
-						});
-					});
-				</script>
+			
 				<div class="table-responsive">
 					<table id="table-cluster" class="table table-striped table-bordered" width="100%">
 						<thead>
@@ -145,8 +171,12 @@
 </div><!-- /.modal -->
 
 
-
+<script src="./assets/js/cluster_v.js"></script>
 <?php include 'cluster_form.php'; ?>
 <script src="./assets/js/send.js"></script>
 <?php include 'cluster_info.php'; ?>
 <script src="./assets/js/cluster_info.js"></script>
+
+<script>		
+			
+</script>

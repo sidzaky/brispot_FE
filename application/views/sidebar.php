@@ -8,7 +8,6 @@
       <li><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-pie-chart"></i> <span>Dashboard</span></a></li>
       <li><a href="<?php echo base_url(); ?>cluster/approve"><i class="fa fa-check "></i> Daftar Klaster</a></li>
       <li> <a href="<?php echo base_url(); ?>cluster" id="cpclaster" ><i class="fa fa-book "></i>Pengajuan Klaster</a>  </li>
-      <?php echo ($this->session->userdata('permission')==4 ? '<li><a href="' . base_url() . 'cluster/custom_search"><i class="fa fa-search"></i>Custom Search</a></li>' : "") ?>
 
       <!-- <li><a href=""><i class="fa fa-file-text-o"></i> <span>Pengajuan Klaster</span></a></li> -->
 	  

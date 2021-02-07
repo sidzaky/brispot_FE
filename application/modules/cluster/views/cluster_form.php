@@ -475,4 +475,4 @@ Parameter dapat dipilih lebih dari 1 kriteria sesuai dengan kondisi sebenarnya</
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script src="<?php echo base_url();?>/assets/js/cluster.js"></script>
+<script src="<?php echo base_url();?>/assets/js/cluster_form.js"></script>
