@@ -132,7 +132,7 @@ class Cluster_m extends CI_Model
 		}
 		if ($_POST['status']=="sign"){
 			$status  = "reject_reason='".$_POST['reject_reason']."', ";
-			$status  = "signer_status =0, ";
+			$status .= "signer_status =0, ";
 			$status .= "signer_user_update = '". $this->session->userdata('kode_uker')."' ";
 		}
 		$sql="update cluster set ".$status." where id='". $_POST['id']. "'";
@@ -832,12 +832,28 @@ class Cluster_m extends CI_Model
 	}
 
 	function dldataanggota_m($id = null)
-	{
+	{	
 		if (isset($_POST['id_cluster'])) $id = $_POST['id_cluster'];
-		$sql = "select a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
-                       ca_nama, concat(\"'\", ca_nik), concat(\"'\", ca_norek), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
-                from cluster_anggota b
-                left join cluster a on b.id_cluster=a.id 
+			$sql = "select  	ca_nama, 
+							concat(\"'\", ca_nik), 
+							concat(\"'\", ca_norek), 
+							ca_jk, 
+							concat(\"'\", ca_kodepos), 
+							ca_pinjaman, 
+							ca_simpanan, 
+							concat(\"'\", ca_handphone ), 
+							a.lokasi_usaha,
+							c.nama as provinsi,
+							d.nama as kabupaten_kota,
+							e.nama as kecamatan,
+							f.nama as kelurahan,
+							a.kode_uker
+					from cluster a
+					inner join cluster_anggota b on a.id=b.id_cluster
+					left join provinsi c on a.provinsi=c.id
+					left join kabupaten_kota d on a.kabupaten=d.id
+					left join kecamatan e on a.kecamatan=e.id
+					left join kelurahan f on a.kelurahan=f.id
                 where id_cluster='" . $id . "'";
 		return $this->db->query($sql)->result_array();
 	}
@@ -997,10 +1013,26 @@ class Cluster_m extends CI_Model
 	function dl_report_anggota_m($i = null)
 	{
 		if ($i != null) $where ="and a.kode_kanwil='" . $i . "'";
-		$q = "select  a.kanwil, a.kanca, a.uker, a.kelompok_usaha, 
-                    ca_nama, concat(\"'\", ca_nik), concat(\"'\", ca_norek), ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, concat(\"'\", ca_handphone ) 
+		$q = "select  	ca_nama, 
+						concat(\"'\", ca_nik), 
+						concat(\"'\", ca_norek), 
+						ca_jk, 
+						concat(\"'\", ca_kodepos), 
+						ca_pinjaman, 
+						ca_simpanan, 
+						concat(\"'\", ca_handphone ), 
+						a.lokasi_usaha,
+						c.nama as provinsi,
+						d.nama as kabupaten_kota,
+						e.nama as kecamatan,
+						f.nama as kelurahan,
+						a.kode_uker
             from cluster a
             inner join cluster_anggota b on a.id=b.id_cluster
+			left join provinsi c on a.provinsi=c.id
+			left join kabupaten_kota d on a.kabupaten=d.id
+			left join kecamatan e on a.kecamatan=e.id
+			left join kelurahan f on a.kelurahan=f.id
             where a.cluster_status=1 and cluster_approval=1 ".$where;
 		return $this->db->query($q)->result_array();
 	}

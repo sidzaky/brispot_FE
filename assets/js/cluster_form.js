@@ -175,6 +175,7 @@ function getform(i = null) {
           document.getElementById("lokasi_usaha").value = msg[0].lokasi_usaha;
           document.getElementById("latitude").value = msg[0].latitude;
           document.getElementById("longitude").value = msg[0].longitude;
+          initMap(parseFloat(msg[0].latitude),parseFloat(msg[0].longitude));
           document.getElementById("lh0").checked = msg[0].lh0 == 1 ? true : false ;
           document.getElementById("lh1").checked = msg[0].lh1 == 1 ? true : false ;
           document.getElementById("lh2").checked = msg[0].lh2 == 1 ? true : false ;

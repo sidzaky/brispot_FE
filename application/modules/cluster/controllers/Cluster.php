@@ -58,7 +58,7 @@ class Cluster extends MX_Controller
             $colstatus  = "";
 			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
-			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');initMap('. ($field['latitude'] != "" ? $field['latitude'] .','.$field['longitude'] : "").');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$upload     = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
             $info	    = '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
             $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
@@ -77,7 +77,7 @@ class Cluster extends MX_Controller
 				if ($field["checker_status"]=='1'){
 					
 					if ($field["signer_status"]!=""){
-						if ($field["signer_status"]==0) $colstatus = " Pengajuan ditolak Divisi SEI ";
+						if ($field["signer_status"]==0) $colstatus = " Pengajuan ditolak Divisi SEI </br>". $field['reject_reason'];
 					}
 
 					else {
@@ -500,7 +500,7 @@ class Cluster extends MX_Controller
 
 	public function dldataanggota()
 	{
-		$headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja', 'Nama Kelompok Usaha', 'Nama Anggota', 'NIK', 'Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
+		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch");
 
 		$data = $this->cluster_m->dldataanggota_m();
 		$no = 1;
@@ -634,7 +634,7 @@ class Cluster extends MX_Controller
 	public function dldatareportanggota()
 	{
 		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array('No', 'Kanwil', 'Kantor Cabang', 'Unit Kerja', 'Nama Kelompok Usaha', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone");
+		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch");
 		$no = 1;
 		$z = 1;
 		$data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);
