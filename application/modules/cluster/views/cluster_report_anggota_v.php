@@ -80,9 +80,11 @@
                     var line = '';
 
                     for (var index in array[i]) {
-                        if (line != '') line += ';' 
-
-                        var j = array[i][index].toString();
+                        if (line != '') line += ';'
+                        var j ="-"; 
+                        if (array[i][index]){
+                            j = array[i][index].toString();
+                        }
                         j = j.replace(/;/g, " ");
                         line += j;
                     }
