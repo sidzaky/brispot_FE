@@ -847,7 +847,8 @@ class Cluster_m extends CI_Model
 							d.nama as kabupaten_kota,
 							e.nama as kecamatan,
 							f.nama as kelurahan,
-							a.kode_uker
+							a.kode_uker,
+							FROM_UNIXTIME(b.timeinput)
 					from cluster a
 					inner join cluster_anggota b on a.id=b.id_cluster
 					left join provinsi c on a.provinsi=c.id
@@ -1006,7 +1007,7 @@ class Cluster_m extends CI_Model
 		$q = "SELECT a.kanwil, a.kode_kanwil, a.id, a.kelompok_usaha, count( b.id_ca ) as total_anggota 
             FROM cluster a
             left join cluster_anggota b on a.id=b.id_cluster
-            WHERE a.cluster_status=1 and a.kode_kanwil='" . $i . "' group by a.id";
+            WHERE a.cluster_status=1 and cluster_approval=1 and a.kode_kanwil='" . $i . "' group by a.id";
 		return $this->db->query($q)->result_array();
 	}
 
@@ -1026,7 +1027,8 @@ class Cluster_m extends CI_Model
 						d.nama as kabupaten_kota,
 						e.nama as kecamatan,
 						f.nama as kelurahan,
-						a.kode_uker
+						a.kode_uker,
+						FROM_UNIXTIME(b.timeinput)
             from cluster a
             inner join cluster_anggota b on a.id=b.id_cluster
 			left join provinsi c on a.provinsi=c.id

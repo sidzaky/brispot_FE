@@ -500,7 +500,7 @@ class Cluster extends MX_Controller
 
 	public function dldataanggota()
 	{
-		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch");
+		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 
 		$data = $this->cluster_m->dldataanggota_m();
 		$no = 1;
@@ -634,7 +634,7 @@ class Cluster extends MX_Controller
 	public function dldatareportanggota()
 	{
 		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch");
+		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 		$no = 1;
 		$z = 1;
 		$data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);
