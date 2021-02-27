@@ -22,8 +22,9 @@
         switch ($this->session->userdata('permission')) {
             case (4) :
                     $lilaporan .= '         <li><a href="'.base_url().'cluster/getreport/harian">Rekap Klaster</a></li>
-                                            <li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+                                            <li><a href="'.base_url().'cluster/report_kanca">Rekap Kanca</a></li>
                                             <li><a href="'.base_url().'cluster/report_anggota">Rekap Anggota Klaster</a></li>
+                                            <li><a href="'.base_url().'cluster/report_local_heroes">Rekap Local Heroes</a></li>
                                         </ul>
                                     </li>';
             break;

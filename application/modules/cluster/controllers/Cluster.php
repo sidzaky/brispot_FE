@@ -606,6 +606,99 @@ class Cluster extends MX_Controller
 					 </table>';
 	}
 
+	public function report_kanca()
+	{
+		$pdata = array();
+		$data['kanwil'] = array();
+		$z = array();
+		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
+			foreach ($this->cluster_m->report_kc_count_m($row['kode_kanwil']) as $srow) {
+				(isset($z[$row['kode_kanwil']][$srow['kode_kanca']])) ? $z[$row['kode_kanwil']][$srow['kode_kanca']]++ : $z[$row['kode_kanwil']][$srow['kode_kanca']] = 1;
+			};
+		}
+		$i = 0;
+		foreach ($this->cluster_m->report_kc_m() as $srow) {
+			$pdata['data'][$srow['REGION']]['RGDESC'] = $srow['RGDESC'];
+			$pdata['data'][$srow['REGION']]['REGION'] = $srow['REGION'];
+			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) {
+				(isset($pdata['data'][$srow['REGION']]['kosong'])) ? $pdata['data'][$srow['REGION']]['kosong']++ : $pdata['data'][$srow['REGION']]['kosong'] = 1;
+			} else {
+				if ($z[$srow['REGION']][$srow['BRANCH']] < 3) {
+					(isset($pdata['data'][$srow['REGION']]['isi_sebagian'])) ? $pdata['data'][$srow['REGION']]['isi_sebagian']++ : $pdata['data'][$srow['REGION']]['isi_sebagian'] = 1;
+				}
+				if ($z[$srow['REGION']][$srow['BRANCH']] >= 3) {
+					(isset($pdata['data'][$srow['REGION']]['terisi'])) ? $pdata['data'][$srow['REGION']]['terisi']++ : $pdata['data'][$srow['REGION']]['terisi'] = 1;
+				}
+			}
+			$i++;
+		}
+		$pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
+		$pdata['content'] = 'cluster_report_kanca_v';
+		$this->load->view('template', $pdata);
+	}
+
+	public function report_kanca_detail()
+	{
+		$pdata = array();
+		$data['kanwil'] = array();
+		$z = array();
+		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
+			foreach ($this->cluster_m->report_kc_count_m($row['kode_kanwil']) as $srow) {
+				if (!isset($z[$row['kode_kanwil']][$srow['kode_kanca']])) $z[$row['kode_kanwil']][$srow['kode_kanca']] = 0;
+				$z[$row['kode_kanwil']][$srow['kode_kanca']]++;
+			};
+		}
+		$i = 1;
+		$table = "";
+		foreach ($this->cluster_m->report_kc_m() as $srow) {
+			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) {
+				if ($_POST['case'] == 'kosong') {
+					$table .= '<tr><td>' . $i . '</td>
+										<td>' . $srow['BRDESC'] . '</td>
+										<td>0</td></tr>';
+					$i++;
+				}
+			} else if ($z[$srow['REGION']][$srow['BRANCH']] < 3) {
+				if ($_POST['case'] == 'sebagian') {
+					$table .= '<tr><td>' . $i . '</td>
+										<td>' . $srow['BRDESC'] . '</td>
+										<td>' . $z[$srow['REGION']][$srow['BRANCH']] . '</td></tr>';
+					$i++;
+				}
+			} else if ($z[$srow['REGION']][$srow['BRANCH']] >= 1) {
+				if ($_POST['case'] == 'terisi') {
+					$table .= '<tr><td>' . $i . '</td>
+										<td>' . $srow['BRDESC'] . '</td>
+										<td>' . $z[$srow['REGION']][$srow['BRANCH']] . '</td></tr>';
+					$i++;
+				}
+			}
+		}
+		echo '<table class="table table-striped table-bordered" style="width:100%">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Kanca</th>
+								<th>Total Isian</th>
+							</tr>
+						</thead>
+						<tbody>' . $table . '
+						</tbody>
+					 </table>';
+	}
+
+	public function report_local_heroes()
+	{
+		$pdata['klaster']=$this->cluster_m->report_local_heroes_m();
+		$pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
+		$pdata['content'] = 'cluster_report_local_heroes_v';
+		$this->load->view('template', $pdata);
+	}
+
+	
+
 	public function report_anggota()
 	{
 		ini_set('memory_limit', '-1');

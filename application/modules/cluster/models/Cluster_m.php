@@ -905,6 +905,46 @@ class Cluster_m extends CI_Model
 		return $data;
 	}
 
+	
+	function report_kc_m()
+	{
+		$where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " and true";
+				break;
+			case (3):
+				$where .= " and REGION='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+		}
+		if (isset($_POST['case'])) $where = ' and REGION="' . $_POST['REGION'] . '"';
+		$data = $this->db->query("select DISTINCT(REGION),RGDESC,BRANCH,BRDESC,MBDESC from branch where BRUNIT='B' and BRDESC like 'KC%' " . $where)->result_array();
+		return $data;
+	}
+
+	function report_kc_count_m($j)
+	{
+		$data = $this->db->query("select kode_kanca from cluster where kode_kanwil='" . $j . "' and cluster_approval=1 order by kode_kanca ")->result_array();
+		return $data;
+	}
+
+	function report_local_heroes_m(){
+		$where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " and true";
+				break;
+			case (3):
+				$where .= " and REGION='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+		}
+		if (isset($_POST['case'])) $where = ' and REGION="' . $_POST['REGION'] . '"';
+		$data = $this->db->query("select kanwil, kode_kanwil, count(*) as total from cluster where lh_flag=1 and cluster_approval=1" . $where . " group by kode_kanwil")->result_array();
+		return $data;
+	}
+
+
+
 	public function getdata_jum()
 	{
 		$where = "";
