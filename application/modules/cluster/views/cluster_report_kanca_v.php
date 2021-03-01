@@ -12,6 +12,7 @@
 											<tr>
 												<th>No</th>
 												<th>Kantor Wilayah</th>
+												<th>Kanca belum mengisi</th>
 												<th>Kanca Mengisi Kurang dari 3</th>
 												<th>Kanca Mengisi Lebih dari 3</th>
 											</tr>
