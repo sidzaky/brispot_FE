@@ -85,7 +85,6 @@
                         if (array[i][index]){
                             j = array[i][index].toString();
                         }
-                        j = j.replace(/|/g, " ");
                         line += j;
                     }
 

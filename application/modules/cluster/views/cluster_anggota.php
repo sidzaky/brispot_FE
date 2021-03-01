@@ -300,7 +300,6 @@
 								if (line != '') line += '|'
 
 								var j = array[i][index].toString();
-								j = j.replace(/|/g, " ");
 								line += j;
 							}
 
