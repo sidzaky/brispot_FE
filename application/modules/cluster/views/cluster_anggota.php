@@ -297,10 +297,10 @@
 						for (var i = 0; i < array.length; i++) {
 							var line = '';
 							for (var index in array[i]) {
-								if (line != '') line += ';'
+								if (line != '') line += '|'
 
 								var j = array[i][index].toString();
-								j = j.replace(/;/g, " ");
+								j = j.replace(/|/g, " ");
 								line += j;
 							}
 
