@@ -30,7 +30,7 @@
             break;
             case (3) :
                     $lilaporan .= '         <li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
-                                            <li><a href="'.base_url().'cluster/report_unit">Rekap Unit</a></li>
+                                            <li><a href="'.base_url().'cluster/report_kanca">Rekap Kanca</a></li>
                                         </ul>
                                     </li>';
             break;
