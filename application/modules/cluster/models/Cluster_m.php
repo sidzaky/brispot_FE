@@ -935,7 +935,7 @@ class Cluster_m extends CI_Model
 				$where .= " and true";
 				break;
 			case (3):
-				$where .= " and REGION='" . $this->session->userdata('kode_kanwil') . "' ";
+				$where .= " and kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
 				break;
 		}
 		if (isset($_POST['case'])) $where = ' and REGION="' . $_POST['REGION'] . '"';
@@ -943,14 +943,13 @@ class Cluster_m extends CI_Model
 		return $data;
 	}
 
-	public function dlDataReportLocalHeroes_m($harian)
+	public function dlDataReportLocalHeroes_m()
 	{
-		if ($_POST['kanwil'] == "") {
+		if ($_POST['kode_kanwil'] == "all") {
 			if ($this->session->userdata('permission') == 4) {
 				$where = " true ";
 			}
-		} else $where = "kanwil='" . $_POST['kode_kanwil'] . "'";
-		if ($harian != null) $where .= " and `timestamp`>1576085405 ";
+		} else $where = " kode_kanwil='" . $_POST['kode_kanwil'] . "'";	
 		$where .=" and cluster_approval=1 and lh_flag=1 ";
 		$sql = 'SELECT	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								kanwil,

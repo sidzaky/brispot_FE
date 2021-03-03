@@ -33,7 +33,7 @@
 											<tr>
 												<td><?php $i+1?></td>
 												<td>Grand Total</td>
-												<td><?php echo $d . '<button class="btn btn-primary waves-effect waves-light btn-sm" id="button'.$i.'" onclick="getcsv(\'all\', \''. $i .'\', \'all\')" name="kanwil" value="all" type="submit"><i class="fa fa-download"></i></button>';?></td>
+												<td><?php echo $d . ($this->session->userdata('permission') == 4 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="button'.$i.'" onclick="getcsv(\'all\', \''. $i .'\', \'all\')" name="kanwil" value="all" type="submit"><i class="fa fa-download"></i></button>' : '' );?></td>
 											</td>
 										</tbody>
 									</table>
