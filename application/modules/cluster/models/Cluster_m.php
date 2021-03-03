@@ -949,7 +949,7 @@ class Cluster_m extends CI_Model
 			if ($this->session->userdata('permission') == 4) {
 				$where = " true ";
 			}
-		} else $where = "kanwil='" . $_POST['kanwil'] . "'";
+		} else $where = "kanwil='" . $_POST['kode_kanwil'] . "'";
 		if ($harian != null) $where .= " and `timestamp`>1576085405 ";
 		$where .=" and cluster_approval=1 and lh_flag=1 ";
 		$sql = 'SELECT	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,

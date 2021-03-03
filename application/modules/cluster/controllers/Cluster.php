@@ -760,7 +760,7 @@ class Cluster extends MX_Controller
 			"Simpanan Bank", "Agen Brilink"
 		);
 
-		$data = $this->cluster_m->dlDataReportLocalHeroes_m($harian);
+		$data = $this->cluster_m->dlDataReportLocalHeroes_m();
 		$no = 1;
 		$z = 1;
 		foreach ($data as $cell) {
