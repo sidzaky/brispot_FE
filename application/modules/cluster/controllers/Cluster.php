@@ -745,6 +745,40 @@ class Cluster extends MX_Controller
 		echo json_encode($headerexcel);
 	}
 
+	public function dldatareportlocalheroes()
+	{
+		ini_set('memory_limit', '-1');
+		$headerexcel[0] = array(
+			'No', 'Waktu Input', 'kanwil', 'kanca',
+			"Kode Kanca", "Uker", "Kode Uker", "Nama Kaunit", "PN Kaunit", "Handphone Kaunit", "Nama Mantri", "PN Mantri", "Handphone Mantri",
+			"Nama Kelompok Usaha", "Jumlah Anggota (orang)", "Pinjaman anggota Kelompok", "Lokasi Usaha", "Kode Pos", "Provinsi", "Kabupaten/Kota", "Kecamantan", "Kelurahan",
+			"Sektor Usaha", "Jenis Usaha Map", "Jenis Usaha", "Hasil Produk",  "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
+			"Luas Lahan/Tempat Usaha (m2)", "Omset Usaha Perbulan (total Kelompok - Rp)",
+			"Nama Ketua Kelompok", "Jenis Kelamin", "NIK", "Handphone Ketua Kelompok", "Tanggal Lahir", "Tempat lahir",
+			"Punya Pinjaman", "Nominal Pinjaman BRI", "Norek Pinjaman BRI", "Kebutuhan Kredit",
+			"Kebutuhan Sarana", "Kebutuhan Sarana Lainnya", "Kebutuhan Pendidikan",
+			"Simpanan Bank", "Agen Brilink"
+		);
+
+		$data = $this->cluster_m->dlDataReportLocalHeroes_m($harian);
+		$no = 1;
+		$z = 1;
+		foreach ($data as $cell) {
+			$col = 0;
+			$headerexcel[$z][$col] = $no;
+			foreach (array_keys($cell) as $key) {
+				$col++;
+				$cell[$key] = str_replace(';', ' ', $cell[$key]);
+				$cell[$key] = str_replace(',', ' ', $cell[$key]);
+				$headerexcel[$z][$col] = $cell[$key];
+			}
+			$z++;
+			$no++;
+		}
+
+		echo json_encode($headerexcel, true);
+	}
+
 	public function custom_search()
 	{
 		$data['kanwil'] = $this->cluster_m->get_data_kanwil_m();

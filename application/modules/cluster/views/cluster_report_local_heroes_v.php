@@ -24,7 +24,7 @@
 												echo '<tr>';
 												echo '<td>' . $i . '</td>';
 												echo '<td>' . $row['kanwil'] . '</td>';
-												echo '<td>' . $row['total'] . '</td>';
+												echo '<td>' . $row['total'] . '<button class="btn btn-primary waves-effect waves-light btn-sm" id="button'.$i.'" onclick="getcsv(\''.$row['kode_kanwil'].'\', \''. $i .'\', \''. $row['kanwil'] .'\')" name="kanwil" value="' . $row['kode_kanwil'] . '" type="submit"><i class="fa fa-download"></i></button></td>';
 												echo '</tr>';
 												$i++;
 												$d +=$row['total'];
@@ -33,7 +33,7 @@
 											<tr>
 												<td><?php $i+1?></td>
 												<td>Grand Total</td>
-												<td><?php echo $d?></td>
+												<td><?php echo $d . '<button class="btn btn-primary waves-effect waves-light btn-sm" id="button'.$i.'" onclick="getcsv(\'all\', \''. $i .'\', \'all\')" name="kanwil" value="all" type="submit"><i class="fa fa-download"></i></button>';?></td>
 											</td>
 										</tbody>
 									</table>
@@ -67,3 +67,53 @@
 							</div>
 						</div>
 					</div>
+
+		<script>
+			function ConvertToCSV(objArray) {
+                var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+                var str = '';
+
+                for (var i = 0; i < array.length; i++) {
+                    var line = '';
+
+                    for (var index in array[i]) {
+                        if (line != '') line += '|'
+                        var j ="-"; 
+                        if (array[i][index]){
+                            j = array[i][index].toString();
+                        }
+                        line += j;
+                    }
+
+                    str += line + '\r\n';
+                }
+
+                return str;
+            }
+
+			function getcsv(i = '', k, l) {
+                var data1 = {
+                    'kode_kanwil': i,
+                };
+                if (i == "") i = "all";
+                var name = l.trim();
+                $("#button" + k).attr("disabled", "disabled");
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>cluster/dldatareportlocalheroes/",
+                    data: data1,
+                    success: function(msg) {
+                        var jsonObject = msg;
+                        var csv = ConvertToCSV(jsonObject),
+                            a = document.createElement('a');
+                        a.textContent = 'download';
+                        a.download = 'Local_heroes_'+ name + '.csv';
+                        a.href = 'data:text/csv;charset=utf-8,' + escape(csv);
+                        document.body.appendChild(a);
+                        a.click();
+                        $("#button" + k).removeAttr("disabled");
+                    }
+                });
+            }
+		
+		</script>
