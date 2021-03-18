@@ -186,13 +186,18 @@ class Cluster extends MX_Controller
         $list = $this->cluster_m->get_clusterapprove_m();
 		$no = $_POST['start'];
 		foreach ($list->result_array() as $field) {
+
 			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
 			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');initMap('. ($field['latitude'] != "" ? $field['latitude'] .','.$field['longitude'] : "").');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
 			$info		= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
 			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
+			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update);
+
+			$action		.= $this->session->userdata("permission")== 4 ? $del : "";
 			
+
 			$no++;
 			$row = array();
 			$row[] = $no;
