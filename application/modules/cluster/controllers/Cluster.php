@@ -322,7 +322,6 @@ class Cluster extends MX_Controller
 		$data['kanwil'] = array();
 		$q = $this->cluster_m->getreport_m($harian);
 		$data['listkategori'] = $this->cluster_m->getlist_jum();
-
 		foreach ($q as $row) {
 			if ($row['kanwil'] != false) {
 				foreach ($data['listkategori'] as $zrow) {

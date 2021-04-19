@@ -36,17 +36,18 @@
      							<?php
 										$i = 1;
                                         $grandtotal = 0;
+									
 										foreach ($kanwil as $row => $value) {
 											$totalkanwil=0;
 											echo '<tr>
 													 <td>' . $i . '</td>
 													 <td>'.$row.'</td>';
-											for ($z=1;$z<=count($listkategori);$z++){
-												if (!isset($value[$z])) {
-                                                        $value[$z]=0;
+											foreach ($listkategori as $ss){
+												if (!isset($value[$ss['id_cluster_jenis_usaha_map']])) {
+                                                        $value[$ss['id_cluster_jenis_usaha_map']]=0;
                                                     }
-													$totalkanwil = $totalkanwil+$value[$z];
-													echo '<td>'.$value[$z].'</td>';
+													$totalkanwil = $totalkanwil+$value[$ss['id_cluster_jenis_usaha_map']];
+													echo '<td>'.$value[$ss['id_cluster_jenis_usaha_map']].'</td>';
 												}
 											echo '<td>'.$totalkanwil.($this->session->userdata('permission') >= 3 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\''.$row.'\',\'' . $harian . '\',\''.$i.'\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '').'</td></tr>';
 											$i++;
@@ -56,10 +57,10 @@
 																	<tr>
 																		<td></td>
 																		<td>Grand Total</td>';
-										for ($z=1;$z<=count($listkategori);$z++){
+										foreach ($listkategori as $ss){
 										
-												echo '<td>'.(isset($total[$z]) ? $total[$z] : '0').'</td>';
-												$grandtotal += (isset($total[$z]) ? $total[$z] : 0 );
+												echo '<td>'.(isset($total[$ss['id_cluster_jenis_usaha_map']]) ? $total[$ss['id_cluster_jenis_usaha_map']] : '0').'</td>';
+												$grandtotal += (isset($total[$ss['id_cluster_jenis_usaha_map']]) ? $total[$ss['id_cluster_jenis_usaha_map']] : 0 );
 										}
 										echo '<td>'.$grandtotal.($this->session->userdata('permission') >= 3 ? '<button class="btn btn-primary waves-effect waves-light btn-sm" id="buttonall" onclick="getcsv(\'\',\'' . $harian . '\',\'all\')" name="kanwil" value="' . $row . '" type="submit"><i class="fa fa-download"></i></button>' : '') . '</td></tr></tfoot>';
 										?>

@@ -243,91 +243,7 @@ class Cluster_m extends CI_Model
 
 
 
-	public function getreport_m($harian)
-	{
-		$where = "";
-		switch ($this->session->userdata('permission')) {
-			case (4):
-				$where .= " where true ";
-				break;
-			case (3):
-				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
-				break;
-			case (2):
-				$where .= " where kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
-				break;
-			case (1):
-				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
-				break;
-		}
-		if ($harian != "") $where .= " and timestamp>1576085405 ";
-		$where .=" and cluster_approval=1 ";
-		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
-								kanwil,
-								kode_kanwil,
-								kanca,
-								kode_kanca, 
-								uker,
-								kode_uker,
-								kaunit_nama,
-								kaunit_pn,
-								CONCAT( "\'", kaunit_handphone ) AS kaunit_handphone,
-								nama_pekerja,
-								personal_number,
-								CONCAT( "\'", handphone_pekerja ) AS handphone_pekerja,
-								kelompok_usaha,
-								kelompok_jumlah_anggota,
-								kelompok_anggota_pinjaman,
-								lokasi_usaha,
-								e.kode_pos,
-								b.MAPKODE,
-								b.nama AS provinsi,
-								c.nama AS kabupaten,
-								d.nama AS kecamatan,
-								e.nama AS kelurahan,
-								a.id_cluster_sektor_usaha,
-								a.id_cluster_jenis_usaha_map,
-								a.id_cluster_jenis_usaha,
-								nama_cluster_jenis_usaha,
-								nama_cluster_jenis_usaha_map,
-								keterangan_cluster_sektor_usaha
-								hasil_produk,
-								pasar_ekspor,
-								pasar_ekspor_tahun,
-								pasar_ekspor_nilai,
-								kelompok_pihak_pembeli,
-								CONCAT( "\'", kelompok_pihak_pembeli_handphone ) AS kelompok_pihak_pembeli_handphone,
-								kelompok_suplier_produk,
-								CONCAT( "\'", kelompok_suplier_handphone ) AS kelompok_suplier_handphone,
-								kelompok_luas_usaha,
-								CONCAT( "\'", kelompok_omset ) AS kelompok_omset,
-								kelompok_perwakilan,
-								kelompok_jenis_kelamin,
-								CONCAT( "\'", kelompok_NIK ) AS kelompok_NIK,
-								CONCAT( "\'", kelompok_handphone ) AS kelompok_handphone,
-								kelompok_perwakilan_tgl_lahir,
-								kelompok_perwakilan_tempat_lahir,
-								pinjaman,
-								CONCAT( "\'", nominal_pinjaman ) AS nominal_pinjaman,
-								CONCAT( "\'", norek_pinjaman_bri ) AS norek_pinjaman_bri,
-								kebutuhan_skema_kredit,
-								kebutuhan_sarana,
-								kebutuhan_sarana_lainnya,
-								kebutuhan_pendidikan,
-								simpanan_bank,
-								agen_brilink
-					FROM	cluster a
-					left join provinsi b on a.provinsi=b.id
-					left join kabupaten_kota c on a.kabupaten=c.id
-					left join kecamatan d on a.kecamatan=d.id
-					left join kelurahan e on a.kelurahan=e.id 
-					left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
-					left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
-					left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha 
-					
-					' . $where . ' order by kanwil asc';
-		return $this->db->query($sql)->result_array();
-	}
+	
 
 
 	public function cekuker_m($id=null)
@@ -416,6 +332,95 @@ class Cluster_m extends CI_Model
 													left join kecamatan d on a.kecamatan=d.id
 													left join kelurahan e on a.kelurahan=e.idz');
 
+	
+	
+	public function getreport_m($harian)
+	{
+		$where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " where true ";
+				break;
+			case (3):
+				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$where .= " where kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+		}
+		$where .= " and timestamp>1576085405 ";
+		$where .=" and a.cluster_approval=1 and a.cluster_status=1  ";
+		$sql = 'SELECT 	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
+								kanwil,
+								kode_kanwil,
+								kanca,
+								kode_kanca, 
+								uker,
+								kode_uker,
+								kaunit_nama,
+								kaunit_pn,
+								CONCAT( "\'", kaunit_handphone ) AS kaunit_handphone,
+								nama_pekerja,
+								personal_number,
+								CONCAT( "\'", handphone_pekerja ) AS handphone_pekerja,
+								kelompok_usaha,
+								kelompok_jumlah_anggota,
+								kelompok_anggota_pinjaman,
+								lokasi_usaha,
+								e.kode_pos,
+								b.MAPKODE,
+								b.nama AS provinsi,
+								c.nama AS kabupaten,
+								d.nama AS kecamatan,
+								e.nama AS kelurahan,
+								a.id_cluster_sektor_usaha,
+								a.id_cluster_jenis_usaha_map,
+								a.id_cluster_jenis_usaha,
+								nama_cluster_jenis_usaha,
+								nama_cluster_jenis_usaha_map,
+								keterangan_cluster_sektor_usaha
+								hasil_produk,
+								pasar_ekspor,
+								pasar_ekspor_tahun,
+								pasar_ekspor_nilai,
+								kelompok_pihak_pembeli,
+								CONCAT( "\'", kelompok_pihak_pembeli_handphone ) AS kelompok_pihak_pembeli_handphone,
+								kelompok_suplier_produk,
+								CONCAT( "\'", kelompok_suplier_handphone ) AS kelompok_suplier_handphone,
+								kelompok_luas_usaha,
+								CONCAT( "\'", kelompok_omset ) AS kelompok_omset,
+								kelompok_perwakilan,
+								kelompok_jenis_kelamin,
+								CONCAT( "\'", kelompok_NIK ) AS kelompok_NIK,
+								CONCAT( "\'", kelompok_handphone ) AS kelompok_handphone,
+								kelompok_perwakilan_tgl_lahir,
+								kelompok_perwakilan_tempat_lahir,
+								pinjaman,
+								CONCAT( "\'", nominal_pinjaman ) AS nominal_pinjaman,
+								CONCAT( "\'", norek_pinjaman_bri ) AS norek_pinjaman_bri,
+								kebutuhan_skema_kredit,
+								kebutuhan_sarana,
+								kebutuhan_sarana_lainnya,
+								kebutuhan_pendidikan,
+								simpanan_bank,
+								agen_brilink
+					FROM	cluster a
+					left join provinsi b on a.provinsi=b.id
+					left join kabupaten_kota c on a.kabupaten=c.id
+					left join kecamatan d on a.kecamatan=d.id
+					left join kelurahan e on a.kelurahan=e.id 
+					left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
+					left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
+					left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha 
+					' . $where . ' 
+					order by kanwil asc';
+		return $this->db->query($sql)->result_array();
+	}
+
+
 	public function getdataall_m($harian)
 	{
 		if ($_POST['kanwil'] == "") {
@@ -423,8 +428,8 @@ class Cluster_m extends CI_Model
 				$where = " true ";
 			}
 		} else $where = "kanwil='" . $_POST['kanwil'] . "'";
-		if ($harian != null) $where .= " and `timestamp`>1576085405 ";
-		$where .=" and cluster_approval=1 ";
+		$where .= " and `timestamp`>1576085405 ";
+		$where .=" and a.cluster_approval=1 and a.cluster_status=1 ";
 		$sql = 'SELECT	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								kanwil,
 								kanca,
@@ -483,7 +488,11 @@ class Cluster_m extends CI_Model
 								left join cluster_sektor_usaha f on f.id_cluster_sektor_usaha=a.id_cluster_sektor_usaha
 								left join cluster_jenis_usaha_map g on g.id_cluster_jenis_usaha_map=a.id_cluster_jenis_usaha_map
 								left join cluster_jenis_usaha h on h.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha 
-							WHERE ' . $where . ' order by timestamp desc';
+							WHERE ' . $where . '
+							and f.status=1
+							and g.status=1
+							and h.status=1
+						order by timestamp desc';
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
