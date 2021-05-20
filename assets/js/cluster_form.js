@@ -56,7 +56,6 @@ function readURL(input, j) {
         processImage(reader.result, input.files[0].type, j);
       } else alert("type file tidak ada yang didukung");
     };
-
     reader.readAsDataURL(input.files[0]);
   }
 }

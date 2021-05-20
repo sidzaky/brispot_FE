@@ -384,6 +384,7 @@ class Cluster_m extends CI_Model
 								keterangan_cluster_sektor_usaha
 								hasil_produk,
 								pasar_ekspor,
+								varian,
 								pasar_ekspor_tahun,
 								pasar_ekspor_nilai,
 								kelompok_pihak_pembeli,
@@ -455,6 +456,7 @@ class Cluster_m extends CI_Model
 								nama_cluster_jenis_usaha_map,
 								nama_cluster_jenis_usaha,
 								hasil_produk,
+								varian,
 								pasar_ekspor,
 								pasar_ekspor_tahun,
 								pasar_ekspor_nilai,
@@ -985,6 +987,7 @@ class Cluster_m extends CI_Model
 								nama_cluster_jenis_usaha_map,
 								nama_cluster_jenis_usaha,
 								hasil_produk,
+								varian,
 								pasar_ekspor,
 								pasar_ekspor_tahun,
 								pasar_ekspor_nilai,
