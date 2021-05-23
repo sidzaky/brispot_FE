@@ -431,7 +431,8 @@ class Cluster_m extends CI_Model
 		} else $where = "kanwil='" . $_POST['kanwil'] . "'";
 		$where .= " and `timestamp`>1576085405 ";
 		$where .=" and a.cluster_approval=1 and a.cluster_status=1 ";
-		$sql = 'SELECT	FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
+		$sql = 'SELECT			a.id,
+								FROM_UNIXTIME( TIMESTAMP, "%H:%i:%s %d %M %Y" ) AS date,
 								kanwil,
 								kanca,
 								kode_kanca,

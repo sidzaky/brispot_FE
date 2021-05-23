@@ -350,7 +350,7 @@ class Cluster extends MX_Controller
 	{
 		ini_set('memory_limit', '-1');
 		$headerexcel[0] = array(
-			'No', 'Waktu Input', 'kanwil', 'kanca',
+			'No', 'id', 'Waktu Input', 'kanwil', 'kanca',
 			"Kode Kanca", "Uker", "Kode Uker", "Nama Kaunit", "PN Kaunit", "Handphone Kaunit", "Nama Mantri", "PN Mantri", "Handphone Mantri",
 			"Nama Kelompok Usaha", "Jumlah Anggota (orang)", "Pinjaman anggota Kelompok", "Lokasi Usaha", "Kode Pos", "Provinsi", "Kabupaten/Kota", "Kecamantan", "Kelurahan",
 			"Sektor Usaha", "Jenis Usaha Map", "Jenis Usaha", "Hasil Produk", "varian", "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
