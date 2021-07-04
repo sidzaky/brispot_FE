@@ -75,10 +75,9 @@ class Login extends MX_Controller
         );
         $this->session->set_userdata($sessions);
       };
-      redirect('dashboard');
+     echo json_encode("true");
     } else {
-      $this->session->set_flashdata('message', 'kodeuker/password salah');
-      redirect('login');
+     echo json_encode("kode uker/password salah");
     }
   }
 

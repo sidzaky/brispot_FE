@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Klaster Binaan BRI v0.2</title>
+  <title>Klaster Binaan BRI</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +17,7 @@
   <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <button type="button" class="navbar-toggle "  data-target="#navbar" aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -30,7 +30,7 @@
           <li class="active"><a class="text-button" href="#home">Beranda</a></li>
           <li><a class="text-button" href="#about">Definisi</a></li>
           <li><a class="text-button" href="#galeri">Portofolio</a></li>
-          <li><button onclick="(function(){location.href = '<?php echo base_url() ?>login'})()" class="btn btn-primary navbar-btn btn-bri">Login</button></li>
+          <li><button onclick="$('#modal-login').modal();" class="btn btn-primary navbar-btn btn-bri">Login</button></li>
         </ul>
       </div>
       <!--/.nav-collapse -->
@@ -61,7 +61,7 @@
         <div class="row">
           <div class="col-md-3">
             <div class="card">
-              <img class="card-image" src="<?php echo base_url() ?>assets/img/landing-page/penjualan-kolektif.png" alt="penjualan-kolektif" />
+              <img class="card-image" style="display: block;margin-left: auto;margin-right: auto;" src="<?php echo base_url() ?>assets/img/landing-page/penjualan-kolektif.png" alt="penjualan-kolektif" />
               <h2 class="card-header">Pemasaran Produk</h2>
               <p class="card-description">Pemasaran produk & jasa BRI yang efektif dan
                 efisien melalui pendekatan kelompok/klaster</p>
@@ -69,7 +69,7 @@
           </div>
           <div class="col-md-3">
             <div class="card">
-              <img class="card-image" src="<?php echo base_url() ?>assets/img/landing-page/finansial-advisor.png" alt="financial-advisor" />
+              <img class="card-image" style="display: block;margin-left: auto;margin-right: auto;"  src="<?php echo base_url() ?>assets/img/landing-page/finansial-advisor.png" alt="financial-advisor" />
               <h2 class="card-header">Financial Advisor</h2>
               <p class="card-description">Tenaga
                 pemasar dapat menjadi financial advisor (konsultan keuangan) dan partner diskusi bagi nasabah UMKM</p>
@@ -77,7 +77,7 @@
           </div>
           <div class="col-md-3">
             <div class="card">
-              <img class="card-image" src="<?php echo base_url() ?>assets/img/landing-page/pemasar.png" alt="tenaga-pemasar" />
+              <img class="card-image" style="display: block;margin-left: auto;margin-right: auto;"  src="<?php echo base_url() ?>assets/img/landing-page/pemasar.png" alt="tenaga-pemasar" />
               <h2 class="card-header">Menjadi Pemasar</h2>
               <p class="card-description">Pengalaman baik yang dialami oleh pelaku usaha
                 menjadi peluang untuk disampaikan kepada pelaku usaha lainnya</p>
@@ -85,7 +85,7 @@
           </div>
           <div class="col-md-3">
             <div class="card">
-              <img class="card-image" src="<?php echo base_url() ?>assets/img/landing-page/potensi.png" alt="kemudahan-identifikasi" />
+              <img class="card-image" style="display: block;margin-left: auto;margin-right: auto;"  src="<?php echo base_url() ?>assets/img/landing-page/potensi.png" alt="kemudahan-identifikasi" />
               <h2 class="card-header">Kemudahan Identifikasi</h2>
               <p class="card-description">Memudahkan tenaga pemasar mengidentifikasi Klaster Usaha dalam lingkungannya</p>
             </div>
@@ -244,28 +244,80 @@
       </div>
     </div>
   </footer>
-  <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
+  <div class="modal" id="modal-login" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title">Icons Attribution</h4>
+          <h4 align="center" class="modal-title"><img src="<?php echo base_url() ?>assets/img/landing-page/logo_spaced.png" style="width:150px;" alt="logo-klasterku-hidupku" /></h4>
         </div>
         <div class="modal-body">
-          <div>Icons made by <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-          <div>Icons made by <a href="https://www.flaticon.com/authors/xnimrodx" title="xnimrodx">xnimrodx</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-          <div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-          <div>Icons made by <a href="https://www.flaticon.com/authors/geotatah" title="geotatah">geotatah</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-          <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-          <div>Icons made by <a href="https://www.flaticon.com/authors/smalllikeart" title="smalllikeart">smalllikeart</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
-        </div>
+          <div id="alert" style="display:none;" class="alert alert-danger alert-dismissable">
+            <button class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <h4 align="center" id="alertmessage"></h4>
+          </div>
+          <form action="<?php echo base_url() ?>login/validate" method="post">
+              <div class="form-group has-feedback">
+                <input type="text" class="form-control" placeholder="Kode Uker" id="username">
+                <span class="glyphicon glyphicon-gear form-control-feedback"></span>
+              </div>
+              <div class="form-group has-feedback">
+                <input type="password" class="form-control" placeholder="Password" id="password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+              </div>
+          </form>
+       </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat" onclick="login();">Masuk</button>
+          <button type="button" class="btn btn-warning btn-block btn-flat" data-dismiss="modal" onclick="$('#modal-login').hide();">Keluar</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-</body>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style>
+	.modal-body {
+		max-height: calc(100vh - 200px);
+  }
+  
 
+  .overlay {
+    position: fixed; /* Positioning and size */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(128,128,128,0.5); /* color */
+    display: none; /* making it hidden by default */
+  }
+</style>
+</body>
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+  function login(){
+    
+    var data1 = {
+        'username' : $("#username").val(),
+        'password' : $("#password").val()
+    }
+
+    console.log (data1);
+    $.ajax({ 
+          type:"POST",
+          url: "<?php echo base_url() ?>login/validate",
+          data: data1,
+          success:function(msg){
+            msg=JSON.parse(msg);
+            if (msg == "true") location.reload();
+            else {
+              document.getElementById("alert").style.display="block";
+              document.getElementById("alertmessage").innerHTML=msg;
+            }
+          }
+        });
+
+
+  }
+</script>
 </html>

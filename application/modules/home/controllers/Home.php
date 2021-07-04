@@ -22,6 +22,9 @@ class Home extends MX_Controller
 
   public function index()
   {
-    $this->load->view('home');
+    if ($this->session->userdata('logged_in') === true) {
+      redirect('dashboard');
+    }
+    else  $this->load->view('home');
   }
 }
