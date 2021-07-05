@@ -116,6 +116,19 @@ function setfilter(){
                           verticalAlign: 'bottom'
                       }
                   },
+                  plotOptions: {
+                    series: {
+                        point: {
+                            events: {
+                                click: function () {
+                                   
+                                    location.href = './dashboard/psummary/' + this["hc-key"];
+                                }
+                            }
+                        }
+                    }
+                },
+
                   series: [{
                       data: JSON.parse(msg!= null ? msg : ''),
                       name: 'Data klaster',

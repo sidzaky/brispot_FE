@@ -44,5 +44,10 @@
                 <td>Kebutuhan Skema Kredit</td>
                 <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('kebutuhan_skema_kredit')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
             </tr>
+            <tr>
+                <td>7</td>
+                <td>Data BPS</td>
+                <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('data_bps')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
+            </tr>
         </tbody>
     </table>

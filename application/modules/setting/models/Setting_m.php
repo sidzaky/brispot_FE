@@ -185,6 +185,32 @@ class setting_m extends CI_Model
             $this->db->query($sql);
         }
     }
+
+
+    public function get_kebutuhanskemakredit_m(){
+        $sql="select * from cluster_data_bps where status=1";
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function get_DataBps_m(){
+        $sql="select * from cluster_bps_provinsi where status=1";
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function up_DataBps_m(){
+        if (isset($_POST['idsk']) && $_POST['idsk']!="") {
+            $sql="update cluster_kebutuhan_skema_kredit set 
+                    kebutuhan_skema_kredit='".$_POST['issk']."'
+                    where id_cluster_kebutuhan_skema_kredit='".$_POST['idsk']."'";
+        }
+        else {
+            $sql="insert into cluster_kebutuhan_skema_kredit
+                    values ('". $this->uuid->v4(true) ."',
+                            '".$_POST['issk']."',
+                            1)";
+        }
+        $this->db->query($sql);
+    }
 }	
 	
 /* End of file user_m.php */

@@ -165,6 +165,17 @@ class Setting extends MX_Controller {
         unset($_POST);
         $this->get_kebutuhan_skema_kredit();
     }
+
+    public function get_data_bps(){
+        $data['data_bps']=$this->setting_m->get_DataBps_m();
+        $this->load->view('setting_data_bps_v',$data);
+    }
+
+    public function up_data_bps(){
+        $this->setting_m->up_DataBps_m();
+        unset($_POST);
+        $this->get_data_bps();
+    }
     
 }
 ?>    

@@ -75,3 +75,7 @@ function fjum(i, j = "") {
 
   $(document.getElementById("id_cluster_jenis_usaha")).empty();
 }
+
+
+
+

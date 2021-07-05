@@ -357,5 +357,69 @@ class Dashboard extends MX_Controller
     }
     echo json_encode($data);
   }
+
+  function psummary($pid=null){
+    if ($pid!=null){
+        $data['navbar']     = 'navbar';
+        $data['sidebar']    = 'sidebar';
+        $data['content']    = 'psummary'; 
+        $data['cluster']    = $this->dashboard_m->getPSummary($pid);
+        $data['provinsi']   = $this->dashboard_m->getProvinsiByMapKode_m($pid);
+        $data['komoditas']  = $_POST['hasil_produk'].', '. ($_POST['varian'] == "" ? "Semua Varian" : $_POST['varian']);
+        $data['klaster']    = $this->dashboard_m->getlist_jum();
+        $jenis_usaha    = $this->dashboard_m->getlist_jum();
+        
+      
+        $data['koordinat'][0]['lat']=$data['provinsi'][0]['lat'];
+        $data['koordinat'][0]['long']=$data['provinsi'][0]['long'];
+        $data['koordinat'][0]['zoom']='7';
+
+
+        // print_r ($data['provinsi']);
+
+        $this->load->module('cluster');
+        $this->load->model('cluster_m');
+        $kebutuhan_pendidikan = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
+        $kebutuhan_sarana     = $this->cluster_m->get_cluster_kebutuhan_sarana();
+        $kebutuhan_kredit     = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
+
+        $data['performance'];
+        $i=0;
+        foreach ($data['cluster'] as $row ){
+            $data['listloc'][$i]['umkm']  = $row['kelompok_usaha'];
+            $data['listloc'][$i]['lat']   = $row['latitude'];
+            $data['listloc'][$i]['long']  = $row['longitude'];
+            $data['listloc'][$i]['count'] = $i;
+            $i++;
+            $data['performance']['luas_lahan'] += $row['kelompok_luas_usaha'];
+            $data['performance']['kapasitas_produksi'] += $row['kapasitas_produksi'];
+            if ($row['periode_panen'] !="" ) $data['performance']['panen'][$row['periode_panen']]++;
+
+            if (!isset($data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'])){
+              $data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'] = $row['kapasitas_produksi'];
+            }
+            else $data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'] += $row['kapasitas_produksi'];
+
+            foreach ($kebutuhan_pendidikan as $kp){
+              if ($row['kebutuhan_pendidikan']==$kp['id_cluster_kebutuhan_pendidikan_pelatihan']) {
+                $data['performance']['kp'][$kp['kebutuhan_pendidikan_pelatihan']]++;
+              }
+            } 
+            foreach ($kebutuhan_sarana as $ks){
+              if ($row['kebutuhan_sarana']==$ks['id_cluster_kebutuhan_sarana']) {
+                $data['performance']['ks'][$ks['kebutuhan_sarana']]++;
+              }
+            }
+            foreach ($kebutuhan_kredit as $kk){
+              if ($row['kebutuhan_skema_kredit']==$kk['id_cluster_kebutuhan_skema_kredit']) {
+                $data['performance']['kk'][$kk['kebutuhan_skema_kredit']]++;
+              }
+            }
+        }
+      $this->load->view('template', $data);
+    }
+  }
+
+
 }
 

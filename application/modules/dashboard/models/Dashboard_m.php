@@ -206,6 +206,7 @@ class Dashboard_m extends CI_Model
 		return $this->db->query($sql)->result_array();
 	}
 
+  
 	public function getkotakab_m($i=null)
 	{ 
     if (isset($_POST['kabupaten'])) $i=$_POST['kabupaten'];
@@ -325,6 +326,75 @@ class Dashboard_m extends CI_Model
 
   }
 
+
+  public function getPSummary($pid=null){
+    $where = "";
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " where true ";
+				break;
+			case (3):
+				$where .= " where kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$where .= " where kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " where kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+    }
+
+    $where .=" and cluster_approval = 1 ";
+
+    $where .=" and h.MAPKODE = '".$pid."'";
+    
+    $sql="select  a.id,
+                  lokasi_usaha,
+                  nama_pekerja,
+                  handphone_pekerja,
+                  a.kelompok_handphone,
+                  a.kelompok_perwakilan,
+                  a.kelompok_usaha,
+                  a.kelompok_jumlah_anggota,
+                  a.kapasitas_produksi,
+                  a.kelompok_omset,
+                  a.kelompok_luas_usaha,
+                  a.id_cluster_jenis_usaha,
+                  i.nama_cluster_jenis_usaha,
+                  hasil_produk,
+                  periode_panen,
+                  varian,
+                  e.nama as nama_kabupaten,
+                  f.nama as nama_kecamatan,
+                  g.nama as nama_kelurahan,
+                  a.agen_brilink,
+                  a.latitude,
+                  a.longitude,
+                  a.kebutuhan_sarana,
+                  a.kebutuhan_pendidikan,
+                  a.kebutuhan_skema_kredit,
+                  b.kebutuhan_sarana as nama_kebutuhan_sarana,
+                  c.kebutuhan_skema_kredit as nama_kebutuhan_skema_kredit,
+                  d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan
+          from cluster a
+          left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
+          left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
+          left join cluster_kebutuhan_pendidikan_pelatihan d on a.kebutuhan_pendidikan = d.id_cluster_kebutuhan_pendidikan_pelatihan 
+          left join provinsi h on h.id = a.provinsi
+          left join kabupaten_kota e on e.id = a.kabupaten
+          left join kecamatan f on f.id = a.kecamatan
+          left join kelurahan g on g.id = a.kelurahan
+          left join cluster_jenis_usaha i on i.id_cluster_jenis_usaha= a.id_cluster_jenis_usaha
+          " .$where;
+    return $this->db->query($sql)->result_array();
+  }
+
+  public function getProvinsiByMapKode_m($pid=null)
+	{
+		$sql = "select * from provinsi where MAPKODE='".$pid."'";
+		return $this->db->query($sql)->result_array();
+	}
+ 
 }
   
 
