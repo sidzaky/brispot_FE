@@ -1,4 +1,4 @@
-<h3 class="box-title" align="center">List Kategori Usaha</h3>
+<h3 class="box-title" align="center">List Data BPS </h3>
    <button class="btn btn-success waves-effect waves-light btn-sm" onclick="showform()" type="button"><i class="fa fa-plus"></i> Tambah List</button>
    <button class="btn btn-primary waves-effect waves-light btn-sm" style="float:right;" onclick="getform('setting_content')" type="button"><i class="fa fa-Left"></i> Kembali</button>
 
@@ -15,13 +15,13 @@
         <tbody>
           <?php 
             $i=1;
-            foreach ($jenis_usaha_map as $row){
+            foreach ($data_bps as $row){
                 echo '<tr>';
                 echo '<td>'. $i++ .'</td>';
-                echo '<td>'. $row['nama_provinsi'] .'</td>'; 
+                echo '<td>'. $row['nama'] .'</td>';
                 echo '<td>'. $row['nama_cluster_jenis_usaha'] .'</td>';
                 echo '<td>'. $row['value'] .'</td>';
-                echo '<td><button class="btn btn-danger waves-effect waves-light btn-sm" style="float:right;" onclick="dellist(\''. $row['id'] .'\')" type="button"><i class="fa fa-close"></i> Hapus</button><button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="showform(\''. $row['id'] .'\',\''. $row['id'] .'\', \''.$row['nama_cluster_jenis_usaha'].'\')" type="button"><i class="fa fa-plus"></i> edit</button></td>';
+                echo '<td><button class="btn btn-danger waves-effect waves-light btn-sm" style="float:right;" onclick="dellist(\''. $row['id_cluster_bps_provinsi'] .'\')" type="button"><i class="fa fa-close"></i> Hapus</button><button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="showform(\''. $row['id_cluster_bps_provinsi'] .'\',\''. $row['id_provinsi'] .'\', \''. $row['id_cluster_jenis_usaha'] .'\', \''.$row['value'].'\')" type="button"><i class="fa fa-plus"></i> edit</button></td>';
             }
           ?>
         </tbody>
@@ -43,24 +43,37 @@
                                 </label>
                             </div>
                             <div class="form-group" style="width: 0">
-                                <input type="hidden" class="form-control dform" id="idjum" placeholder="required" value="">
+                                <input type="hidden" class="form-control dform" id="id" placeholder="required" value="">
                             </div>
-
                             <div class="form-group required">
-							<label class="control-label">Sektor Usaha</label>
-							    <select class="form-control dform required" id="idsu" required>
+							<label class="control-label">Provinsi</label>
+							    <select class="form-control dform required" id="id_provinsi" required>
+                                    <option> Pilih Provinsi </option>
                                     <?php 
-                                        foreach ($sektor_usaha as $row){
-                                            echo '<option value="'. $row['id_cluster_sektor_usaha'] .'"> '. $row['keterangan_cluster_sektor_usaha'] .'</option>';
+                                        foreach ($provinsi as $row){
+                                            echo '<option value="'. $row['id'] .'"> '. $row['nama'] .'</option>';
                                         }
                                     ?>
 							    </select>
 						    </div>
 
                             <div class="form-group required">
-                                <label class="control-label">Katergori Usaha</label>
-                                <input type="text" pattern="[a-zA-Z]" class="form-control dform required" id="isjum" value="" placeholder="required" required>
+							<label class="control-label">Jenis Usaha</label>
+							    <select class="form-control dform required" id="idju" required>
+                                    <option> Pilih Kategori </option>
+                                    <?php 
+                                        foreach ($ju as $row){
+                                            echo '<option value="'. $row['id_cluster_jenis_usaha'] .'"> '. $row['nama_cluster_jenis_usaha'] .'</option>';
+                                        }
+                                    ?>
+							    </select>
+						    </div>
+
+                            <div class="form-group required">
+                                <label class="control-label">Data BPS</label>
+                                <input type="number"  class="form-control dform required" id="value" value="" placeholder="required" required>
                             </div>
+
                             </br>
                         </form>
                     </div>
@@ -76,28 +89,30 @@
     <script>
         $(document).ready(function() {$('#table_form').DataTable();});
 
-        function showform(i=null,j=null, k=null){
-            document.getElementById("idjum").value="";
+        function showform(i=null,j=null, k=null, l=null){
+            document.getElementById("id").value="";
 
             if (i==""){
                 $(".dform").value="";
             }
             else {
-                document.getElementById("idjum").value=i;
-                document.getElementById("idsu").value=j;
-                document.getElementById("isjum").value=k;
+                document.getElementById("id").value=i;
+                document.getElementById("id_provinsi").value=j;
+                document.getElementById("idju").value=k;
+                document.getElementById("value").value=l;
             }
             $("#modal").show();
         }
 
         function sendform(){
             var data={
-                idjum : $('#idjum').val(),
-                idsu : $('#idsu').val(),
-                isjum : $('#isjum').val(),
+                id : $('#id').val(),
+                id_provinsi : $('#id_provinsi').val(),
+                idju : $('#idju').val(),
+                value : $('#value').val(),
             }
-            var notif   = "Update Kategori Usaha Berhasil "
-            var address = "./setting/up_jenis_usaha_map";
+            var notif   = "Update Data BPS Berhasil "
+            var address = "./setting/up_data_bps";
             var element = "setting_content";
             sendajax(data, address, element, notif, null);
             $("#modal").hide();
@@ -106,14 +121,15 @@
         function dellist(i){
             if (confirm("apakah anda Yakin Menghapus Data ini?")){
                 var data={
-                    idjum : i,
+                    id : i,
                 }
-                var notif   = "Hapus kategori Usaha Berhasil "
-                var address = "./setting/dis_jenis_usaha_map";
+                var notif   = "Hapus Data BPS Berhasil "
+                var address = "./setting/dis_data_bps";
                 var element = "setting_content";
                 sendajax(data, address, element, notif, null);
                 $("#modal").hide();
             }
         }
+
 
     </script>

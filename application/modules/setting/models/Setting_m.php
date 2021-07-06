@@ -187,30 +187,55 @@ class setting_m extends CI_Model
     }
 
 
-    public function get_kebutuhanskemakredit_m(){
-        $sql="select * from cluster_data_bps where status=1";
-        return $this->db->query($sql)->result_array();
-    }
 
     public function get_DataBps_m(){
-        $sql="select * from cluster_bps_provinsi where status=1";
+        $sql="select * from cluster_bps_provinsi a 
+                left join provinsi b on a.id_provinsi=b.id
+                left join cluster_jenis_usaha= c on c.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha
+                where a.status=1";
         return $this->db->query($sql)->result_array();
     }
 
     public function up_DataBps_m(){
-        if (isset($_POST['idsk']) && $_POST['idsk']!="") {
-            $sql="update cluster_kebutuhan_skema_kredit set 
-                    kebutuhan_skema_kredit='".$_POST['issk']."'
-                    where id_cluster_kebutuhan_skema_kredit='".$_POST['idsk']."'";
+        if (isset($_POST['id']) && $_POST['id']!="") {
+            $sql="update cluster_bps_provinsi set 
+                    id_provinsi='".$_POST['id_provinsi']."',
+                    id_cluster_jenis_usaha='".$_POST['idju']."',
+                    value='".$_POST['value']."',
+                    updated_by='".$this->session->userdata('id')."',
+                    lastupdate='".time()."'
+                    where id_cluster_bps_provinsi='".$_POST['id']."'";
         }
         else {
-            $sql="insert into cluster_kebutuhan_skema_kredit
+            $sql="insert into cluster_bps_provinsi
                     values ('". $this->uuid->v4(true) ."',
-                            '".$_POST['issk']."',
+                            '".$_POST['id_provinsi']."',
+                            '".$_POST['idju']."',
+                            '".$_POST['value']."',
+                            '',
+                            '".$this->session->userdata('id')."',
+                            '".$this->session->userdata('id')."',
+                            '".time()."',
                             1)";
         }
         $this->db->query($sql);
     }
+
+   
+
+    function getProvinsi_m(){
+        $sql="select * from provinsi";
+        return  $this->db->query($sql)->result_array();
+    }
+
+    public function dis_data_bps_m(){
+        if (isset($_POST['id']) && $_POST['id']!="") {
+            $sql="update cluster_bps_provinsi set status=0 where id_cluster_bps_provinsi='".$_POST['id']."'";
+            $this->db->query($sql);
+        }
+    }
+
+
 }	
 	
 /* End of file user_m.php */

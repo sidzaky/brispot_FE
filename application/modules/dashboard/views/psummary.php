@@ -35,52 +35,43 @@
                       <thead>
                         <tr>
                           <th>No</th>
-                          <th>Jenis Usaha</th>
-                          <th>Total data klaster</th>
+                          <th>Kategori Usaha</th>
+                          <th>Total Data</th>
                           <th>Data BPS</th>
                           <th>Persentase</th>
                         </tr>
                       </thead>
                       <tbody>
                         <?php 
-                          $i=1;
+                          $s=1;
                           foreach ($performance['jenis_usaha'] as $key=>$row ){
                             echo "<tr>";
-                            echo "<td>".$i."</td>";
+                            echo "<td>".$s."</td>";
                             echo "<td>".$key."</td>";
-                            echo "<td>".$value['total']."</td>";
-                            echo "<td>0</td>";
-                            echo "<td>0%</td>";
+                            echo "<td>".number_format($row['total'],'0',',','.')."</td>";
+                            $i=0;
+                            foreach ($data_bps as $srow){
+                              if ($srow['nama_cluster_jenis_usaha'] == $key){
+                                echo "<td>".number_format($srow['value'],'0',',','.')."</td>";
+                                echo "<td>".($srow['value'] != "" || $srow['value']!=0 ? round(($row['total']/$srow['value'] * 100), 2)."%" : "-" )."</td>";
+                                $i=0;
+                                break;
+                              }
+                              $i++;
+                            }
+                            if ($i!=0)  {
+                              echo "<td> tidak ada data </td>";
+                              echo "<td> - </td>";
+                            }
+                           
                             echo "</tr>";
-                            $i++;
+                            $s++;
                           }
                         ?>
                       </tbody>
                     </table>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="box-body">
-                <div class="col-sm-4"><label class="control-label">Kebutuhan Kredit</label></div>
-                    <div class="col-sm-8"><ul class="list-group">
-                        <?php foreach ($performance['kk'] as $key => $value){
-                              echo '<li>'.$key.' : '.$value.'</li>';
-                    }?></ul>
-                    </div> 
-                    <div class="col-sm-4"><label class="control-label">Kebutuhan Prasarana</label></div>
-                    <div class="col-sm-8"><ul class="list-group">
-                        <?php foreach ($performance['ks'] as $key => $value){
-                              echo '<li>'.$key.' : '.$value.'</li>';
-                    }?></ul>
-                    </div> 
-                    <div class="col-sm-4"><label class="control-label">Pelatihan dan Pendidikan</label></div>
-                    <div class="col-sm-8"><ul class="list-group">
-                        <?php foreach ($performance['kp'] as $key => $value){
-                              echo '<li>'.$key.' : '.$value.'</li>';
-                    }?></ul>
-                </div> 
-              </div> 
-           </div>
            <div class="col-sm-6">
               <div class="box-body">
                   <div id="container"></div>
@@ -159,7 +150,7 @@
         </div>
       </div>
   </section>
-
+<?php print_r ($data_bps)?>
 <script src="<?php echo base_url(); ?>assets/js/summary.js"></script>
 
 <script>

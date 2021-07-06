@@ -344,7 +344,7 @@ class Dashboard_m extends CI_Model
 				break;
     }
 
-    $where .=" and cluster_approval = 1 ";
+    $where .=" and a.id_cluster_sektor_usaha=1 and cluster_approval = 1 ";
 
     $where .=" and h.MAPKODE = '".$pid."'";
     
@@ -394,6 +394,14 @@ class Dashboard_m extends CI_Model
 		$sql = "select * from provinsi where MAPKODE='".$pid."'";
 		return $this->db->query($sql)->result_array();
 	}
+
+  public function getDataBpsByProvinsi_m($pid=null){
+    $sql="select * from cluster_bps_provinsi a 
+          left join provinsi b on a.id_provinsi=b.id
+          left join cluster_jenis_usaha c on c.id_cluster_jenis_usaha=a.id_cluster_jenis_usaha
+          where a.status=1 and b.MAPKODE='".$pid."'";
+    return $this->db->query($sql)->result_array();
+  }
  
 }
   

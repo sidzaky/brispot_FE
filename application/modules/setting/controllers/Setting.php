@@ -168,11 +168,21 @@ class Setting extends MX_Controller {
 
     public function get_data_bps(){
         $data['data_bps']=$this->setting_m->get_DataBps_m();
+        $data['provinsi']=$this->setting_m->getProvinsi_m();
+        $data['ju']=$this->setting_m->get_jenisusaha_m();
+
         $this->load->view('setting_data_bps_v',$data);
     }
 
     public function up_data_bps(){
         $this->setting_m->up_DataBps_m();
+        unset($_POST);
+        $this->get_data_bps();
+    }
+
+    
+    public function dis_data_bps(){
+        $this->setting_m->dis_data_bps_m();
         unset($_POST);
         $this->get_data_bps();
     }
