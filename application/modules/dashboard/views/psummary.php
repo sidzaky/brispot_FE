@@ -18,69 +18,94 @@
           <div class="box-header with-border">
             <h2 class="box-title">Summary Provinsi</h2>
           </div><!-- /.box-header -->
-            <div class="box-body">
-              <div id="mapid"></div>
-              <div id="list_data"></div>
+          <div class="box-body">
+            <div id="mapid"></div>
+            <div id="list_data"></div>
           </div>
         </div>
       </div>
+   
+    
       <div class="col-md-12">
         <div class="box">
             <div class="box-header with-border">
                 <h2 class="box-title">Performa Daerah</h2>
             </div><!-- /.box-header -->
-            <div class="col-sm-12">
-              <div class="table-responsive">
-                    <table id="table-performance" class="table table-striped dataTable table-bordered" width="100%">
-                      <thead>
-                        <tr>
-                          <th>No</th>
-                          <th>Kategori Usaha</th>
-                          <th>Total Data</th>
-                          <th>Data BPS</th>
-                          <th>Persentase</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php 
-                          $s=1;
-                          foreach ($performance['jenis_usaha'] as $key=>$row ){
-                            echo "<tr>";
-                            echo "<td>".$s."</td>";
-                            echo "<td>".$key."</td>";
-                            echo "<td>".number_format($row['total'],'0',',','.')."</td>";
-                            $i=0;
-                            foreach ($data_bps as $srow){
-                              if ($srow['nama_cluster_jenis_usaha'] == $key){
-                                echo "<td>".number_format($srow['value'],'0',',','.')."</td>";
-                                echo "<td>".($srow['value'] != "" || $srow['value']!=0 ? round(($row['total']/$srow['value'] * 100), 2)."%" : "-" )."</td>";
-                                $i=0;
-                                break;
-                              }
-                              $i++;
-                            }
-                            if ($i!=0)  {
-                              echo "<td> tidak ada data </td>";
-                              echo "<td> - </td>";
-                            }
-                           
-                            echo "</tr>";
-                            $s++;
-                          }
-                        ?>
-                      </tbody>
-                    </table>
+            <div class="box-body">
+              <div class="col-md-6">
+                <div class="col-sm-12"> 
+                  <div class="box-header with-border">
+                    <h2 class="box-title">Luas Lahan Produktif</h2>
+                  </div>
+                  <div class="box-body"><?php echo $provinsi[0]['lahan_produktif'] ?></div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="box-header with-border">
+                    <h2 class="box-title">Jumlah Ternak</h2>
+                  </div>
+                  <div class="box-body"><?php echo $provinsi[0]['jumlah_ternak'] ?></div>
+                </div>
               </div>
-            </div>
-           <div class="col-sm-6">
-              <div class="box-body">
-                  <div id="container"></div>
+              <div class="col-sm-6">
+                <div class="box-header with-border">
+                    <h2 class="box-title">Detail Provinsi</h2>
+                </div>
+                <div class="box-body">
+                  <div class="col-sm-4"><label class="control-label">Luas Provinsi</label></div>
+                  <div class="col-sm-8"><?php echo number_format($provinsi[0]['luas_wilayah']) ?> Km<sup>2</sup> </div>
+                </div>
+                <div class="box-body">
+                  <div class="col-sm-4"><label class="control-label">Jumlah Penduduk</label></div>
+                  <div class="col-sm-8"><?php echo number_format($provinsi[0]['penduduk']) ?> Jiwa</div>
+                </div>
+                <div class="box-body">
+                  <div class="col-sm-4"><label class="control-label">Kabupaten / Kota </label></div>
+                  <div class="col-sm-8"><?php echo $provinsi[0]['kab'].' / '.$provinsi[0]['kota'] ?> </div>
+                </div>
+                <div class="box-header with-border">
+                    <h2 class="box-title">Data BPS</h2>
+                </div>
+                <div class="box-body">
+                  <div class="col-sm-12">
+                    <div class="table-responsive">
+                          <table id="table-performance" class="table table-striped dataTable table-bordered" width="100%">
+                            <thead>
+                              <tr>
+                                <th>No</th>
+                                <th>Kategori Usaha</th>
+                                <th>Total Data</th>
+                                <th>Data BPS</th>
+                                <th>Persentase</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php 
+                                $s=1;
+                                foreach ($performance['jenis_usaha'] as $key=>$row ){
+                                  echo "<tr>";
+                                  foreach ($data_bps as $srow){
+                                    if ($srow['nama_cluster_jenis_usaha'] == $key){ 
+                                      echo "<td>".$s."</td>";
+                                      echo "<td>".$key."</td>";
+                                      echo "<td>".number_format($row['total'],'0',',','.')."</td>";
+                                      echo "<td>".number_format($srow['value'],'0',',','.')."</td>";
+                                      echo "<td>".($srow['value'] != "" || $srow['value']!=0 ? round(($row['total']/$srow['value'] * 100), 2)."%" : "-" )."</td>";
+                                      $s++;
+                                      break;
+                                    }
+                                  }
+                                  echo "</tr>";
+                                 
+                                }
+                              ?>
+                            </tbody>
+                          </table>
+                      </div>
+                    </div>
+                  </div>
               </div>
-            </div>
-              <div class="box-body">
-                  
-            </div>
           </div>
+        </div>
       </div>
    
     </div>

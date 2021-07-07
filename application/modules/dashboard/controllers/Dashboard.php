@@ -365,16 +365,11 @@ class Dashboard extends MX_Controller
         $data['content']    = 'psummary'; 
         $data['cluster']    = $this->dashboard_m->getPSummary($pid);
         $data['provinsi']   = $this->dashboard_m->getProvinsiByMapKode_m($pid);
-        $data['data_bps']    = $this->dashboard_m->getDataBpsByProvinsi_m($pid);
-
-        
+        $data['data_bps']   = $this->dashboard_m->getDataBpsByProvinsi_m($pid);
       
         $data['koordinat'][0]['lat']=$data['provinsi'][0]['lat'];
         $data['koordinat'][0]['long']=$data['provinsi'][0]['long'];
         $data['koordinat'][0]['zoom']='7';
-
-
-        // print_r ($data['provinsi']);
 
         $this->load->module('cluster');
         $this->load->model('cluster_m');

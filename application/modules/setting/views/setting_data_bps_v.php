@@ -20,7 +20,7 @@
                 echo '<td>'. $i++ .'</td>';
                 echo '<td>'. $row['nama'] .'</td>';
                 echo '<td>'. $row['nama_cluster_jenis_usaha'] .'</td>';
-                echo '<td>'. $row['value'] .'</td>';
+                echo '<td>'. number_format($row['value']) .'</td>';
                 echo '<td><button class="btn btn-danger waves-effect waves-light btn-sm" style="float:right;" onclick="dellist(\''. $row['id_cluster_bps_provinsi'] .'\')" type="button"><i class="fa fa-close"></i> Hapus</button><button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="showform(\''. $row['id_cluster_bps_provinsi'] .'\',\''. $row['id_provinsi'] .'\', \''. $row['id_cluster_jenis_usaha'] .'\', \''.$row['value'].'\')" type="button"><i class="fa fa-plus"></i> edit</button></td>';
             }
           ?>
