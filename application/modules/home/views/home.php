@@ -302,7 +302,7 @@
         'password' : $("#password").val()
     }
 
-    console.log (data1);
+   
     $.ajax({ 
           type:"POST",
           url: "<?php echo base_url() ?>login/validate",

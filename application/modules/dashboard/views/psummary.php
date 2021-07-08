@@ -176,7 +176,7 @@
       </div>
   </section>
 <?php print_r ($data_bps)?>
-<script src="<?php echo base_url(); ?>assets/js/summary.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/psummary.js"></script>
 
 <script>
 
