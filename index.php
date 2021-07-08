@@ -59,6 +59,7 @@ switch ($_SERVER['HTTP_HOST']) {
 		$env = 'development';
 		break;
 	case 'https://klasterkuhidupku.com/':
+	case 'https://www.klasterkuhidupku.com/':
 		$env = 'production';
 		break;
 	default:

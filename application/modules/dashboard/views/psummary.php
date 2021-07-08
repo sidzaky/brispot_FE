@@ -35,33 +35,31 @@
               <div class="col-md-6">
                 <div class="col-sm-12"> 
                   <div class="box-header with-border">
-                    <h2 class="box-title">Luas Lahan Produktif</h2>
+                    <h2 class="box-title">Deskripsi Singkat</h2>
                   </div>
-                  <div class="box-body"><?php echo $provinsi[0]['lahan_produktif'] ?></div>
+                  <div class="box-body"><?php echo $provinsi[0]['summary'] ?></div>
                 </div>
-                <div class="col-sm-12">
+               
+                <div class="col-sm-12"> 
                   <div class="box-header with-border">
-                    <h2 class="box-title">Jumlah Ternak</h2>
+                      <h2 class="box-title">Detail Provinsi</h2>
                   </div>
-                  <div class="box-body"><?php echo $provinsi[0]['jumlah_ternak'] ?></div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Luas Provinsi</label></div>
+                    <div class="col-sm-8"><?php echo number_format($provinsi[0]['luas_wilayah']) ?> Km<sup>2</sup> </div>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Jumlah Penduduk</label></div>
+                    <div class="col-sm-8"><?php echo number_format($provinsi[0]['penduduk']) ?> Jiwa</div>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Kabupaten / Kota </label></div>
+                    <div class="col-sm-8"><?php echo $provinsi[0]['kab'].' / '.$provinsi[0]['kota'] ?> </div>
+                  </div>
                 </div>
               </div>
               <div class="col-sm-6">
-                <div class="box-header with-border">
-                    <h2 class="box-title">Detail Provinsi</h2>
-                </div>
-                <div class="box-body">
-                  <div class="col-sm-4"><label class="control-label">Luas Provinsi</label></div>
-                  <div class="col-sm-8"><?php echo number_format($provinsi[0]['luas_wilayah']) ?> Km<sup>2</sup> </div>
-                </div>
-                <div class="box-body">
-                  <div class="col-sm-4"><label class="control-label">Jumlah Penduduk</label></div>
-                  <div class="col-sm-8"><?php echo number_format($provinsi[0]['penduduk']) ?> Jiwa</div>
-                </div>
-                <div class="box-body">
-                  <div class="col-sm-4"><label class="control-label">Kabupaten / Kota </label></div>
-                  <div class="col-sm-8"><?php echo $provinsi[0]['kab'].' / '.$provinsi[0]['kota'] ?> </div>
-                </div>
+                
                 <div class="box-header with-border">
                     <h2 class="box-title">Data BPS</h2>
                 </div>
