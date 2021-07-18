@@ -19,8 +19,11 @@ function setMarkers(map) {
         new google.maps.Marker({
           position: { lat: parseFloat(thlist['lat']), lng: parseFloat(thlist['long']) },
           title : thlist['umkm'],
-          map,
+          map, 
           shape: shape,
+          icon: {
+            url: thlist['iconurl']
+          },
           zIndex: thlist['count'],
         });
       }

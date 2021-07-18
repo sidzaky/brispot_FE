@@ -18,10 +18,12 @@ function setMarkers(map) {
         const thlist = listloc[i];
         new google.maps.Marker({
           position: { lat: parseFloat(thlist['lat']), lng: parseFloat(thlist['long']) },
-          label : thlist['umkm'],
           title : thlist['umkm'],
           map,
           shape: shape,
+          icon: {
+            url: thlist['iconurl']
+          },
           zIndex: thlist['count'],
         });
       }

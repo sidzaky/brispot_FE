@@ -19,13 +19,25 @@
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
+<style>
 
+
+  
+</style>
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <li>
               <a><?php echo Date('d-M-Y'); ?></a>
             </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-bell"></i><span id="cNotif" class="label label-warning pull-right">2</span></a>
+                  <ul id="notif" class="dropdown-menu" role="menu">
+
+                  </ul>
+            </li>
+            
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <?php

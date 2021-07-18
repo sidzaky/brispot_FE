@@ -56,9 +56,7 @@ class Cluster extends MX_Controller
 			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
 			$status=$field["checker_status"]=="" ? "check" : "sign";
             $colstatus  = "";
-			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
-			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			$upload     = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
             $info	    = '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
             $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
@@ -66,8 +64,21 @@ class Cluster extends MX_Controller
 			$checker_username 	= $field['checker_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
 			$signer_username 	= $field['signer_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
 			
+			if ($this->session->userdata('kode_uker') == $field['kode_uker']){
+				$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			}
+			else {
+				if ($this->session->userdata('permission')>3){
+					$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+				}
+				else {
+					$del ="";
+					$update ="";
+				}
+			}
 			//exection button//
-			if ($this->session->userdata('permission')==3) $del="";
 
 
 	///////////////////// button for MCS /////////////////////////////////
@@ -188,15 +199,29 @@ class Cluster extends MX_Controller
 		foreach ($list->result_array() as $field) {
 
 			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
-			$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');initMap('. ($field['latitude'] != "" ? $field['latitude'] .','.$field['longitude'] : "").');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			
 			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
 			$info		= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
 			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
-			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
-			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update);
 
-			$action		.= $this->session->userdata("permission")== 4 ? $del : "";
 			
+
+			if ($this->session->userdata('kode_uker') == $field['kode_uker']){
+				$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			}
+			else {
+				if ($this->session->userdata('permission')>3){
+					$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+				}
+				else {
+					$del ="";
+					$update ="";
+				}
+			}
+
+			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update);
 
 			$no++;
 			$row = array();

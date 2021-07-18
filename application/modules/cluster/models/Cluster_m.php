@@ -26,7 +26,7 @@ class Cluster_m extends CI_Model
 	public function get_datatables($status = null,  $custom_field = null)
 	{
 		$i = 0;
-		$sql = "select cluster.* from cluster where ";
+		$sql = "select cluster.* from cluster  where ";
 
 		switch ($this->session->userdata('permission')) {
 			case (4):
@@ -594,9 +594,10 @@ class Cluster_m extends CI_Model
 		$_POST['checker_status'] = null;
 		$_POST['checker_user_update'] = "";
 		$_POST['signer_status'] = null;
-		$_POST['signer_user_update'] = "";
+		$_POST['signer_user_update'] = ""; 
 		$_POST['cluster_approval'] = 0;
-
+		$_POST['userinsert']=$this->session->userdata('kode_uker');
+		
 
 		$_POST['lh_flag']=$this->lh();
 

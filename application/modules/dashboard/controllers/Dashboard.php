@@ -297,6 +297,21 @@ class Dashboard extends MX_Controller
         $i++;
         $data['performance']['luas_lahan'] += $row['kelompok_luas_usaha'];
         $data['performance']['kapasitas_produksi'] += $row['kapasitas_produksi'];
+        
+        switch ($row['permission']) {
+          case (3) : 
+            $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+            break;
+          case (2) :
+            $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+            break;
+          case (1) :
+            $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
+            break;
+          default :
+            $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+            break;
+        }
         if ($row['periode_panen'] !="" ) $data['performance']['panen'][$row['periode_panen']]++;
         foreach ($kebutuhan_pendidikan as $kp){
           if ($row['kebutuhan_pendidikan']==$kp['id_cluster_kebutuhan_pendidikan_pelatihan']) {
@@ -383,6 +398,20 @@ class Dashboard extends MX_Controller
             $data['listloc'][$i]['lat']   = $row['latitude'];
             $data['listloc'][$i]['long']  = $row['longitude'];
             $data['listloc'][$i]['count'] = $i;
+            switch ($row['permission']) {
+              case (3) : 
+                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+                break;
+              case (2) :
+                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
+                break;
+              case (1) :
+                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
+                break;
+              default :
+                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+                break;
+            }
             $i++;
             if (!isset($data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'])){
               $data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'] = $row['kapasitas_produksi'];
