@@ -14,8 +14,9 @@ class Cluster_m extends CI_Model
     /////////////////get pengajuan klaster usaha ///////////////
     ////////////////////////////////////////////////////////////
 	public function get_datafield($status = null, $appr = 0)
-	{
-		$sql  = $this->get_datatables($status, $appr);
+	{	
+		$sql  = "select cluster.* from cluster  where ";
+		$sql .= $this->get_datatables($status, $appr);
 		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
 		return $this->db->query($sql);
 	}
@@ -26,7 +27,7 @@ class Cluster_m extends CI_Model
 	public function get_datatables($status = null,  $custom_field = null)
 	{
 		$i = 0;
-		$sql = "select cluster.* from cluster  where ";
+		
 
 		switch ($this->session->userdata('permission')) {
 			case (4):
@@ -98,13 +99,14 @@ class Cluster_m extends CI_Model
 	}
 
 	public function count_all($status = null, $custom_field = null)
-	{
-		$sql  = $this->get_datatables(null, $custom_field);
+	{	
+		$sql  = "select count(cluster.id) as count from cluster  where ";
+		$sql  .= $this->get_datatables(null, $custom_field);
 		if ($custom_field == null) {
 			$sql .= " Limit 0";
 		}
 		// echo $sql;
-		return  $this->db->query($sql)->num_rows();
+		return  $this->db->query($sql)->result_array()[0]['count'];
 	}
 	
 	
@@ -150,8 +152,9 @@ class Cluster_m extends CI_Model
 
 
     public function get_clusterapprove_m($status = null, $appr = 0)
-	{
-		$sql  = $this->get_tableapproved_m($status, $appr);
+	{	
+		$sql  = "select * from cluster where ";
+		$sql .= $this->get_tableapproved_m($status, $appr);
 		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
 		return $this->db->query($sql);
 	}
@@ -162,7 +165,7 @@ class Cluster_m extends CI_Model
 	public function get_tableapproved_m($status = null, $appr = 0)
 	{
 		$i = 0;
-		$sql = "select * from cluster where ";
+		
 		switch ($this->session->userdata('permission')) {
 			case (4):
 				$sql .= " true ";
@@ -203,9 +206,9 @@ class Cluster_m extends CI_Model
 	}
 
 	public function count_all_approved()
-	{
-		$sql  = $this->get_tableapproved_m();
-		return  $this->db->query($sql)->num_rows();
+	{	$sql  = "select count(cluster.id) as count from cluster where ";
+		$sql  .= $this->get_tableapproved_m();
+		return  $this->db->query($sql)->num_rows()[0]['count'];
     }
 	
 

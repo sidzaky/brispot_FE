@@ -56,7 +56,7 @@
 			<div id="result" class="box-body">
 				<div class="container-fluid control-box">
 					<div class="row">
-					<?php if ($this->session->userdata('permission')<3) echo '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform();initMap();" type="button"><i class="fa fa-plus"></i> Tambah Data</button>'; ?>
+					<?php echo '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform();initMap();" type="button"><i class="fa fa-plus"></i> Tambah Data</button>'; ?>
 						
 					</div>
 				</div>

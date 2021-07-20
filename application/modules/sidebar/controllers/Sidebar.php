@@ -38,7 +38,22 @@ class Sidebar extends MX_Controller {
     }
 
     public function getDataNotification(){
-            $sql= "select id, kelompok_usaha from cluster where cluster_status=1 and timestamp<(UNIX_TIMESTAMP() - 15780000) and userinsert='".$this->session->userdata("kode_uker")."'";
+            switch ($this->session->userdata('permission')) {
+                case (4):
+                    $where .= " false ";
+                    break;
+                case (3):
+                    $where .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+                    break;
+                case (2):
+                    $where .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+                    break;
+                case (1):
+                    $where .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+                    break;
+            }
+            
+            $sql= "select id, kelompok_usaha from cluster where ".$where." and cluster_status=1 and timestamp<(UNIX_TIMESTAMP() - 15780000) and userinsert='".$this->session->userdata("kode_uker")."'";
             $cq = $this->db->query($sql)->result_array();
             echo json_encode($cq);
     }

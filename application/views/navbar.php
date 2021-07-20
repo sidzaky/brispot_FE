@@ -30,12 +30,10 @@
             <li>
               <a><?php echo Date('d-M-Y'); ?></a>
             </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="fa fa-bell"></i><span id="cNotif" class="label label-warning pull-right">2</span></a>
-                  <ul id="notif" class="dropdown-menu" role="menu">
-
-                  </ul>
+            <li class="dropdown" id="setnotif">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-bell"></i><span id="cNotif" class="label label-warning pull-right"></span></a>
+                
             </li>
             
             <li class="dropdown">

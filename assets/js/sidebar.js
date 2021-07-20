@@ -27,10 +27,12 @@ function getdatafaq(){
 function getDataNotification() { 
     var address = base_url+"/sidebar/getDataNotification";
     var get = sendajaxreturn("", address, "");
-    document.getElementById("cNotif").innerHTML=get.length;
-    var z=document.getElementById("notif");
+    if (get.length > 0)  document.getElementById("cNotif").innerHTML=get.length;
+    var z=document.getElementById("setnotif");
+    var notif = "";
     get.forEach(function (value) {
-        z.innerHTML  = z.innerHTML + '<li>  <label for="thedata with-border" class="col-sm-12 control-label"> <h5 >' +value.kelompok_usaha+ ' belum di update selama 6 bulan  </h5></label> </li> <hr>  ';
+       notif  = notif + '<li>  <label for="thedata with-border" class="col-sm-12 control-label"> <h5>' +value.kelompok_usaha+ ' belum di update selama 6 bulan  </h5></label> </li> <hr>  ';
     });
+    if (notif!="") z.innerHTML += '<ul  class="dropdown-menu" role="menu">' + notif + '</ul>';
 }
 

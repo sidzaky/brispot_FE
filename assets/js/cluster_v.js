@@ -4,15 +4,29 @@ var table = $('#table-cluster').DataTable({
 					"scrollY": true,
 					"processing": true,
 					"serverSide": true,
-					"deferRender": true,
+					
 					"ajax": {
 						"url": "./cluster/getdata",
 						"type": "POST",
 						"data":  {
 							"custom_field"  : function() { return getdatacustom()},
 							},
-						}
+						},
+					"fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+						var colours = aData[0];
+						var col = colours.split(' '); 
+						if (col.includes('warning')){
+							$('td', nRow).css("background-color","#ffff99"); 
+							}
+						else $('td', nRow).css("background-color","rgba(54, 162, 235, 0.3)");
+						return nRow;
+						},
 					});
+
+
+
+	
+			
 				var count=1;
 
 				function add_field(){

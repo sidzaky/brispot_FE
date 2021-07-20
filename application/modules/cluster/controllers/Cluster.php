@@ -64,20 +64,18 @@ class Cluster extends MX_Controller
 			$checker_username 	= $field['checker_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
 			$signer_username 	= $field['signer_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
 			
-			if ($this->session->userdata('kode_uker') == $field['kode_uker']){
-				$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+			if ($field['kode_uker'] == $this->session->userdata('kode_uker')   || $field['userinsert'] == $this->session->userdata('kode_uker')){
 				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			}
 			else {
 				if ($this->session->userdata('permission')>3){
-					$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 				}
 				else {
-					$del ="";
 					$update ="";
 				}
 			}
+			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			//exection button//
 
 
@@ -206,7 +204,7 @@ class Cluster extends MX_Controller
 
 			
 
-			if ($this->session->userdata('kode_uker') == $field['kode_uker']){
+			if ($field['kode_uker'] == $this->session->userdata('kode_uker')   || $field['userinsert'] == $this->session->userdata('kode_uker') ){
 				$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			}
@@ -223,9 +221,11 @@ class Cluster extends MX_Controller
 
 			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update);
 
-			$no++;
+			$late=($field["timestamp"] < time()-15780000 ? '<i class="fa fa-warning" style="color:orange"></i> <p style="display:none;"> warning </p>' : "");
+
+			$no++; 
 			$row = array();
-			$row[] = $no;
+			$row[] = $no . $late ;
 			$row[] = $field['kanwil'];
 			$row[] = $field['kanca'];
 			$row[] = $field['uker'];
