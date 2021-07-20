@@ -918,106 +918,7 @@ class Cluster extends MX_Controller
 	// }
 	// }
 
-	// function migrate(){
-	// 	ini_set('memory_limit', '-1');
-
-	// 	$query="select * from cluster order by timestamp desc";
-	// 	$a=$this->db->query("select * from cluster_kebutuhan_pendidikan_pelatihan")->result_array();
-	// 	$b=$this->db->query("select * from cluster_kebutuhan_sarana")->result_array();
-	// 	$c=$this->db->query("select * from cluster_kebutuhan_skema_kredit")->result_array();
-	// 	foreach ($this->db->query($query)->result_array() as $q){
-	// 			foreach ($a as $ra ){
-	// 				$ia="";
-	// 				if (strtolower($ra['kebutuhan_pendidikan_pelatihan'])==strtolower($q['kebutuhan_pendidikan'])) {
-	// 						$ia=$ra['id_cluster_kebutuhan_pendidikan_pelatihan'];
-	// 						break;
-	// 				}
-	// 			}
-	// 			foreach ($b as $rb ){
-	// 				$ib="";
-	// 				if (strtolower($rb['kebutuhan_sarana'])==strtolower($q['kebutuhan_sarana'])) {
-	// 						$ib=$rb['id_cluster_kebutuhan_sarana'];
-	// 						break;
-	// 				}
-	// 			}
-	// 			foreach ($c as $rc ){
-	// 				$ic="";
-	// 				if (($rc['kebutuhan_skema_kredit'])==($q['kebutuhan_skema_kredit'])) {
-	// 						$ic=$rc['id_cluster_kebutuhan_skema_kredit'];
-	// 						break;
-	// 				}
-	// 			}
-	// 			$nq="update cluster set kebutuhan_pendidikan='".$ia."', kebutuhan_sarana='".$ib."', kebutuhan_skema_kredit='".$ic."' where id='".$q['id']."'";
-	// 			//echo $nq.'</br>';
-	// 			$this->db->query($nq);
-	// 	}
-	// }
-
-	// 	function migrate_cluster_produk(){
-
-	// 		$sql = $this->db->query('select DISTINCT(a.hasil_produk) as hasil, a.id_cluster_jenis_usaha, b.nama_cluster_jenis_usaha from cluster a
-	// 		left join cluster_jenis_usaha b on a.id_cluster_jenis_usaha=b.id_cluster_jenis_usaha
-	// 		where a.id_cluster_jenis_usaha !="" and a.hasil_produk!=""');
-	// 		foreach ($sql->result_array() as $row){
-	// 		    $q="insert into cluster_hasil_produk values ('".$this->uuid->v4(true)."', '".$row['id_cluster_jenis_usaha']."', '".$row['hasil']."','1');";
-	// 		    echo $q."</br>";
-	// 		  //  $this->db->query($q);
-				
-	// 		}
-	// 	}
-		
-	// 	function migrate_cluster_varian(){
-	// 	    $sql = $this->db->query('select distinct(b.varian), a.hasil_produk  from cluster_hasil_produk a
-	//                 inner join cluster b on a.hasil_produk=b.hasil_produk
-	//                 where b.hasil_produk!="" and b.varian!=""');
-	// 		foreach ($sql->result_array() as $row){
-	// 		    $q="insert into cluster_varian values ('".$this->uuid->v4(true)."', '".$row['hasil_produk']."', '".$row['varian']."', '1');";
-	// 		    echo $q."</br>";
-	// 		  //  $this->db->query($q);
-				
-	// 		}
-	// 	}
-
-	// function migrate_pendidikan(){
-	// 		$sql="select * from cluster a
-	// 				left join cluster_kebutuhan_pendidikan_pelatihan b on a.kebutuhan_pendidikan=b.id_cluster_kebutuhan_pendidikan_pelatihan ";
-	// 		$data = $this->db->query($sql);
-	// 		foreach ($data->result_array() as $row){
-	// 			$q="update cluster set kebutuhan_pendidikan='".$row['kebutuhan_pendidikan_pelatihan']."' where id='".$row['id']."';";
-	// 			echo $q."</br>";
-	// 			$this->db->query($q);
-	// 		}
-	// }
-
-	// function update_data_cleanshing(){
-	// 		$sql="select * from cluster where uker is null ";
-	// 		foreach ($this->db->query($sql)->result_array() as $row){
-	// 				$q="select BRDESC, RGDESC from branch where BRANCH='".$row['kode_uker']."'";
-	// 				foreach ($this->db->query($q)->result_array() as $srow){
-	// 					$w="update cluster set uker='".$srow['BRDESC']."' where id='".$row['id']."';";
-	// 					echo $w."</br>";
-	// 				}
-	// 			}
-	// }
-	// function setapprove_level(){
-
-	// 	//set all user to maker
-	// 	$q="update user set approve_level=0";
-	// 	$this->db->query($q);
-
-	// 	//set kanwil to checker
-	// 	$qq='SELECT MAINBR FROM branch where MAINBR=BRANCH AND MBDESC LIKE "%KANWIL%"';
-	// 	foreach ($this->db->query($qq)->result_array() as $row){
-	// 		$qa="update user set approve_level=1 where username='".$row['MAINBR']."'";
-	// 		echo $qa;
-	// 		$this->db->query($qa);
-	// 	}
-
-	// 	//set admin as signer
-	// 	$qqq='update user set approve_level=2 where username="admin"';
-	// 	$this->db->query($qqq);
-	// }
-
+	
 	private function camphotoupload($i = null, $j = null)
 	{
 		$encoded_data = $i;
@@ -1135,24 +1036,25 @@ class Cluster extends MX_Controller
 
     
 
-    // public function getalluser(){
-    //     $sql="select * from user ";
-    //     $i=1;
-    //     foreach ($this->db->query($sql)->result_array() as $row){
-    //         if ($row['username']!="admin" && $row['username']!="kanpus") {
-    //             echo $i." || ".$row['username']." || " . $row['approve_level'] ."</br>";
-    //             $checker=" insert into user values ('','" .$row['username']. "_c','".md5($row['username']."_c")."', '".$row['username']."' ,1,". $row['permission'].",1,1)";
-    //             $signer =" insert into user values ('','" .$row['username']. "_s','".md5($row['username']."_s")."', '".$row['username']."' ,1,". $row['permission'].",1,2)";
-    //             $maker  =" update user set approve_level='0' , branch='".$row['username']."' where username='".$row['username']."'"; 
-    //             echo $maker ."; </br>";
-    //             echo $checker."; </br>";
-    //             echo $signer."; </br>";
+    public function reqdenied(){
+        $sql="	SELECT b.id, ca_nik, COUNT(ca_nik) as counting
+				FROM cluster_anggota a left join cluster b on a.id_cluster=b.id
+			  	where b.cluster_status=1 and cluster_approval=0 
+				GROUP BY ca_nik";
+		
+		$status  = "reject_reason=' Terdapat duplikasi NIK pada list anggota klaster', ";
+		$status .= "checker_status=0, ";
+		$status .= "signer_status =0, ";
+		$status .= "checker_user_update = '". $this->session->userdata('kode_uker')."', ";
+		$status .= "signer_user_update = '". $this->session->userdata('kode_uker')."' ";
 
-    //             $this->db->query($maker);
-    //             $this->db->query($checker);
-    //             $this->db->query($signer);
-    //             $i++;
-    //         }
-    //     }
-    // }
+        foreach ($this->db->query($sql)->result_array() as $row){
+				echo $row['ca_nik']."</br>";
+				if ($row['counting'] > 1){
+					$z="update cluster set ".$status." where id='".$row['id']. "'";
+					$this->db->query($z);
+					echo $z."</br>";
+				}
+            }
+        }
 }
