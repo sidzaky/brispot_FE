@@ -918,6 +918,23 @@ class Cluster extends MX_Controller
 	// }
 	// }
 
+	public function cekKtpAnggota(){
+		if ($_POST['ktp'] != "") {
+			$data = $this->cluster_m->cekKtpAnggota_m();
+			if ($data[0]['result'] == 0) {
+				echo json_encode("true");
+			} else echo json_encode("false");
+		}
+	}
+
+	public function cekKtpCluster(){
+		if ($_POST['ktp'] != "") {
+			$data = $this->cluster_m->cekKtpCluster_m();
+			if ($data[0]['result'] == 0) {
+				echo json_encode("true");
+			} else echo json_encode("false");
+		}
+	}
 	
 	private function camphotoupload($i = null, $j = null)
 	{
@@ -1033,8 +1050,8 @@ class Cluster extends MX_Controller
 				
 		// 	}
 		// }
-
-    
+	
+	
 
     public function reqdenied(){
         $sql="	SELECT b.id, ca_nik, COUNT(ca_nik) as counting

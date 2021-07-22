@@ -163,6 +163,7 @@
 		</div>	
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+		<script src="<?php echo base_url()?>/assets/js/send.js"></script>
 		<script>
 		
 					var valkdpos;
@@ -204,7 +205,7 @@
 														break;
 													case (1)  :
 														value=value.replace("'","");
-														if (cnik(value,true)==false) 		{zerror +="- Format nik salah  </br>"; z++;}	
+														if (cnik(value,true)==false) 		{zerror +="- data NIK telah di inputkan atau tidak valid  </br>"; z++;}	
 														break;
 													case (3)  :
 														value=cekjk(value.toLowerCase());
@@ -227,7 +228,6 @@
 														if (cekhp(value,true)==false) 			{zerror +="- Format handphone salah </br>";z++;}
 														break;
 												}
-												
 												x++;
 											}) ;
 											
@@ -370,7 +370,6 @@
 				
 					
 					function inputform_anggota(){
-						console.log("1")
 						var data1 = { 
 								'id_ca' 			:  $('#id_ca').val(),
 								'id_cluster' 		:  id_cluster,
@@ -385,12 +384,10 @@
 						}
 						
 						if (document.getElementById("checkvalidkunjungan").checked == true && document.getElementById("checkvalidpotensi").checked == true){
-							console.log("1")
-							var msg="";
-							msg=reval();
-								
-							if (msg=="") {
-								console.log("2")
+							var cekmsg="";
+							cekmsg=reval();
+							console.log(cekmsg)
+							if (cekmsg=="") {
 								$("#sbt").attr("disabled", "disabled");
 								$.ajax({ 
 										   type:"POST",
@@ -404,25 +401,62 @@
 											}
 								});
 							}
-							else alert(msg);
+							else alert(cekmsg);
 						}
 						else alert ("Harap isi checkbox pertanyaan diatas!!")
 					}
 					function reval(){
 						var msg="";
-						msg+=(validatorreqtext(document.getElementById('ca_nama'),iname)==false ? "data Nama tidak valid \n" : ""  );
-						msg+=(cnik(document.getElementById('ca_nik').value, true)==false ? "data NIK tidak valid \n" : ""  );
-						msg+=(document.getElementById('ca_jk').value=="" ? "data jenis kelamin tidak boleh kosong \n" : ""  );
-						msg+=(cekkpos(document.getElementById('ca_kodepos').value)==false ? "data kodepost tidak boleh kosong \n" : ""  );
-						msg+=(document.getElementById('ca_pinjaman').value=="" ? "data pinjaman tidak boleh kosong \n" : ""  );
-						msg+=(document.getElementById('ca_simpanan').value=="" ? "data simpanan tidak boleh kosong \n" : ""  );
-						msg+=(cekhp(document.getElementById('ca_handphone').value, true)==false ? "data Handphone tidak valid \n" : ""  );
+						msg += (validatorreqtext(document.getElementById('ca_nama'),iname)==false ? "data Nama tidak valid \n" : ""  );
+						msg += (cnik(document.getElementById('ca_nik').value, true)==false ? "data NIK telah di inputkan atau tidak valid \n" : ""  );
+						msg += (document.getElementById('ca_jk').value=="" ? "data jenis kelamin tidak boleh kosong \n" : ""  );
+						msg += (cekkpos(document.getElementById('ca_kodepos').value)==false ? "data kodepost tidak boleh kosong \n" : ""  );
+						msg += (document.getElementById('ca_pinjaman').value=="" ? "data pinjaman tidak boleh kosong \n" : ""  );
+						msg += (document.getElementById('ca_simpanan').value=="" ? "data simpanan tidak boleh kosong \n" : ""  );
+						msg += (cekhp(document.getElementById('ca_handphone').value, true)==false ? "data Handphone tidak valid \n" : ""  );
 						return msg;
 					}
 					
 					var iname = "!@#$%^&*(_)+=-[]\\\';,/{}|0123456789\":<>?";
 					var ischar = "!@#$%^&*()+=[]\\\';/{}|\":<>?";
 					
+					function cnik(i=null,j=null){
+					var validator=["000000","1111111","222222","333333","444444","555555","666666","777777","888888","999999"];
+					// return true;
+					if (i!=null){
+						if (i.toString().length==16){
+							if (validator.includes(i.toString)==false){
+								var rs;
+								var data1={ 
+										'ktp' :  i,
+									};
+								var address = "<?php echo base_url();?>cluster/cekKtpAnggota";
+								var rs = sendajaxreturn(data1,address,null)
+								console.log(rs)
+								if (rs=='true'){
+											valnik=true;
+											return true;
+										} 
+								else return false;
+							}
+							else {
+								valnik=false;
+								if (j==null){
+									alert ('Data NIK tidak valid');
+								}
+								return false;
+							}
+						}
+						else {
+							valnik=false;
+							if (j==null){
+								alert ('NIK harus 16 digit');
+							}
+							return false;
+						}
+					}
+					else return false;
+				}
 					
 					///z for value, y for select iname char, x if call from input then alert from id, w if optional
 					function validatorreqtext(z, y, x=null){
@@ -500,33 +534,7 @@
 					}
 					
 						
-				function cnik(i=null,j=null){
-					var validator=["000000","1111111","222222","333333","444444","555555","666666","777777","888888","999999"];
-					// return true;
-					if (i!=null){
-						if (i.toString().length==16){
-							if (validator.includes(i.toString)==false){
-								valnik=true;
-								return true;
-							}
-							else {
-								valnik=false;
-								if (j==null){
-									alert ('Data NIK tidak valid');
-								}
-								return false;
-							}
-						}
-						else {
-							valnik=false;
-							if (j==null){
-								alert ('NIK harus 16 digit');
-							}
-							return false;
-						}
-					}
-					else return false;
-				}
+				
 				
 				function cekhp(i,j=null){
 					if (j==null) i=i.value;

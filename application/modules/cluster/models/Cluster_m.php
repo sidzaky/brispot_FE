@@ -1210,10 +1210,19 @@ class Cluster_m extends CI_Model
 		return $this->db->query($sql)->result_array();
 	}
 
-	
+	public function cekKtpAnggota_m(){
+		$sql = "select count(a.ca_nik) as result from cluster_anggota a 
+				inner join cluster b on a.id_cluster = b.id
+				where a.ca_nik='".$_POST['ktp']."' and b.cluster_status=1 ;";
+		return $this->db->query($sql)->result_array();
 
 
+	}
 
+	public function cekKtpCluster_m(){
+		$sql = "select count(kelompok_NIK) as result from cluster where kelompok_NIK='".$_POST['ktp']."';";
+		return $this->db->query($sql)->result_array();
+	}
 
 }
 /* End of file user_m.php */
