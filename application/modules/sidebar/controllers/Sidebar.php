@@ -53,7 +53,7 @@ class Sidebar extends MX_Controller {
                     break;
             }
             
-            $sql= "select id, kelompok_usaha from cluster where ".$where." and cluster_status=1 and timestamp<(UNIX_TIMESTAMP() - 15780000) and userinsert='".$this->session->userdata("kode_uker")."'";
+            $sql= "select id, kelompok_usaha from cluster where ".$where." and cluster_status=1 and cluster_approval=1 and timestamp<(UNIX_TIMESTAMP() - 15780000) and userinsert='".$this->session->userdata("kode_uker")."'";
             $cq = $this->db->query($sql)->result_array();
             echo json_encode($cq);
     }

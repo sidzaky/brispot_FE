@@ -206,9 +206,9 @@ class Cluster_m extends CI_Model
 	}
 
 	public function count_all_approved()
-	{	$sql  = "select count(cluster.id) as count from cluster where ";
+	{	$sql  = "select count(*) as tcount from cluster where ";
 		$sql  .= $this->get_tableapproved_m();
-		return  $this->db->query($sql)->num_rows()[0]['count'];
+		return  $this->db->query($sql)->result_array()[0]['tcount'];
     }
 	
 
@@ -500,6 +500,7 @@ class Cluster_m extends CI_Model
 
 	public function updatedata_m($rfex = null, $rfku = null)
 	{
+		$this->insertClusterDataLog();
 		$id = $_POST['id'];
 		$_POST['userlatestupdate'] = $this->session->userdata('kode_uker');
 		$query = $this->db->query("select * from branch where BRANCH='" . $_POST['kode_uker'] . "'")->result_array();
@@ -509,17 +510,16 @@ class Cluster_m extends CI_Model
 		$_POST['kode_kanwil'] = $query[0]['REGION'];
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
 		$_POST['timestamp'] = time();
-		$_POST['cluster_status'] = 1;
-		$_POST['cluster_approval'] = 0;
-
-
 		$_POST['lh_flag']=$this->lh();
 
-		////kalo ada yang update, balik lagi ke checker ///
-		$_POST['checker_status'] = null;
-		$_POST['checker_user_update'] = "";
-		$_POST['signer_status'] = null;
-		$_POST['signer_user_update'] = "";
+		////kalo ada yang update, balik lagi ke checker KECUALI KANPUS ///
+		if ($this->session->userdata('permission')<4){
+			$_POST['checker_status'] = null;
+			$_POST['checker_user_update'] = "";
+			$_POST['signer_status'] = null;
+			$_POST['signer_user_update'] = "";
+			$_POST['cluster_approval'] = 0;
+		}
 		///////////////////////////////////////////////////
 
 		unset($_POST['id']);
@@ -545,7 +545,58 @@ class Cluster_m extends CI_Model
 		$this->db->insert('cluster_log', $msglog);
 	}
 
-
+	public function insertClusterDataLog(){
+		$sql="select * from cluster where id='".$_POST['id']."' and cluster_status=1 and cluster_approval=1;";
+		$qs=$this->db->query($sql)->result_array();
+		foreach ($qs as $result){
+			$data['id_cluster_data_log'] = $this->uuid->v4(true);
+			$data['id_cluster'] = $_POST['id'];
+			$data['timestamp_log'] = $result['timestamp'];
+			$data['kelompok_usaha'] = $result['kelompok_usaha'];
+			$data['id_cluster_sektor_usaha'] = $result['id_cluster_sektor_usaha'];
+			$data['id_cluster_jenis_usaha_map'] = $result['id_cluster_jenis_usaha_map'];
+			$data['id_cluster_jenis_usaha'] = $result['id_cluster_jenis_usaha'];
+			$data['hasil_produk'] = $result['hasil_produk'];
+			$data['varian'] = $result['varian'];
+			$data['pasar_ekspor'] = $result['pasar_ekspor'];
+			$data['pasar_ekspor_tahun'] = $result['pasar_ekspor_tahun'];
+			$data['pasar_ekspor_nilai'] = $result['pasar_ekspor_nilai'];
+			$data['kelompok_anggota_pinjaman'] = $result['kelompok_anggota_pinjaman'];
+			$data['kelompok_pihak_pembeli'] = $result['kelompok_pihak_pembeli'];
+			$data['kelompok_pihak_pembeli_handphone'] = $result['kelompok_pihak_pembeli_handphone'];
+			$data['kelompok_suplier_produk'] = $result['kelompok_suplier_produk'];
+			$data['kelompok_suplier_handphone'] = $result['kelompok_suplier_handphone'];
+			$data['kelompok_luas_usaha'] = $result['kelompok_luas_usaha'];
+			$data['kapasitas_produksi'] = $result['kapasitas_produksi'];
+			$data['satuan_produksi'] = $result['satuan_produksi'];
+			$data['periode_panen'] = $result['periode_panen'];
+			$data['kelompok_omset'] = $result['kelompok_omset'];
+			$data['kelompok_jumlah_anggota'] = $result['kelompok_jumlah_anggota'];
+			$data['kelompok_perwakilan'] = $result['kelompok_perwakilan'];
+			$data['kelompok_jenis_kelamin'] = $result['kelompok_jenis_kelamin'];
+			$data['kelompok_cerita_usaha'] = $result['kelompok_cerita_usaha'];
+			$data['lokasi_usaha'] = $result['lokasi_usaha'];
+			$data['latitude'] = $result['latitude'];
+			$data['longitude'] = $result['longitude'];
+			$data['kelompok_NIK'] = $result['kelompok_NIK'];
+			$data['kelompok_perwakilan_tgl_lahir'] = $result['kelompok_perwakilan_tgl_lahir'];
+			$data['kelompok_perwakilan_tempat_lahir'] = $result['kelompok_perwakilan_tempat_lahir'];
+			$data['kelompok_perwakilan_jabatan'] = $result['kelompok_perwakilan_jabatan'];
+			$data['kelompok_handphone'] = $result['kelompok_handphone'];
+			$data['pinjaman'] = $result['pinjaman'];
+			$data['norek_pinjaman_bri'] = $result['norek_pinjaman_bri'];
+			$data['nominal_pinjaman'] = $result['nominal_pinjaman'];
+			$data['kebutuhan_sarana_milik'] = $result['kebutuhan_sarana_milik'];
+			$data['kebutuhan_sarana'] = $result['kebutuhan_sarana'];
+			$data['kebutuhan_sarana_lainnya'] = $result['kebutuhan_sarana_lainnya'];
+			$data['kebutuhan_pendidikan'] = $result['kebutuhan_pendidikan'];
+			$data['kebutuhan_skema_kredit'] = $result['kebutuhan_skema_kredit'];
+			$data['agen_brilink'] = $result['agen_brilink'];
+			$data['simpanan_bank'] = $result['simpanan_bank'];
+			$data['userlatestupdate'] = $result['userlatestupdate'];
+			$this->db->insert('cluster_data_log', $data);	
+		}
+	}
 	public function insertdata_m($rfex = null, $rfku = null)
 	{
 		$query = $this->db->query("select * from branch where BRANCH='" . $_POST['kode_uker'] . "'")->result_array();
@@ -567,6 +618,14 @@ class Cluster_m extends CI_Model
 		
 
 		$_POST['lh_flag']=$this->lh();
+
+		if ($this->session->userdata('permission')==4){
+			$_POST['checker_status'] = 1;
+			$_POST['checker_user_update'] = $this->session->userdata('kode_uker');
+			$_POST['signer_status'] = 1;
+			$_POST['signer_user_update'] = $this->session->userdata('kode_uker');
+			$_POST['cluster_approval'] = 1;
+		}
 
 		$this->db->insert('cluster', $_POST);
 
@@ -814,7 +873,8 @@ class Cluster_m extends CI_Model
 	function dldataanggota_m($id = null)
 	{	
 		if (isset($_POST['id_cluster'])) $id = $_POST['id_cluster'];
-			$sql = "select  	ca_nama, 
+			$sql = "select  b.id_cluster,
+							ca_nama, 
 							concat(\"'\", ca_nik), 
 							concat(\"'\", ca_norek), 
 							ca_jk, 
@@ -1106,7 +1166,8 @@ class Cluster_m extends CI_Model
 	function dl_report_anggota_m($i = null)
 	{
 		if ($i != null) $where ="and a.kode_kanwil='" . $i . "'";
-		$q = "select  	ca_nama, 
+		$q = "select  	b.id_cluster,
+						ca_nama,
 						concat(\"'\", ca_nik), 
 						concat(\"'\", ca_norek), 
 						ca_jk, 

@@ -26,6 +26,14 @@
 								"url"   : "./cluster/get_clusterapproved",
 								"type"  : "POST"
 							},
+							"fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+								var colours = aData[0];
+								var col = colours.trim(' '); 
+								if (col.includes('fa-warning')){
+									$('td', nRow).css("background-color","#ffff99"); 
+									}
+								return nRow;
+								},
 						});
 					});
 				</script>

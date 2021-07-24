@@ -88,10 +88,9 @@
 
     <script>
         $(document).ready(function() {$('#table_form').DataTable();});
-
+        
         function showform(i=null,j=null, k=null, l=null){
             document.getElementById("id").value="";
-
             if (i==""){
                 $(".dform").value="";
             }

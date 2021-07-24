@@ -68,11 +68,13 @@ class Cluster extends MX_Controller
 				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			}
 			else {
-				if ($this->session->userdata('permission')>3){
+				if ($this->session->userdata('permission')>2){
 					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+					
 				}
 				else {
 					$update ="";
+					
 				}
 			}
 			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
@@ -168,6 +170,40 @@ class Cluster extends MX_Controller
 		$data = $this->cluster_m->get_datafield()->num_rows();
 		return $data;
 	}
+
+	public function dlDataPengajuan()
+	{
+		ini_set('memory_limit', '-1');
+		$headerexcel[0] = array(
+			'No', 'id', 'Waktu Input', 'kanwil', 'kanca',
+			"Kode Kanca", "Uker", "Kode Uker", "Nama Kaunit", "PN Kaunit", "Handphone Kaunit", "Nama Mantri", "PN Mantri", "Handphone Mantri",
+			"Nama Kelompok Usaha", "Jumlah Anggota (orang)", "Pinjaman anggota Kelompok", "Lokasi Usaha", "Kode Pos", "Provinsi", "Kabupaten/Kota", "Kecamantan", "Kelurahan",
+			"Sektor Usaha", "Jenis Usaha Map", "Jenis Usaha", "Hasil Produk", "varian", "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
+			"Luas Lahan/Tempat Usaha (m2)", "Omset Usaha Perbulan (total Kelompok - Rp)",
+			"Nama Ketua Kelompok", "Jenis Kelamin", "NIK", "Handphone Ketua Kelompok", "Tanggal Lahir", "Tempat lahir",
+			"Punya Pinjaman", "Nominal Pinjaman BRI", "Norek Pinjaman BRI", "Kebutuhan Kredit",
+			"Kebutuhan Sarana", "Kebutuhan Sarana Lainnya", "Kebutuhan Pendidikan",
+			"Simpanan Bank", "Agen Brilink","status","alasan"
+		);
+
+		$data = $this->cluster_m->getdataall_m($harian);
+		$no = 1;
+		$z = 1;
+		foreach ($data as $cell) {
+			$col = 0;
+			$headerexcel[$z][$col] = $no;
+			foreach (array_keys($cell) as $key) {
+				$col++;
+				$cell[$key] = str_replace(';', ' ', $cell[$key]);
+				$cell[$key] = str_replace(',', ' ', $cell[$key]);
+				$headerexcel[$z][$col] = $cell[$key];
+			}
+			$z++;
+			$no++;
+		}
+
+		echo json_encode($headerexcel, true);
+	}
    
     ////////////////////////////////////////////////////////////
     /////////////////end pengajuan klaster usaha ///////////////
@@ -194,6 +230,7 @@ class Cluster extends MX_Controller
     public function get_clusterapproved(){
         $list = $this->cluster_m->get_clusterapprove_m();
 		$no = $_POST['start'];
+		$data = array();
 		foreach ($list->result_array() as $field) {
 
 			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
@@ -236,6 +273,7 @@ class Cluster extends MX_Controller
 			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
 			$data[] = $row;
 		}
+
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $list->num_rows(),
@@ -401,7 +439,6 @@ class Cluster extends MX_Controller
 			$z++;
 			$no++;
 		}
-
 		echo json_encode($headerexcel, true);
 	}
 
@@ -529,7 +566,7 @@ class Cluster extends MX_Controller
 
 	public function dldataanggota()
 	{
-		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 
 		$data = $this->cluster_m->dldataanggota_m();
 		$no = 1;
@@ -756,7 +793,7 @@ class Cluster extends MX_Controller
 	public function dldatareportanggota()
 	{
 		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array('No', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 		$no = 1;
 		$z = 1;
 		$data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);

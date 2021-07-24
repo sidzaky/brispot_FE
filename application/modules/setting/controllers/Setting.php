@@ -102,6 +102,14 @@ class Setting extends MX_Controller {
         $this->load->view('setting_jenis_usaha_v',$data);
     }
 
+    public function get_data_financial(){
+        $data['akuisisi_simpanan']=$this->setting_m->get_sektorusaha_m();
+        $data['akuisisi_pinjaman']=$this->setting_m->get_sektorusaha_m();
+        $data['']=$this->setting_m->get_jenisusahamap_m();
+        $data['jenis_usaha']= $this->setting_m->get_jenisusaha_m();
+        $this->load->view('setting_jenis_usaha_v',$data);
+    }
+
     public function up_jenis_usaha(){
         $this->setting_m->up_jenis_usaha_m();
         unset($_POST);
@@ -186,6 +194,9 @@ class Setting extends MX_Controller {
         unset($_POST);
         $this->get_data_bps();
     }
+
+   
+
     
 }
 ?>    

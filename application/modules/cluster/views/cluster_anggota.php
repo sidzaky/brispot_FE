@@ -432,7 +432,6 @@
 									};
 								var address = "<?php echo base_url();?>cluster/cekKtpAnggota";
 								var rs = sendajaxreturn(data1,address,null)
-								console.log(rs)
 								if (rs=='true'){
 											valnik=true;
 											return true;

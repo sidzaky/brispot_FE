@@ -12,7 +12,6 @@ class setting_m extends CI_Model
             //Load Dependencies
     }
     
-
     public function get_sektorusaha_m(){
         $sql="select * from cluster_sektor_usaha where status=1 ";
         return $this->db->query($sql)->result_array();
