@@ -33,7 +33,7 @@
 					<button type="button" class="close" onclick="$('#modalnotif').hide();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 					<h5 class="modal-title">Notif <?php echo $this->session->userdata('nama_uker') ?></h5>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="max-height: calc(100vh - 200px);overflow-y: auto;">
 					<div id="mod-content">
                         <title>Site Maintenance</title>
                         <h3><b>Update Klaster Binaan BRI 0.4 13 September 2020</b></h3>

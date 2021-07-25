@@ -234,6 +234,37 @@ class setting_m extends CI_Model
         }
     }
 
+    function get_data_akuisisi_m(){
+        $sql="select * from cluster_jumlah_akuisisi";
+        return  $this->db->query($sql)->result_array();
+    }
+
+    public function up_data_akuisisi_m(){
+        $sql="update cluster_jumlah_akuisisi set jumlah_akuisisi_".$_POST['setdata']."='".$_POST['value']."';";
+        return  $this->db->query($sql);
+    }
+
+    function get_jumlah_data_rekening_m(){
+        $sql="select * from cluster_jumlah_rekening";
+        return  $this->db->query($sql)->result_array();
+    }
+
+    public function up_jumlah_data_rekening_m(){
+        $sql="update cluster_jumlah_rekening set jumlah_rekening_".$_POST['setdata']."='".$_POST['value']."';";
+        return  $this->db->query($sql);
+    }
+
+    function get_qris_m(){
+        $sql="select * from cluster_agen_qris";
+        return  $this->db->query($sql)->result_array();
+    }
+
+    function up_qriss_m(){
+        $sql="update cluster_agen_qris set agen_qris='".$_POST['value']."'";
+        $this->db->query($sql);
+    }
+
+
 
 }	
 	

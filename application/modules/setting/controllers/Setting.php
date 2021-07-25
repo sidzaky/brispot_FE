@@ -195,6 +195,33 @@ class Setting extends MX_Controller {
         $this->get_data_bps();
     }
 
+    public function get_data_akuisisi(){
+        $data['data_akuisisi']=$this->setting_m->get_data_akuisisi_m();
+        $this->load->view('setting_data_akuisisi_v',$data);
+    }
+
+    public function up_data_akuisisi(){
+        $this->setting_m->up_data_akuisisi_m();
+    }
+
+    public function get_jumlah_data_rekening(){
+        $data['data_rekening']=$this->setting_m->get_jumlah_data_rekening_m();
+        $this->load->view('setting_data_rekening_v',$data);
+    }
+
+    public function up_jumlah_data_rekening(){
+        $this->setting_m->up_jumlah_data_rekening_m();
+    }
+
+    public function get_data_qris(){
+        $data['data_qris']=$this->setting_m->get_qris_m();
+        $this->load->view('setting_qris_v',$data);
+    }
+
+    public function up_qriss(){
+        $this->setting_m->up_qriss_m();
+    }
+
    
 
     

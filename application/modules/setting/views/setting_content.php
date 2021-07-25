@@ -49,5 +49,25 @@
                 <td>Data BPS</td>
                 <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('data_bps')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
             </tr>
+            <tr>
+                <td>8</td>
+                <td>Data Akuisisi Simpanan dan Pinjaman</td>
+                <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('data_akuisisi')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>Data Jumlah Simpanan dan Pinjaman</td>
+                <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('jumlah_data_rekening')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>Data Agen Brilink</td>
+                <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('data_brilink')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>Data Qris</td>
+                <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('data_qris')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
+            </tr>
         </tbody>
     </table>
