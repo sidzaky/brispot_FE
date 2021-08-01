@@ -6,17 +6,17 @@
     <header class="main-header">
 
       <!-- Logo -->
-      <a href="<?php echo site_url(); ?>" class="logo">
+      <a href="<?php echo site_url(); ?>" style="background-color:#2d2ded; color:#fffefe; " class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>KL</b>KL</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Klasterku</b></span>
+        <span class="logo-lg"><img src="<?php echo base_url()?>/assets/img/landing-page/logo_navbar.png" alt="logo-klasterku-hidupku" style="height: 50px"></span>
       </a>
 
       <!-- Header Navbar -->
       <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <a href="#" class="sidebar-toggle" style="color:#fffefe; " data-toggle="offcanvas" role="button">
           <span class="sr-only">Toggle navigation</span>
         </a>
 <style>
@@ -28,16 +28,16 @@
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
             <li>
-              <a><?php echo Date('d-M-Y'); ?></a>
+              <a style="color:#fffefe;"><?php echo Date('d-M-Y'); ?></a>
             </li>
             <li class="dropdown" id="setnotif">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a href="#" style="color:#fffefe; " class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell"></i><span id="cNotif" class="label label-warning pull-right"></span></a>
                 
             </li>
             
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <a href="#"  style="color:#fffefe; " class="dropdown-toggle" data-toggle="dropdown">
                 <?php
                 echo ($this->session->userdata('name_uker')) ?
                   $this->session->userdata('name_uker') : ($this->session->userdata('kode_uker') === "kanpus" ? "Kantor Pusat" : "Administrator");

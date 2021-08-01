@@ -27,16 +27,23 @@
                                             <li><a href="'.base_url().'cluster/report_local_heroes">Rekap Local Heroes</a></li>
                                         </ul>
                                     </li>';
-            break;
+                break;
             case (3) :
                     $lilaporan .= '         <li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
                                             <li><a href="'.base_url().'cluster/report_kanca">Rekap Kanca</a></li>
+                                            <li><a href="'.base_url().'cluster/report_anggota">Rekap Anggota Klaster</a></li>
                                         </ul>
                                     </li>';
-            break;
+                break;
+            case (1) :
+                    $lilaporan .= '         <li><a href="'.base_url().'cluster/getreport/harian">Rekap harian</a></li>
+                                            <li><a href="'.base_url().'cluster/report_anggota">Rekap Anggota Klaster</a></li>
+                                  </ul>
+                              </li>';
+                break;
             default :
                 $lilaporan = '';
-            break;
+                break;
         }
 		
 		

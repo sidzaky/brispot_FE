@@ -56,7 +56,8 @@
 			<div id="result" class="box-body">
 				<div class="container-fluid control-box">
 					<div class="row">
-					<?php echo '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform();initMap();" type="button"><i class="fa fa-plus"></i> Tambah Data</button>'; ?>
+					<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform();initMap();" type="button"><i class="fa fa-plus"></i> Tambah Data</button>
+					<button class="btn btn-primary waves-effect waves-light btn-sm" onclick="dldata();" type="button"><i class="fa fa-download"></i> Download Data</button>
 						
 					</div>
 				</div>
@@ -178,5 +179,42 @@
 <script src="./assets/js/cluster_info.js"></script>
 
 <script>		
+			function dldata(i){
+						var d = new Date();
+						$.ajax({ 
+									   type:"POST",
+									   url: "<?php echo base_url();?>cluster/dlDataPengajuan",
+									   success:function(msg){
+											var jsonObject = msg;
+											var csv=ConvertToCSV(jsonObject),
+											a=document.createElement('a');
+											a.textContent='download';
+											a.download='Data Pengajuan '+d+'.csv';
+											a.href='data:text/csv;charset=utf-8,'+escape(csv);
+											a.click();
+										}
+								});
+					}	
+					
+			function ConvertToCSV(objArray) {
+				var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+				var str = '';
+
+				for (var i = 0; i < array.length; i++) {
+					var line = '';
+
+					for (var index in array[i]) {
+						if (line != '') line += ';'
+
+						var j = array[i][index].toString();
+						j = j.replace(/;/g, " ");
+						line += j;
+					}
+
+					str += line + '\r\n';
+				}
+
+				return str;
+			}
 			
 </script>

@@ -183,16 +183,43 @@ class Cluster extends MX_Controller
 			"Nama Ketua Kelompok", "Jenis Kelamin", "NIK", "Handphone Ketua Kelompok", "Tanggal Lahir", "Tempat lahir",
 			"Punya Pinjaman", "Nominal Pinjaman BRI", "Norek Pinjaman BRI", "Kebutuhan Kredit",
 			"Kebutuhan Sarana", "Kebutuhan Sarana Lainnya", "Kebutuhan Pendidikan",
-			"Simpanan Bank", "Agen Brilink","status","alasan"
+			"Simpanan Bank", "Agen Brilink","approval kanwil","approval kanpus","alasan"
 		);
 
-		$data = $this->cluster_m->getdataall_m($harian);
+		$data = $this->cluster_m->getDataPengajuan_m();
 		$no = 1;
 		$z = 1;
 		foreach ($data as $cell) {
 			$col = 0;
 			$headerexcel[$z][$col] = $no;
 			foreach (array_keys($cell) as $key) {
+				if ($key == "checker_status") {
+					switch  ($cell[$key]) {
+						case (null) :
+							$cell[$key] ="Menunggu";
+							break;
+						case (0) :  
+							$cell[$key] ="Ditolak";
+							break;
+						case (1) :  
+							$cell[$key] ="Disetujui";
+							break;
+						
+					}
+				}
+				if ($key == "signer_status") {
+					switch  ($cell[$key]) {
+						case (null) :
+							$cell[$key] ="Menunggu";
+							break;
+						case (0) :  
+							$cell[$key] ="Ditolak";
+							break;
+						case (1) :  
+							$cell[$key] ="Disetujui";
+							break;
+					}
+				}
 				$col++;
 				$cell[$key] = str_replace(';', ' ', $cell[$key]);
 				$cell[$key] = str_replace(',', ' ', $cell[$key]);
@@ -201,7 +228,6 @@ class Cluster extends MX_Controller
 			$z++;
 			$no++;
 		}
-
 		echo json_encode($headerexcel, true);
 	}
    
@@ -242,21 +268,18 @@ class Cluster extends MX_Controller
 			
 
 			if ($field['kode_uker'] == $this->session->userdata('kode_uker')   || $field['userinsert'] == $this->session->userdata('kode_uker') ){
-				$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			}
 			else {
 				if ($this->session->userdata('permission')>3){
-					$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 				}
 				else {
-					$del ="";
 					$update ="";
 				}
 			}
-
-			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update);
+			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update.$del);
 
 			$late=($field["timestamp"] < time()-15780000 ? '<i class="fa fa-warning" style="color:orange"></i> <p style="display:none;"> warning </p>' : "");
 
@@ -863,11 +886,9 @@ class Cluster extends MX_Controller
 			$no = $_POST['start'];
 			foreach ($list->result_array() as $field) {
 				$totalanggota = $this->cluster_m->countanggota_m($field['id']);
-
-				$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
-
+				$jenis_usaha  = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
 				$del = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
-				$ca = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
+				$ca  = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
 				$update = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 				$upload = '<button class="btn btn-primary waves-effect waves-light btn-sm btn-block" onclick="upform(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-upload"></i> Upload</button>';
 				$info	= '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="infocluster(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-Info"></i> Info</button>';

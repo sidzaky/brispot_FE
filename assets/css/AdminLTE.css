@@ -204,6 +204,8 @@ a:focus {
   border: none;
   min-height: 50px;
   border-radius: 0;
+  background: linear-gradient(90deg, rgba(45,45,237,1) 0%, rgba(84,110,185,1) 36%, rgba(0,212,255,1) 100%);
+  
 }
 .layout-top-nav .main-header > .navbar {
   margin-left: 0;
