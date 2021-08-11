@@ -31,8 +31,6 @@ function setMarkers(map) {
   }
 
 
-
-
 function fjum(i, j = "") {
   var data1 = {
     id_cluster_sektor_usaha: i,

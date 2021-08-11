@@ -222,6 +222,25 @@ class Setting extends MX_Controller {
         $this->setting_m->up_qriss_m();
     }
 
+    public function get_data_brilink(){
+        $data['data_brilink']=$this->setting_m->get_brilink_m();
+        $this->load->view('setting_brilink_v',$data);
+    }
+
+    public function up_brilink(){
+        $this->setting_m->up_brilink_m();
+    }
+
+    public function get_data_stroberi(){
+        $data['data_stroberi']=$this->setting_m->get_stroberi_m();
+        $this->load->view('setting_stroberi_v',$data);
+    }
+
+    public function up_stroberi(){
+        $this->setting_m->up_stroberi_m();
+    }
+
+
    
 
     

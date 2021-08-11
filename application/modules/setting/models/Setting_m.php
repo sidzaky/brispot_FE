@@ -264,6 +264,27 @@ class setting_m extends CI_Model
         $this->db->query($sql);
     }
 
+    function get_brilink_m(){
+        $sql="select * from cluster_agen_brilink";
+        return  $this->db->query($sql)->result_array();
+    }
+
+    function up_brilink_m(){
+        $sql="update cluster_agen_brilink set agen_brilink='".$_POST['value']."'";
+        $this->db->query($sql);
+    }
+
+    function get_stroberi_m(){
+        $sql="select * from cluster_agen_stroberi";
+        return  $this->db->query($sql)->result_array();
+    }
+
+    function up_stroberi_m(){
+        $sql="update cluster_agen_stroberi set agen_stroberi='".$_POST['value']."'";
+        $this->db->query($sql);
+    }
+
+
 
 
 }	
