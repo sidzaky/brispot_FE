@@ -1245,25 +1245,11 @@ class Cluster_m extends CI_Model
 
 	function report_anggota_m($i = null)
 	{
-		switch ($this->session->userdata('permission')) {
-			case (4):
-				$where .= "  true ";
-				break;
-			case (3):
-				$where .= "  kode_kanwil='" . $i . "' ";
-				break;
-			case (2):
-				$where .= "   kode_kanwil='" . $i . "' and kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
-				break;
-			case (1):
-				$where .= "   kode_kanwil='" . $i . "' and kode_uker='" . $this->session->userdata("kode_uker") . "' ";
-				break;
-		}
-
-		$q = "SELECT a.kanwil, a.kode_kanwil, a.id, a.kelompok_usaha, count( b.id_ca ) as total_anggota 
-            FROM cluster a
-            left join cluster_anggota b on a.id=b.id_cluster
-            WHERE a.cluster_status=1 and cluster_approval=1 and $where group by a.id";
+	
+		$q = "select b.kanwil, b.kode_kanwil, b.id, b.kelompok_usaha, count(a.id_ca) as total_anggota from cluster_anggota a
+					left join cluster b on a.id_cluster=b.id
+					where cluster_status=1 and cluster_approval=1 and b.kode_kanwil='$i'
+					group by b.id ";
 		return $this->db->query($q)->result_array();
 	}
 
