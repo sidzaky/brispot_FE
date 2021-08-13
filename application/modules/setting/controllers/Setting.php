@@ -19,14 +19,15 @@ class Setting extends MX_Controller {
         $this->load->module('login');
         $this->load->model('setting_m');
         $this->login->is_logged_in();
-        if ($this->session->userdata('permission')<4){
-            redirect ('dashboard');
-        }
+      
         
     }
 
     public function index()
     {
+        if ($this->session->userdata('permission')<4){
+            redirect ('dashboard');
+        }
         $data['content'] = 'setting_v';
         $data['navbar'] = 'navbar';
         $data['sidebar'] = 'sidebar';
