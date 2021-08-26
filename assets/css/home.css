@@ -15,7 +15,7 @@ body {
 }
 
 .navbar-brand > img {
-  width: 100px;
+  width: 120px;
   height: auto;
 }
 
@@ -71,7 +71,7 @@ body {
 .navbar-default {
   background-color: #fff;
   border: none;
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 .shadow {

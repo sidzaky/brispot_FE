@@ -15,12 +15,31 @@ jQuery(function ($) {
       });
     } else {
       document.querySelector(".navbar-default").style.backgroundColor =
-        "transparent";
+      "#ffffff";
     }
   });
 
   $(window).on("scroll", function () {
-    scrolls();
+    document.querySelector(".navbar-default").style.backgroundColor =
+    "#ffffff";
+  // navbar item
+      var menu = document.querySelectorAll(
+        "#navbar .navbar-nav li a.text-button"
+      );
+      menu.forEach(function (item) {
+        item.style.color = "#000000";
+      });
+      // navbar item active
+      document.querySelector(
+        "#navbar .navbar-nav li.active a.text-button"
+      ).style.color = "#1f3ab4";
+      // navbar brand
+      document.querySelector(".navbar-brand").style.color = "#000000";
+      // navbar border
+      document.querySelector(".navbar-default").style.border =
+        "1px solid rgb(239, 239, 239)";
+      document.querySelector(".navbar-default").style.boxShadow =
+        "0px 1px 12px 1px #e9e9e9";
   });
 
   function scrolls() {
@@ -50,10 +69,7 @@ jQuery(function ($) {
       document.querySelector(".navbar-default").style.boxShadow =
         "0px 1px 12px 1px #e9e9e9";
     } else {
-      // navbar wrapper background
-      document.querySelector(".navbar-default").style.backgroundColor =
-        "transparent";
-      // navbar item
+
       var menu = document.querySelectorAll(
         "#navbar .navbar-nav li a.text-button"
       );

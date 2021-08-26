@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-default navbar-fixed-top">
+  <nav class="navbar navbar-default navbar-fixed-top" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(239, 239, 239); box-shadow: rgb(233, 233, 233) 0px 1px 12px 1px;">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"   data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -27,9 +27,9 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a class="text-button" href="#home">Beranda</a></li>
-          <li><a class="text-button" href="#about">Definisi</a></li>
-          <li><a class="text-button" href="#galeri">Portofolio</a></li>
+          <li class="active"><a class="text-button" href="#home" >Beranda</a></li>
+          <li><a class="text-button" href="#about" style="color: rgb(0, 0, 0);">Definisi</a></li>
+          <li><a class="text-button" href="#galeri" style="color: rgb(0, 0, 0);">Portofolio</a></li>
           <li><button onclick="$('#modal-login').modal();" class="btn btn-primary navbar-btn btn-bri">Login</button></li>
         </ul>
       </div>
