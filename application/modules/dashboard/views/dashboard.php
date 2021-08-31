@@ -1,8 +1,7 @@
-<script src="https://code.highcharts.com/maps/highmaps.js"></script>
-<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/mapdata/countries/id/id-all.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
+<meta name="google-site-verification" content="-5c7n2yDdKK5fU1D1gLtok4-D8XLP2c_2YKWtk30MCc" />
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDD-HjW_D_kUMx9W7MRP473fS-er_DgiYY&callback=initMap" defer></script>
 <div class="content-wrapper" id="dashboard">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -13,187 +12,148 @@
 
   <!-- Main content -->
   <section class="content">
-
     <div class="row">
       <div class="col-md-12">
         <div class="box">
           <div class="box-header with-border">
-            <h2 class="box-title">Persebaran Klaster</h2>
+            <h2 class="box-title"><b>Rekapitulasi Komoditas</b></h2>
           </div><!-- /.box-header -->
           <div class="box-body">
-            <div class="col-md-12">
-              <div id="result" class="box-body">
-                <?php if ($this->session->userdata('permission')>2) {?>
-                  <form action="./dashboard/summary" method="POST" target="_blank">
-                  <div class="col-sm-4">
-                      <div class="form-group">
-                              <label class="control-label">Sektor Usaha</label>
-                              <select class="form-control" onchange="fjum(this.value);fp();" name="id_cluster_sektor_usaha" id="id_cluster_sektor_usaha" required >
-                                  <option value="">Pilih Salah Satu </option>
-                                  <option value="1">Produksi</option>
-                                  <option value="2">Non Produksi</option>			
-                              </select>
-                          </div>
-                      </div>
-                      <div class="col-sm-4">
-                          <div class="form-group" id="selkanca">
-                              <label class="control-label">Kategori Usaha</label>
-                              <select class="form-control" onchange="fju(this.value);fp();" name="id_cluster_jenis_usaha_map" id="id_cluster_jenis_usaha_map" required >
-                                <option value="">Pilih Salah Satu </option>
-                              </select>
-                          </div>
-                      </div>
-                      <div class="col-sm-4">
-                          <div class="form-group" id="selunit">
-                              <label class="control-label">Jenis Usaha</label>
-                              <select class="form-control" onchange="fhp(this.value);fp();" name="id_cluster_jenis_usaha" id="id_cluster_jenis_usaha" required >
-                                <option value="">Pilih Salah Satu </option>
-                              </select>
-                          </div>
-                      </div>
-                      <div class="col-sm-3">
-                          <div class="form-group" id="selunit">
-                              <label class="control-label">Bentuk/Produk Usaha</label>
-                              <select class="form-control" onchange="fv(this.value);fp();" name="hasil_produk" id="hasil_produk" required >
-                                <option value="">Pilih Salah Satu </option>
-                              </select>
-                          </div>
-                      </div>
-                      <div class="col-sm-3">
-                          <div class="form-group" id="selunit">
-                              <label class="control-label">Varian</label>
-                              <select class="form-control" onchange="fp();" name="varian" id="varian">
-                                <option value="">Pilih Salah Satu </option>
-                              </select>
-                          </div>
-                      </div>
-
-                      <div class="col-sm-3">
-                          <div class="form-group" id="selunit">
-                              <label class="control-label">Provinsi</label>
-                              <select class="form-control" onchange="getkotakab(this.value);" name="provinsi" id="provinsi">
-                                  <option value=""> Semua </option>
-                                  <?php foreach ($provinsi as $row) {
-                                    echo "<option value='" . $row['id'] . "'>" . $row['nama'] . "</option>";
-                                  } ?>
-                              </select>
-                          </div>
-                      </div>
-                      <div class="col-sm-3">
-                          <div class="form-group" id="selunit">
-                              <label class="control-label">Kota / Kabupaten</label>
-                              <select class="form-control" name="kabupaten" id="kabupaten"  >
-                                <option value=""> Semua </option>
-                              </select>
-                          </div>
-                      </div>
-                      <div class="col-sm-12">    
-                          <button type="submit" class="btn btn-success waves-effect waves-light" id="sbt">Cari</button>
-                      </div>
-                  </form>
-                    <?php } ?>
+            <?php
+              foreach ($report as $row) {
+                echo "<div class='col-md-4 col-sm-6 col-xs-12'>";
+                echo "<div class='info-box' style='background:transparent; box-shadow: none'>";
+                echo "<span class='info-box-icon' style='background: none;'>";
+                echo "<img onclick='setmap(\"".$row["id_cluster_jenis_usaha_map"]."\");' src='assets/img/dashboard/" . ($row['icon'] !="" ? $row['icon'] : "unknown.png") . "' />";
+                echo "</span>";
+                echo "<div class='info-box-content'>";
+                echo "<span class='info-box-text' style='white-space: normal;'>" . $row['nama_cluster_jenis_usaha_map'] . "</span>";
+                echo "<span class='info-box-number'>" .$row['perhitungan'] . " klaster</span>";
+                echo "</div>";
+                echo "</div>";
+                echo "</div>";
+              }
+            ?>
+          </div>
+            <hr>
+          <div class="box-header with-border" align="center">
+            <h1 class="box-title" style="font-size:25px"><b>Persebaran Klaster Seluruh Indonesia</b></h1>
+          </div><!-- /.box-header -->
+          <div class="box-body">
+            <div id="mapid"></div>
+            <div id="list_data"></div>
+          </div>
+        </div>
+      </div>
+   
+    
+      <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h2 class="box-title">Performa Daerah</h2>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <div class="col-md-6">
+                <div class="col-sm-12"> 
+                  <div class="box-header with-border">
+                    <h2 class="box-title">Deskripsi Singkat</h2>
+                  </div>
+                  <div class="box-body"><?php echo $provinsi[0]['summary'] ?></div>
                 </div>
-              <div id="map"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-8">
-        <div class="box">
-          <div class="box-header with-border">
-            <h2 class="box-title">Performa Akuisisi</h2>
-          </div><!-- /.box-header -->
-          <div class="box-body">
-              <div class="col-md-12">
-                <canvas id="myChart" height="120"></canvas>
+               
+                <div class="col-sm-12"> 
+                  <div class="box-header with-border">
+                      <h2 class="box-title">Detail Provinsi</h2>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Luas Provinsi</label></div>
+                    <div class="col-sm-8"><?php echo number_format($provinsi[0]['luas_wilayah']) ?> Km<sup>2</sup> </div>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Jumlah Penduduk</label></div>
+                    <div class="col-sm-8"><?php echo number_format($provinsi[0]['penduduk']) ?> Jiwa</div>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Kabupaten / Kota </label></div>
+                    <div class="col-sm-8"><?php echo $provinsi[0]['kab'].' / '.$provinsi[0]['kota'] ?> </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                
+                <div class="box-header with-border">
+                    <h2 class="box-title">Data BPS</h2>
+                </div>
+                <div class="box-body">
+                  <div class="col-sm-12">
+                    <div class="table-responsive">
+                          <table id="table-performance" class="table table-striped dataTable table-bordered" width="100%">
+                            <thead>
+                              <tr>
+                                <th>No</th>
+                                <th>Kategori Usaha</th>
+                                <th>Total Data</th>
+                                <th>Data BPS</th>
+                                <th>Persentase</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <?php 
+                                $s=1;
+                                foreach ($performance['jenis_usaha'] as $key=>$row ){
+                                  echo "<tr>";
+                                  foreach ($data_bps as $srow){
+                                    if ($srow['nama_cluster_jenis_usaha'] == $key){ 
+                                      echo "<td>".$s."</td>";
+                                      echo "<td>".$key."</td>";
+                                      echo "<td>".number_format($row['total'],'0',',','.')."</td>";
+                                      echo "<td>".number_format($srow['value'],'0',',','.')."</td>";
+                                      echo "<td>".($srow['value'] != "" || $srow['value']!=0 ? round(($row['total']/$srow['value'] * 100), 2)."%" : "-" )."</td>";
+                                      $s++;
+                                      break;
+                                    }
+                                  }
+                                  echo "</tr>";
+                                 
+                                }
+                              ?>
+                            </tbody>
+                          </table>
+                      </div>
+                    </div>
+                  </div>
               </div>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
-        <div class="box">
-          <div class="box-header with-border">
-            <h2 class="box-title">Data Agent</h2>
-          </div><!-- /.box-header -->
-          <div class="box-body">
-            <div class="cluster-needs-list">
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-8">Agent Qriss</div>
-                  <div class="col-md-4"><b><?php echo $agen_qris[0]['agen_qris']?></b></div>
-                </div>  
-              </div>
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-8">Agent Brilink</div>
-                  <div class="col-md-4"><b><?php echo $agen_brilink[0]['agen_brilink']?></b></div>
-                </div>  
-              </div>
-              <div class="col-md-12">
-                <div class="row">
-                  <div class="col-md-8">Agent Stroberi</div>
-                  <div class="col-md-4"><b><?php echo $agen_stroberi[0]['agen_stroberi']?></b></div>
-                </div>  
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
     </div>
   </section>
-</div>
-
-
-
-<!-- dashboard scripts -->
-
+  
 <script src="<?php echo base_url(); ?>assets/js/dashboard.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/send.js"></script>
-<script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['akuisisi Simpanan', 'akuisisi Pinjaman', 'Jumlah Rekening Simpanan', 'Jumlah Rekening Pinjaman'],
-            datasets: [{
-                label: '# Data',
-                data: [<?php echo $jumlah_akuisisi[0]['jumlah_akuisisi_simpanan'].",".$jumlah_akuisisi[0]['jumlah_akuisisi_pinjaman'].",".$jumlah_rekening[0]['jumlah_rekening_simpanan'].",".$jumlah_rekening[0]['jumlah_rekening_pinjaman']?>],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
-<style>
-    #map {
-      height : 500px;
-      min-width: 310px; 
-      margin: 0 auto; 
+
+
+
+  <style>
+  #mapid{
+    width: auto;
+    height: 400px;
+  }
+  .infowindow-container {
+      width: 330px;
     }
-    .loading {
-      margin-top: 10em;
-      text-align: center;
-      color: gray;
+
+    .inner {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      padding: 10px;
     }
-</style>
+  table.dataTable td,
+  table.dataTable th {
+      font-size: 13px;
+  }
+  </style>
+<script src="<?php echo base_url()?>/assets/js/send.js"></script>
+
+

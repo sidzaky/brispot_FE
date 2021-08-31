@@ -406,7 +406,24 @@ class Dashboard_m extends CI_Model
           where a.status=1 and b.MAPKODE='".$pid."'";
     return $this->db->query($sql)->result_array();
   }
- 
+
+  public function getReportJUM(){
+    $sql='SELECT b.id_cluster_jenis_usaha_map, b.nama_cluster_jenis_usaha_map, count( a.id ) AS perhitungan, b.icon 
+          FROM cluster a
+          INNER JOIN cluster_jenis_usaha_map b 
+          WHERE a.id_cluster_jenis_usaha_map = b.id_cluster_jenis_usaha_map AND a.cluster_status = 1 AND a.cluster_approval = 1 AND b.status = 1 
+          GROUP BY b.id_cluster_jenis_usaha_map ORDER BY perhitungan desc limit 6';
+    return $this->db->query($sql)->result_array();
+    
+  }
+
+  public function getClusterMap(){
+    $sql="SELECT kelompok_usaha, kelompok_jumlah_anggota, latitude, longitude FROM cluster 
+          WHERE id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."' 
+                AND cluster_status = 1 
+                AND cluster_approval = 1 ";
+    return $this->db->query($sql)->result_array();
+  }
 }
   
 

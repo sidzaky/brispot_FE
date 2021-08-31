@@ -19,7 +19,6 @@ class Dashboard extends MX_Controller
 
     $this->load->module('login');
     $this->login->is_logged_in();
-
     $this->load->helper(array('url', 'form', 'html'));
     $this->load->model('dashboard_m');
     $data["con"] = $this;
@@ -32,13 +31,8 @@ class Dashboard extends MX_Controller
     $this->load->model('cluster_m');
     $this->load->module('setting');
     $this->load->model('setting_m');
-    $data['jumlah_akuisisi']=$this->setting_m->get_data_akuisisi_m();
-    $data['jumlah_rekening']=$this->setting_m->get_jumlah_data_rekening_m();
-    $data['agen_qris'] = $this->setting_m->get_qris_m();
-    $data['agen_brilink'] = $this->setting_m->get_brilink_m();
-    $data['agen_stroberi'] = $this->setting_m->get_stroberi_m();
-      
     $data['provinsi'] = $this->cluster_m->getprovinsi_m();
+    $data['report'] = $this->dashboard_m->getReportJUM();
     $data['navbar'] = 'navbar';
     $data['sidebar'] = 'sidebar';
     $data['content'] = 'dashboard';
@@ -314,6 +308,9 @@ class Dashboard extends MX_Controller
     }
   }
 
-
+  public function setmap(){
+      $data=$this->dashboard_m->getClusterMap();
+      echo json_encode($data);
+  }
 }
 
