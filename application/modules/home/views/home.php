@@ -36,18 +36,51 @@
       <!--/.nav-collapse -->
     </div>
   </nav>
-  <div class="content">
-    <div class="jumbotron" id="home">
-      <div class="container">
-        <div class="hero row">
-          <div class="col-md-6 hero-heading">
-            <h1 class="title">Klasterku Hidupku</h1>
-            <p>Mewujudkan bisnis mikro yang berkelanjutan melalui klasterisasi usaha</p>
+  <div class="content " id="home">
+  <section id="galeri" style="padding: 0rem 0 6rem;">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-12">
+            <div id="gallery-carousel" class="carousel slide" data-ride="carousel">
+              <!-- Indicators -->
+              <ol class="carousel-indicators">
+                <li data-target="#gallery-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#gallery-carousel" data-slide-to="1"></li>
+                <li data-target="#gallery-carousel" data-slide-to="2"></li>
+                <li data-target="#gallery-carousel" data-slide-to="3"></li> 
+              </ol>
+              <!-- UKURAN GAMBAR CAROUSEL 16:7 -->
+              <div class="carousel-inner" role="listbox">
+                <div class="item active" data-descid="1">
+                  <img  src="<?php echo base_url() ?>assets/img/landing-page/foto 1-01.jpg" alt="pelatihan-cangkul">
+                </div>
+                <div class="item" data-descid="2">
+                  <img src="<?php echo base_url() ?>assets/img/landing-page/foto 2-01.jpg" alt="bantuan-cooler-box">
+                </div>
+                <div class="item" data-descid="3">
+                  <img  src="<?php echo base_url() ?>assets/img/landing-page/foto 3-01.jpg" alt="homestay">
+                </div>
+                <div class="item" data-descid="4">
+                  <img  src="<?php echo base_url() ?>assets/img/landing-page/foto 4-01.jpg" alt="spot-foto-selfie">
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <a class="left carousel-control" href="#gallery-carousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" href="#gallery-carousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <section id="about">
+    </section>
+
+    <section id="about" style="padding: 0rem 0 6rem;">
       <div class="container">
         <div class="row">
           <div class="col-md-8 col-md-offset-2 text-center">
@@ -153,66 +186,6 @@
                   <h3>Monitoring & Evaluasi</h3>
                 </li>
               </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section id="galeri">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2 text-center">
-            <div class="section-header">
-              <h1 class="section-heading">Pemberdayaan</h1>
-              <p class="section-subheading center-block">Aktivitas bisnis maupun
-                sosial yang bertujuan untuk meningkatkan pengetahuan maupun kapasitas usaha.</p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-7">
-            <div id="gallery-carousel" class="carousel slide" data-ride="carousel">
-              <!-- Indicators -->
-              <ol class="carousel-indicators">
-                <li data-target="#gallery-carousel" data-slide-to="0" class="active"></li>
-                <li data-target="#gallery-carousel" data-slide-to="1"></li>
-                <li data-target="#gallery-carousel" data-slide-to="2"></li>
-                <li data-target="#gallery-carousel" data-slide-to="3"></li>
-              </ol>
-
-              <!-- Wrapper for slides -->
-              <div class="carousel-inner" role="listbox">
-                <div class="item active" data-descid="1">
-                  <img src="<?php echo base_url() ?>assets/img/landing-page/cangkul.png" alt="pelatihan-cangkul">
-                </div>
-                <div class="item" data-descid="2">
-                  <img src="<?php echo base_url() ?>assets/img/landing-page/cooler-box.png" alt="bantuan-cooler-box">
-                </div>
-                <div class="item" data-descid="3">
-                  <img src="<?php echo base_url() ?>assets/img/landing-page/homestay.png" alt="homestay">
-                </div>
-                <div class="item" data-descid="4">
-                  <img src="<?php echo base_url() ?>assets/img/landing-page/spot-foto-selfie.png" alt="spot-foto-selfie">
-                </div>
-              </div>
-
-              <!-- Controls -->
-              <a class="left carousel-control" href="#gallery-carousel" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="right carousel-control" href="#gallery-carousel" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-            </div>
-          </div>
-          <div class="col-md-5">
-            <div class="description">
-              <h3 class="desc-title">Lorem</h3>
-              <h5 class="desc-tokoh"></h5>
-              <p class="desc-info">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat ut inventore nemo vel? Natus dignissimos consequuntur assumenda iste esse sequi ex inventore blanditiis corrupti iure? Repudiandae possimus nemo ipsa.</p>
-              <p class="desc-bisnis">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur placeat ut inventore nemo vel? Natus dignissimos consequuntur assumenda iste esse sequi ex inventore blanditiis corrupti iure? Repudiandae possimus nemo ipsa.</p>
             </div>
           </div>
         </div>

@@ -35,10 +35,10 @@
               }
             ?>
           </div>
-            <hr>
+            <hr style="margin-top:0px;margin-bottom:0px;">
           <div class="box-header with-border" align="center">
             <h1 class="box-title" style="font-size:25px"><b>Persebaran Klaster Seluruh Indonesia</b></h1>
-          </div><!-- /.box-header -->
+          </div><!-- /.box-header --> 
           <div class="box-body">
             <div id="mapid"></div>
             <div id="list_data"></div>
@@ -47,17 +47,14 @@
       </div>
    
     
-      <div class="col-md-12">
+      <div class="col-md-6">
         <div class="box">
-            <div class="box-header with-border">
-                <h2 class="box-title">Performa Daerah</h2>
+            <div class="box-header with-border"  style="background:#5dbae8;">
+                <h2 class="box-title" style="color:white;"> Deskripsi</h2>
             </div><!-- /.box-header -->
             <div class="box-body">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="col-sm-12"> 
-                  <div class="box-header with-border">
-                    <h2 class="box-title">Deskripsi Singkat</h2>
-                  </div>
                   <div class="box-body"><?php echo $provinsi[0]['summary'] ?></div>
                 </div>
                
@@ -79,51 +76,38 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-6">
-                
-                <div class="box-header with-border">
-                    <h2 class="box-title">Data BPS</h2>
-                </div>
-                <div class="box-body">
-                  <div class="col-sm-12">
-                    <div class="table-responsive">
-                          <table id="table-performance" class="table table-striped dataTable table-bordered" width="100%">
-                            <thead>
-                              <tr>
-                                <th>No</th>
-                                <th>Kategori Usaha</th>
-                                <th>Total Data</th>
-                                <th>Data BPS</th>
-                                <th>Persentase</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <?php 
-                                $s=1;
-                                foreach ($performance['jenis_usaha'] as $key=>$row ){
-                                  echo "<tr>";
-                                  foreach ($data_bps as $srow){
-                                    if ($srow['nama_cluster_jenis_usaha'] == $key){ 
-                                      echo "<td>".$s."</td>";
-                                      echo "<td>".$key."</td>";
-                                      echo "<td>".number_format($row['total'],'0',',','.')."</td>";
-                                      echo "<td>".number_format($srow['value'],'0',',','.')."</td>";
-                                      echo "<td>".($srow['value'] != "" || $srow['value']!=0 ? round(($row['total']/$srow['value'] * 100), 2)."%" : "-" )."</td>";
-                                      $s++;
-                                      break;
-                                    }
-                                  }
-                                  echo "</tr>";
-                                 
-                                }
-                              ?>
-                            </tbody>
-                          </table>
-                      </div>
-                    </div>
-                  </div>
-              </div>
           </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="box">
+        <div class="box-header with-border" style="background:#5dbae8;">
+                <h2 class="box-title" style="color:white;">Detail Klaster</h2>
+            </div><!-- /.box-header -->
+        <div class="box-body">
+              <div class="col-md-12">
+                <div class="col-sm-12"> 
+                  <div class="box-body"><?php echo $provinsi[0]['summary'] ?></div>
+                </div>
+               
+                <div class="col-sm-12"> 
+                  <div class="box-header with-border">
+                      <h2 class="box-title">Detail Provinsi</h2>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Luas Provinsi</label></div>
+                    <div class="col-sm-8"><?php echo number_format($provinsi[0]['luas_wilayah']) ?> Km<sup>2</sup> </div>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Jumlah Penduduk</label></div>
+                    <div class="col-sm-8"><?php echo number_format($provinsi[0]['penduduk']) ?> Jiwa</div>
+                  </div>
+                  <div class="box-body">
+                    <div class="col-sm-4"><label class="control-label">Kabupaten / Kota </label></div>
+                    <div class="col-sm-8"><?php echo $provinsi[0]['kab'].' / '.$provinsi[0]['kota'] ?> </div>
+                  </div>
+                </div>
+              </div>
         </div>
       </div>
    

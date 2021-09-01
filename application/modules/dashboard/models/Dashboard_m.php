@@ -424,6 +424,6 @@ class Dashboard_m extends CI_Model
                 AND cluster_approval = 1 ";
     return $this->db->query($sql)->result_array();
   }
-}
-  
 
+  
+}

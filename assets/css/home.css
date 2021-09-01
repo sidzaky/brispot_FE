@@ -23,7 +23,6 @@ body {
   height: 600px;
   position: relative;
   background-color: #fff;
-  background-image: url("../img/landing-page/hero-big.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -396,7 +395,6 @@ section {
 
 @media screen and (max-width: 576px) {
   .jumbotron {
-    background-image: url("../img/landing-page/hero-mobile.png");
     background-position: center;
   }
 

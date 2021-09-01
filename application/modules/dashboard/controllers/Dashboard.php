@@ -39,10 +39,6 @@ class Dashboard extends MX_Controller
     $this->load->view('template', $data);
   }
 
-  
-
-  
-
   function persebaranpetakanwil(){
     $this->load->module('cluster');
     $this->load->model('cluster_m');
