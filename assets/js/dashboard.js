@@ -12,12 +12,12 @@ const shape = {
 };
 
 function setmap(i){
-
+ 
   var data1 = {
     'id_cluster_jenis_usaha_map': i
   };
-  var address = "./dashboard/setmap";
-  var get = sendajaxreturn(data1, address, 'json');
+  var get = sendajaxreturn(data1, "./dashboard/setmap", 'json');
+  var desc = sendajaxreturn(data1, "./dashboard/getdesc", 'json');
   const map = new google.maps.Map(document.getElementById("mapid"), {
     zoom: 4.5,
     center: { lat: 0.7893, lng: 113.9213 },
@@ -25,7 +25,7 @@ function setmap(i){
 
   let infowindow = new google.maps.InfoWindow();
 
-  get.forEach(function (value){
+  get.cluster.forEach(function (value){
       var marker = new google.maps.Marker({
           position: { lat: parseFloat(value.latitude), lng: parseFloat(value.longitude) },
           map,
@@ -46,8 +46,95 @@ function setmap(i){
       google.maps.event.addListener(map, 'click', function() {
         infowindow.close();
       });
-  }); 
+  });
+  // var b="";
+  // var html="";
+  // get.cluster.forEach(function (value){
+  //    if (b == ""){
+  //       b = value.nama_cluster_jenis_usaha_map;
+  //       html = ` <li class="treeview">
+  //                   <a href="#">
+  //                     <i class="fa fa-bar-chart"></i> <span>`+value.nama_cluster_jenis_usaha_map+`</span>
+  //                     <i class="fa fa-angle-left pull-right"></i>
+  //                   </a>
+  //                   <ul class="treeview-menu menu-open">         
+  //                           <li></li>`
+
+  //    }
+
+  // });
+
+  desc.forEach(function (value){
+    document.getElementById("jum_title").innerHTML =  value.nama_cluster_jenis_usaha_map;
+    document.getElementById("jum_deskripsi").innerHTML =  value.detail;
+  });
+  stylemap("Google");
+  document.getElementById("selectormap").value="Google";
 }
+
+function stylemap(i){
+  if (i == "Google"){
+    document.getElementById("byGoogleMap").style.display = "block"; 
+    document.getElementById("byProvinsi").style.display = "none"; 
+  }
+  else {
+    document.getElementById("byGoogleMap").style.display = "none"; 
+    document.getElementById("byProvinsi").style.display = "block"; 
+  }
+}
+
+$(document).ready(function() {setfilter();});
+
+function setfilter(){
+  $.ajax({
+        type: "POST",
+        url: "./dashboard/persebaranpetaprovinsi",
+        success: function (msg) {
+          Highcharts.mapChart('mapidbyhighchart', {
+                  chart: {
+                      map: 'countries/id/id-all'
+                  },
+                  title: {
+                      text: 'Persebaran Klaster BRI berdasarkan Provinsi'
+                  },
+                  subtitle: {
+                      text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.js">Indonesia</a>'
+                  },
+                  mapNavigation: {
+                      enabled: true,
+                      buttonOptions: {
+                          verticalAlign: 'bottom'
+                      }
+                  },
+                  plotOptions: {
+                    series: {
+                        point: {
+                            events: {
+                                click: function () { 
+                                  window.open( './dashboard/psummary/' + this["hc-key"]);
+                                }
+                            }
+                        }
+                    }
+                },
+                  series: [{
+                      data: JSON.parse(msg!= null ? msg : ''),
+                      name: 'Data klaster',
+                      states: {
+                          hover: {
+                              color: '#BADA55'
+                          }
+                      },
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.name}'
+                      }
+                  }]
+              })
+        }
+    });
+}  
+
 
 
 

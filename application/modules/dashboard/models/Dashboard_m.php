@@ -417,7 +417,7 @@ class Dashboard_m extends CI_Model
     
   }
 
-  public function getClusterMap(){
+  public function getClusterMap_m(){
     $sql="SELECT kelompok_usaha, kelompok_jumlah_anggota, latitude, longitude FROM cluster 
           WHERE id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."' 
                 AND cluster_status = 1 
@@ -425,5 +425,20 @@ class Dashboard_m extends CI_Model
     return $this->db->query($sql)->result_array();
   }
 
-  
+  public function getCalcProduct_m(){
+    $sql="select nama_cluster_jenis_usaha, hasil_produk, count(id) from cluster a
+          left join cluster_jenis_usaha b on a.id_cluster_jenis_usaha=b.id_cluster_jenis_usaha
+          where a.id_cluster_jenis_usaha_map = '".$_POST['id_cluster_jenis_usaha_map']."' 
+          AND cluster_status = 1 
+          AND cluster_approval = 1 
+          group by hasil_produk";
+    return $this->db->query($sql)->result_array();
+  }
+
+  public function getJenisUsahaMap_m(){
+    $sql = "SELECT * FROM cluster_jenis_usaha_map 
+            WHERE id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."'";
+    return $this->db->query($sql)->result_array();
+  }
 }
+
