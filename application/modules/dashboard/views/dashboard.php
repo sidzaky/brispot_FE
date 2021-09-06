@@ -13,115 +13,152 @@
       Dashboard
     </h1>
   </section>
+  <style>
+    .newcard{
+      border-radius: 15px;
+      position: relative;
+      padding-right: 5px;
+      padding-left: 5px;
+      padding-top: 1%;
+      height:135px;
+      text-align: center;
+    }
+    .newcardrekap{
+      font-weight: bold; 
+      color:#000000;
+    }
+  </style>
 
-  <!-- Main content -->
   <section class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="box">
-          <div class="box-header with-border">
-            <h2 class="box-title"><b>Rekapitulasi Komoditas</b></h2>
-          </div><!-- /.box-header -->
-          <div class="box-body">
-            <?php
-                foreach ($report as $row) {
-                  echo "<div class='col-md-4 col-sm-6 col-xs-12'>";
-                  echo "<div class='info-box' style='background:transparent; box-shadow: none'>";
-                  echo "<span class='info-box-icon' style='background: none;'>";
-                  echo "<img onclick='setmap(\"".$row["id_cluster_jenis_usaha_map"]."\");' src='assets/img/dashboard/" . ($row['icon'] !="" ? $row['icon'] : "unknown.png") . "' />";
-                  echo "</span>";
-                  echo "<div class='info-box-content'>";
-                  echo "<span class='info-box-text' style='white-space: normal;'>" . $row['nama_cluster_jenis_usaha_map'] . "</span>";
-                  echo "<span class='info-box-number'>" .$row['perhitungan'] . " klaster</span>";
-                  echo "</div>";
-                  echo "</div>";
-                  echo "</div>";
-                }
-              ?>
+   
+    <div class="row">  
+      <div class="col-md-2">
+        <div class="text-center newcard" style="background:#B5FACB; ">
+          <a onclick="setmap(1)";> 
+              <h2 class="newcardrekap">209</h2>
+              <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="text-center newcard" style="background:#F7BF81 ;">
+        <a onclick="setmap(2)";> 
+          <h2 class="newcardrekap">209</h2>
+            <p>Judul 2</p>
           </div>
+        </a>
+      </div>
+      <div class="col-md-2">
+        <div class="text-center newcard" style="background:#82D4FD;">
+        <h2 class="newcardrekap">209</h2>
+          <p class="card-description">Judul 3</p>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="text-center newcard" style="background:#a0bff0;">
+        <h2 class="newcardrekap">209</h2>
+          <p class="card-description">Judul 4</p>
+        </div>
+      </div>
+      <div class="col-sm-2">
+        <div class="text-center newcard" style="background:#e6e6ea;">
+        <h2 class="newcardrekap">209</h2>
+        <p class="card-description">Judul 5</p>
+        </div>
+        
+      </div>
+      <div class="col-sm-2">
+        <div class="text-center newcard" style="background:#f4b6c2;">
+        <h2 class="newcardrekap">209</h2>
+          <p class="card-description">Judul 6</p>
+        </div>
       </div>
     </div>
+    <br>
+    <div class="row">
       <div class="col-md-4">
-          <div class="box">
-            <div class="box-header with-border">
-              <h2 class="box-title"><b>Klaster Dan BPS</b></h2>
-            </div><!-- /.box-header -->
-            <div class="box-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="text-center newcard"  style="background:#93caed; border-radius: 2px; ">
+                <h2 class="newcardrekap">209 %</h2>
+                <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
+              </div>
+            </div>
+            </div>
+          </br>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="text-center newcard" style="background:#93caed; border-radius: 2px; ">
+                <h2 class="newcardrekap">209 %</h2>
+                <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
+              </div>
+            </div>
+          </div>
+            </br>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="text-center newcard" style="background:#93caed; border-radius: 2px;">
+                <h2 class="newcardrekap">209 %</h2>
+                <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
+              </div>
             </div>
           </div>
         </div>
       <div class="col-md-8">
         <div class="box">
-          <div class="box-header with-border" align="center">
-            <h1 class="box-title" style="font-size:25px"><b>Persebaran Klaster Seluruh Indonesia</b> 
+          <div class="box-header with-border" style="background:#5dbae8;" align="center">
+            <h1 class="box-title" style="font-size:25px; "><b>Persebaran Klaster Seluruh Indonesia</b> 
           </h1>  
               <select id="selectormap" onchange="stylemap(this.value);" style="float:right;"> 
-                  <option>Google</option>
                   <option>Provinsi</option>
+                  <option>Google</option>
               </select>
           </div><!-- /.box-header --> 
-          <div class="box-body" id="byGoogleMap">
+          <div class="box-body" id="byGoogleMap" style="display:none;">
             <div id="mapid"></div>
             <div id="list_data"></div>
           </div>
-          <div class="box-body" id="byProvinsi" style="display:none;">
+          <div class="box-body" id="byProvinsi" >
             <div id="mapidbyhighchart"></div>
           </div>
         </div>
       </div>
-   
-    
-      <div class="col-md-6">
-        <div class="box">
-            <div class="box-header with-border"  style="background:#5dbae8;">
-                <h2 class="box-title" style="color:white;"> Deskripsi</h2>
-            </div><!-- /.box-header -->
-            <div class="box-body">
-              <div class="col-md-12">
-                <div class="col-sm-12"> 
-                  <div class="box-header with-border">
-                        <h2 class="box-title" id="jum_title"></h2>
-                  </div>
-                  <div class="box-body" id="jum_deskripsi"></div>
-                </div>
-              </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
+      <div class="col-md-12" id="listCluster" style="display:none;"  >
         <div class="box">
         <div class="box-header with-border" style="background:#5dbae8;">
-                <h2 class="box-title" style="color:white;">Detail Klaster</h2>
+                <h2 class="box-title" style="color:white;">List Klaster</h2>
             </div><!-- /.box-header -->
         <div class="box-body">
                 <div class="col-sm-12"> 
-                  <ul class="sidebar-menu" id="sidebar-app">
-                    <li class="treeview">
-                        <a href="#">
-                          <i class="fa fa-bar-chart"></i> <span>Laporan Klaster</span>
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu menu-open">         
-                                <li></li>
-                        </ul>
-                    </li>
-                  </ul>
+                    <table id="table-cluster" class="table table-striped dataTable table-bordered" width="100%">
+                        <thead>
+                          <tr>
+                          <th>No</th>
+                          <th>Nama Klaster</th>
+                          <th>Nama Mantri</th>
+                          <th>Hp Mantri</th>
+                          <th>Kota/Kabupaten</th>
+                          <th>Kelurahan</th>
+                          <th>Kecamatan</th>
+                          <th>Ketua Kelompok</th>
+                          <th>No Hp</th>
+                          <th>Jumlah Anggota</th>
+                          </tr>
+                        </thead>
+                      </table>
                 </div>
              
         </div>
       </div>
-   
+     </div>
     </div>
   </section>
   
 <script src="<?php echo base_url(); ?>assets/js/dashboard.js"></script>
-
-
-
   <style>
   #mapid{
     width: auto;
-    height: 400px;
+    height: 380px;
   }
   .infowindow-container {
       width: 330px;
@@ -139,7 +176,7 @@
   }
   
   #mapidbyhighchart {
-      height : 500px;
+      height : 380px;
       min-width: 310px; 
       margin: 0 auto; 
     }
@@ -149,6 +186,37 @@
       color: gray;
     }
   </style>
+<script>
+    var canvas = document.getElementById("barChart");
+    var ctx = canvas.getContext('2d');
+
+    // Global Options:
+    Chart.defaults.global.defaultFontColor = 'black';
+    Chart.defaults.global.defaultFontSize = 16;
+
+    const data = {
+      labels: [
+        'Pertanian',
+        'Kehutanan',
+        'Perburuan'
+      ],
+      datasets: [{
+        data: [300, 50, 100],
+        backgroundColor: [
+          'rgb(255, 99, 132)',
+          'rgb(54, 162, 235)',
+          'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+      }]
+    };
+
+    var myBarChart = new Chart(ctx, {
+      type: 'pie',
+      data: data
+    });
+
+</script>
 <script src="<?php echo base_url()?>/assets/js/send.js"></script>
 
 

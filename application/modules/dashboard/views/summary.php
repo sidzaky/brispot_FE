@@ -114,11 +114,6 @@
                         <th>Ketua Kelompok</th>
                         <th>No Hp</th>
                         <th>Jumlah Anggota</th>
-                        <th>Kapasitas Produksi</th>
-                        <th>Omset</th>
-                        <th>Luas Lahan (M<sup>2</sup>)</th>
-                        <th>Kebutuhan</th>
-                        <th>Agen Brilink</th>
                       </tr>
                     </thead>
                     <tbody>

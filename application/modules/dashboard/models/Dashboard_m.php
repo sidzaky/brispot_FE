@@ -440,5 +440,47 @@ class Dashboard_m extends CI_Model
             WHERE id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."'";
     return $this->db->query($sql)->result_array();
   }
+
+  public function getListClusterByJum(){
+    $sql="select  a.kelompok_usaha, 
+                  nama_pekerja,
+                  handphone_pekerja,
+                  a.kelompok_handphone,
+                  a.kelompok_perwakilan,
+                  a.kelompok_usaha,
+                  a.kelompok_jumlah_anggota,
+                  a.kapasitas_produksi,
+                  a.kelompok_omset,
+                  a.kelompok_luas_usaha,
+                  a.id_cluster_jenis_usaha,
+                  hasil_produk,
+                  periode_panen,
+                  varian,
+                  e.nama as nama_kabupaten,
+                  f.nama as nama_kecamatan,
+                  g.nama as nama_kelurahan,
+                  a.agen_brilink,
+                  a.latitude,
+                  a.longitude,
+                  a.kebutuhan_sarana,
+                  a.kebutuhan_pendidikan,
+                  a.kebutuhan_skema_kredit,
+                  b.kebutuhan_sarana as nama_kebutuhan_sarana,
+                  c.kebutuhan_skema_kredit as nama_kebutuhan_skema_kredit,
+                  d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan
+              from cluster a
+              left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
+              left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
+              left join cluster_kebutuhan_pendidikan_pelatihan d on a.kebutuhan_pendidikan = d.id_cluster_kebutuhan_pendidikan_pelatihan 
+              left join kabupaten_kota e on e.id = a.kabupaten
+              left join kecamatan f on f.id = a.kecamatan
+              left join kelurahan g on g.id = a.kelurahan
+            where a.id_cluster_jenis_usaha_map = '".$_POST['id_cluster_jenis_usaha_map']."'
+            AND cluster_status = 1 
+            AND cluster_approval = 1 ";
+    return $this->db->query($sql)->result();
+
+
+  }
 }
 

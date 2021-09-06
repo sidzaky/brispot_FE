@@ -17,7 +17,7 @@ function setmap(i){
     'id_cluster_jenis_usaha_map': i
   };
   var get = sendajaxreturn(data1, "./dashboard/setmap", 'json');
-  var desc = sendajaxreturn(data1, "./dashboard/getdesc", 'json');
+  // var desc = sendajaxreturn(data1, "./dashboard/getdesc", 'json');
   const map = new google.maps.Map(document.getElementById("mapid"), {
     zoom: 4.5,
     center: { lat: 0.7893, lng: 113.9213 },
@@ -64,10 +64,31 @@ function setmap(i){
 
   // });
 
-  desc.forEach(function (value){
-    document.getElementById("jum_title").innerHTML =  value.nama_cluster_jenis_usaha_map;
-    document.getElementById("jum_deskripsi").innerHTML =  value.detail;
+
+  var table = $('#table-cluster').DataTable();
+  var i=0;
+  get.newlist.forEach(function (value){
+    i++;
+    table.row.add([ i, 
+                    value.kelompok_usaha, 
+                    value.nama_pekerja, 
+                    value.handphone_pekerja,
+                    value.nama_kabupaten,
+                    value.nama_kelurahan,
+                    value.nama_kecamatan,
+                    value.kelompok_perwakilan,
+                    value.kelompok_handphone,
+                    value.kelompok_jumlah_anggota                  
+                  ])
+    .draw('false');
   });
+  document.getElementById("listCluster").style.display = "block"; 
+
+
+  // desc.forEach(function (value){
+  //   document.getElementById("jum_title").innerHTML =  value.nama_cluster_jenis_usaha_map;
+  //   document.getElementById("jum_deskripsi").innerHTML =  value.detail;
+  // });
   stylemap("Google");
   document.getElementById("selectormap").value="Google";
 }
@@ -85,6 +106,7 @@ function stylemap(i){
 
 $(document).ready(function() {setfilter();});
 
+
 function setfilter(){
   $.ajax({
         type: "POST",
@@ -94,12 +116,8 @@ function setfilter(){
                   chart: {
                       map: 'countries/id/id-all'
                   },
-                  title: {
-                      text: 'Persebaran Klaster BRI berdasarkan Provinsi'
-                  },
-                  subtitle: {
-                      text: 'Source map: <a href="http://code.highcharts.com/mapdata/countries/id/id-all.js">Indonesia</a>'
-                  },
+                  title: false,
+                  subtitle: false,
                   mapNavigation: {
                       enabled: true,
                       buttonOptions: {

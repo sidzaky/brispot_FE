@@ -307,6 +307,7 @@ class Dashboard extends MX_Controller
   public function setmap(){
       $data['cluster']=$this->dashboard_m->getClusterMap_m();
       $data['calc']=$this->dashboard_m->getCalcProduct_m();
+      $data["newlist"]=$this->dashboard_m->getListClusterByJum();
       echo json_encode($data);
   }
 
@@ -315,5 +316,7 @@ class Dashboard extends MX_Controller
     $data=$this->dashboard_m->getJenisUsahaMap_m();
     echo json_encode($data);
   }
+
+
 }
 
