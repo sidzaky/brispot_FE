@@ -6,6 +6,7 @@
 <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/mapdata/countries/id/id-all.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<link rel="stylesheet" href="<?php echo base_url()?>assets/css/dashboard.css">
 <div class="content-wrapper" id="dashboard">
   <!-- Content Header (Page header) -->
   <section class="content-header">
@@ -14,97 +15,130 @@
     </h1>
   </section>
   <style>
-    .newcard{
-      border-radius: 15px;
-      position: relative;
-      padding-right: 5px;
-      padding-left: 5px;
-      padding-top: 1%;
-      height:135px;
-      text-align: center;
-    }
-    .newcardrekap{
-      font-weight: bold; 
-      color:#000000;
-    }
+  
   </style>
 
   <section class="content">
    
     <div class="row">  
-      <div class="col-md-2">
-        <div class="text-center newcard" style="background:#B5FACB; ">
-          <a onclick="setmap(1)";> 
-              <h2 class="newcardrekap">209</h2>
-              <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
-          </a>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="text-center newcard" style="background:#F7BF81 ;">
-        <a onclick="setmap(2)";> 
-          <h2 class="newcardrekap">209</h2>
-            <p>Judul 2</p>
+      <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
+          <div class="small-box" style="background-color: #28a745  !important;" >
+            <div class="inner">
+              <h3 onclick="setmap(<?php echo $report[0]['id_cluster_jenis_usaha_map']?>)"><b> 
+                  <?php echo $report[0]['perhitungan']?></b> 
+              </h3>
+              <p>Klaster</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-tree "></i>
+            </div>
+            <a href="#" onclick="setmap(<?php echo $report[0]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PERTANIAN</a>
           </div>
-        </a>
       </div>
-      <div class="col-md-2">
-        <div class="text-center newcard" style="background:#82D4FD;">
-        <h2 class="newcardrekap">209</h2>
-          <p class="card-description">Judul 3</p>
-        </div>
+      <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
+          <div class="small-box" style="background-color: #17a2b8 !important;" >
+            <div class="inner">
+              <h3 onclick="setmap(<?php echo $report[2]['id_cluster_jenis_usaha_map']?>)"><b> 
+                  <?php echo $report[2]['perhitungan']?> </b></h3>
+              <p>Klaster</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-tint "></i>
+            </div>
+            <a href="#" onclick="setmap(<?php echo $report[2]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PERIKANAN</a>
+          </div>
       </div>
-      <div class="col-sm-2">
-        <div class="text-center newcard" style="background:#a0bff0;">
-        <h2 class="newcardrekap">209</h2>
-          <p class="card-description">Judul 4</p>
-        </div>
+      <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
+          <div class="small-box" style="background-color: #ffc107  !important;" >
+            <div class="inner">
+              <h3 onclick="setmap(<?php echo $report[3]['id_cluster_jenis_usaha_map']?>)"><b> 
+                <?php echo $report[3]['perhitungan']?></b> </h3>
+              <p>Klaster</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-industry "></i>
+            </div>
+            <a href="#" onclick="setmap(<?php echo $report[3]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">INDUSTRI PENGOLAHAN</a>
+          </div>
       </div>
-      <div class="col-sm-2">
-        <div class="text-center newcard" style="background:#e6e6ea;">
-        <h2 class="newcardrekap">209</h2>
-        <p class="card-description">Judul 5</p>
-        </div>
-        
+      <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
+          <div class="small-box" style="background-color: #c1a7b0 !important;" >
+            <div class="inner">
+              <h3 onclick="setmap(<?php echo $report[4]['id_cluster_jenis_usaha_map']?>)" ><b> <?php echo $report[4]['perhitungan']?></b> </b></h3>
+              <p>Klaster</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-check "></i>
+            </div>
+            <a href="#" onclick="setmap(<?php echo $report[4]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">JASA JASA</a>
+          </div>
       </div>
-      <div class="col-sm-2">
-        <div class="text-center newcard" style="background:#f4b6c2;">
-        <h2 class="newcardrekap">209</h2>
-          <p class="card-description">Judul 6</p>
-        </div>
+      <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
+          <div class="small-box" style="background-color: #7d3865 !important;" >
+            <div class="inner">
+              <h3 onclick="setmap(<?php echo $report[5]['id_cluster_jenis_usaha_map']?>)"><b> <?php echo $report[5]['perhitungan']?></b> </b></h3>
+              <p>Klaster</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-sellsy "></i>
+            </div>
+            <a href="#" onclick="setmap(<?php echo $report[5]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PERDAGANGAN</a>
+          </div>
+      </div>
+      <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
+          <div class="small-box" style="background-color: #949217 !important;" >
+            <div class="inner">
+              <h3 onclick="setmap(<?php echo $report[6]['id_cluster_jenis_usaha_map']?>)"><b> <?php echo $report[6]['perhitungan']?></b> </b></h3>
+              <p>Klaster</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-plane "></i>
+            </div>
+            <a href="#"  onclick="setmap(<?php echo $report[6]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PARIWISATA</a>
+          </div>
       </div>
     </div>
-    <br>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
           <div class="row">
             <div class="col-sm-12">
-              <div class="text-center newcard"  style="background:#93caed; border-radius: 2px; ">
-                <h2 class="newcardrekap">209 %</h2>
-                <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-danger "  style="background-color: #00bc8c  !important;"><i class="fa fa-thumbs-up"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text"><b>Simpanan</b></span>
+                    <span class="info-box-number"><b>70,934<b></span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
               </div>
             </div>
-            </div>
-          </br>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="text-center newcard" style="background:#93caed; border-radius: 2px; ">
-                <h2 class="newcardrekap">209 %</h2>
-                <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon elevation-1" style="background-color: #e74c3c !important;"><i class="fa fa-users"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text"><b>Pinjaman<b></span>
+                    <span class="info-box-number"><b>83,430<b></span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
               </div>
             </div>
-          </div>
-            </br>
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="text-center newcard" style="background:#93caed; border-radius: 2px;">
-                <h2 class="newcardrekap">209 %</h2>
-                <p>PERTANIAN, PERBURUAN dan PERHUTANAN</p>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="info-box mb-3">
+                  <span class="info-box-icon bg-danger elevation-1" style="background-color: #3498db   !important;"><i class="fa fa-percent"></i></span>
+
+                  <div class="info-box-content">
+                    <span class="info-box-text"><b>Inklusi<b></span>
+                    <span class="info-box-number"><b>83,33 %<b></span>
+                  </div>
+                  <!-- /.info-box-content -->
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      <div class="col-md-8">
+      </div>
+      <div class="col-md-9">
         <div class="box">
           <div class="box-header with-border" style="background:#5dbae8;" align="center">
             <h1 class="box-title" style="font-size:25px; "><b>Persebaran Klaster Seluruh Indonesia</b> 

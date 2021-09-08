@@ -64,9 +64,10 @@ function setmap(i){
 
   // });
 
-
+ 
   var table = $('#table-cluster').DataTable();
   var i=0;
+  table.clear();
   get.newlist.forEach(function (value){
     i++;
     table.row.add([ i, 
@@ -83,7 +84,7 @@ function setmap(i){
     .draw('false');
   });
   document.getElementById("listCluster").style.display = "block"; 
-
+  
 
   // desc.forEach(function (value){
   //   document.getElementById("jum_title").innerHTML =  value.nama_cluster_jenis_usaha_map;

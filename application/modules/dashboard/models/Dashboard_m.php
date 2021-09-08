@@ -412,7 +412,7 @@ class Dashboard_m extends CI_Model
           FROM cluster a
           INNER JOIN cluster_jenis_usaha_map b 
           WHERE a.id_cluster_jenis_usaha_map = b.id_cluster_jenis_usaha_map AND a.cluster_status = 1 AND a.cluster_approval = 1 AND b.status = 1 
-          GROUP BY b.id_cluster_jenis_usaha_map ORDER BY perhitungan desc limit 6';
+          GROUP BY b.id_cluster_jenis_usaha_map';
     return $this->db->query($sql)->result_array();
     
   }
