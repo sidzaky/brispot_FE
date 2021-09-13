@@ -1,4 +1,6 @@
 
+
+var idjum="";
 function initMap() {
   const map = new google.maps.Map(document.getElementById("mapid"), {
     zoom: 4.5,
@@ -11,13 +13,17 @@ const shape = {
   type: "poly",
 };
 
+
+
 function setmap(i){
  
   var data1 = {
     'id_cluster_jenis_usaha_map': i
   };
+
+  idjum=i;
+
   var get = sendajaxreturn(data1, "./dashboard/setmap", 'json');
-  // var desc = sendajaxreturn(data1, "./dashboard/getdesc", 'json');
   const map = new google.maps.Map(document.getElementById("mapid"), {
     zoom: 4.5,
     center: { lat: 0.7893, lng: 113.9213 },
@@ -47,52 +53,29 @@ function setmap(i){
         infowindow.close();
       });
   });
-  // var b="";
-  // var html="";
-  // get.cluster.forEach(function (value){
-  //    if (b == ""){
-  //       b = value.nama_cluster_jenis_usaha_map;
-  //       html = ` <li class="treeview">
-  //                   <a href="#">
-  //                     <i class="fa fa-bar-chart"></i> <span>`+value.nama_cluster_jenis_usaha_map+`</span>
-  //                     <i class="fa fa-angle-left pull-right"></i>
-  //                   </a>
-  //                   <ul class="treeview-menu menu-open">         
-  //                           <li></li>`
-
-  //    }
-
-  // });
-
- 
-  var table = $('#table-cluster').DataTable();
-  var i=0;
-  table.clear();
-  get.newlist.forEach(function (value){
-    i++;
-    table.row.add([ i, 
-                    value.kelompok_usaha, 
-                    value.nama_pekerja, 
-                    value.handphone_pekerja,
-                    value.nama_kabupaten,
-                    value.nama_kelurahan,
-                    value.nama_kecamatan,
-                    value.kelompok_perwakilan,
-                    value.kelompok_handphone,
-                    value.kelompok_jumlah_anggota                  
-                  ])
-    .draw('false');
-  });
+  $('#table-cluster').DataTable().ajax.reload(null, false);
   document.getElementById("listCluster").style.display = "block"; 
-  
-
-  // desc.forEach(function (value){
-  //   document.getElementById("jum_title").innerHTML =  value.nama_cluster_jenis_usaha_map;
-  //   document.getElementById("jum_deskripsi").innerHTML =  value.detail;
-  // });
   stylemap("Google");
   document.getElementById("selectormap").value="Google";
 }
+
+
+ 
+
+var table = $('#table-cluster').DataTable({
+  "searching":false,
+  "scrollX": true,
+  "scrollY": true,
+  "processing": true,
+  "serverSide": true,
+  "ajax": {
+    "url": "./dashboard/setlistjum",
+    "type": "POST",
+    "data":  {
+      "id_cluster_jenis_usaha_map"  : function() { return idjum} ,
+      },
+    }
+});
 
 function stylemap(i){
   if (i == "Google"){

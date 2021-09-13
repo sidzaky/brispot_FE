@@ -122,13 +122,9 @@
                       <tr>
                         <th>No</th>
                         <th>Nama Klaster</th>
-                        <th>Nama Mantri</th>
-                        <th>Hp Mantri</th>
+                      
                         <th>Kota/Kabupaten</th>
-                        <th>Kelurahan</th>
-                        <th>Kecamatan</th>
                         <th>Ketua Kelompok</th>
-                        <th>No Hp</th>
                         <th>Jumlah Anggota</th>
                         <th>Kapasitas Produksi</th>
                         <th>Omset</th>
@@ -144,13 +140,8 @@
                               echo '<tr>';
                               echo '<td>'.$i.'</td>';
                               echo '<td><form action="'.base_url().'cluster/cluster_anggota" target="_blank" method="POST"><a action="#" onclick="document.getElementById(\'actanggota'.$i.'\').click()">' .$row['kelompok_usaha'].'</a><button  style="display:none;" id="actanggota'.$i.'" name="id" value="' . $row['id'] . '" type="submit"></button></form></td>';
-                              echo '<td>'.$row['nama_pekerja'].'</td>';
-                              echo '<td>'.$row['handphone_pekerja'].'</td>';
                               echo '<td>'.$row['nama_kabupaten'].'</td>';
-                              echo '<td>'.$row['nama_kelurahan'].'</td>';
-                              echo '<td>'.$row['nama_kecamatan'].'</td>';
                               echo '<td>'.$row['kelompok_perwakilan'].'</td>';
-                              echo '<td>'.$row['kelompok_handphone'].'</td>';
                               echo '<td>'.$row['kelompok_jumlah_anggota'].'</td>';
                               echo '<td>'.number_format(($row['kapasitas_produksi']=="" ? "0" : $row['kapasitas_produksi'])).'</td>';
                               echo '<td>'.number_format($row['kelompok_omset']).'</td>';

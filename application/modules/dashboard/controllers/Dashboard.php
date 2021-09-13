@@ -33,6 +33,7 @@ class Dashboard extends MX_Controller
     $this->load->model('setting_m');
     $data['provinsi'] = $this->cluster_m->getprovinsi_m();
     $data['report'] = $this->dashboard_m->getReportJUM();
+    $data['akuisisi'] = $this->setting_m->get_data_akuisisi_m();
     $data['navbar'] = 'navbar';
     $data['sidebar'] = 'sidebar';
     $data['content'] = 'dashboard';
@@ -307,8 +308,39 @@ class Dashboard extends MX_Controller
   public function setmap(){
       $data['cluster']=$this->dashboard_m->getClusterMap_m();
       $data['calc']=$this->dashboard_m->getCalcProduct_m();
-      $data["newlist"]=$this->dashboard_m->getListClusterByJum();
       echo json_encode($data);
+  }
+
+  public function setlistjum(){
+  
+    if ($_POST['id_cluster_jenis_usaha_map']!=""){
+      $datafilter=$_POST['id_cluster_jenis_usaha_map'];
+      $list = $this->dashboard_m->setlistjum_m($datafilter);
+      $data = array();
+      $no = $_POST['start'];
+      foreach ($list->result_array() as $field) {
+        $no++;
+        $row = array();
+        $row[] = $no;
+        $row[] = $field['kelompok_usaha'];
+        $row[] = $field['nama_kabupaten'];
+        $row[] = $field['kelompok_jumlah_anggota'];
+        $row[] = $field['hasil_produk'];
+        $row[] = $field['varian'];
+        $row[] = $field['agen_brilink']== "Ya" ? "Ya" : "Belum";
+        $data[] = $row;
+      }
+     
+      $output = array(
+        "draw" => $_POST['draw'],
+        "recordsTotal" => $list->num_rows(),
+        "recordsFiltered" => $this->dashboard_m->count_setlistjum_approved($datafilter),
+        "data" => $data,
+      );
+     
+      echo json_encode($output);
+    }
+    else echo "null";
   }
 
 
@@ -316,7 +348,5 @@ class Dashboard extends MX_Controller
     $data=$this->dashboard_m->getJenisUsahaMap_m();
     echo json_encode($data);
   }
-
-
 }
 

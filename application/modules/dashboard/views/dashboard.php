@@ -105,8 +105,8 @@
                 <div class="info-box mb-3">
                   <span class="info-box-icon bg-danger "  style="background-color: #00bc8c  !important;"><i class="fa fa-thumbs-up"></i></span>
                   <div class="info-box-content">
-                    <span class="info-box-text"><b>Simpanan</b></span>
-                    <span class="info-box-number"><b>70,934<b></span>
+                    <span class="info-box-text"><b>Akuisisi Simpanan</b></span>
+                    <span class="info-box-number"><b><?php echo number_format($akuisisi[0]["jumlah_akuisisi_simpanan"]) ?><b></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -117,8 +117,8 @@
                 <div class="info-box mb-3">
                   <span class="info-box-icon elevation-1" style="background-color: #e74c3c !important;"><i class="fa fa-users"></i></span>
                   <div class="info-box-content">
-                    <span class="info-box-text"><b>Pinjaman<b></span>
-                    <span class="info-box-number"><b>83,430<b></span>
+                    <span class="info-box-text"><b>Akuisisi Pinjaman<b></span>
+                    <span class="info-box-number"><b><?php echo number_format($akuisisi[0]["jumlah_akuisisi_pinjaman"])?><b></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -131,7 +131,7 @@
 
                   <div class="info-box-content">
                     <span class="info-box-text"><b>Inklusi<b></span>
-                    <span class="info-box-number"><b>83,33 %<b></span>
+                    <span class="info-box-number"><b><?php echo round(($akuisisi[0]["jumlah_akuisisi_pinjaman"]/$akuisisi[0]["jumlah_akuisisi_simpanan"])*100 , 2) ?>  %<b></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -169,14 +169,11 @@
                           <tr>
                           <th>No</th>
                           <th>Nama Klaster</th>
-                          <th>Nama Mantri</th>
-                          <th>Hp Mantri</th>
                           <th>Kota/Kabupaten</th>
-                          <th>Kelurahan</th>
-                          <th>Kecamatan</th>
-                          <th>Ketua Kelompok</th>
-                          <th>No Hp</th>
                           <th>Jumlah Anggota</th>
+                          <th>Hasil Produk</th>
+                          <th>Varian</th>
+                          <th>Agen Brilink</th>
                           </tr>
                         </thead>
                       </table>
@@ -187,7 +184,6 @@
      </div>
     </div>
   </section>
-  
 <script src="<?php echo base_url(); ?>assets/js/dashboard.js"></script>
   <style>
   #mapid{
@@ -220,37 +216,7 @@
       color: gray;
     }
   </style>
-<script>
-    var canvas = document.getElementById("barChart");
-    var ctx = canvas.getContext('2d');
 
-    // Global Options:
-    Chart.defaults.global.defaultFontColor = 'black';
-    Chart.defaults.global.defaultFontSize = 16;
-
-    const data = {
-      labels: [
-        'Pertanian',
-        'Kehutanan',
-        'Perburuan'
-      ],
-      datasets: [{
-        data: [300, 50, 100],
-        backgroundColor: [
-          'rgb(255, 99, 132)',
-          'rgb(54, 162, 235)',
-          'rgb(255, 205, 86)'
-        ],
-        hoverOffset: 4
-      }]
-    };
-
-    var myBarChart = new Chart(ctx, {
-      type: 'pie',
-      data: data
-    });
-
-</script>
 <script src="<?php echo base_url()?>/assets/js/send.js"></script>
 
 

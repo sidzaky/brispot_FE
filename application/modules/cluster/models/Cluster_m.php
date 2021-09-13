@@ -165,7 +165,6 @@ class Cluster_m extends CI_Model
 	public function get_tableapproved_m($status = null, $appr = 0)
 	{
 		$i = 0;
-		
 		switch ($this->session->userdata('permission')) {
 			case (4):
 				$sql .= " true ";

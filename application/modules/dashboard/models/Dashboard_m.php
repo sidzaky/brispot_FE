@@ -408,18 +408,48 @@ class Dashboard_m extends CI_Model
   }
 
   public function getReportJUM(){
+     $where ="";
+     switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " true ";
+				break;
+			case (3):
+				$where .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$where .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+		}
     $sql='SELECT b.id_cluster_jenis_usaha_map, b.nama_cluster_jenis_usaha_map, count( a.id ) AS perhitungan, b.icon 
           FROM cluster a
           INNER JOIN cluster_jenis_usaha_map b 
-          WHERE a.id_cluster_jenis_usaha_map = b.id_cluster_jenis_usaha_map AND a.cluster_status = 1 AND a.cluster_approval = 1 AND b.status = 1 
+          WHERE '.$where.' and a.id_cluster_jenis_usaha_map = b.id_cluster_jenis_usaha_map AND a.cluster_status = 1 AND a.cluster_approval = 1 AND b.status = 1 
           GROUP BY b.id_cluster_jenis_usaha_map';
     return $this->db->query($sql)->result_array();
     
   }
 
   public function getClusterMap_m(){
+     $where ="";
+     switch ($this->session->userdata('permission')) {
+			case (4):
+				$where .= " true ";
+				break;
+			case (3):
+				$where .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$where .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$where .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+		}
     $sql="SELECT kelompok_usaha, kelompok_jumlah_anggota, latitude, longitude FROM cluster 
-          WHERE id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."' 
+          WHERE ".$where." and id_cluster_jenis_usaha_map='".$_POST['id_cluster_jenis_usaha_map']."' 
                 AND cluster_status = 1 
                 AND cluster_approval = 1 ";
     return $this->db->query($sql)->result_array();
@@ -441,46 +471,97 @@ class Dashboard_m extends CI_Model
     return $this->db->query($sql)->result_array();
   }
 
-  public function getListClusterByJum(){
-    $sql="select  a.kelompok_usaha, 
-                  nama_pekerja,
-                  handphone_pekerja,
-                  a.kelompok_handphone,
-                  a.kelompok_perwakilan,
-                  a.kelompok_usaha,
-                  a.kelompok_jumlah_anggota,
-                  a.kapasitas_produksi,
-                  a.kelompok_omset,
-                  a.kelompok_luas_usaha,
-                  a.id_cluster_jenis_usaha,
-                  hasil_produk,
-                  periode_panen,
-                  varian,
-                  e.nama as nama_kabupaten,
-                  f.nama as nama_kecamatan,
-                  g.nama as nama_kelurahan,
-                  a.agen_brilink,
-                  a.latitude,
-                  a.longitude,
-                  a.kebutuhan_sarana,
-                  a.kebutuhan_pendidikan,
-                  a.kebutuhan_skema_kredit,
-                  b.kebutuhan_sarana as nama_kebutuhan_sarana,
-                  c.kebutuhan_skema_kredit as nama_kebutuhan_skema_kredit,
-                  d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan
-              from cluster a
-              left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
-              left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
-              left join cluster_kebutuhan_pendidikan_pelatihan d on a.kebutuhan_pendidikan = d.id_cluster_kebutuhan_pendidikan_pelatihan 
-              left join kabupaten_kota e on e.id = a.kabupaten
-              left join kecamatan f on f.id = a.kecamatan
-              left join kelurahan g on g.id = a.kelurahan
-            where a.id_cluster_jenis_usaha_map = '".$_POST['id_cluster_jenis_usaha_map']."'
-            AND cluster_status = 1 
-            AND cluster_approval = 1 ";
-    return $this->db->query($sql)->result();
+  var $column_search_approved = array('nama_pekerja', 'personal_number', 'kanwil', 'kanca', 'kode_uker', 'uker', 'kelompok_usaha', 'kelompok_jumlah_anggota', 'lokasi_usaha');
+	var $order_approved = array('timestamp' => 'desc');
+ 
+  public function setlistjum_m($datafilter)
+	{	
+    $sql ="	select a.kelompok_usaha, 
+            nama_pekerja,
+            handphone_pekerja,
+            a.kelompok_handphone,
+            a.kelompok_perwakilan,
+            a.kelompok_usaha,
+            a.kelompok_jumlah_anggota,
+            a.kapasitas_produksi,
+            a.kelompok_omset,
+            a.kelompok_luas_usaha,
+            a.id_cluster_jenis_usaha,
+            hasil_produk,
+            periode_panen,
+            varian,
+            e.nama as nama_kabupaten,
+            f.nama as nama_kecamatan,
+            g.nama as nama_kelurahan,
+            a.agen_brilink,
+            a.latitude,
+            a.longitude,
+            a.kebutuhan_sarana,
+            a.kebutuhan_pendidikan,
+            a.kebutuhan_skema_kredit,
+            b.kebutuhan_sarana as nama_kebutuhan_sarana,
+            c.kebutuhan_skema_kredit as nama_kebutuhan_skema_kredit,
+            d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan
+          from cluster a
+          left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
+          left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
+          left join cluster_kebutuhan_pendidikan_pelatihan d on a.kebutuhan_pendidikan = d.id_cluster_kebutuhan_pendidikan_pelatihan 
+          left join kabupaten_kota e on e.id = a.kabupaten
+          left join kecamatan f on f.id = a.kecamatan
+          left join kelurahan g on g.id = a.kelurahan where ";
+		$sql .= $this->setlistjum_tableapproved_m($datafilter);
+		$sql .= "  LIMIT " . ($_POST['start'] != 0 ? $_POST['start'] . ', ' : '') . " " . ($_POST['length'] != 0 ? $_POST['length'] : '200');
+		return $this->db->query($sql);
+	}
+
+	
+
+	public function setlistjum_tableapproved_m($datafilter)
+	{
+		$i = 0;
+		switch ($this->session->userdata('permission')) {
+			case (4):
+				$sql .= " true ";
+				break;
+			case (3):
+				$sql .= " kode_kanwil='" . $this->session->userdata('kode_kanwil') . "' ";
+				break;
+			case (2):
+				$sql .= " kode_kanca='" . $this->session->userdata('kode_kanca') . "' ";
+				break;
+			case (1):
+				$sql .= " kode_uker='" . $this->session->userdata("kode_uker") . "' ";
+				break;
+		}
 
 
-  }
+
+		// if ($appr=1) $sql .= " approve ====="; //buat filter status approve
+
+		if ($_POST['search']['value'] != "") $sql .= " and ";
+		foreach ($this->column_search_approved as $item) // looping awal
+		{
+			if ($_POST['search']['value'] != "") // jika datatable mengirimkan pencarian dengan metode POST
+			{
+				if ($i === 0) // looping awal
+				{
+					$sql .= ' (' . $item . ' LIKE "%' . $_POST['search']['value'] . '%" ESCAPE "!" ';
+				} else {
+					$sql .= ' OR ' . $item . ' LIKE "%' . $_POST['search']['value'] . '%" ESCAPE "!" ';
+				}
+				if (count($this->column_search_approved) - 1 == $i)
+					$sql .= " ) ";
+			}
+			$i++;
+		}
+		$sql = $sql . ' and cluster_status=1 and cluster_approval=1 and id_cluster_jenis_usaha_map="'.$datafilter.'" order by timestamp desc';
+		return $sql;
+	}
+
+	public function count_setlistjum_approved($datafilter)
+	{	$sql  = "select count(*) as tcount from cluster where ";
+		$sql  .= $this->setlistjum_tableapproved_m($datafilter);
+		return  $this->db->query($sql)->result_array()[0]['tcount'];
+    }
 }
 
