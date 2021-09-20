@@ -136,6 +136,7 @@ function getform(i = null) {
     $("#sbt").removeAttr("disabled");
     document.getElementById("checkvalidpotensi").checked = false;
     document.getElementById("checkvalidkunjungan").checked = false;
+    document.getElementById("checkvalidanggota").checked = false;
     document.getElementById("fotoklusterusaha").innerHTML = "";
     document.getElementById("fotoverifikasiexpor").innerHTML = "";
     if (i != null) {
@@ -180,7 +181,7 @@ function getform(i = null) {
           document.getElementById("lh2").checked = msg[0].lh2 == 1 ? true : false ;
           document.getElementById("lh3").checked = msg[0].lh3 == 1 ? true : false ;
           document.getElementById("lh4").checked = msg[0].lh4 == 1 ? true : false ;
-
+          document.getElementById("lh_inisiatif").value = msg[0].lh_inisiatif;
           setprov(msg[0].provinsi);
           getkotakab(msg[0].provinsi, msg[0].kabupaten);
           getkecamatan(msg[0].kabupaten, msg[0].kecamatan);
@@ -384,7 +385,8 @@ function vfex(newid, rfex = null) {
 function inputform() {
   if (
     document.getElementById("checkvalidkunjungan").checked == true &&
-    document.getElementById("checkvalidpotensi").checked == true
+    document.getElementById("checkvalidpotensi").checked == true &&
+    document.getElementById("checkvalidanggota").checked == true
   ) {
     if (valuker == true) {
       var data1 = {};
@@ -715,6 +717,10 @@ function reval() {
   msg +=
     document.getElementById("id_cluster_jenis_usaha").value == ""
       ? "data Jenis usaha tidak boleh kosong \n"
+      : "";
+  msg +=
+    document.getElementById("lh_inisiatif").value == ""
+      ? "Cerita Inisiatif Local Heroes tidak boleh Kosong \n"
       : "";
   msg +=
     document.getElementById("pasar_ekspor").value == ""

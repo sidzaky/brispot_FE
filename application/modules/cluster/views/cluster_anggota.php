@@ -345,14 +345,11 @@
 												var msg=JSON.parse(nmsg);
 												document.getElementById('id_ca').value=msg[0].id_ca;
 												document.getElementById('ca_nama').value=msg[0].ca_nama;
-												document.getElementById('ca_nik').value=msg[0].ca_nik;
-												document.getElementById('ca_norek').value=msg[0].ca_norek;
 												document.getElementById('ca_jk').value=msg[0].ca_jk;
 												document.getElementById('ca_kodepos').value=msg[0].ca_kodepos;
 												cekkpos(msg[0].ca_kodepos);
 												document.getElementById('ca_pinjaman').value=msg[0].ca_pinjaman;
 												document.getElementById('ca_simpanan').value=msg[0].ca_simpanan;
-												document.getElementById('ca_handphone').value=msg[0].ca_handphone;
 												$('#modal').show();
 											}
 									});

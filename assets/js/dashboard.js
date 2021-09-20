@@ -63,7 +63,6 @@ function setmap(i){
  
 
 var table = $('#table-cluster').DataTable({
-  "searching":false,
   "scrollX": true,
   "scrollY": true,
   "processing": true,

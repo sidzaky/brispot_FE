@@ -51,7 +51,7 @@
             </tr>
             <tr>
                 <td>8</td>
-                <td>Data Akuisisi Simpanan dan Pinjaman</td>
+                <td>Data Akuisisi Simpanan, Pinjaman, dan inklusi</td>
                 <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('data_akuisisi')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
             </tr>
             <tr>

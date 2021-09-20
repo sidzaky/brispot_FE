@@ -602,7 +602,7 @@ class Cluster_m extends CI_Model
 		$_POST['kode_kanwil'] = $query[0]['REGION'];
 		$_POST['kode_kanca'] = $query[0]['MAINBR'];
 		$_POST['timestamp'] = time();
-		$_POST['lh_flag']=$this->lh();
+		
 
 		////kalo ada yang update, balik lagi ke checker KECUALI KANPUS ///
 		if ($this->session->userdata('permission')<4){
@@ -707,9 +707,6 @@ class Cluster_m extends CI_Model
 		$_POST['signer_user_update'] = ""; 
 		$_POST['cluster_approval'] = 0;
 		$_POST['userinsert']=$this->session->userdata('kode_uker');
-		
-
-		$_POST['lh_flag']=$this->lh();
 
 		if ($this->session->userdata('permission')==4){
 			$_POST['checker_status'] = 1;
@@ -888,7 +885,7 @@ class Cluster_m extends CI_Model
 
 	public function getdata_anggota_m()
 	{
-		$query = $this->db->query("select * from cluster_anggota where id_ca='" . $_POST['id_ca'] . "'");
+		$query = $this->db->query("select id_ca,ca_nama, ca_jk, ca_kodepos, ca_alamat, ca_tanggal_lahir, ca_pinjaman, ca_simpanan  from cluster_anggota where id_ca='" . $_POST['id_ca'] . "'");
 		return $query->result_array();
 	}
 
@@ -940,7 +937,7 @@ class Cluster_m extends CI_Model
 		$pria = array('pria', 'laki-laki', 'lelaki', 'cowok');
 		$wanita = array('wanita', 'perempuan', 'gadis', 'cewek');
 		for ($i = 0; $i < count($anggota); $i++) {
-			$sql = "	insert cluster_anggota (id_cluster,ca_nama,ca_nik,ca_norek,ca_jk,ca_kodepos,ca_pinjaman,ca_simpanan,ca_handphone, timeinput, userlastupdate)  values('" . $_POST['id_cluster'] . "',";
+			$sql = "insert cluster_anggota (id_cluster,ca_nama,ca_nik,ca_norek,ca_jk,ca_kodepos,ca_pinjaman,ca_simpanan,ca_handphone, timeinput, userlastupdate)  values('" . $_POST['id_cluster'] . "',";
 			$z = 0;
 			foreach ($anggota[$i] as $row => $val) {
 				if ($z == 2) {
@@ -966,14 +963,11 @@ class Cluster_m extends CI_Model
 	{	
 		if (isset($_POST['id_cluster'])) $id = $_POST['id_cluster'];
 			$sql = "select  b.id_cluster,
-							ca_nama, 
-							concat(\"'\", ca_nik), 
-							concat(\"'\", ca_norek), 
+							ca_nama,
 							ca_jk, 
 							concat(\"'\", ca_kodepos), 
 							ca_pinjaman, 
-							ca_simpanan, 
-							concat(\"'\", ca_handphone ), 
+							ca_simpanan,
 							a.lokasi_usaha,
 							c.nama as provinsi,
 							d.nama as kabupaten_kota,
@@ -1261,13 +1255,10 @@ class Cluster_m extends CI_Model
 		if ($i != null) $where ="and a.kode_kanwil='" . $i . "'";
 		$q = "select  	b.id_cluster,
 						ca_nama,
-						concat(\"'\", ca_nik), 
-						concat(\"'\", ca_norek), 
 						ca_jk, 
 						concat(\"'\", ca_kodepos), 
 						ca_pinjaman, 
 						ca_simpanan, 
-						concat(\"'\", ca_handphone ), 
 						a.lokasi_usaha,
 						c.nama as provinsi,
 						d.nama as kabupaten_kota,

@@ -535,13 +535,13 @@ class Cluster extends MX_Controller
 			$row = array();
 			$row[] = $no;
 			$row[] = $field['ca_nama'];
-			$row[] = $field['ca_nik'];
-			$row[] = $field['ca_norek'];
+			$row[] = "-";
+			$row[] = "-";
 			$row[] = $field['ca_jk'];
 			$row[] = $field['ca_kodepos'];
 			$row[] = $field['ca_pinjaman'];
 			$row[] = $field['ca_simpanan'];
-			$row[] = $field['ca_handphone'];
+			$row[] = "-";
 			$row[] = $action;
 			$data[] = $row;
 		}
@@ -583,27 +583,7 @@ class Cluster extends MX_Controller
 		$this->cluster_m->inputanggotacsv_m($anggota);
 	}
 
-	public function dldataanggota()
-	{
-		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
-
-		$data = $this->cluster_m->dldataanggota_m();
-		$no = 1;
-		$z = 1;
-		foreach ($data as $cell) {
-			$col = 0;
-			$headerexcel[$z][$col] = $no;
-			foreach (array_keys($cell) as $key) {
-				$col++;
-				if ($cell[$key]=="'") $cell[$key]="-";
-				$headerexcel[$z][$col] = $cell[$key];
-			}
-			$z++;
-			$no++;
-		}
-
-		echo json_encode($headerexcel);
-	}
+	
 
 	public function report_unit()
 	{
@@ -809,10 +789,32 @@ class Cluster extends MX_Controller
 		$this->load->view('template', $pdata);
 	}
 
+	public function dldataanggota()
+	{
+		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+
+		$data = $this->cluster_m->dldataanggota_m();
+		$no = 1;
+		$z = 1;
+		foreach ($data as $cell) {
+			$col = 0;
+			$headerexcel[$z][$col] = $no;
+			foreach (array_keys($cell) as $key) {
+				$col++;
+				if ($cell[$key]=="'") $cell[$key]="-";
+				$headerexcel[$z][$col] = $cell[$key];
+			}
+			$z++;
+			$no++;
+		}
+
+		echo json_encode($headerexcel);
+	}
+
 	public function dldatareportanggota()
 	{
 		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'NIK','Nomor Rekening', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "Handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 		$no = 1;
 		$z = 1;
 		$data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);

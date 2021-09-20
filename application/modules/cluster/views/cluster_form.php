@@ -416,6 +416,11 @@ Parameter dapat dipilih lebih dari 1 kriteria sesuai dengan kondisi sebenarnya</
 							Kegiatan pemberdayaan <b>tidak terlibat dalam kepentingan/aktivitas politik atau maksud tertentu</b> 
 							diluar kepentingan meningkatkan skala klasternya.
 						</div>
+						
+						<div class="form-group required">
+							<label class="control-label">Inisiatif </label>
+							<textarea type="text" class="form-control dform required" id="lh_inisiatif" value="" placeholder="Bapak Edy Sukses mengembangkan wilayahnya sebagai penghasil ikan iar tawar terbaik ...."></textarea>
+						</div>
 
 						<hr>
 
@@ -463,6 +468,10 @@ Parameter dapat dipilih lebih dari 1 kriteria sesuai dengan kondisi sebenarnya</
 						<div class="form-group">
 							<input type="checkbox" class="form-check-input form-control-lg" id="checkvalidpotensi" required>
 							<b>Data ini memiliki potensi yang baik untuk meningkatkan bisnis BRI melalui pendekatan komunitas</b>
+						</div>
+						<div class="form-group">
+							<input type="checkbox" class="form-check-input form-control-lg" id="checkvalidanggota" required>
+							<b>Anggota Kelompok Usaha bersedia Data Diri yang bersangkutan digunakan untuk kepentingan bank</b>
 						</div>
 					</form>
 				</div>

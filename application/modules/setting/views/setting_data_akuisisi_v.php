@@ -1,4 +1,4 @@
-<h3 class="box-title" align="center">List data Akuisisi Simpanan dan Pinjaman </h3>
+<h3 class="box-title" align="center">List data Akuisisi Simpanan, Pinjaman, inklusi </h3>
    <!-- <button class="btn btn-success waves-effect waves-light btn-sm" onclick="showform()" type="button"><i class="fa fa-plus"></i> Tambah List</button> -->
    <button class="btn btn-primary waves-effect waves-light btn-sm" style="float:right;" onclick="getform('setting_content')" type="button"><i class="fa fa-Left"></i> Kembali</button>
 
@@ -23,6 +23,11 @@
             echo '<td> Akusisi Rekening Pinjaman</td>';
             echo '<td id="data_akuisisi_pinjaman" align="right">'. $data_akuisisi[0]['jumlah_akuisisi_pinjaman'] .'</td>';
             echo '<td align="right"><button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="showform(\'pinjaman\')" type="button"><i class="fa fa-plus"></i> edit</button></td>';
+            echo '</tr>';
+            echo '<tr>';
+            echo '<td> Akusisi Inklusi</td>';
+            echo '<td id="data_akuisisi_inklusi" align="right">'. $data_akuisisi[0]['jumlah_akuisisi_inklusi'] .'</td>';
+            echo '<td align="right"><button class="btn btn-warning waves-effect waves-light btn-sm" style="float:right;" onclick="showform(\'inklusi\')" type="button"><i class="fa fa-plus"></i> edit</button></td>';
             echo '</tr>';
           ?>
         </tbody>

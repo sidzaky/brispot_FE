@@ -377,8 +377,7 @@ class Dashboard_m extends CI_Model
                   a.kebutuhan_skema_kredit,
                   b.kebutuhan_sarana as nama_kebutuhan_sarana,
                   c.kebutuhan_skema_kredit as nama_kebutuhan_skema_kredit,
-                  d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan,
-                  j.permission
+                  d.kebutuhan_pendidikan_pelatihan as nama_kebutuhan_pendidikan_pelatihan
           from cluster a
           left join cluster_kebutuhan_sarana b on a.kebutuhan_sarana=b.id_cluster_kebutuhan_sarana
           left join cluster_kebutuhan_skema_kredit c on a.kebutuhan_skema_kredit = c.id_cluster_kebutuhan_skema_kredit
@@ -388,7 +387,7 @@ class Dashboard_m extends CI_Model
           left join kecamatan f on f.id = a.kecamatan
           left join kelurahan g on g.id = a.kelurahan
           left join cluster_jenis_usaha i on i.id_cluster_jenis_usaha= a.id_cluster_jenis_usaha
-          left join user j on a.userinsert = j.branch 
+     
           " .$where;
     return $this->db->query($sql)->result_array();
   }

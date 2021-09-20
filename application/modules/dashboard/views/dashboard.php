@@ -105,33 +105,36 @@
                 <div class="info-box mb-3">
                   <span class="info-box-icon bg-danger "  style="background-color: #00bc8c  !important;"><i class="fa fa-thumbs-up"></i></span>
                   <div class="info-box-content">
-                    <span class="info-box-text"><b>Akuisisi Simpanan</b></span>
-                    <span class="info-box-number"><b><?php echo number_format($akuisisi[0]["jumlah_akuisisi_simpanan"]) ?><b></span>
+                    <span class="info-box-text" style="font-size:14px;"><b>Akuisisi Simpanan</b></span>
+                    <span class="info-box-number" style="font-size:20px;"><b><?php echo number_format($akuisisi[0]["jumlah_akuisisi_simpanan"]) ?><b></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
               </div>
             </div>
+            <br>
+
             <div class="row">
               <div class="col-sm-12">
                 <div class="info-box mb-3">
                   <span class="info-box-icon elevation-1" style="background-color: #e74c3c !important;"><i class="fa fa-users"></i></span>
                   <div class="info-box-content">
-                    <span class="info-box-text"><b>Akuisisi Pinjaman<b></span>
-                    <span class="info-box-number"><b><?php echo number_format($akuisisi[0]["jumlah_akuisisi_pinjaman"])?><b></span>
+                    <span class="info-box-text" style="font-size:14px;"><b>Akuisisi Pinjaman<b></span>
+                    <span class="info-box-number" style="font-size:20px;"><b><?php echo number_format($akuisisi[0]["jumlah_akuisisi_pinjaman"])?><b></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
               </div>
             </div>
+            <br>
             <div class="row">
               <div class="col-sm-12">
                 <div class="info-box mb-3">
                   <span class="info-box-icon bg-danger elevation-1" style="background-color: #3498db   !important;"><i class="fa fa-percent"></i></span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text"><b>Inklusi<b></span>
-                    <span class="info-box-number"><b><?php echo round(($akuisisi[0]["jumlah_akuisisi_pinjaman"]/$akuisisi[0]["jumlah_akuisisi_simpanan"])*100 , 2) ?>  %<b></span>
+                    <span class="info-box-text" style="font-size:14px;"><b>Inklusi<b></span>
+                    <span class="info-box-number" style="font-size:20px;"><b><?php echo $akuisisi[0]["jumlah_akuisisi_inklusi"] ?>  %<b></span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -148,12 +151,14 @@
                   <option>Google</option>
               </select>
           </div><!-- /.box-header --> 
-          <div class="box-body" id="byGoogleMap" style="display:none;">
-            <div id="mapid"></div>
-            <div id="list_data"></div>
-          </div>
-          <div class="box-body" id="byProvinsi" >
-            <div id="mapidbyhighchart"></div>
+          <div class="box-body" >
+            <div id="byGoogleMap" style="display:none">
+              <div id="mapid"></div>
+              <div id="list_data"></div>
+            </div>
+            <div id="byProvinsi" style="display:block">
+              <div id="mapidbyhighchart"></div>
+            </div> 
           </div>
         </div>
       </div>
@@ -188,7 +193,7 @@
   <style>
   #mapid{
     width: auto;
-    height: 380px;
+    height: 280px;
   }
   .infowindow-container {
       width: 330px;
@@ -206,7 +211,7 @@
   }
   
   #mapidbyhighchart {
-      height : 380px;
+      height : 280px;
       min-width: 310px; 
       margin: 0 auto; 
     }
