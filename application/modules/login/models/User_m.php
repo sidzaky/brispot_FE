@@ -34,21 +34,34 @@ class User_m extends CI_Model
 	function signup_m()
 	{
 		$password = md5($_POST['password']);
-		$sql = "update user set password='" . $password . "', uppwd='0' where id='" . $this->session->userdata('id') . "'";
-        $res = $this->db->query($sql);
-        $sql = "insert into cluster_log values('','".$this->session->userdata('id')."', 'penggantian password pada uker " . $_POST['kode_uker_c'] . " ')";
+		$newdata= array(
+				'password' 	=> $password,
+				'uppwd'		=> '0'
+		);
+		$this->db->where('id',$this->session->userdata('id'));
+		$res = $this->db->update('user',$newdata);
+
+
+		// $sql = "update user set password='" . $password . "', uppwd='0' where id='" . $this->session->userdata('id') . "'";
+        // $res = $this->db->query($sql);
+
+        $sql = "insert into cluster_log values('','".$this->session->userdata('id')."', 'penggantian password pada uker " . $_POST['kode_uker_c'] . " ','".time()."')";
         $this->db->query($sql);
         return !!$res;
-        
 	}
 
 
 	function chpassuker_m()
 	{
-		if (!isset($_POST['kode_uker_c'])) $_POST['kode_uker_c'] = $this->session->userdata('kode_uker');
+
+		if (!isset($_POST['kode_uker_c'])) $id = $this->session->userdata('kode_uker');
+		else $id=$_POST['kode_uker_c'];
 		$password = md5($_POST['password']);
-		$sql = "update user set password='" . $password . "' where username='" . $_POST['kode_uker_c'] . "'";
-        $this->db->query($sql);
+		$newdata= array(
+				'password' 	=> $password
+		);
+		$this->db->where('id',$id);
+		$this->db->update('user',$newdata);
         $sql = "insert into cluster_log values('','".$this->session->userdata('id')."', 'penggantian password pada uker " . $_POST['kode_uker_c'] . "', '".time()."' )";
         $this->db->query($sql);
 

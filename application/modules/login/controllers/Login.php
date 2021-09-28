@@ -35,6 +35,7 @@ class Login extends MX_Controller
  
   public function signup()
   {
+    $this->is_logged_in(true);
     $data['content'] = 'signup_v';
     $data['navbar'] = null;
     $data['sidebar'] = null;
@@ -43,12 +44,14 @@ class Login extends MX_Controller
 
   function changePasswordFirstTime()
   {
+    $this->is_logged_in(true);
     $res = $this->user_m->signup_m();
     if ($res === true) $this->logout();
   }
 
   public function chpassuker()
   {
+    $this->is_logged_in(true);
     $this->user_m->chpassuker_m();
   }
 
@@ -87,15 +90,17 @@ class Login extends MX_Controller
     $this->session->set_userdata('notif', 0);
   }
 
-  function is_logged_in()
+  function is_logged_in($i=null)
   {
     $logged_in = $this->session->userdata('logged_in');
     if (!isset($logged_in) || $logged_in != true) {
       $link = base_url();
-      echo "You don\'t have permission to access this page. <a href=$link>Login</a>";
+      echo "You dont have permission to access this page. <a href=$link>Login</a>";
       die();
     }
-    if ($this->session->userdata('uppwd') === "1") redirect('/login/signup');
+    if ($i==null){
+      if ($this->session->userdata('uppwd') === "1") redirect('/login/signup');
+    }
   }
 
   function logout()
@@ -103,22 +108,5 @@ class Login extends MX_Controller
     $items = array('user_id', 'username', 'role', 'logged_in');
     $this->session->unset_userdata($items);
     redirect('');
-  }
-
-
-  function sendemail(){
-    $config = array();
-    $config['protocol'] = 'smtp';
-    $config['smtp_host'] = 'localhost';
-    $config['smtp_port'] = 25;
-    $this->load->library('email');
-    $this->email->initialize($config);
-    $this->email->from('no-reply@ecoira.id', 'no-reply@ecoira.id');
-    $this->email->to("si.dzaky@gmail.com"); 
-    $this->email->message("zzzz"); 
-    if ($this->email->send()) echo "aa"	;
-    else echo "bb";
-          // print_r ($result);
-          // echo "aa";
   }
 }
