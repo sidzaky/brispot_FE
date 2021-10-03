@@ -383,8 +383,8 @@
 						<label for="thedata" class="col-sm-12 control-label">
 							<h3 align="center">Penilaian Kriteria Local Heroes Klaster<b style='color:red;'>*</b></h3>
 							<h5 align="center">Pilih kriteria di bawah ini sesuai dengan kondisi subyek yang sebenarnya 
-untuk menentukan Ketua Kelompok / Klaster termasuk Local Heroes atau bukan. 
-Parameter dapat dipilih lebih dari 1 kriteria sesuai dengan kondisi sebenarnya</h5>
+												untuk menentukan Ketua Kelompok / Klaster termasuk Local Heroes atau bukan. 
+												Parameter dapat dipilih lebih dari 1 kriteria sesuai dengan kondisi sebenarnya</h5>
 						</label>
 
 						<div class="form-group">
@@ -422,6 +422,13 @@ Parameter dapat dipilih lebih dari 1 kriteria sesuai dengan kondisi sebenarnya</
 							<textarea type="text" class="form-control dform required" id="lh_inisiatif" value="" placeholder="Bapak Edy Sukses mengembangkan wilayahnya sebagai penghasil ikan iar tawar terbaik ...."></textarea>
 						</div>
 
+						<div class="form-group required">
+							<label class="control-label">Foto lampiran Local Heroes</label><br>
+							<label class="control-label">Dapat Berupa Sertifikat Penghargaan Atau Dokumentasi Peliputan</label>
+							<button type="button" class="btn btn-primary waves-effect waves-light btn-sm" onclick="tambahform('flh');"><i class="fa fa-plus"></i> Tambah Foto</button></label>
+							<div id="fotolocalheroes" class="col-sm-12"></div>
+						</div>
+						<br>
 						<hr>
 
 						<div class="form-group required">

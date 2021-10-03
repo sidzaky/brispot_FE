@@ -590,7 +590,7 @@ class Cluster_m extends CI_Model
 	}
 
 
-	public function updatedata_m($rfex = null, $rfku = null)
+	public function updatedata_m($rfex = null, $rfku = null, $rflh = null)
 	{
 		$this->insertClusterDataLog();
 		$id = $_POST['id'];
@@ -629,6 +629,10 @@ class Cluster_m extends CI_Model
 		if ($rfku != null) {
 			$this->db->query('delete from cluster_foto_usaha where id_cluster="' . $id . '"');
 			$this->uploadimage($rfku, $id, 'foto_usaha');
+		}
+		if ($rflh != null) {
+			$this->db->query('delete from cluster_foto_local_heroes where id_cluster="' . $id . '"');
+			$this->uploadimage($rflh, $id, 'foto_local_heroes');
 		}
 
 		$msglog['log']="update data cluser on id : ". $id ." { ". json_encode($_POST) . " } ";
@@ -689,7 +693,7 @@ class Cluster_m extends CI_Model
 			$this->db->insert('cluster_data_log', $data);	
 		}
 	}
-	public function insertdata_m($rfex = null, $rfku = null)
+	public function insertdata_m($rfex = null, $rfku = null, $rflh = null)
 	{
 		$query = $this->db->query("select * from branch where BRANCH='" . $_POST['kode_uker'] . "'")->result_array();
 		$_POST['id'] = $this->uuid->v4(true);
@@ -723,6 +727,10 @@ class Cluster_m extends CI_Model
 		$this->insert_pendidikan();
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
 		if ($rfku != null) $this->uploadimage($rfku, $_POST['id'], 'foto_usaha');
+		if ($rflh != null) {
+			echo "zzz";
+			$this->uploadimage($rflh, $_POST['id'], 'foto_local_heroes');
+		}
 
 		$msglog['log']="insert data cluster { ". json_encode($_POST). " } ";
 		$msglog['id_user']=$this->session->userdata('id');
@@ -962,19 +970,21 @@ class Cluster_m extends CI_Model
 	function dldataanggota_m($id = null)
 	{	
 		if (isset($_POST['id_cluster'])) $id = $_POST['id_cluster'];
-			$sql = "select  b.id_cluster,
-							ca_nama,
-							ca_jk, 
-							concat(\"'\", ca_kodepos), 
-							ca_pinjaman, 
-							ca_simpanan,
-							a.lokasi_usaha,
-							c.nama as provinsi,
-							d.nama as kabupaten_kota,
-							e.nama as kecamatan,
-							f.nama as kelurahan,
-							a.kode_uker,
-							FROM_UNIXTIME(b.timeinput)
+		
+		if ($this->session->userdata("permission")== 4) {
+				$select = "  	b.id_cluster, ca_nama, ca_nik,ca_norek, ca_jk,  concat(\"'\", ca_kodepos),  
+								ca_pinjaman, ca_simpanan, ca_handphone, a.lokasi_usaha,
+								c.nama as provinsi, d.nama as kabupaten_kota, e.nama as kecamatan, f.nama as kelurahan,
+								a.kode_uker, FROM_UNIXTIME(b.timeinput) ";
+			}
+		else { 	
+				$select = " b.id_cluster, ca_nama, ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, a.lokasi_usaha, 
+							c.nama as provinsi, d.nama as kabupaten_kota, e.nama as kecamatan,f.nama as kelurahan,
+							a.kode_uker, FROM_UNIXTIME(b.timeinput) ";
+			}
+
+		
+			$sql = "select ".$select."
 					from cluster a
 					inner join cluster_anggota b on a.id=b.id_cluster
 					left join provinsi c on a.provinsi=c.id
@@ -1242,7 +1252,6 @@ class Cluster_m extends CI_Model
 
 	function report_anggota_m($i = null)
 	{
-	
 		$q = "select b.kanwil, b.kode_kanwil, b.id, b.kelompok_usaha, count(a.id_ca) as total_anggota from cluster_anggota a
 					left join cluster b on a.id_cluster=b.id
 					where cluster_status=1 and cluster_approval=1 and b.kode_kanwil='$i'
@@ -1253,19 +1262,20 @@ class Cluster_m extends CI_Model
 	function dl_report_anggota_m($i = null)
 	{
 		if ($i != null) $where ="and a.kode_kanwil='" . $i . "'";
-		$q = "select  	b.id_cluster,
-						ca_nama,
-						ca_jk, 
-						concat(\"'\", ca_kodepos), 
-						ca_pinjaman, 
-						ca_simpanan, 
-						a.lokasi_usaha,
-						c.nama as provinsi,
-						d.nama as kabupaten_kota,
-						e.nama as kecamatan,
-						f.nama as kelurahan,
-						a.kode_uker,
-						FROM_UNIXTIME(b.timeinput)
+		
+		if ($this->session->userdata("permission")== 4) {
+			$select = "  	b.id_cluster, ca_nama, ca_nik,ca_norek, ca_jk,  concat(\"'\", ca_kodepos),  
+							ca_pinjaman, ca_simpanan, ca_handphone, a.lokasi_usaha,
+							c.nama as provinsi, d.nama as kabupaten_kota, e.nama as kecamatan, f.nama as kelurahan,
+							a.kode_uker, FROM_UNIXTIME(b.timeinput) ";
+		}
+		else { 	
+			$select = " b.id_cluster, ca_nama, ca_jk, concat(\"'\", ca_kodepos), ca_pinjaman, ca_simpanan, a.lokasi_usaha, 
+							c.nama as provinsi, d.nama as kabupaten_kota, e.nama as kecamatan,f.nama as kelurahan,
+							a.kode_uker, FROM_UNIXTIME(b.timeinput) ";
+		}
+
+		$q = "select  ".$select."
             from cluster a
             inner join cluster_anggota b on a.id=b.id_cluster
 			left join provinsi c on a.provinsi=c.id

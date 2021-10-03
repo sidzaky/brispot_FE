@@ -86,6 +86,7 @@ class Login extends MX_Controller
 
   function closenotif()
   {
+    $this->is_logged_in(true);
     $this->user_m->closenotif_m();
     $this->session->set_userdata('notif', 0);
   }

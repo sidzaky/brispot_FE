@@ -17,21 +17,18 @@ class Cluster extends MX_Controller
 	public function __construct()
 	{
 		parent::__construct();
-
 		$this->load->module('login');
 		$this->login->is_logged_in();
 		$this->load->model('cluster_m');
 		$this->load->helper(array('url', 'form', 'html'));
-		// print_r ($this->session->all_userdata());
     }
     
     ////////////////////////////////////////////////////////////
-    /////////////////get pengajuan klaster usaha ///////////////
+    /////////////////get pengajuan klaster usaha////////////////
     ////////////////////////////////////////////////////////////
 
 	public function index()
 	{	
-	
 		$data['navbar'] = 'navbar';
         $data['sidebar'] = 'sidebar';
         $data['cluster_sektor_usaha'] = $this->cluster_m->get_cluster_sektor_usaha();
@@ -70,16 +67,13 @@ class Cluster extends MX_Controller
 			else {
 				if ($this->session->userdata('permission')>2){
 					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
-					
 				}
 				else {
 					$update ="";
-					
 				}
 			}
 			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			//exection button//
-
 
 	///////////////////// button for MCS /////////////////////////////////
 		
@@ -97,14 +91,13 @@ class Cluster extends MX_Controller
 							case (1) :
 								$colstatus = "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC'] . " </br> Menunggu Divisi SEI ";
 							break;
-		
+
 							case (2) :  
 								$colstatus = "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC'] . " </br> " .  $appr . $reject ;
 							break;
 						}
 					}
 				}
-
 				else {
 					$colstatus =" Pengajuan ditolak oleh ". $checker_username[0]['BRDESC'] ."</br>". $field['reject_reason'];
 				}
@@ -127,7 +120,6 @@ class Cluster extends MX_Controller
 			
 
 	///////////////////////check for local heroes/////////////////////////////
-			
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -327,6 +319,7 @@ class Cluster extends MX_Controller
 			$data['cluster'] = $this->cluster_m->getdata_m();
 			$data['rfku'] = $this->cluster_m->getdatafoto_m('cluster_foto_usaha');
 			$data['rfex'] = $this->cluster_m->getdatafoto_m('cluster_doc_ekspor');
+			$data['rflh'] = $this->cluster_m->getdatafoto_m('cluster_foto_local_heroes');
 			echo json_encode($data);
 		}
 	}
@@ -348,6 +341,7 @@ class Cluster extends MX_Controller
 	{
 		$rfku = null;
 		$rfex = null;
+		$rflh = null;
 
 		if (count($_POST['efku']) > 0) {
 			$z = 0;
@@ -392,11 +386,37 @@ class Cluster extends MX_Controller
 			}
 		}
 
+		
+		if (isset($_POST['eflh'])){
+		
+			if (count($_POST['eflh']) > 0) {
+				$z = 0;
+				for ($i = 0; $i < count($_POST['eflh']); $i++) {
+					if ($_POST['rflh'][$i] != "") {
+						$rflh[$z] = $this->camphotoupload($_POST['rflh'][$i], $_POST['tflh'][$i]);
+						$z++;
+					} else {
+						if ($_POST['eflh'][$i] != "") {
+							$rflh[$z] = $_POST['eflh'][$i];
+							$z++;
+						}
+					}
+					echo $z;
+				}
+				unset($_POST['rflh']);
+				unset($_POST['tflh']);
+				unset($_POST['eflh']);
+			}
+		}
+
+
+		
+
 		if ($_POST['id'] != "") {
-			$this->cluster_m->updatedata_m($rfex, $rfku);
+			$this->cluster_m->updatedata_m($rfex, $rfku, $rflh);
 			echo "update";
 		} else {
-			$this->cluster_m->insertdata_m($rfex, $rfku);
+			$this->cluster_m->insertdata_m($rfex, $rfku, $rflh);
 			echo "insert";
 		}
 	}
@@ -790,8 +810,9 @@ class Cluster extends MX_Controller
 	}
 
 	public function dldataanggota()
-	{
-		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+	{	
+		if ($this->session->userdata("permission")== 4) $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', "NIK", "No Rekening", 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+		else $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 
 		$data = $this->cluster_m->dldataanggota_m();
 		$no = 1;
@@ -814,7 +835,8 @@ class Cluster extends MX_Controller
 	public function dldatareportanggota()
 	{
 		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+		if ($this->session->userdata("permission")== 4) $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', "NIK", "No Rekening", 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
+		else $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 		$no = 1;
 		$z = 1;
 		$data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);
@@ -916,6 +938,7 @@ class Cluster extends MX_Controller
 				"data" => $data,
 			);
 			echo json_encode($output);
+
 		} else redirect('dashboard');
 	}
 
@@ -960,19 +983,6 @@ class Cluster extends MX_Controller
 		echo json_encode($data);
 	}
 
-	// private function filephotoupload(){
-
-	// $type = explode('.', $_FILES["foto"]["name"]);
-	// $type = $type[count($type)-1];
-	// $url = "images/".uniqid(rand()).'.'.$type;
-	// //$_POST["foto"]=$url;
-	// move_uploaded_file($_FILES["foto"]["tmp_name"], $url);
-	// if(is_uploaded_file($_FILES["foto"]["tmp_name"])){
-	// if(move_uploaded_file($_FILES["foto"]["tmp_name"], $url)){
-	// return $url;
-	// }
-	// }
-	// }
 
 	public function cekKtpAnggota(){
 		if ($_POST['ktp'] != "") {

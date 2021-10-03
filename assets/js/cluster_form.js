@@ -27,6 +27,9 @@ function tambahform(id) {
     case "fex":
       if (ccount < 3) vfex(newid);
       break;
+    case "flh":
+      if (ccount < 3) vflh(newid);
+      break;
   }
 }
 
@@ -139,6 +142,7 @@ function getform(i = null) {
     document.getElementById("checkvalidanggota").checked = false;
     document.getElementById("fotoklusterusaha").innerHTML = "";
     document.getElementById("fotoverifikasiexpor").innerHTML = "";
+    document.getElementById("fotolocalheroes").innerHTML = "";
     if (i != null) {
       var data1 = {
         id: i,
@@ -230,6 +234,10 @@ function getform(i = null) {
           }
           for (var i = 0; i < tempdata.rfex.length; i++) {
             vfex(i, tempdata.rfex[i].location);
+          }
+
+          for (var i = 0; i < tempdata.rflh.length; i++) {
+            vflh(i, tempdata.rflh[i].location);
           }
 
           $("#modal").show();
@@ -382,6 +390,32 @@ function vfex(newid, rfex = null) {
   );
 }
 
+function vflh(newid, rflh = null) {
+  $("#fotolocalheroes").append(
+    '<div class="col-sm-4"  id="mflh_' +
+      newid +
+      '"><div class="input-group"><span class="input-group-btn"><span class="btn btn-default btn-file"><i class="fa fa-upload"></i> Upload ' +
+      (newid + 1) +
+      '<input class="flh" type="file" id="flh_' +
+      newid +
+      '"  onchange="readURL(this,\'flh_' +
+      newid +
+      '\');" > 	 <input type="hidden" name="rflh" id="rflh_' +
+      newid +
+      '" value=""> <input type="hidden" name="tflh" id="tflh_' +
+      newid +
+      '" value="">  <input type="hidden" name="idflh" id="idflh_' +
+      newid +
+      '" value=""> </span><span class="btn btn-default btn-file" onclick="minform(\'mflh_' +
+      newid +
+      '\');"><i class="fa fa-close"></i>  Hapus</span></span></div><img class="img-upload" id="shflh_' +
+      newid +
+      '"  src="' +
+      (rflh != null ? rflh : "") +
+      '"/></div>'
+  );
+}
+
 function inputform() {
   if (
     document.getElementById("checkvalidkunjungan").checked == true &&
@@ -402,10 +436,17 @@ function inputform() {
       data1["tfku"] = [];
       data1["idfku"] = [];
       data1["efku"] = [];
+
       data1["rfex"] = [];
       data1["tfex"] = [];
       data1["idfex"] = [];
       data1["efex"] = [];
+
+      data1["rflh"] = [];
+      data1["tflh"] = [];
+      data1["idflh"] = [];
+      data1["eflh"] = [];
+      
      
 
       var nlh = document.getElementsByClassName("nlh");
@@ -427,7 +468,6 @@ function inputform() {
         rfku = rfku.id.split("_");
         var valid = 0;
         for (var i = 0; i <= rfku[1]; i++) {
-          console.log(i);
           if ($("#rfku_" + i).val() !== "") {
             data1["rfku"][i] = $("#rfku_" + i).val();
             data1["tfku"][i] = $("#tfku_" + i).val();
@@ -468,6 +508,23 @@ function inputform() {
           if (valid == 0) msg += "foto/gambar dokument minimal ada 1";
         } else msg += "foto/gambar dokument minimal ada 1";
       }
+
+      if ($("input[name='rflh']").length != 0) {
+        var rflh = $("input[name='rflh']")[$("input[name='rflh']").length - 1];
+        rflh = rflh.id.split("_");
+        for (var i = 0; i <= rflh[1]; i++) {
+          if ($("#rflh_" + i).val() !== "") {
+            data1["rflh"][i] = $("#rflh_" + i).val();
+            data1["tflh"][i] = $("#tflh_" + i).val();
+            data1["eflh"][i] = "";
+          } else {
+            data1["eflh"][i] =
+              $("#shflh_" + i).attr("src") != ""
+                ? $("#shflh_" + i).attr("src")
+                : "";
+          }
+        }
+      } 
 
       if (msg == "") {
         $("#sbt").attr("disabled", "disabled");
