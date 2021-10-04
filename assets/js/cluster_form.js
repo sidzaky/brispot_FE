@@ -1037,6 +1037,23 @@ function setappr(i=null, j=null){
     }
 }
 
+function setApproveLh(i=null , j =null){
+  var data= {
+    "id" : i,
+    "set" : j,
+  }
+  var notif   = "Pengajuan Local Heroes "+( j=="approve" ? " Disetujui " : " Ditolak ");
+  var address = "./cluster/approveLh"; 
+  if (confirm("apakah anda yakin "+( j=="approve" ? " menyetujui " : " menolak ")+"pengajuan klaster sebagai Local Heroes?")){
+    if (sendajax(data, address, null, notif, null) !="") {
+      $("#table-cluster").DataTable().ajax.reload(null, false)
+      $('#modalreject').hide();
+    };
+  }
+}
+
+
+
 function setrejj(){
   if ($("#reject").val()!=""){
     if (confirm("apakah anda Menolak pengajuan klaster ini?")){

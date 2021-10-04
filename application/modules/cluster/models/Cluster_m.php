@@ -728,7 +728,6 @@ class Cluster_m extends CI_Model
 		if ($rfex != null) $this->uploadimage($rfex, $_POST['id'], 'doc_ekpor');
 		if ($rfku != null) $this->uploadimage($rfku, $_POST['id'], 'foto_usaha');
 		if ($rflh != null) {
-			echo "zzz";
 			$this->uploadimage($rflh, $_POST['id'], 'foto_local_heroes');
 		}
 
@@ -738,9 +737,22 @@ class Cluster_m extends CI_Model
 		$this->db->insert('cluster_log', $msglog);
 	}
 
-	function lh(){
-		if ($_POST['lh0']==1 && $_POST['lh1']==1  && $_POST['lh3']==1) return 1;
-		else return 0;
+	function approveLh_m(){
+		$ndata["lh_flag"] = null;
+		switch ($_POST['set']) {
+			case ("approve") :
+				$ndata["lh_flag"]="1";
+				break;
+			case ("reject") :
+				$ndata["lh_flag"]="0";
+				break;
+		}
+		
+		if ($ndata["lh_flag"] != null){
+			$nid = $_POST["id"];
+			$this->db->where("id", $nid);
+			$this->db->update("cluster", $ndata);
+		}
 	}
 
 	function insert_hasil_produk(){

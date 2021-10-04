@@ -49,6 +49,7 @@
 								<th>Jml / Input Anggota </th>
 								<th>Jenis Usaha</th>
 								<th>Bentuk Produk/Jasa</th>
+								<?php if ($this->session->userdata("approve_level") == 2) echo "<th>Status Local Heroes</th>";?>
 								<th>Action</th>
 							</tr>
 						</thead>

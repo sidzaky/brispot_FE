@@ -12,11 +12,7 @@ var table = $('#table-cluster').DataTable({
 							},
 						}
 					});
-
-
-
-	
-			
+		
 				var count=1;
 
 				function add_field(){

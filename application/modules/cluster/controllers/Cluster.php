@@ -78,13 +78,10 @@ class Cluster extends MX_Controller
 	///////////////////// button for MCS /////////////////////////////////
 		
 			if ($field["checker_status"]!=""){
-
 				if ($field["checker_status"]=='1'){
-					
 					if ($field["signer_status"]!=""){
 						if ($field["signer_status"]==0) $colstatus = " Pengajuan ditolak Divisi SEI </br>". $field['reject_reason'];
 					}
-
 					else {
 						switch ($this->session->userdata['approve_level']) {
 							case (0) :
@@ -120,6 +117,22 @@ class Cluster extends MX_Controller
 			
 
 	///////////////////////check for local heroes/////////////////////////////
+		$actionLH="";
+		if ($this->session->userdata['approve_level'] == 2) {
+			switch ($field["lh_flag"]){
+				case (null) :
+					$actionLH .= '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'approve\')" type="button" ><i class="fa fa-check"></i> Setuju</button>';
+					$actionLH .= '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'reject\')" type="button" ><i class="fa fa-close"></i> Ditolak</button>';
+					break ;
+				case (1) :
+					$actionLH= 'Disetujui';
+					break ;
+				case (0) :
+					$actionLH= 'Ditolak';
+					break ;
+			}
+		}
+	///////////////////////check for local heroes/////////////////////////////
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -130,6 +143,7 @@ class Cluster extends MX_Controller
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
+			if ($this->session->userdata['approve_level'] == 2) $row[]= $actionLH;
             $row[] = $colstatus;
             $row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
 			$data[] = $row;
@@ -259,7 +273,7 @@ class Cluster extends MX_Controller
 
 			
 
-			if ($field['kode_uker'] == $this->session->userdata('kode_uker')   || $field['userinsert'] == $this->session->userdata('kode_uker') ){
+			if ($field['kode_uker'] == $this->session->userdata('kode_uker') || $field['userinsert'] == $this->session->userdata('kode_uker') ){
 				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			}
 			else {
@@ -273,7 +287,24 @@ class Cluster extends MX_Controller
 			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update.$del);
 
+			$actionLH="";
+			if ($this->session->userdata['approve_level'] == 2) {
+				switch ($field["lh_flag"]){
+					case (null) :
+						$actionLH .= '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'approve\')" type="button" ><i class="fa fa-check"></i> Setuju</button>';
+						$actionLH .= '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'reject\')" type="button" ><i class="fa fa-close"></i> Ditolak</button>';
+						break ;
+					case (1) :
+						$actionLH= 'Disetujui';
+						break ;
+					case (0) :
+						$actionLH= 'Ditolak';
+						break ;
+				}
+			}
+
 			$late=($field["timestamp"] < time()-15780000 ? '<i class="fa fa-warning" style="color:orange"></i> <p style="display:none;"> warning </p>' : "");
+
 
 			$no++; 
 			$row = array();
@@ -285,6 +316,7 @@ class Cluster extends MX_Controller
 			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
 			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
 			$row[] = $field['hasil_produk'];
+			if ($this->session->userdata['approve_level'] == 2) $row[]= $actionLH;
 			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
 			$data[] = $row;
 		}
@@ -299,10 +331,12 @@ class Cluster extends MX_Controller
 	}
 	
     ////////////////////////////////////////////////////////////
-    /////////////////end approved klaster usaha ////////////////
+    /////////////////end get approved klaster usaha ////////////
     ////////////////////////////////////////////////////////////
 
-
+	////////////////////////////////////////////////////////////
+    /////////////////start Input data klaster////// ////////////
+    ////////////////////////////////////////////////////////////
     public function cekuker()
 	{
 		if ($_POST['kode_uker'] != "") {
@@ -409,17 +443,24 @@ class Cluster extends MX_Controller
 			}
 		}
 
-
-		
-
 		if ($_POST['id'] != "") {
 			$this->cluster_m->updatedata_m($rfex, $rfku, $rflh);
-			echo "update";
 		} else {
 			$this->cluster_m->insertdata_m($rfex, $rfku, $rflh);
-			echo "insert";
 		}
 	}
+
+	public function approveLh(){
+		$this->cluster_m->approveLh_m();
+	}
+
+	////////////////////////////////////////////////////////////
+    /////////////////end input data klaster /////// ////////////
+    ////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////
+    /////////////////start get report Data klaster ////////////
+    ////////////////////////////////////////////////////////////
 
 
 	public function getreport($harian = "")
@@ -483,128 +524,6 @@ class Cluster extends MX_Controller
 		}
 		echo json_encode($headerexcel, true);
 	}
-
-
-	public function cekkpos()
-	{
-		if ($_POST['kodepos'] != "") {
-			$data = $this->cluster_m->cekkpos_m();
-			if ($data != false) {
-				echo json_encode($data[0]);
-			} else echo json_encode("false");
-		}
-	}
-
-	public function getprovinsi()
-	{
-		$data = $this->cluster_m->getprovinsi_m();
-		echo json_encode($data);
-	}
-
-	public function getkotakab($select = null)
-	{
-		$datakota = $this->cluster_m->getkotakab_m();
-		echo json_encode($datakota);
-	}
-
-	public function getkecamatan()
-	{
-		$datakecamatan = $this->cluster_m->getkecamatan_m();
-		echo json_encode($datakecamatan, true);
-	}
-	public function getkelurahan()
-	{
-		$datakelurahan = $this->cluster_m->getkelurahan_m();
-		echo json_encode($datakelurahan);
-	}
-
-	/////////////////////////////////////////////////////////////////////////////
-	///////////////////////////cluster anggota
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public function cluster_anggota()
-	{
-		if (isset($_POST['id'])) {
-			$cluster=$this->cluster_m->getdata_m();
-			foreach ($cluster as $row){
-				$data['id']				= $row['id'];
-				$data['kelompok_usaha']	= $row['kelompok_usaha'];
-				$data['approval']		= $row['cluster_approval'];
-			}
-			$data['content'] = 'cluster_anggota';
-			$data['navbar'] = 'navbar';
-			$data['sidebar'] = 'sidebar';
-			$this->load->view('template', $data);
-		} else {
-			echo "<script>alert('ups, ada kesalahan')</script>";
-			redirect('cluster', 'refresh');
-		}
-	}
-
-	public function getdata_anggota()
-	{
-
-		$list = $this->cluster_m->get_datafield_anggota();
-		$data = array();
-		$no = $_POST['start'];
-		foreach ($list->result_array() as $field) {
-			$del = '<button class="btn bg-maroon waves-effect waves-light btn-sm" onclick="deldata_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
-			$update = '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
-			$action = ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = $field['ca_nama'];
-			$row[] = "-";
-			$row[] = "-";
-			$row[] = $field['ca_jk'];
-			$row[] = $field['ca_kodepos'];
-			$row[] = $field['ca_pinjaman'];
-			$row[] = $field['ca_simpanan'];
-			$row[] = "-";
-			$row[] = $action;
-			$data[] = $row;
-		}
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $list->num_rows(),
-			"recordsFiltered" => $this->cluster_m->count_all_anggota(),
-			"data" => $data,
-		);
-		echo json_encode($output);
-	}
-
-	public function getdata_anggota_s()
-	{
-		if (isset($_POST['id_ca'])) {
-			echo json_encode($this->cluster_m->getdata_anggota_m());
-		}
-	}
-
-	public function inputdata_anggota()
-	{
-		if ($_POST['id_ca'] != "") {
-			$this->cluster_m->updatedata_anggota_m();
-			echo "udpate";
-		} else {
-			$this->cluster_m->insertdata_anggota_m();
-			echo "insert";
-		}
-	}
-
-	public function deldata_anggota()
-	{
-		$this->cluster_m->deldata_anggota_m();
-	}
-
-	public function inputanggotacsv()
-	{
-		$anggota = json_decode($_POST['anggota'], true);
-		$this->cluster_m->inputanggotacsv_m($anggota);
-	}
-
-	
-
 	public function report_unit()
 	{
 		$pdata = array();
@@ -887,6 +806,129 @@ class Cluster extends MX_Controller
 
 		echo json_encode($headerexcel, true);
 	}
+	////////////////////////////////////////////////////////////
+    ///////////////////////end report //////////////////////////
+    ////////////////////////////////////////////////////////////
+
+
+	public function cekkpos()
+	{
+		if ($_POST['kodepos'] != "") {
+			$data = $this->cluster_m->cekkpos_m();
+			if ($data != false) {
+				echo json_encode($data[0]);
+			} else echo json_encode("false");
+		}
+	}
+
+	public function getprovinsi()
+	{
+		$data = $this->cluster_m->getprovinsi_m();
+		echo json_encode($data);
+	}
+
+	public function getkotakab($select = null)
+	{
+		$datakota = $this->cluster_m->getkotakab_m();
+		echo json_encode($datakota);
+	}
+
+	public function getkecamatan()
+	{
+		$datakecamatan = $this->cluster_m->getkecamatan_m();
+		echo json_encode($datakecamatan, true);
+	}
+	public function getkelurahan()
+	{
+		$datakelurahan = $this->cluster_m->getkelurahan_m();
+		echo json_encode($datakelurahan);
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	///////////////////////////cluster anggota
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function cluster_anggota()
+	{
+		if (isset($_POST['id'])) {
+			$cluster=$this->cluster_m->getdata_m();
+			foreach ($cluster as $row){
+				$data['id']				= $row['id'];
+				$data['kelompok_usaha']	= $row['kelompok_usaha'];
+				$data['approval']		= $row['cluster_approval'];
+			}
+			$data['content'] = 'cluster_anggota';
+			$data['navbar'] = 'navbar';
+			$data['sidebar'] = 'sidebar';
+			$this->load->view('template', $data);
+		} else {
+			echo "<script>alert('ups, ada kesalahan')</script>";
+			redirect('cluster', 'refresh');
+		}
+	}
+
+	public function getdata_anggota()
+	{
+
+		$list = $this->cluster_m->get_datafield_anggota();
+		$data = array();
+		$no = $_POST['start'];
+		foreach ($list->result_array() as $field) {
+			$del = '<button class="btn bg-maroon waves-effect waves-light btn-sm" onclick="deldata_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+			$update = '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			$action = ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $field['ca_nama'];
+			$row[] = "-";
+			$row[] = "-";
+			$row[] = $field['ca_jk'];
+			$row[] = $field['ca_kodepos'];
+			$row[] = $field['ca_pinjaman'];
+			$row[] = $field['ca_simpanan'];
+			$row[] = "-";
+			$row[] = $action;
+			$data[] = $row;
+		}
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $list->num_rows(),
+			"recordsFiltered" => $this->cluster_m->count_all_anggota(),
+			"data" => $data,
+		);
+		echo json_encode($output);
+	}
+
+	public function getdata_anggota_s()
+	{
+		if (isset($_POST['id_ca'])) {
+			echo json_encode($this->cluster_m->getdata_anggota_m());
+		}
+	}
+
+	public function inputdata_anggota()
+	{
+		if ($_POST['id_ca'] != "") {
+			$this->cluster_m->updatedata_anggota_m();
+			echo "udpate";
+		} else {
+			$this->cluster_m->insertdata_anggota_m();
+			echo "insert";
+		}
+	}
+
+	public function deldata_anggota()
+	{
+		$this->cluster_m->deldata_anggota_m();
+	}
+
+	public function inputanggotacsv()
+	{
+		$anggota = json_decode($_POST['anggota'], true);
+		$this->cluster_m->inputanggotacsv_m($anggota);
+	}
+
 
 	public function custom_search()
 	{
@@ -900,7 +942,6 @@ class Cluster extends MX_Controller
 	public function getdatacustom($status = null)
 	{
 		if ($this->session->userdata('permission') >= 3) {
-
 			$list = $this->cluster_m->get_datafield_custom($status, json_decode($_POST['custom_field']));
 			$data = array();
 			$no = $_POST['start'];
@@ -1043,8 +1084,6 @@ class Cluster extends MX_Controller
 			$clusterInfo["satuan_produksi"] = empty($clusterInfo["satuan_produksi"]) ? "-" : $clusterInfo["satuan_produksi"];
 			$clusterInfo["longitude"] = $clusterInfo["longitude"] =="" ? "-" : $clusterInfo["longitude"];
 			$clusterInfo["latitude"] = $clusterInfo["latitude"] =="" ? "-" : $clusterInfo["latitude"];
-
-
 			$clusterPhotos = $this->cluster_m->getClusterPhotos($id);
 			$clusterInfo["photos"] = $clusterPhotos;
 			echo json_encode($clusterInfo);
@@ -1119,25 +1158,25 @@ class Cluster extends MX_Controller
 	
 	
 
-    public function reqdenied(){
-        $sql="	SELECT b.id, ca_nik, COUNT(ca_nik) as counting
-				FROM cluster_anggota a left join cluster b on a.id_cluster=b.id
-			  	where b.cluster_status=1 and cluster_approval=0 
-				GROUP BY ca_nik";
+    // public function reqdenied(){
+    //     $sql="	SELECT b.id, ca_nik, COUNT(ca_nik) as counting
+	// 			FROM cluster_anggota a left join cluster b on a.id_cluster=b.id
+	// 		  	where b.cluster_status=1 and cluster_approval=0 
+	// 			GROUP BY ca_nik";
 		
-		$status  = "reject_reason=' Terdapat duplikasi NIK pada list anggota klaster', ";
-		$status .= "checker_status=0, ";
-		$status .= "signer_status =0, ";
-		$status .= "checker_user_update = '". $this->session->userdata('kode_uker')."', ";
-		$status .= "signer_user_update = '". $this->session->userdata('kode_uker')."' ";
+	// 	$status  = "reject_reason=' Terdapat duplikasi NIK pada list anggota klaster', ";
+	// 	$status .= "checker_status=0, ";
+	// 	$status .= "signer_status =0, ";
+	// 	$status .= "checker_user_update = '". $this->session->userdata('kode_uker')."', ";
+	// 	$status .= "signer_user_update = '". $this->session->userdata('kode_uker')."' ";
 
-        foreach ($this->db->query($sql)->result_array() as $row){
-				echo $row['ca_nik']."</br>";
-				if ($row['counting'] > 1){
-					$z="update cluster set ".$status." where id='".$row['id']. "'";
-					$this->db->query($z);
-					echo $z."</br>";
-				}
-            }
-        }
+    //     foreach ($this->db->query($sql)->result_array() as $row){
+	// 			echo $row['ca_nik']."</br>";
+	// 			if ($row['counting'] > 1){
+	// 				$z="update cluster set ".$status." where id='".$row['id']. "'";
+	// 				$this->db->query($z);
+	// 				echo $z."</br>";
+	// 			}
+    //         }
+    //     }
 }
