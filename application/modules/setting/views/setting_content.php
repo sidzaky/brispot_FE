@@ -74,5 +74,10 @@
                 <td>Data Agen Stroberi</td>
                 <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('data_stroberi')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
             </tr>
+            <tr>
+                <td>13</td>
+                <td>Gambar Landing Page</td>
+                <td><button class="btn btn-success waves-effect waves-light btn-sm" style="float:right;" onclick="getform('carousel_lp')" type="button"><i class="fa fa-plus"></i> Lihat List</button></td>
+            </tr>
         </tbody>
     </table>

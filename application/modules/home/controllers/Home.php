@@ -25,6 +25,12 @@ class Home extends MX_Controller
     if ($this->session->userdata('logged_in') === true) {
       redirect('dashboard');
     }
-    else  $this->load->view('home');
+    else {
+      $sql="select * from cluster_landing_page";
+      $data["hlp"] = $this->db->query($sql)->result_array();
+      $this->load->view('home',$data);
+    }
   }
+
+
 }

@@ -13,7 +13,7 @@
   <script src="<?php echo base_url(); ?>/assets/js/home.js"></script>
 </head>
 
-<body>
+<body> 
   <nav class="navbar navbar-default navbar-fixed-top" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(239, 239, 239); box-shadow: rgb(233, 233, 233) 0px 1px 12px 1px;">
     <div class="container">
       <div class="navbar-header">
@@ -41,28 +41,25 @@
       <div class="jumbotron">
         <div class="row">
           <div class="col-md-12">
+
+          <?php 
+              $li="";
+              $lp="";
+              $cli=0;
+              foreach ($hlp as $srow){
+                $li .='<li data-target="#gallery-carousel" data-slide-to="'.$cli.'" '.($cli==0 ? 'class="active"' : '').'></li>';
+                $lp .='<div class="item '.($cli==0 ? 'active' : '').'" data-descid="'.($cli+1).'"><img src="'.$srow['src'].'"></div>';  
+                $cli++;
+              }
+          ?>
             <div id="gallery-carousel" class="carousel slide" data-ride="carousel">
               <!-- Indicators -->
               <ol class="carousel-indicators">
-                <li data-target="#gallery-carousel" data-slide-to="0" class="active"></li>
-                <li data-target="#gallery-carousel" data-slide-to="1"></li>
-                <li data-target="#gallery-carousel" data-slide-to="2"></li>
-                <li data-target="#gallery-carousel" data-slide-to="3"></li> 
+               <?php echo $li?>
               </ol>
               <!-- UKURAN GAMBAR CAROUSEL 16:7 -->
               <div class="carousel-inner" role="listbox">
-                <div class="item active" data-descid="1">
-                  <img  src="<?php echo base_url() ?>assets/img/landing-page/foto 1-01.jpg" alt="pelatihan-cangkul">
-                </div>
-                <div class="item" data-descid="2">
-                  <img src="<?php echo base_url() ?>assets/img/landing-page/foto 2-01.jpg" alt="bantuan-cooler-box">
-                </div>
-                <div class="item" data-descid="3">
-                  <img  src="<?php echo base_url() ?>assets/img/landing-page/foto 3-01.jpg" alt="homestay">
-                </div>
-                <div class="item" data-descid="4">
-                  <img  src="<?php echo base_url() ?>assets/img/landing-page/foto 4-01.jpg" alt="spot-foto-selfie">
-                </div>
+                <?php echo $lp?>
               </div>
 
               <!-- Controls -->

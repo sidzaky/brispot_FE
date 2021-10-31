@@ -284,9 +284,19 @@ class setting_m extends CI_Model
         $this->db->query($sql);
     }
 
+    function get_carousel_lp_m(){
+        $sql="select * from cluster_landing_page";
+        return  $this->db->query($sql)->result_array();
+    }
 
-
-
+    function del_carousel_lp_m(){
+        $sql="delete from cluster_landing_page where id='".$_POST['id']."'";
+        $this->db->query($sql);
+    }
+    function up_carousel_lp_m($url){
+        $sql="insert into cluster_landing_page values ('". $this->uuid->v4(true). "','".$url."')";
+        $this->db->query($sql);
+    }
 }	
 	
 /* End of file user_m.php */

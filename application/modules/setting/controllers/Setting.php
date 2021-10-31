@@ -241,8 +241,34 @@ class Setting extends MX_Controller {
         $this->setting_m->up_stroberi_m();
     }
 
+    public function get_carousel_lp(){
+        $data['carousel_lp']=$this->setting_m->get_carousel_lp_m();
+        $this->load->view('setting_carousel_lp_v',$data);
+    }
 
-   
+    public function del_carousel_lp(){
+        $this->setting_m->del_carousel_lp_m();
+        unset($_POST);
+        $this->get_carousel_lp();
+    }
+
+     public function up_carousel_lp(){
+        $url = $this->camphotoupload($_POST["setdata"]);
+        $this->setting_m->up_carousel_lp_m($url);
+        unset($_POST);
+        $this->get_carousel_lp();
+    }
+
+    private function camphotoupload($i = null, $j = null)
+	{
+		$encoded_data = $i;
+		$binary_data = base64_decode($encoded_data);
+		$url = "assets/img/landing-page/" . uniqid(rand()) . '.jpg';
+		$result = file_put_contents($url, $binary_data);
+		if (!$result) die("Could not save image!  Check file permissions.");
+		else return $url;
+	}
+
 
     
 }

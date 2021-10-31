@@ -60,7 +60,7 @@ class User_m extends CI_Model
 		$newdata= array(
 				'password' 	=> $password
 		);
-		$this->db->where('id',$id);
+		$this->db->where('username',$id);
 		$this->db->update('user',$newdata);
         $sql = "insert into cluster_log values('','".$this->session->userdata('id')."', 'penggantian password pada uker " . $_POST['kode_uker_c'] . "', '".time()."' )";
         $this->db->query($sql);

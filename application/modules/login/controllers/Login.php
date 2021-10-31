@@ -27,10 +27,11 @@ class Login extends MX_Controller
     if ($this->session->userdata('logged_in') === true) {
       redirect('cluster');
     }
-    $data['content'] = 'login';
-    $data['navbar'] = null;
-    $data['sidebar'] = null;
-    $this->load->view('template', $data);
+    else redirect(base_url());
+    // $data['content'] = 'login';
+    // $data['navbar'] = null;
+    // $data['sidebar'] = null;
+    // $this->load->view('template', $data);
   }
  
   public function signup()
