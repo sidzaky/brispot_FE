@@ -19,9 +19,7 @@ function showClusterInfo(id) {
                   <h2>${info.kelompok_usaha}</h2>
                   <h4>Anggota : ${info.kelompok_jumlah_anggota} orang
                   </h4>
-                  <h4>Ketua: ${info.kelompok_perwakilan} / ${
-          info.kelompok_handphone
-        }</h4>
+                  <h4>Ketua: ${info.kelompok_perwakilan} / ${info.kelompok_handphone}</h4>
                   <h5>${info.lokasi_usaha}</h5>
                 </div>
               </div>
@@ -106,9 +104,9 @@ function showClusterInfo(id) {
                 </ul>
                 </div>
               </div>
-              <br/>
-              ${
-                info.photos.length > 0 ? `
+              <hr>
+            
+              ${info.photos.length > 0 ? `
                 <div class="row">
                       <div class="col-md-12">
                       <p><strong>Galeri</strong></p>

@@ -117,7 +117,7 @@ class Cluster extends MX_Controller
 			
 
 	///////////////////////check for local heroes/////////////////////////////
-		$actionLH="";
+	$actionLH='<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="showClusterLHInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info Local Heroes</button>';;
 		if ($this->session->userdata['approve_level'] == 2) {
 			switch ($field["lh_flag"]){
 				case (null) :
@@ -125,10 +125,10 @@ class Cluster extends MX_Controller
 					$actionLH .= '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'reject\')" type="button" ><i class="fa fa-close"></i> Ditolak</button>';
 					break ;
 				case (1) :
-					$actionLH= 'Disetujui';
+					$actionLH .= 'Disetujui';
 					break ;
 				case (0) :
-					$actionLH= 'Ditolak';
+					$actionLH .= 'Ditolak';
 					break ;
 			}
 		}
@@ -287,7 +287,7 @@ class Cluster extends MX_Controller
 			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
 			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update.$del);
 
-			$actionLH="";
+			$actionLH='<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="showClusterLHInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info Local Heroes</button>';;
 			if ($this->session->userdata['approve_level'] == 2) {
 				switch ($field["lh_flag"]){
 					case (null) :
@@ -1085,6 +1085,23 @@ class Cluster extends MX_Controller
 			$clusterInfo["longitude"] = $clusterInfo["longitude"] =="" ? "-" : $clusterInfo["longitude"];
 			$clusterInfo["latitude"] = $clusterInfo["latitude"] =="" ? "-" : $clusterInfo["latitude"];
 			$clusterPhotos = $this->cluster_m->getClusterPhotos($id);
+			$clusterLhPhotos = $this->cluster_m->clusterLhPhotos_m($id);
+			$clusterInfo["photos"] = $clusterPhotos;
+			$clusterInfo["LhPhotos"] = $clusterLhPhotos;
+			echo json_encode($clusterInfo);
+		}
+	}
+
+	function getClusterLHInfo()
+	{
+		$id = $this->input->post("id");
+		if (isset($id)) {
+			$clusterInfo = $this->cluster_m->getClusterLHInfo_m($id);
+			$clusterInfo["kelompok_usaha"] = empty($clusterInfo["kelompok_usaha"]) ? "-" : $clusterInfo["kelompok_usaha"];
+			$clusterInfo["kelompok_jumlah_anggota"] = empty($clusterInfo["kelompok_jumlah_anggota"]) ? "-" : $clusterInfo["kelompok_jumlah_anggota"];
+			$clusterInfo["kelompok_perwakilan"] = empty($clusterInfo["kelompok_perwakilan"]) ? "-" : $clusterInfo["kelompok_perwakilan"];
+			$clusterInfo["lokasi_usaha"] = empty($clusterInfo["lokasi_usaha"]) ? "-" : $clusterInfo["lokasi_usaha"];
+			$clusterPhotos = $this->cluster_m->clusterLhPhotos_m($id);
 			$clusterInfo["photos"] = $clusterPhotos;
 			echo json_encode($clusterInfo);
 		}

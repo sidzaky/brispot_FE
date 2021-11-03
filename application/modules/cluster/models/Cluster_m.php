@@ -1232,6 +1232,7 @@ class Cluster_m extends CI_Model
 					c.kelompok_cerita_usaha,
 					c.kelompok_perwakilan,
 					c.kelompok_handphone,
+					c.lh_inisiatif,
 					c.lokasi_usaha,
 					c.agen_brilink,
 					c.simpanan_bank,
@@ -1253,6 +1254,24 @@ class Cluster_m extends CI_Model
 	function getClusterPhotos($id)
 	{
 		$q = "select location as url from cluster_foto_usaha cluster where id_cluster = '" . $id . "'";
+		return $this->db->query($q)->result_array();
+	}
+
+	function getClusterLHInfo_m($id){
+		$q = "SELECT 	id,
+						handphone_pekerja,
+						kelompok_usaha,
+						kelompok_perwakilan,
+						kelompok_handphone,
+						lokasi_usaha,
+						lh_inisiatif from cluster where id = '" . $id . "'"; 
+		return $this->db->query($q)->row_array();
+
+	}
+
+	function clusterLhPhotos_m($id)
+	{
+		$q = "select location as url from cluster_foto_local_heroes where id_cluster = '" . $id . "'";
 		return $this->db->query($q)->result_array();
 	}
 
