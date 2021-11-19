@@ -1,13 +1,3 @@
-<?php
-
-/**
- *
- * @author 
- * @Nicky
- *
- **/
-?>
- 
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Dashboard extends MX_Controller
@@ -20,71 +10,50 @@ class Dashboard extends MX_Controller
     $this->load->module('login');
     $this->login->is_logged_in();
     $this->load->helper(array('url', 'form', 'html'));
-    $this->load->model('dashboard_m');
     $data["con"] = $this;
   }
 
   public function index()
   {
-    $user = $this->getActiveUser();
-    $this->load->module('cluster');
-    $this->load->model('cluster_m');
-    $this->load->module('setting');
-    $this->load->model('setting_m');
-    $data['provinsi'] = $this->cluster_m->getprovinsi_m();
-    $data['report'] = $this->dashboard_m->getReportJUM();
-    $data['akuisisi'] = $this->setting_m->get_data_akuisisi_m();
+    $urlProvinsi = "cluster/getprovinsi";
+    $data['provinsi'] = json_decode($this->sending->send($urlProvinsi) , true); 
+
+    $urlReportJUM = "dashboard/getreportjum";
+    $dataReportJUM = Array (
+        'permission'  => $this->session->userdata('permission'),
+        'kode_kanwil' => $this->session->userdata('kode_kanwil'),
+        'kode_kanca'  => $this->session->userdata('kode_kanca'),
+        'kode_uker'   => $this->session->userdata('kode_uker'),
+    );
+    $dataReportJUM = json_encode($dataReportJUM);
+    $data['report'] = json_decode($this->sending->send($urlReportJUM, $dataReportJUM), true); 
+    
+    $urlDataAkuisisi = "setting/getDataAkuisisi";
+    $data['akuisisi'] = json_decode($this->sending->send($urlDataAkuisisi), true); 
+
     $data['navbar'] = 'navbar';
     $data['sidebar'] = 'sidebar';
     $data['content'] = 'dashboard';
     $this->load->view('template', $data);
   }
 
-  function persebaranpetakanwil(){
-    $this->load->module('cluster');
-    $this->load->model('cluster_m');
-    ini_set('memory_limit', '-1');
-		$data['kanwil'] = array();
-		$q = $this->dashboard_m->getreportdashboard_m("");
-		$data['listkategori'] = $this->cluster_m->getlist_jum();
-		foreach ($q as $row) {
-			if ($row['kanwil'] != false) {
-				foreach ($data['listkategori'] as $zrow) {
-					if ($zrow['id_cluster_jenis_usaha_map'] == $row['id_cluster_jenis_usaha_map']) {
-						if (isset($data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']])) {
-              $data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']]++;
-            } 
-            else {
-              $data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']] = 1;
-            }
-					}
-				}
-			}
-    }
-    $zz="";
-    $i=0;
-    foreach ($data["kanwil"] as $key => $values){
-        $b="";
-        $t=$this->db->query("select distinct(NEWMAPKODE) from branch where REGION ='" .$key. "';")->result_array();
-        foreach ($values as $skey => $svalues){
-            $u=$this->db->query("select nama_cluster_jenis_usaha_map from cluster_jenis_usaha_map where id_cluster_jenis_usaha_map = '". $skey. "'")->result_array();
-            foreach ($u as $su){
-              $b.= '<br>'.$su["nama_cluster_jenis_usaha_map"].' : '.$svalues; 
-            }
-        }
-      $zz[$i] = array ($t[0]["NEWMAPKODE"], $b);
-      $i++;
-    }
-    echo json_encode($zz);
-  }
- 
   function persebaranpetaprovinsi(){ 
-    $this->load->module('cluster');
-    $this->load->model('cluster_m');
-    ini_set('memory_limit', '-1');
+
+    $urlGetReportDashboard ="dashboard/getreportdashboard";
+    $dataGetReportDashboard = Array (
+      'permission'  => $this->session->userdata('permission'),
+      'kode_kanwil' => $this->session->userdata('kode_kanwil'),
+      'kode_kanca'  => $this->session->userdata('kode_kanca'),
+      'kode_uker'   => $this->session->userdata('kode_uker'),
+      'harian'      => "true",
+    );
+    $dataGetReportDashboard = json_encode($dataGetReportDashboard);
+    $q = json_decode($this->sending->send($urlGetReportDashboard, $dataGetReportDashboard) , true); 
+    
     $data['kanwil'] = array();
-    $q = $this->dashboard_m->getreportdashboard_m("true");
-    $data['listkategori'] = $this->cluster_m->getlist_jum();
+    $urlListKategori = "cluster/GetListJum";
+    $data['listkategori'] = json_decode($this->sending->send($urlListKategori) , true); 
+
 		foreach ($q as $row) {
 			if ($row['MAPKODE']!="") {
 				foreach ($data['listkategori'] as $zrow) {
@@ -112,6 +81,124 @@ class Dashboard extends MX_Controller
     }
     echo json_encode($zz);
   }
+
+  public function setmap(){
+    $urlgetClusterMap ="dashboard/getClusterMap";
+    $datagetClusterMap = Array (
+      'permission'  => $this->session->userdata('permission'),
+      'kode_kanwil' => $this->session->userdata('kode_kanwil'),
+      'kode_kanca'  => $this->session->userdata('kode_kanca'),
+      'kode_uker'   => $this->session->userdata('kode_uker'),
+      'id_cluster_jenis_usaha_map'  => $this->input->post('id_cluster_jenis_usaha_map'),
+    );
+
+    $datagetClusterMap = json_encode($datagetClusterMap);
+    $data['cluster']= json_decode($this->sending->send($urlgetClusterMap, $datagetClusterMap) , true); 
+
+    $urlgetCalcProduct ="dashboard/getCalcProduct";
+    $datagetCalcProduct = Array (
+      'id_cluster_jenis_usaha_map'  => $this->input->post('id_cluster_jenis_usaha_map'),
+    );
+
+    $datagetCalcProduct = json_encode($datagetCalcProduct);
+    $data['calc']=json_decode($this->sending->send($urlgetCalcProduct, $datagetCalcProduct) , true); 
+
+
+    echo json_encode($data);
+  }
+
+  public function setlistjum(){
+  
+    if ($this->input->post('id_cluster_jenis_usaha_map')!=""){
+      $urlListJum ="dashboard/getListJum";
+      $datagetListJum = Array (
+        'permission'  => $this->session->userdata('permission'),
+        'kode_kanwil' => $this->session->userdata('kode_kanwil'),
+        'kode_kanca'  => $this->session->userdata('kode_kanca'),
+        'kode_uker'   => $this->session->userdata('kode_uker'),
+        'datafilter'  => $this->input->post()
+      );
+      $datagetListJum = json_encode($datagetListJum);
+      $list = json_decode($this->sending->send($urlListJum, $datagetListJum) , true); 
+      
+      $urlgetrecordsFiltered ="dashboard/getrecordsFiltered";
+      $recordsFiltered = json_decode($this->sending->send($urlgetrecordsFiltered, $datagetListJum) , true);
+
+      $data = array();
+      $no = $this->input->post['start'];
+      foreach ($list['data'] as $field) {
+        $no++;
+        $row = array();
+        $row[] = $no;
+        $row[] = $field['kelompok_usaha'];
+        $row[] = $field['nama_kabupaten'];
+        $row[] = $field['kelompok_jumlah_anggota'];
+        $row[] = $field['hasil_produk'];
+        $row[] = $field['varian'];
+        $row[] = $field['agen_brilink']== "Ya" ? "Ya" : "Belum";
+        $data[] = $row;
+      }
+     
+      $output = array(
+        "draw" => $this->input->post('draw'),
+        "recordsTotal" => $list['num_rows'],
+        "recordsFiltered" => $recordsFiltered,
+        "data" => $data,
+      );
+     
+      echo json_encode($output);
+    }
+    else echo "null";
+  }
+
+  function persebaranpetakanwil(){
+   
+    $urlGetReportDashboard ="dashboard/GetReportDashboard";
+    $dataGetReportDashboard = Array (
+      'permission'  => $this->session->userdata('permission'),
+      'kode_kanwil' => $this->session->userdata('kode_kanwil'),
+      'kode_kanca'  => $this->session->userdata('kode_kanca'),
+      'kode_uker'   => $this->session->userdata('kode_uker'),
+      'harian'      => "false",
+    );
+    $q = json_decode($this->sending->send($urlGetReportDashboard, $dataGetReportDashboard), true); 
+    print_r ($q);
+
+		// $data['kanwil'] = array();
+
+		// $data['listkategori'] = $this->cluster_m->getlist_jum();
+		// foreach ($q as $row) {
+		// 	if ($row['kanwil'] != false) {
+		// 		foreach ($data['listkategori'] as $zrow) {
+		// 			if ($zrow['id_cluster_jenis_usaha_map'] == $row['id_cluster_jenis_usaha_map']) {
+		// 				if (isset($data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']])) {
+    //           $data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']]++;
+    //         } 
+    //         else {
+    //           $data['kanwil'][$row['kode_kanwil']][$zrow['id_cluster_jenis_usaha_map']] = 1;
+    //         }
+		// 			}
+		// 		}
+		// 	}
+    // }
+    // $zz="";
+    // $i=0;
+    // foreach ($data["kanwil"] as $key => $values){
+    //     $b="";
+    //     $t=$this->db->query("select distinct(NEWMAPKODE) from branch where REGION ='" .$key. "';")->result_array();
+    //     foreach ($values as $skey => $svalues){
+    //         $u=$this->db->query("select nama_cluster_jenis_usaha_map from cluster_jenis_usaha_map where id_cluster_jenis_usaha_map = '". $skey. "'")->result_array();
+    //         foreach ($u as $su){
+    //           $b.= '<br>'.$su["nama_cluster_jenis_usaha_map"].' : '.$svalues; 
+    //         }
+    //     }
+    //   $zz[$i] = array ($t[0]["NEWMAPKODE"], $b);
+    //   $i++;
+    // }
+    // echo json_encode($zz);
+  }
+ 
+ 
 
 
 
@@ -305,43 +392,9 @@ class Dashboard extends MX_Controller
     }
   }
 
-  public function setmap(){
-      $data['cluster']=$this->dashboard_m->getClusterMap_m();
-      $data['calc']=$this->dashboard_m->getCalcProduct_m();
-      echo json_encode($data);
-  }
-
-  public function setlistjum(){
   
-    if ($_POST['id_cluster_jenis_usaha_map']!=""){
-      $datafilter=$_POST['id_cluster_jenis_usaha_map'];
-      $list = $this->dashboard_m->setlistjum_m($datafilter);
-      $data = array();
-      $no = $_POST['start'];
-      foreach ($list->result_array() as $field) {
-        $no++;
-        $row = array();
-        $row[] = $no;
-        $row[] = $field['kelompok_usaha'];
-        $row[] = $field['nama_kabupaten'];
-        $row[] = $field['kelompok_jumlah_anggota'];
-        $row[] = $field['hasil_produk'];
-        $row[] = $field['varian'];
-        $row[] = $field['agen_brilink']== "Ya" ? "Ya" : "Belum";
-        $data[] = $row;
-      }
-     
-      $output = array(
-        "draw" => $_POST['draw'],
-        "recordsTotal" => $list->num_rows(),
-        "recordsFiltered" => $this->dashboard_m->count_setlistjum_approved($datafilter),
-        "data" => $data,
-      );
-     
-      echo json_encode($output);
-    }
-    else echo "null";
-  }
+
+  
 
 
   public function getdesc(){

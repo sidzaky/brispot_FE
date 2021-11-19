@@ -12,7 +12,6 @@
 class User_m extends CI_Model
 {
 
-	//protected $collection_name = 'user';
 
 	function login($username, $password)
 	{

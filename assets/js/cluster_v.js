@@ -7,6 +7,7 @@ var table = $('#table-cluster').DataTable({
 					"ajax": {
 						"url": "./cluster/getdata",
 						"type": "POST",
+						"dataType" : 'json',
 						"data":  {
 							"custom_field"  : function() { return getdatacustom()},
 							},
@@ -147,82 +148,4 @@ var table = $('#table-cluster').DataTable({
 				}
 
 
-		function showClusterLHInfo(id) {
-			$("#cluster-info-modal").modal("show");
-			var baseHTML = $("#cluster-info-modal .modal-body");
-			baseHTML.html(`
-					<div class="center-wrapper">
-					<p>...loading</p>
-					</div>
-				`);
-			$.ajax({
-				type: "POST",
-				url: "./cluster/getClusterLHInfo",
-				data: { id: id },
-				success: function (data) {
-					const info = JSON.parse(data);
-					baseHTML.html(` <div class="row">
-					<div class="col-md-12 info-heading">
-					<h2>${info.kelompok_usaha}</h2>
-					<h4>Anggota : ${info.kelompok_jumlah_anggota} orang
-					</h4>
-					<h4>Ketua: ${info.kelompok_perwakilan} / ${
-						info.kelompok_handphone
-						}</h4>
-								<h5>${info.lokasi_usaha}</h5>
-								</div>
-							</div>
-						<div class="row">
-							<div class="col-md-12">
-								<p><strong>Cerita Local Heroes</strong></p>
-								<p>${info.lh_inisiatif}</p>
-							</div>
-						</div>					
-						<hr>
-					${info.photos.length > 0 ? `
-					<div class="row">
-							<div class="col-md-12">
-							<p><strong>Galeri</strong></p>
-							<div id="carousel-cluster-photos" class="carousel slide" data-ride="carousel">
-							
-							<ol class="carousel-indicators">
-								${info.photos.map(function (photo, index) {
-								return `
-									<li data-target="#carousel-cluster-photos" data-slide-to="${index}"></li>
-								`;
-								})}
-							</ol>
-				
-							<!-- Wrapper for slides -->
-							<div class="carousel-inner" role="listbox">
-								${info.photos.map(function (photo, index) {
-								return `
-									<div class="item">
-									<img class="center-block" src="`+baseURL+`${photo.url}" alt="photo-${index}">
-									</div>
-								`;
-								})}
-							</div>
-							<a class="left carousel-control" href="#carousel-cluster-photos" role="button" data-slide="prev">
-								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="right carousel-control" href="#carousel-cluster-photos" role="button" data-slide="next">
-								<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
-							</div>
-						</div>
-					</div> `
-					: `<div class="row">
-							<div class="col-md-12">
-							<h3 align="center" style="color:red;"><strong>Galeri Terkait UMKM Belum Ada</strong></h3>
-							</div>
-							</div>
-						` 
-					}`);
-					$("#carousel-cluster-photos .item").first().addClass("active");
-					$("#carousel-cluster-photos .carousel-indicators > li").first().addClass("active");
-				}
-			});
-		}
+		

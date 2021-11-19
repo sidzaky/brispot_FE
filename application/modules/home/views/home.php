@@ -46,9 +46,10 @@
               $li="";
               $lp="";
               $cli=0;
+             
               foreach ($hlp as $srow){
                 $li .='<li data-target="#gallery-carousel" data-slide-to="'.$cli.'" '.($cli==0 ? 'class="active"' : '').'></li>';
-                $lp .='<div class="item '.($cli==0 ? 'active' : '').'" data-descid="'.($cli+1).'"><img src="'.$srow['src'].'"></div>';  
+                $lp .='<div class="item '.($cli==0 ? 'active' : '').'" data-descid="'.($cli+1).'"><img src="'.$srow->src.'"></div>';  
                 $cli++;
               }
           ?>

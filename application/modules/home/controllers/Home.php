@@ -26,8 +26,7 @@ class Home extends MX_Controller
       redirect('dashboard');
     }
     else {
-      $sql="select * from cluster_landing_page";
-      $data["hlp"] = $this->db->query($sql)->result_array();
+      $data["hlp"]  = json_decode($this->sending->send("home/gethome"));
       $this->load->view('home',$data);
     }
   }

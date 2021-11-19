@@ -19,7 +19,6 @@ class Login extends MX_Controller
     parent::__construct();
     $this->load->helper(array('url', 'form', 'html'));
     $this->load->library('session');
-    $this->load->model('user_m');
   }
 
    public function index()
@@ -28,10 +27,6 @@ class Login extends MX_Controller
       redirect('cluster');
     }
     else redirect(base_url());
-    // $data['content'] = 'login';
-    // $data['navbar'] = null;
-    // $data['sidebar'] = null;
-    // $this->load->view('template', $data);
   }
  
   public function signup()
@@ -58,23 +53,29 @@ class Login extends MX_Controller
 
   function validate()
   {
-    $username   = $this->input->post('username');
-    $password   = md5($this->input->post('password'));
-
-    $results = $this->user_m->login($username, $password);
-    
+    $get = array (
+        "username" => $this->input->post('username'),
+        "password" =>  md5($this->input->post('password'))
+    );
+    $get=json_encode($get);
+  
+    $url = "login/getvalidate";
+    $newdata = $this->sending->send($url, $get);
+      
+    $results = json_decode ($newdata, true);
+  
     if ($results != null) {
       foreach ($results as $result) {
         $sessions   = array(
-            'id'              => $result->id,
-            'kode_kanwil'     => $result->REGION,
-            'kode_kanca'      => $result->MAINBR,
-            'kode_uker'       => ($result->permission < 4 ? $result->BRANCH : $result->username),
-            'name_uker'       => $result->BRDESC,
-            'uppwd'           => $result->uppwd,
-            'permission'      => $result->permission,
-            'notif'           => $result->notif,
-            'approve_level'   => $result->approve_level,
+            'id'              => $result['id'],
+            'kode_kanwil'     => (isset($result['REGION']) ? $result['REGION'] : null),
+            'kode_kanca'      => (isset($result["MAINBR"]) ? $result["MAINBR"] : null),
+            'kode_uker'       => ($result["permission"] < 4 ? $result["BRANCH"] : $result["username"]),
+            'name_uker'       => (isset($result["BRDESC"]) ? $result["BRDESC"] : null),
+            'uppwd'           => $result["uppwd"],
+            'permission'      => $result["permission"],
+            'notif'           => $result["notif"],
+            'approve_level'   => $result["approve_level"],
             'logged_in'       => true
         );
         $this->session->set_userdata($sessions);
@@ -88,7 +89,11 @@ class Login extends MX_Controller
   function closenotif()
   {
     $this->is_logged_in(true);
-    $this->user_m->closenotif_m();
+    $get = array (
+      "id" => $this->session->userdata('id')
+    );
+    $url = "login/getclosenotif";
+    $this->sending->send($url, $get);
     $this->session->set_userdata('notif', 0);
   }
 

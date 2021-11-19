@@ -19,7 +19,6 @@ class Cluster extends MX_Controller
 		parent::__construct();
 		$this->load->module('login');
 		$this->login->is_logged_in();
-		$this->load->model('cluster_m');
 		$this->load->helper(array('url', 'form', 'html'));
     }
     
@@ -31,26 +30,132 @@ class Cluster extends MX_Controller
 	{	
 		$data['navbar'] = 'navbar';
         $data['sidebar'] = 'sidebar';
-        $data['cluster_sektor_usaha'] = $this->cluster_m->get_cluster_sektor_usaha();
-		$data['cluster_kebutuhan_pendidikan_pelatihan'] = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
-		$data['cluster_kebutuhan_sarana'] = $this->cluster_m->get_cluster_kebutuhan_sarana();
-		$data['cluster_kebutuhan_skema_kredit'] = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
-		$data['kanwil'] = $this->cluster_m->get_data_kanwil_m();
+
+
+		$url = "cluster/getClusterSektorUsaha";
+		$data['cluster_sektor_usaha'] = json_decode($this->sending->send($url), true); 
+	
+		$url = "cluster/getprovinsi";
+		$data['provinsi'] = json_decode($this->sending->send($url), true); 
+
+
+		$url = "cluster/getClusterKebutuhanPendidikanPelatihan";
+		$data['cluster_kebutuhan_pendidikan_pelatihan'] = json_decode($this->sending->send($url), true); 
+
+		$url = "cluster/getClusterKebutuhanSarana";
+		$data['cluster_kebutuhan_sarana'] = json_decode($this->sending->send($url), true); 
+
+		$url = "cluster/getClusterKebutuhanSkemaKredit";
+		$data['cluster_kebutuhan_skema_kredit'] = json_decode($this->sending->send($url), true); 
+
+		$url = "cluster/getDataKanwil";
+		$postKanwil = Array (
+			'permission'  => $this->session->userdata('permission'),
+			'kode_kanwil' => $this->session->userdata('kode_kanwil'),
+		);
+		$postKanwil = json_encode($postKanwil);
+		$data['kanwil'] = json_decode($this->sending->send($url, $postKanwil), true); 
+
+		// $data['kanwil'] = $this->cluster_m->get_data_kanwil_m();
 		$data['content'] = $this->session->userdata('kode_uker') == 'kanpus' ? 'cluster_kanpus_v' : 'cluster_v';
-		$data['provinsi'] = $this->cluster_m->getprovinsi_m();
+		// $data['provinsi'] = $this->cluster_m->getprovinsi_m();
 		$this->load->view('template', $data);
 	}
 
-	public function getdata($status = null)
+	public function get_kanca()
 	{
-		$datafilter=json_decode($_POST['custom_field']);
-		$list = $this->cluster_m->get_datafield($status, $datafilter);
-		$data = array();
-		$no = $_POST['start'];
-		foreach ($list->result_array() as $field) {
-			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
+		$url = "cluster/getDataKanca";
+		$postKanwil = Array (
+			'permission'  => $this->session->userdata('permission'),
+			'postKodeKanwil' => $this->input->post('kode_kanwil')
+		);
+		$postKanwil = json_encode($postKanwil);
+		$dataKanca = json_decode($this->sending->send($url, $postKanwil), true); 
+		echo json_encode($dataKanca);
+	}
 
-			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
+	public function get_unit()
+	{
+		$url = "cluster/getDataUnit";
+		$postKanca = Array (
+			'permission'  => $this->session->userdata('permission'),
+			'postKodeKanca' => $this->input->post('kode_kanca')
+		);
+		$postKanca = json_encode($postKanca);
+		$dataUnit = json_decode($this->sending->send($url, $postKanca), true); 
+		echo json_encode($dataUnit);
+	}
+
+	function fjum()
+	{
+		$url = "cluster/getJenisUsahaMapBySektorUsaha";
+		$dataJUM = json_decode($this->sending->send($url), true); 
+		echo json_encode($dataJUM);
+	}
+
+	function fju()
+	{
+		$url = "cluster/getJenisUsahaByJenisUsahaMap";
+		$dataJU = json_decode($this->sending->send($url), true); 
+		echo json_encode($dataJU);
+	}
+
+	function get_sarana()
+	{
+		$url = "cluster/getClusterKebutuhanSarana";
+		$dataJU = json_decode($this->sending->send($url), true); 
+		echo json_encode($dataJU);
+	}
+	
+	function get_kredit()
+	{
+		$url = "cluster/getClusterKebutuhanSkemaKredit";
+		$dataSkemaKredit = json_decode($this->sending->send($url), true); 
+		echo json_encode($dataSkemaKredit);
+
+	}
+	public function getdata()
+	{
+		$dataTable=$this->input->post();
+		$dataTable['custom_field'] = json_decode($dataTable['custom_field']);
+		$url = "cluster/getDataField";
+		$postDataFields = Array (
+			'dataTable'		=> $dataTable,
+			'status'		=> false,
+			'permission'  	=> $this->session->userdata('permission'),
+			'approve_level' => $this->session->userdata('approve_level'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+			'approved'		=> false,
+		);
+
+		$postDataFields = json_encode($postDataFields);
+		$list = json_decode($this->sending->send($url, $postDataFields), true);
+
+		$data = array();
+		$no = $this->input->post('start');
+
+		$urlCountAnggota = "cluster/getCountAnggota";
+		$urlJenisUsahaById = "cluster/getJenisUsahaById";
+		$urlGetClusterChecker = "cluster/getUkerByBranch";
+		$urlGetClusterSigner = "cluster/getUkerByBranch";
+		$urlCountDataField = "cluster/getCountDataField";
+
+		foreach ($list as $field) {
+
+			$postCountDataAnggota = Array (
+				'id'		=> $field['id'],
+			);
+			$postCountDataAnggota = json_encode($postCountDataAnggota);
+			$totalanggota = json_decode($this->sending->send($urlCountAnggota, $postCountDataAnggota), true);
+
+			$postJenisUsahaById = Array (
+				'id'		=> $field['id_cluster_jenis_usaha'],
+			);
+			$postJenisUsahaById = json_encode($postJenisUsahaById);
+			$jenis_usaha = json_decode($this->sending->send($urlJenisUsahaById, $postJenisUsahaById), true);
+
 			$status=$field["checker_status"]=="" ? "check" : "sign";
             $colstatus  = "";
 			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
@@ -58,9 +163,26 @@ class Cluster extends MX_Controller
             $info	    = '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
             $appr       = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setappr(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Setuju </button>';
             $reject     = '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="modalreject(\'' . $field['id'] . '\' , \''.$status.'\' );" type="button" ><i class="fa fa-check"></i> Tolak </button>';
-			$checker_username 	= $field['checker_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['checker_user_update']) : "";
-			$signer_username 	= $field['signer_user_update'] !== "" ? $this->cluster_m->cekuker_m($field['signer_user_update']) : "";
+
+			$postClusterChekcer = Array (
+				'kode_uker'	=> $field['checker_user_update'],
+				'permission'  			=> $this->session->userdata('permission'),
+			);
+			$postClusterChekcer = json_encode($postClusterChekcer);
+			$checker_username 	= $field['checker_user_update'] !== "" ? json_decode($this->sending->send($urlGetClusterChecker, $postClusterChekcer), true) : "";
 			
+
+			$postClusterSigner = Array (
+				'kode_uker'			=> $field['signer_user_update'],
+				'kode_kanwil'		=> $this->session->userdata('kode_kanwil'),
+				'kode_kanca'		=> $this->session->userdata('kode_kanca'),
+				'kode_uker'			=> $this->session->userdata('kode_uker'),
+			);
+			$postClusterSigner = json_encode($postClusterSigner);
+			$signer_username 	= $field['signer_user_update'] !== "" ? json_decode($this->sending->send($urlGetClusterSigner, $postClusterSigner), true) : "";
+			
+
+
 			if ($field['kode_uker'] == $this->session->userdata('kode_uker')   || $field['userinsert'] == $this->session->userdata('kode_uker')){
 				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
 			}
@@ -90,13 +212,14 @@ class Cluster extends MX_Controller
 							break;
 
 							case (2) :  
-								$colstatus = "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC'] . " </br> " .  $appr . $reject ;
+								$colstatus =  "Pengajuan telah diriview oleh " . $checker_username[0]['BRDESC']. " </br> " .  $appr . $reject ;
 							break;
 						}
 					}
 				}
 				else {
-					$colstatus =" Pengajuan ditolak oleh ". $checker_username[0]['BRDESC'] ."</br>". $field['reject_reason'];
+					if (isset($checker_username[0]['BRDESC'])) $colstatus =" Pengajuan ditolak oleh ". $checker_username[0]['BRDESC'] ."</br>". $field['reject_reason'];
+					else  $colstatus =" Pengajuan ditolak,  </br>". $field['reject_reason'];
 				}
 			}
 			else {
@@ -105,7 +228,6 @@ class Cluster extends MX_Controller
 					case (2) :
 						$colstatus = " Pengajuan sedang menunggu Checker ";
 					break;
-
 					case (1) :  
 						$colstatus = $appr . $reject ;
 					break;
@@ -132,7 +254,7 @@ class Cluster extends MX_Controller
 					break ;
 			}
 		}
-	///////////////////////check for local heroes/////////////////////////////
+	///////////////////////end check for local heroes//////////////////////////////////////
 			$no++;
 			$row = array();
 			$row[] = $no;
@@ -148,227 +270,148 @@ class Cluster extends MX_Controller
             $row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
 			$data[] = $row;
 		}
-
 		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $list->num_rows(),
-			"recordsFiltered" => $this->cluster_m->count_all($status, $datafilter),
+			"draw" => $this->input->post('draw'),
+			"recordsTotal" => count($list),
+			"recordsFiltered" => json_decode($this->sending->send($urlCountDataField, $postDataFields), true),
 			"data" => $data,
 		);
 		echo json_encode($output);
 	}
 
+
+	function getClusterInfo()
+	{
+		$id = $this->input->post("id");
+		if (isset($id)) {
+			$url = "cluster/getClusterInfo";
+			$postClusterInfo = Array (
+				'id'=> $id
+			);
+			$postClusterInfo = json_encode($postClusterInfo);
+			$clusterInfo 	= json_decode($this->sending->send($url, $postClusterInfo), true);
+			$clusterInfo["uker"] = empty($clusterInfo["uker"]) ? "-" : $clusterInfo["uker"];
+			$clusterInfo["kaunit_nama"] = empty($clusterInfo["kaunit_nama"]) ? "-" : $clusterInfo["kaunit_nama"];
+			$clusterInfo["kaunit_handphone"] = empty($clusterInfo["kaunit_handphone"]) ? "-" : $clusterInfo["kaunit_handphone"];
+			$clusterInfo["nama_pekerja"] = empty($clusterInfo["nama_pekerja"]) ? "-" : $clusterInfo["nama_pekerja"];
+			$clusterInfo["handphone_pekerja"] = empty($clusterInfo["handphone_pekerja"]) ? "-" : $clusterInfo["handphone_pekerja"];
+			$clusterInfo["kelompok_usaha"] = empty($clusterInfo["kelompok_usaha"]) ? "-" : $clusterInfo["kelompok_usaha"];
+			$clusterInfo["kelompok_pihak_pembeli"] = empty($clusterInfo["kelompok_pihak_pembeli"]) ? "-" : $clusterInfo["kelompok_pihak_pembeli"];
+			$clusterInfo["kelompok_pihak_pembeli_handphone"] = empty($clusterInfo["kelompok_pihak_pembeli_handphone"]) ? "-" : $clusterInfo["kelompok_pihak_pembeli_handphone"];
+			$clusterInfo["kelompok_suplier_produk"] = empty($clusterInfo["kelompok_suplier_produk"]) ? "-" : $clusterInfo["kelompok_suplier_produk"];
+			$clusterInfo["kelompok_suplier_handphone"] = empty($clusterInfo["kelompok_suplier_handphone"]) ? "-" : $clusterInfo["kelompok_suplier_handphone"];
+			$clusterInfo["kelompok_jumlah_anggota"] = empty($clusterInfo["kelompok_jumlah_anggota"]) ? "-" : $clusterInfo["kelompok_jumlah_anggota"];
+			$clusterInfo["kelompok_cerita_usaha"] = empty($clusterInfo["kelompok_cerita_usaha"]) ? "-" : $clusterInfo["kelompok_cerita_usaha"];
+			$clusterInfo["kelompok_perwakilan"] = empty($clusterInfo["kelompok_perwakilan"]) ? "-" : $clusterInfo["kelompok_perwakilan"];
+			$clusterInfo["kelompok_handphone"] = empty($clusterInfo["kelompok_handphone"]) ? "-" : $clusterInfo["kelompok_handphone"];
+			$clusterInfo["lokasi_usaha"] = empty($clusterInfo["lokasi_usaha"]) ? "-" : $clusterInfo["lokasi_usaha"];
+			$clusterInfo["agen_brilink"] = empty($clusterInfo["agen_brilink"]) ? "-" : $clusterInfo["agen_brilink"];
+			$clusterInfo["simpanan_bank"] = empty($clusterInfo["simpanan_bank"]) ? "-" : $clusterInfo["simpanan_bank"];
+			$clusterInfo["pinjaman"] = empty($clusterInfo["pinjaman"]) ? "-" : $clusterInfo["pinjaman"];
+			$clusterInfo["varian"] = empty($clusterInfo["varian"]) ? "-" : $clusterInfo["varian"];
+			$clusterInfo["kapasitas_produksi"] = empty($clusterInfo["kapasitas_produksi"]) ? "-" : $clusterInfo["kapasitas_produksi"];
+			$clusterInfo["periode_panen"] = empty($clusterInfo["periode_panen"]) ? "-" : $clusterInfo["periode_panen"];
+			$clusterInfo["satuan_produksi"] = empty($clusterInfo["satuan_produksi"]) ? "-" : $clusterInfo["satuan_produksi"];
+			$clusterInfo["longitude"] = $clusterInfo["longitude"] =="" ? "-" : $clusterInfo["longitude"];
+			$clusterInfo["latitude"] = $clusterInfo["latitude"] =="" ? "-" : $clusterInfo["latitude"];
+			$url = "cluster/getClusterPhotos";
+			$clusterPhotos = json_decode($this->sending->send($url, $postClusterInfo), true);
+			$url = "cluster/getClusterLhPhotos";
+			$clusterLhPhotos = json_decode($this->sending->send($url, $postClusterInfo), true);
+			$clusterInfo["photos"] = $clusterPhotos;
+			$clusterInfo["LhPhotos"] = $clusterLhPhotos;
+			echo json_encode($clusterInfo);
+		}
+	}
+
+	public function cluster_anggota()
+	{
+		if ($this->input->post('id')!=null) {
+			$id = $this->input->post("id");
+			$url="cluster/getClusterInfo";
+			$postDetilCluster = Array (
+				'id'		=> $id,
+			);
+			$postDetilCluster = json_encode($postDetilCluster);
+			$cluster = json_decode($this->sending->send($url, $postDetilCluster), true);
+
+			$data['id']				= $cluster['id'];
+			$data['kelompok_usaha']	= $cluster['kelompok_usaha'];
+			$data['approval']		= $cluster['cluster_approval'];
+			
+			$data['content'] = 'cluster_anggota';
+			$data['navbar'] = 'navbar';
+			$data['sidebar'] = 'sidebar';
+			$this->load->view('template', $data);
+		} else {
+			echo "<script>alert('ups, ada kesalahan')</script>";
+			redirect('cluster', 'refresh');
+		}
+	}
 
 	public function deldata()
 	{
-		$this->cluster_m->deldata_m();
-	}
-
-	public function setapproved(){
-		$this->cluster_m->setapproved_m();
-	}
-
-	public function setreject(){
-		$this->cluster_m->setreject_m();
-	}
-
-	public function countpengajuan(){
-		$data = $this->cluster_m->get_datafield()->num_rows();
-		return $data;
-	}
-
-	public function dlDataPengajuan()
-	{
-		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array(
-			'No', 'id', 'Waktu Input', 'kanwil', 'kanca',
-			"Kode Kanca", "Uker", "Kode Uker", "Nama Kaunit", "PN Kaunit", "Handphone Kaunit", "Nama Mantri", "PN Mantri", "Handphone Mantri",
-			"Nama Kelompok Usaha", "Jumlah Anggota (orang)", "Pinjaman anggota Kelompok", "Lokasi Usaha", "Kode Pos", "Provinsi", "Kabupaten/Kota", "Kecamantan", "Kelurahan",
-			"Sektor Usaha", "Jenis Usaha Map", "Jenis Usaha", "Hasil Produk", "varian", "Periode Panen" , "Total Produksi",  "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
-			"Luas Lahan/Tempat Usaha (m2)", "Omset Usaha Perbulan (total Kelompok - Rp)",
-			"Nama Ketua Kelompok", "Jenis Kelamin", "NIK", "Handphone Ketua Kelompok", "Tanggal Lahir", "Tempat lahir",
-			"Punya Pinjaman", "Nominal Pinjaman BRI", "Norek Pinjaman BRI", "Kebutuhan Kredit",
-			"Kebutuhan Sarana", "Kebutuhan Sarana Lainnya", "Kebutuhan Pendidikan",
-			"Simpanan Bank", "Agen Brilink","approval kanwil","approval kanpus","alasan"
+		$url="cluster/delCluster";
+		$postDelCluster = Array (
+			'idcluster'		=> $this->input->post('id'),
+			'iduser'	=> $this->session->userdata('id')
 		);
-
-		$data = $this->cluster_m->getDataPengajuan_m();
-		$no = 1;
-		$z = 1;
-		foreach ($data as $cell) {
-			$col = 0;
-			$headerexcel[$z][$col] = $no;
-			foreach (array_keys($cell) as $key) {
-				if ($key == "checker_status") {
-					switch  ($cell[$key]) {
-						case (null) :
-							$cell[$key] ="Menunggu";
-							break;
-						case (0) :  
-							$cell[$key] ="Ditolak";
-							break;
-						case (1) :  
-							$cell[$key] ="Disetujui";
-							break;
-						
-					}
-				}
-				if ($key == "signer_status") {
-					switch  ($cell[$key]) {
-						case (null) :
-							$cell[$key] ="Menunggu";
-							break;
-						case (0) :  
-							$cell[$key] ="Ditolak";
-							break;
-						case (1) :  
-							$cell[$key] ="Disetujui";
-							break;
-					}
-				}
-				$col++;
-				$cell[$key] = str_replace(';', ' ', $cell[$key]);
-				$cell[$key] = str_replace(',', ' ', $cell[$key]);
-				$headerexcel[$z][$col] = $cell[$key];
-			}
-			$z++;
-			$no++;
-		}
-		echo json_encode($headerexcel, true);
+		$postDelCluster = json_encode($postDelCluster);
+		$data=json_decode($this->sending->send($url, $postDelCluster), true);
 	}
-   
-    ////////////////////////////////////////////////////////////
-    /////////////////end pengajuan klaster usaha ///////////////
-    ////////////////////////////////////////////////////////////
 
-
-    ////////////////////////////////////////////////////////////
-    /////////////////get approved klaster usaha ////////////////
-    ////////////////////////////////////////////////////////////
-
-	public function approve()
+	public function cekuker()
 	{
-        $data['navbar'] = 'navbar';
-        $data['sidebar'] = 'sidebar';
-        $data['cluster_sektor_usaha'] = $this->cluster_m->get_cluster_sektor_usaha();
-		$data['cluster_kebutuhan_pendidikan_pelatihan'] = $this->cluster_m->get_cluster_kebutuhan_pendidikan_pelatihan();
-		$data['cluster_kebutuhan_sarana'] = $this->cluster_m->get_cluster_kebutuhan_sarana();
-		$data['cluster_kebutuhan_skema_kredit'] = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
-		$data['content'] = $this->session->userdata('kode_uker') == 'kanpus' ? '' : 'cluster_approve_v';
-		$data['provinsi'] = $this->cluster_m->getprovinsi_m();
-		$this->load->view('template', $data);
-    }
-    
-    public function get_clusterapproved(){
-        $list = $this->cluster_m->get_clusterapprove_m();
-		$no = $_POST['start'];
-		$data = array();
-		foreach ($list->result_array() as $field) {
-
-			$totalanggota = $this->cluster_m->countanggota_m($field['id']);
-			
-			$jenis_usaha = $this->cluster_m->getdata_j($field['id_cluster_jenis_usaha']);
-			$info		= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
-			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
-
-			
-
-			if ($field['kode_uker'] == $this->session->userdata('kode_uker') || $field['userinsert'] == $this->session->userdata('kode_uker') ){
-				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
-			}
-			else {
-				if ($this->session->userdata('permission')>3){
-					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
-				}
-				else {
-					$update ="";
-				}
-			}
-			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
-			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update.$del);
-
-			$actionLH='<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="showClusterLHInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info Local Heroes</button>';;
-			if ($this->session->userdata['approve_level'] == 2) {
-				switch ($field["lh_flag"]){
-					case (null) :
-						$actionLH .= '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'approve\')" type="button" ><i class="fa fa-check"></i> Setuju</button>';
-						$actionLH .= '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'reject\')" type="button" ><i class="fa fa-close"></i> Ditolak</button>';
-						break ;
-					case (1) :
-						$actionLH= 'Disetujui';
-						break ;
-					case (0) :
-						$actionLH= 'Ditolak';
-						break ;
-				}
-			}
-
-			$late=($field["timestamp"] < time()-15780000 ? '<i class="fa fa-warning" style="color:orange"></i> <p style="display:none;"> warning </p>' : "");
-
-
-			$no++; 
-			$row = array();
-			$row[] = $no . $late ;
-			$row[] = $field['kanwil'];
-			$row[] = $field['kanca'];
-			$row[] = $field['uker'];
-			$row[] = $field['kelompok_usaha'] . ( $field['lh_flag'] == 1 ? '<i class="fa fa-check" style="color:green"></i>' : '');
-			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
-			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
-			$row[] = $field['hasil_produk'];
-			if ($this->session->userdata['approve_level'] == 2) $row[]= $actionLH;
-			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
-			$data[] = $row;
-		}
-
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $list->num_rows(),
-			"recordsFiltered" => $this->cluster_m->count_all_approved(),
-			"data" => $data,
-		);
-		echo json_encode($output);
-	}
-	
-    ////////////////////////////////////////////////////////////
-    /////////////////end get approved klaster usaha ////////////
-    ////////////////////////////////////////////////////////////
-
-	////////////////////////////////////////////////////////////
-    /////////////////start Input data klaster////// ////////////
-    ////////////////////////////////////////////////////////////
-    public function cekuker()
-	{
-		if ($_POST['kode_uker'] != "") {
-			$data = $this->cluster_m->cekuker_m();
+		if ($this->input->post('kode_uker') != "") {
+			$url="cluster/getUkerByKodeUker";
+			$postGetDataUker = Array (
+				'kode_uker'		=> $this->input->post('kode_uker'),
+				'permission'	=> $this->session->userdata('permission'),
+			);
+			$postGetDataUker = json_encode($postGetDataUker);
+			$data=json_decode($this->sending->send($url, $postGetDataUker), true);
 			if ($data != false) {
 				echo json_encode($data[0]['BRDESC']);
 			} else echo json_encode("data uker tidak ditemukan");
 		}
 	}
 
-	public function getdata_s()
-	{
-		if (isset($_POST['id'])) {
-			$data['cluster'] = $this->cluster_m->getdata_m();
-			$data['rfku'] = $this->cluster_m->getdatafoto_m('cluster_foto_usaha');
-			$data['rfex'] = $this->cluster_m->getdatafoto_m('cluster_doc_ekspor');
-			$data['rflh'] = $this->cluster_m->getdatafoto_m('cluster_foto_local_heroes');
-			echo json_encode($data);
-		}
-	}
 
-	function fjum()
-	{
 
-		$data = $this->cluster_m->getdata_jum();
+	public function getprovinsi()
+	{
+		$url = "cluster/getProvinsi";
+		$data=json_decode($this->sending->send($url), true);
 		echo json_encode($data);
 	}
 
-	function fju()
+	public function getkotakab($select = null)
 	{
-		$data = $this->cluster_m->getdata_ju();
-		echo json_encode($data);
+		$url="cluster/getDataKotaKab";
+		$postGetData = Array (
+			'provinsi_id'		=> $this->input->post('provinsi_id'),
+		);
+		$postGetData = json_encode($postGetData);
+		echo $this->sending->send($url, $postGetData);
+	}
+
+	public function getkecamatan()
+	{
+		$url="cluster/getDataKecamatan";
+		$postGetData = Array (
+			'kabupaten_kota_id'		=> $this->input->post('kabupaten_kota_id'),
+		);
+		$postGetData = json_encode($postGetData);
+		echo $this->sending->send($url, $postGetData);
+	}
+	public function getkelurahan()
+	{
+		$url="cluster/getDataKelurahan";
+		$postGetData = Array (
+			'kecamatan_id'		=> $this->input->post('kecamatan_id'),
+		);
+		$postGetData = json_encode($postGetData);
+		echo $this->sending->send($url, $postGetData);
 	}
 
 	public function inputdata()
@@ -376,19 +419,19 @@ class Cluster extends MX_Controller
 		$rfku = null;
 		$rfex = null;
 		$rflh = null;
-
-		if (count($_POST['efku']) > 0) {
+		
+		if (count($this->input->post('efku')) > 0) {
 			$z = 0;
-			for ($i = 0; $i < count($_POST['efku']); $i++) {
+			for ($i = 0; $i < count($this->input->post('efku')); $i++) {
 				
 				if (isset($_POST['rfku'])){
-					if ($_POST['rfku'][$i] != "") {
-						$rfku[$z] = $this->camphotoupload($_POST['rfku'][$i], $_POST['tfku'][$i]);
+					if ($this->input->post('rfku')[$i] != "") {
+						$rfku[$z] = $this->camphotoupload($this->input->post('rfku')[$i], $this->input->post('tfku')[$i]);
 						$z++;
 					}
 				} else {
-					if ($_POST['efku'][$i] != "") {
-						$rfku[$z] = $_POST['efku'][$i];
+					if ($this->input->post('efku')[$i] != "") {
+						$rfku[$z] = $this->input->post('efku')[$i];
 						$z++;
 					}
 				}
@@ -443,12 +486,652 @@ class Cluster extends MX_Controller
 			}
 		}
 
-		if ($_POST['id'] != "") {
-			$this->cluster_m->updatedata_m($rfex, $rfku, $rflh);
+		
+		$postData = Array (
+			'rfex'			=> $rfex,
+			'rfku'			=> $rfku,
+			'rflh'			=> $rflh,
+			'data'			=> $this->input->post(),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'userid'		=> $this->session->userdata('id')
+		);
+		$postData = json_encode($postData);
+		if ($this->input->post('id') != "") {
+			$url="cluster/updateCluster";
+			echo json_decode($this->sending->send($url, $postData), true);
+		
 		} else {
-			$this->cluster_m->insertdata_m($rfex, $rfku, $rflh);
+			$url="cluster/insertCluster";
+			echo $url;
+			echo json_decode($this->sending->send($url, $postData), true);
 		}
 	}
+
+
+	public function getdata_s()
+	{
+		if (isset($_POST['id'])) {
+			
+			$postData = Array (
+				'id' => $this->input->post('id')
+			);
+			$postData = json_encode($postData);
+			
+			$url = "cluster/getClusterByForm";
+			$data['cluster'] = json_decode($this->sending->send($url, $postData), true);
+
+			$url = "cluster/getClusterFotoUsaha";
+			$data['rfku'] = json_decode($this->sending->send($url, $postData), true);
+			
+			$url = "cluster/getClusterDocEkspor";
+			$data['rfex'] = json_decode($this->sending->send($url, $postData), true);
+			
+			$url = "cluster/getClusterFotoLocalHeroes";
+			$data['rflh'] = json_decode($this->sending->send($url, $postData), true);
+			echo json_encode($data);
+		}
+		
+	}
+
+	function get_hp(){
+		$url = "cluster/getClusterHasilProduk";
+		$postData = Array (
+			'id_cluster_jenis_usaha' => $this->input->post('id_cluster_jenis_usaha')
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
+
+	function get_v(){
+		$url = "cluster/getClusterVarian";
+		$postData = Array (
+			'hasil_produk' => $this->input->post('hasil_produk')
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
+
+	public function setapproved(){
+		if ($this->input->post('id')!=null){
+			$url = "cluster/postClusterApproval";
+			$postData = Array (
+				'id' 		=> $this->input->post('id'),
+				'status' 	=> $this->input->post('status'),
+				'kode_uker' =>  $this->session->userdata('kode_uker')
+			);
+			$postData = json_encode($postData);
+			echo $this->sending->send($url, $postData);
+		}
+	}
+
+	public function setreject(){
+		$url = "cluster/postClusterReject";
+		$postData = Array (
+			'id' 				=> $this->input->post('id'),
+			'status' 			=> $this->input->post('status'),
+			'reject_reason' 	=> $this->input->post('reject_reason'),
+			'kode_uker' 		=>  $this->session->userdata('kode_uker')
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
+
+	function getClusterLHInfo()
+	{
+		$id = $this->input->post("id");
+		if (isset($id)) {
+			$postData = Array (
+				'id' => $this->input->post('id')
+			);
+			$postData = json_encode($postData);
+			
+			$url = "cluster/getClusterLocalHeroes";
+			$clusterInfo = json_decode($this->sending->send($url, $postData), true);
+
+			$clusterInfo["kelompok_usaha"] = empty($clusterInfo["kelompok_usaha"]) ? "-" : $clusterInfo["kelompok_usaha"];
+			$clusterInfo["kelompok_jumlah_anggota"] = empty($clusterInfo["kelompok_jumlah_anggota"]) ? "-" : $clusterInfo["kelompok_jumlah_anggota"];
+			$clusterInfo["kelompok_perwakilan"] = empty($clusterInfo["kelompok_perwakilan"]) ? "-" : $clusterInfo["kelompok_perwakilan"];
+			$clusterInfo["lokasi_usaha"] = empty($clusterInfo["lokasi_usaha"]) ? "-" : $clusterInfo["lokasi_usaha"];
+			$url = "cluster/getClusterFotoLocalHeroes";
+			$clusterPhotos =  json_decode($this->sending->send($url, $postData), true);
+			$clusterInfo["photos"] = $clusterPhotos;
+			echo json_encode($clusterInfo);
+		}
+	}
+
+	public function getdata_anggota()
+	{
+
+		$url = "cluster/getDataFieldClusterAnggota";
+		$urlcount="cluster/getCountDataFieldClusterAnggota";
+		$postData = Array (
+			'post' 		=> $this->input->post(),
+			'kode_uker' =>  $this->session->userdata('kode_uker')
+		);
+		$postData = json_encode($postData);
+		$list = json_decode ($this->sending->send($url, $postData),true);
+
+
+		$data = array();
+		$no = $this->input->post('start');
+		foreach ($list as $field) {
+			$del = '<button class="btn bg-maroon waves-effect waves-light btn-sm" onclick="deldata_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+			$update = '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			$action = ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
+			$no++;
+			$row = array();
+			$row[] = $no;
+			$row[] = $field['ca_nama'];
+			$row[] = "-";
+			$row[] = "-";
+			$row[] = $field['ca_jk'];
+			$row[] = $field['ca_kodepos'];
+			$row[] = $field['ca_pinjaman'];
+			$row[] = $field['ca_simpanan'];
+			$row[] = "-";
+			$row[] = $action;
+			$data[] = $row;
+		}
+		
+		$output = array(
+			"draw" => $this->input->post('draw'),
+			"recordsTotal" => count($list),
+			"recordsFiltered" => json_decode($this->sending->send($urlcount, $postData),true),
+			"data" => $data,
+		);
+		echo json_encode($output);
+	}
+
+
+	public function cekkpos()
+	{
+		if ($this->input->post('kodepos') != "") {
+
+			$url = "cluster/getDataKodePos";
+			$postData = Array (
+				'kodepos' 		=> $this->input->post('kodepos'),
+			);
+			$postData = json_encode($postData);
+			$data = json_decode ($this->sending->send($url, $postData),true);
+			if ($data != false) {
+				echo json_encode($data[0]);
+			} else echo json_encode("false");
+		}
+	}
+
+
+	public function cekKtpAnggota(){
+		if ($this->input->post('ktp') != "") {
+
+			$url = "cluster/getClusterDataAnggotaByNIK";
+			$postData = Array (
+				'ktp' 		=> $this->input->post('ktp'),
+			);
+			$postData = json_encode($postData);
+			$data = json_decode ($this->sending->send($url, $postData),true);
+
+			if ($data[0]['result'] == 0) {
+				echo json_encode("true");
+			} else echo json_encode("false");
+		}
+	}
+
+
+	
+	public function inputdata_anggota()
+	{
+		$postData = Array (
+			'data'		=> $this->input->post(),
+			'kode_uker' => $this->session->userdata('kode_uker'),
+			'id'		=> $this->session->userdata('id'),
+		);
+		$postData = json_encode($postData);
+
+		if ($this->input->post('id_ca') != "") {
+			$url = "cluster/updateClusterAnggota";
+			json_decode ($this->sending->send($url, $postData),true);
+			echo "udpate";
+		} else {
+			$url = "cluster/insertClusterAnggota";
+			$data = json_decode ($this->sending->send($url, $postData),true);
+			echo $data;
+		}
+		
+	}
+
+
+	public function deldata_anggota()
+	{
+		if ($this->input->post('id_ca') != "") {
+			$url = "cluster/delClusterAnggota";
+			$postData = Array (
+				'id' 		=> $this->session->userdata('id'),
+				'id_ca'		=> $this->input->post('id_ca'),
+			);
+			$postData = json_encode($postData);
+			json_decode ($this->sending->send($url, $postData),true);
+			return true;
+		}
+		else return false;
+	}
+
+	
+	public function getdata_anggota_s()
+	{
+		if ($this->input->post('id_ca') != "") {
+			$url = "cluster/getClusterAnggotaById";
+			$postData = Array (
+				'id_ca'		=> $this->input->post('id_ca'),
+			);
+			$postData = json_encode($postData);
+			$data = json_decode ($this->sending->send($url, $postData),true);
+			echo json_encode($data);
+		}
+		else return false;	
+	}
+
+	public function approve()
+	{
+        $data['navbar'] = 'navbar';
+        $data['sidebar'] = 'sidebar';
+		
+		$url = "cluster/getClusterSektorUsaha";
+		$data['cluster_sektor_usaha'] = json_decode($this->sending->send($url), true); 
+
+			
+		$url = "cluster/getprovinsi";
+		$data['provinsi'] = json_decode($this->sending->send($url), true); 
+
+		$url = "cluster/getClusterKebutuhanPendidikanPelatihan";
+		$data['cluster_kebutuhan_pendidikan_pelatihan'] = json_decode($this->sending->send($url), true); 
+
+		$url = "cluster/getClusterKebutuhanSarana";
+		$data['cluster_kebutuhan_sarana'] = json_decode($this->sending->send($url), true); 
+
+		$url = "cluster/getClusterKebutuhanSkemaKredit";
+		$data['cluster_kebutuhan_skema_kredit'] = json_decode($this->sending->send($url), true); 
+
+		$data['content'] = $this->session->userdata('kode_uker') == 'kanpus' ? '' : 'cluster_approve_v';
+		
+		$this->load->view('template', $data);
+    }
+
+	public function get_clusterapproved(){
+
+		$dataTable=$this->input->post();
+       	$url = "cluster/getDataField";
+		$urlCountAnggota = "cluster/getCountAnggota";
+		$urlJenisUsahaById = "cluster/getJenisUsahaById";
+		$urlGetClusterChecker = "cluster/getUkerByBranch";
+		$urlGetClusterSigner = "cluster/getUkerByBranch";
+		$urlCountDataField = "cluster/getCountDataField";
+		$postDataFields = Array (
+			'dataTable'		=> $dataTable,
+			'status'		=> true,
+			'permission'  	=> $this->session->userdata('permission'),
+			'approve_level' => $this->session->userdata('approve_level'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+			'approved'		=> true,
+		);
+
+		$postDataFields = json_encode($postDataFields);
+		$list = json_decode($this->sending->send($url, $postDataFields), true);
+
+		$no = $this->input->post('start');
+		$data = array();
+		foreach ($list as $field) {
+
+			$postCountDataAnggota = Array (
+				'id'		=> $field['id'],
+			);
+			$postCountDataAnggota = json_encode($postCountDataAnggota);
+			$totalanggota = json_decode($this->sending->send($urlCountAnggota, $postCountDataAnggota), true);
+			
+			$postJenisUsahaById = Array (
+				'id'		=> $field['id_cluster_jenis_usaha'],
+			);
+			$postJenisUsahaById = json_encode($postJenisUsahaById);
+			$jenis_usaha = json_decode($this->sending->send($urlJenisUsahaById, $postJenisUsahaById), true);
+
+			$info		= '<button class="btn btn-default waves-effect waves-light btn-sm btn-block" onclick="showClusterInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info</button>';
+			$ca 	    = '<button class="btn btn-info waves-effect waves-light btn-sm btn-block" name="id" value="' . $field['id'] . '" type="submit" ><i class="fa fa-users"></i> Anggota</button>';
+
+			
+
+			if ($field['kode_uker'] == $this->session->userdata('kode_uker') || $field['userinsert'] == $this->session->userdata('kode_uker') ){
+				$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+			}
+			else {
+				if ($this->session->userdata('permission')>3){
+					$update     = '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="getform(\'' . $field['id'] . '\');" type="button" ><i class="fa fa-pencil"></i> Update</button>';
+				}
+				else {
+					$update ="";
+				}
+			}
+			$del 	    = '<button class="btn btn-danger waves-effect waves-light btn-sm btn-block" onclick="deldata(\'' . $field['id'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
+			$action     =  $info . $ca . ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update.$del);
+
+			$actionLH='<button class="btn btn-info waves-effect waves-light btn-sm btn-block" onclick="showClusterLHInfo(\'' . $field['id'] . '\')" type="button"><i class="fa fa-info"></i> Info Local Heroes</button>';;
+			if ($this->session->userdata['approve_level'] == 2) {
+				switch ($field["lh_flag"]){
+					case (null) :
+						$actionLH .= '<button class="btn btn-success waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'approve\')" type="button" ><i class="fa fa-check"></i> Setuju</button>';
+						$actionLH .= '<button class="btn btn-warning waves-effect waves-light btn-sm btn-block" onclick="setApproveLh(\''.$field["id"].'\',\'reject\')" type="button" ><i class="fa fa-close"></i> Ditolak</button>';
+						break ;
+					case (1) :
+						$actionLH .= 'Disetujui';
+						break ;
+					case (0) :
+						$actionLH .= 'Ditolak';
+						break ;
+				}
+			}
+
+			$late=($field["timestamp"] < time()-15780000 ? '<i class="fa fa-warning" style="color:orange"></i> <p style="display:none;"> warning </p>' : "");
+
+
+			$no++; 
+			$row = array();
+			$row[] = $no . $late ;
+			$row[] = $field['kanwil'];
+			$row[] = $field['kanca'];
+			$row[] = $field['uker'];
+			$row[] = $field['kelompok_usaha'] . ( $field['lh_flag'] == 1 ? '<i class="fa fa-check" style="color:green"></i>' : '');
+			$row[] = $field['kelompok_jumlah_anggota'] . " / " . $totalanggota[0]['sum'];
+			$row[] = count($jenis_usaha) > 0 ? $jenis_usaha[0]['nama_cluster_jenis_usaha'] : $field['id_cluster_jenis_usaha'];
+			$row[] = $field['hasil_produk'];
+			if ($this->session->userdata['approve_level'] == 2) $row[]= $actionLH;
+			$row[] = '<form action="cluster/cluster_anggota" target="_blank" method="POST"><input type="hidden" name="kelompok_usaha" value="' . $field['kelompok_usaha'] . '">' . $action . '</form>';
+			$data[] = $row;
+		}
+
+		$output = array(
+			"draw" => $this->input->post('draw'),
+			"recordsTotal" => count($list),
+			"recordsFiltered" => json_decode($this->sending->send($urlCountDataField, $postDataFields), true),
+			"data" => $data,
+		);
+		echo json_encode($output);
+	}
+
+
+
+	public function getreport($harian = "")
+	{
+		
+		$url = "cluster/getReportCluster";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+		);
+		$postData = json_encode($postData);
+		$get = json_decode($this->sending->send($url, $postData), true);
+		$data['kanwil'] = $get['kanwil'];
+		$data['listkategori'] = $get['listkategori'];
+		$data['total']	= $get['total'];
+
+		$data['harian'] = $harian;
+		$data['navbar'] = 'navbar';
+		$data['sidebar'] = 'sidebar';
+		$data['content'] = 'cluster_report_v';
+		$this->load->view('template', $data);
+	}
+
+
+
+	public function report_kanca()
+	{
+		
+		$url = "cluster/getReportClusterForKanca";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+		);
+		$postData = json_encode($postData);
+		$get = json_decode($this->sending->send($url, $postData), true);
+
+		$pdata['data'] = $get['data'];
+		$pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
+		$pdata['content'] = 'cluster_report_kanca_v';
+		$this->load->view('template', $pdata);
+	}
+
+	public function report_anggota()
+	{
+		$url = "cluster/getReportClusterAnggota";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+		);
+		$postData = json_encode($postData);
+		$pdata['anggota'] = json_decode($this->sending->send($url, $postData), true);
+		$pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
+		$pdata['content'] = 'cluster_report_anggota_v';
+		$this->load->view('template', $pdata);
+	}
+
+	public function report_local_heroes()
+	{
+		$url = "cluster/getReportClusterLocalHeroes";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+			'case'			=> $this->input->post('case'),
+			'REGION'			=> $this->input->post('REGION')
+		);
+		$postData = json_encode($postData);
+		$pdata['klaster'] = json_decode($this->sending->send($url, $postData), true);
+
+		$pdata['navbar'] = 'navbar';
+		$pdata['sidebar'] = 'sidebar';
+		$pdata['content'] = 'cluster_report_local_heroes_v';
+		$this->load->view('template', $pdata);
+	}
+
+	public function dldata()
+	{
+		$url = "cluster/getDownloadReportCluster";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+			'kanwil'			=> $this->input->post('kanwil'),
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
+
+
+	public function dlDataPengajuan()
+	{
+		$url = "cluster/getDownloadClusterPengajuan";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->session->userdata('kode_kanwil'),
+			'kode_kanca'	=> $this->session->userdata('kode_kanca'),
+			'kode_uker'		=> $this->session->userdata('kode_uker'),
+			'kanwil'			=> $this->input->post('kanwil'),
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
+
+	public function dldataanggota()
+	{	
+
+	}
+
+
+	public function dldatareportanggota()
+	{
+		$url = "cluster/getDownloadReportClusterAnggota";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->input->post('kode_kanwil'),
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
+
+	public function dldatareportlocalheroes()
+	{
+
+		$url = "cluster/getDownloadReportClusterLocalHeroes";
+		$postData = Array (
+			'permission'  	=> $this->session->userdata('permission'),
+			'kode_kanwil'	=> $this->input->post('kode_kanwil'),
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	////////////////////////////////////////////////////////////
+	///////////////////////////OLD//////////////////////////////
+	////////////////////////////////////////////////////////////
+
+
+	public function report_kanca_detail()
+	{
+		$pdata = array();
+		$data['kanwil'] = array();
+		$z = array();
+		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
+			foreach ($this->cluster_m->report_kc_count_m($row['kode_kanwil']) as $srow) {
+				if (!isset($z[$row['kode_kanwil']][$srow['kode_kanca']])) $z[$row['kode_kanwil']][$srow['kode_kanca']] = 0;
+				$z[$row['kode_kanwil']][$srow['kode_kanca']]++;
+			};
+		}
+		$i = 1;
+		$table = "";
+		foreach ($this->cluster_m->report_kc_m() as $srow) {
+			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) {
+				if ($_POST['case'] == 'kosong') {
+					$table .= '<tr><td>' . $i . '</td>
+										<td>' . $srow['BRDESC'] . '</td>
+										<td>0</td></tr>';
+					$i++;
+				}
+			} else if ($z[$srow['REGION']][$srow['BRANCH']] < 3) {
+				if ($_POST['case'] == 'sebagian') {
+					$table .= '<tr><td>' . $i . '</td>
+										<td>' . $srow['BRDESC'] . '</td>
+										<td>' . $z[$srow['REGION']][$srow['BRANCH']] . '</td></tr>';
+					$i++;
+				}
+			} else if ($z[$srow['REGION']][$srow['BRANCH']] >= 1) {
+				if ($_POST['case'] == 'terisi') {
+					$table .= '<tr><td>' . $i . '</td>
+										<td>' . $srow['BRDESC'] . '</td>
+										<td>' . $z[$srow['REGION']][$srow['BRANCH']] . '</td></tr>';
+					$i++;
+				}
+			}
+		}
+		echo '<table class="table table-striped table-bordered" style="width:100%">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Kanca</th>
+								<th>Total Isian</th>
+							</tr>
+						</thead>
+						<tbody>' . $table . '
+						</tbody>
+					 </table>';
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	
+
+
+
+	
+
+	public function countpengajuan(){
+		$data = $this->cluster_m->get_datafield()->num_rows();
+		return $data;
+	}
+
+	
+   
+    ////////////////////////////////////////////////////////////
+    /////////////////end pengajuan klaster usaha ///////////////
+    ////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////
+    /////////////////get approved klaster usaha ////////////////
+    ////////////////////////////////////////////////////////////
+
+
+    
+   
+
+	
+    ////////////////////////////////////////////////////////////
+    /////////////////end get approved klaster usaha ////////////
+    ////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////
+    /////////////////start Input data klaster////// ////////////
+    ////////////////////////////////////////////////////////////
+  
+
+	
+
+	
+
+	
+
+
 
 	public function approveLh(){
 		$this->cluster_m->approveLh_m();
@@ -463,67 +1146,9 @@ class Cluster extends MX_Controller
     ////////////////////////////////////////////////////////////
 
 
-	public function getreport($harian = "")
-	{
-		ini_set('memory_limit', '-1');
-		$data['kanwil'] = array();
-		$q = $this->cluster_m->getreport_m($harian);
-		$data['listkategori'] = $this->cluster_m->getlist_jum();
-		foreach ($q as $row) {
-			if ($row['kanwil'] != false) {
-				foreach ($data['listkategori'] as $zrow) {
-					if (!isset($data['total'][$zrow['id_cluster_jenis_usaha_map']])) {
-						$data['total'][$zrow['id_cluster_jenis_usaha_map']] = 0;
-					}
-					if ($zrow['id_cluster_jenis_usaha_map'] == $row['id_cluster_jenis_usaha_map']) {
-						if (isset($data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']])) {
-							$data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']]++;
-						} else $data['kanwil'][$row['kanwil']][$zrow['id_cluster_jenis_usaha_map']] = 1;
-						$data['total'][$zrow['id_cluster_jenis_usaha_map']]++;
-						break;
-					}
-				}
-			}
-		}
-		$data['harian'] = $harian;
-		$data['navbar'] = 'navbar';
-		$data['sidebar'] = 'sidebar';
-		$data['content'] = 'cluster_report_v';
-		$this->load->view('template', $data);
-	}
 
-	public function dldata($harian = null)
-	{
-		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array(
-			'No', 'id', 'Waktu Input', 'kanwil', 'kanca',
-			"Kode Kanca", "Uker", "Kode Uker", "Nama Kaunit", "PN Kaunit", "Handphone Kaunit", "Nama Mantri", "PN Mantri", "Handphone Mantri",
-			"Nama Kelompok Usaha", "Jumlah Anggota (orang)", "Pinjaman anggota Kelompok", "Lokasi Usaha", "Kode Pos", "Provinsi", "Kabupaten/Kota", "Kecamantan", "Kelurahan",
-			"Sektor Usaha", "Jenis Usaha Map", "Jenis Usaha", "Hasil Produk", "varian", "Periode Panen" , "Total Produksi", "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
-			"Luas Lahan/Tempat Usaha (m2)", "Omset Usaha Perbulan (total Kelompok - Rp)",
-			"Nama Ketua Kelompok", "Jenis Kelamin", "NIK", "Handphone Ketua Kelompok", "Tanggal Lahir", "Tempat lahir",
-			"Punya Pinjaman", "Nominal Pinjaman BRI", "Norek Pinjaman BRI", "Kebutuhan Kredit",
-			"Kebutuhan Sarana", "Kebutuhan Sarana Lainnya", "Kebutuhan Pendidikan",
-			"Simpanan Bank", "Agen Brilink"
-		);
 
-		$data = $this->cluster_m->getdataall_m($harian);
-		$no = 1;
-		$z = 1;
-		foreach ($data as $cell) {
-			$col = 0;
-			$headerexcel[$z][$col] = $no;
-			foreach (array_keys($cell) as $key) {
-				$col++;
-				$cell[$key] = str_replace(';', ' ', $cell[$key]);
-				$cell[$key] = str_replace(',', ' ', $cell[$key]);
-				$headerexcel[$z][$col] = $cell[$key];
-			}
-			$z++;
-			$no++;
-		}
-		echo json_encode($headerexcel, true);
-	}
+	
 	public function report_unit()
 	{
 		$pdata = array();
@@ -610,319 +1235,38 @@ class Cluster extends MX_Controller
 					 </table>';
 	}
 
-	public function report_kanca()
-	{
-		$pdata = array();
-		$data['kanwil'] = array();
-		$z = array();
-		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
-			foreach ($this->cluster_m->report_kc_count_m($row['kode_kanwil']) as $srow) {
-				(isset($z[$row['kode_kanwil']][$srow['kode_kanca']])) ? $z[$row['kode_kanwil']][$srow['kode_kanca']]++ : $z[$row['kode_kanwil']][$srow['kode_kanca']] = 1;
-			};
-		}
-		$i = 0;
-		foreach ($this->cluster_m->report_kc_m() as $srow) {
-			$pdata['data'][$srow['REGION']]['RGDESC'] = $srow['RGDESC'];
-			$pdata['data'][$srow['REGION']]['REGION'] = $srow['REGION'];
-			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) {
-				(isset($pdata['data'][$srow['REGION']]['kosong'])) ? $pdata['data'][$srow['REGION']]['kosong']++ : $pdata['data'][$srow['REGION']]['kosong'] = 1;
-			} else {
-				if ($z[$srow['REGION']][$srow['BRANCH']] < 3) {
-					(isset($pdata['data'][$srow['REGION']]['isi_sebagian'])) ? $pdata['data'][$srow['REGION']]['isi_sebagian']++ : $pdata['data'][$srow['REGION']]['isi_sebagian'] = 1;
-				}
-				if ($z[$srow['REGION']][$srow['BRANCH']] >= 3) {
-					(isset($pdata['data'][$srow['REGION']]['terisi'])) ? $pdata['data'][$srow['REGION']]['terisi']++ : $pdata['data'][$srow['REGION']]['terisi'] = 1;
-				}
-			}
-			$i++;
-		}
-		$pdata['navbar'] = 'navbar';
-		$pdata['sidebar'] = 'sidebar';
-		$pdata['content'] = 'cluster_report_kanca_v';
-		$this->load->view('template', $pdata);
-	}
-
-	public function report_kanca_detail()
-	{
-		$pdata = array();
-		$data['kanwil'] = array();
-		$z = array();
-		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
-			foreach ($this->cluster_m->report_kc_count_m($row['kode_kanwil']) as $srow) {
-				if (!isset($z[$row['kode_kanwil']][$srow['kode_kanca']])) $z[$row['kode_kanwil']][$srow['kode_kanca']] = 0;
-				$z[$row['kode_kanwil']][$srow['kode_kanca']]++;
-			};
-		}
-		$i = 1;
-		$table = "";
-		foreach ($this->cluster_m->report_kc_m() as $srow) {
-			if (!isset($z[$srow['REGION']][$srow['BRANCH']])) {
-				if ($_POST['case'] == 'kosong') {
-					$table .= '<tr><td>' . $i . '</td>
-										<td>' . $srow['BRDESC'] . '</td>
-										<td>0</td></tr>';
-					$i++;
-				}
-			} else if ($z[$srow['REGION']][$srow['BRANCH']] < 3) {
-				if ($_POST['case'] == 'sebagian') {
-					$table .= '<tr><td>' . $i . '</td>
-										<td>' . $srow['BRDESC'] . '</td>
-										<td>' . $z[$srow['REGION']][$srow['BRANCH']] . '</td></tr>';
-					$i++;
-				}
-			} else if ($z[$srow['REGION']][$srow['BRANCH']] >= 1) {
-				if ($_POST['case'] == 'terisi') {
-					$table .= '<tr><td>' . $i . '</td>
-										<td>' . $srow['BRDESC'] . '</td>
-										<td>' . $z[$srow['REGION']][$srow['BRANCH']] . '</td></tr>';
-					$i++;
-				}
-			}
-		}
-		echo '<table class="table table-striped table-bordered" style="width:100%">
-						<thead>
-							<tr>
-								<th>No</th>
-								<th>Kanca</th>
-								<th>Total Isian</th>
-							</tr>
-						</thead>
-						<tbody>' . $table . '
-						</tbody>
-					 </table>';
-	}
-
-	public function report_local_heroes()
-	{
-		$pdata['klaster']=$this->cluster_m->report_local_heroes_m();
-		$pdata['navbar'] = 'navbar';
-		$pdata['sidebar'] = 'sidebar';
-		$pdata['content'] = 'cluster_report_local_heroes_v';
-		$this->load->view('template', $pdata);
-	}
+	
 
 	
 
-	public function report_anggota()
-	{
-		ini_set('memory_limit', '-1');
-		$data['kanwil'] = array();
-		$z = array();
-		foreach ($this->cluster_m->get_data_kanwil_m() as $row) {
-			foreach ($this->cluster_m->report_anggota_m($row['kode_kanwil']) as $zrow) {
-				if (!isset($z[$row['kanwil']]['kosong'])) {
-					$z[$row['kanwil']]['kode_kanwil'] = $row['kode_kanwil'];
-					$z[$row['kanwil']]['kosong'] = 0;
-					$z[$row['kanwil']]['terisi'] = 0;
-					$z[$row['kanwil']]['total_anggota'] = 0;
-				}
-				if ($zrow['total_anggota'] == 0) $z[$row['kanwil']]['kosong']++;
-				else $z[$row['kanwil']]['terisi']++;
-				$z[$row['kanwil']]['total_anggota'] += $zrow['total_anggota'];
-			};
-		};
-		$pdata['anggota'] = $z;
-		$pdata['navbar'] = 'navbar';
-		$pdata['sidebar'] = 'sidebar';
-		$pdata['content'] = 'cluster_report_anggota_v';
-		$this->load->view('template', $pdata);
-	}
 
-	public function dldataanggota()
-	{	
-		if ($this->session->userdata("permission")== 4) $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', "NIK", "No Rekening", 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
-		else $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
 
-		$data = $this->cluster_m->dldataanggota_m();
-		$no = 1;
-		$z = 1;
-		foreach ($data as $cell) {
-			$col = 0;
-			$headerexcel[$z][$col] = $no;
-			foreach (array_keys($cell) as $key) {
-				$col++;
-				if ($cell[$key]=="'") $cell[$key]="-";
-				$headerexcel[$z][$col] = $cell[$key];
-			}
-			$z++;
-			$no++;
-		}
+	
 
-		echo json_encode($headerexcel);
-	}
+	
 
-	public function dldatareportanggota()
-	{
-		ini_set('memory_limit', '-1');
-		if ($this->session->userdata("permission")== 4) $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', "NIK", "No Rekening", 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "handphone", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
-		else $headerexcel[0] = array('No', 'id_cluster', 'Nama Anggota', 'Jenis Kelamin', "Kode Pos", "Pinjaman", "Simpanan", "alamat", "Provinsi", "Kota/Kabupaten", "kecamatan" , "kelurahan", "branch", "Waktu input");
-		$no = 1;
-		$z = 1;
-		$data = $this->cluster_m->dl_report_anggota_m($_POST['kode_kanwil']);
-		foreach ($data as $cell) {
-			$col = 0;
-			$headerexcel[$z][$col] = $no;
-			foreach (array_keys($cell) as $key) {
-				$col++;
-				if ($cell[$key]=="'") $cell[$key]="-";
-				$headerexcel[$z][$col] = $cell[$key];
-			}
-			$z++;
-			$no++;
-		}
-		echo json_encode($headerexcel);
-	}
+	
 
-	public function dldatareportlocalheroes()
-	{
-		ini_set('memory_limit', '-1');
-		$headerexcel[0] = array(
-			'No', 'Waktu Input', 'kanwil', 'kanca',
-			"Kode Kanca", "Uker", "Kode Uker", "Nama Kaunit", "PN Kaunit", "Handphone Kaunit", "Nama Mantri", "PN Mantri", "Handphone Mantri",
-			"Nama Kelompok Usaha", "Jumlah Anggota (orang)", "Pinjaman anggota Kelompok", "Lokasi Usaha", "Kode Pos", "Provinsi", "Kabupaten/Kota", "Kecamantan", "Kelurahan",
-			"Sektor Usaha", "Jenis Usaha Map", "Jenis Usaha", "Hasil Produk", "varian",  "Pasar Ekspor", "Tahun Pasar Ekspor", "Nilai Pasas Ekspor", "Pihak Pembeli Produk/Jasa yang Dihasilkan", "Handphone Pihak Pembeli", "Suplier Bahan Baku Produk/Jasa yang Dihasilkan", "Handphone Suplier",
-			"Luas Lahan/Tempat Usaha (m2)", "Omset Usaha Perbulan (total Kelompok - Rp)",
-			"Nama Ketua Kelompok", "Jenis Kelamin", "NIK", "Handphone Ketua Kelompok", "Tanggal Lahir", "Tempat lahir",
-			"Punya Pinjaman", "Nominal Pinjaman BRI", "Norek Pinjaman BRI", "Kebutuhan Kredit",
-			"Kebutuhan Sarana", "Kebutuhan Sarana Lainnya", "Kebutuhan Pendidikan",
-			"Simpanan Bank", "Agen Brilink"
-		);
 
-		$data = $this->cluster_m->dlDataReportLocalHeroes_m();
-		$no = 1;
-		$z = 1;
-		foreach ($data as $cell) {
-			$col = 0;
-			$headerexcel[$z][$col] = $no;
-			foreach (array_keys($cell) as $key) {
-				$col++;
-				$cell[$key] = str_replace(';', ' ', $cell[$key]);
-				$cell[$key] = str_replace(',', ' ', $cell[$key]);
-				$headerexcel[$z][$col] = $cell[$key];
-			}
-			$z++;
-			$no++;
-		}
 
-		echo json_encode($headerexcel, true);
-	}
+	
 	////////////////////////////////////////////////////////////
     ///////////////////////end report //////////////////////////
     ////////////////////////////////////////////////////////////
 
 
-	public function cekkpos()
-	{
-		if ($_POST['kodepos'] != "") {
-			$data = $this->cluster_m->cekkpos_m();
-			if ($data != false) {
-				echo json_encode($data[0]);
-			} else echo json_encode("false");
-		}
-	}
+	
 
-	public function getprovinsi()
-	{
-		$data = $this->cluster_m->getprovinsi_m();
-		echo json_encode($data);
-	}
-
-	public function getkotakab($select = null)
-	{
-		$datakota = $this->cluster_m->getkotakab_m();
-		echo json_encode($datakota);
-	}
-
-	public function getkecamatan()
-	{
-		$datakecamatan = $this->cluster_m->getkecamatan_m();
-		echo json_encode($datakecamatan, true);
-	}
-	public function getkelurahan()
-	{
-		$datakelurahan = $this->cluster_m->getkelurahan_m();
-		echo json_encode($datakelurahan);
-	}
-
+	
 	/////////////////////////////////////////////////////////////////////////////
 	///////////////////////////cluster anggota
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public function cluster_anggota()
-	{
-		if (isset($_POST['id'])) {
-			$cluster=$this->cluster_m->getdata_m();
-			foreach ($cluster as $row){
-				$data['id']				= $row['id'];
-				$data['kelompok_usaha']	= $row['kelompok_usaha'];
-				$data['approval']		= $row['cluster_approval'];
-			}
-			$data['content'] = 'cluster_anggota';
-			$data['navbar'] = 'navbar';
-			$data['sidebar'] = 'sidebar';
-			$this->load->view('template', $data);
-		} else {
-			echo "<script>alert('ups, ada kesalahan')</script>";
-			redirect('cluster', 'refresh');
-		}
-	}
+	
 
-	public function getdata_anggota()
-	{
+	
 
-		$list = $this->cluster_m->get_datafield_anggota();
-		$data = array();
-		$no = $_POST['start'];
-		foreach ($list->result_array() as $field) {
-			$del = '<button class="btn bg-maroon waves-effect waves-light btn-sm" onclick="deldata_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-close"></i> Hapus</button>';
-			$update = '<button class="btn btn-success waves-effect waves-light btn-sm" onclick="getform_anggota(\'' . $field['id_ca'] . '\')" type="button" ><i class="fa fa-pencil"></i> Update</button>';
-			$action = ($this->session->userdata('kode_uker') == 'kanpus' ? '' : $update . $del);
-			$no++;
-			$row = array();
-			$row[] = $no;
-			$row[] = $field['ca_nama'];
-			$row[] = "-";
-			$row[] = "-";
-			$row[] = $field['ca_jk'];
-			$row[] = $field['ca_kodepos'];
-			$row[] = $field['ca_pinjaman'];
-			$row[] = $field['ca_simpanan'];
-			$row[] = "-";
-			$row[] = $action;
-			$data[] = $row;
-		}
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $list->num_rows(),
-			"recordsFiltered" => $this->cluster_m->count_all_anggota(),
-			"data" => $data,
-		);
-		echo json_encode($output);
-	}
-
-	public function getdata_anggota_s()
-	{
-		if (isset($_POST['id_ca'])) {
-			echo json_encode($this->cluster_m->getdata_anggota_m());
-		}
-	}
-
-	public function inputdata_anggota()
-	{
-		if ($_POST['id_ca'] != "") {
-			$this->cluster_m->updatedata_anggota_m();
-			echo "udpate";
-		} else {
-			$this->cluster_m->insertdata_anggota_m();
-			echo "insert";
-		}
-	}
-
-	public function deldata_anggota()
-	{
-		$this->cluster_m->deldata_anggota_m();
-	}
-
+	
 	public function inputanggotacsv()
 	{
 		$anggota = json_decode($_POST['anggota'], true);
@@ -983,18 +1327,9 @@ class Cluster extends MX_Controller
 		} else redirect('dashboard');
 	}
 
-	public function get_kanca()
-	{
 
-		$datakanca = $this->cluster_m->get_kanca_m();
-		echo json_encode($datakanca);
-	}
 
-	public function get_unit()
-	{
-		$dataunit = $this->cluster_m->get_unit_m();
-		echo json_encode($dataunit);
-	}
+	
 
 	function get_pendidikan()
 	{
@@ -1002,38 +1337,16 @@ class Cluster extends MX_Controller
 		echo json_encode($data);
 	}
 
-	function get_sarana()
-	{
-		$data = $this->cluster_m->get_cluster_kebutuhan_sarana();
-		echo json_encode($data);
-	}
+	
 
-	function get_kredit()
-	{
-		$data = $this->cluster_m->get_cluster_kebutuhan_skema_kredit();
-		echo json_encode($data);
-	}
+	
 
-	function get_hp(){
-		$data = $this->cluster_m->get_list_hasil_produk_m();
-		echo json_encode($data);
-	}
+	
 
-	function get_v(){
-		$data = $this->cluster_m->get_list_varian_m();
-		echo json_encode($data);
-	}
+	
 
 
-	public function cekKtpAnggota(){
-		if ($_POST['ktp'] != "") {
-			$data = $this->cluster_m->cekKtpAnggota_m();
-			if ($data[0]['result'] == 0) {
-				echo json_encode("true");
-			} else echo json_encode("false");
-		}
-	}
-
+	
 	public function cekKtpCluster(){
 		if ($_POST['ktp'] != "") {
 			$data = $this->cluster_m->cekKtpCluster_m();
@@ -1055,57 +1368,9 @@ class Cluster extends MX_Controller
 		else return './' . $url;
 	}
 
-	function getClusterInfo()
-	{
-		$id = $this->input->post("id");
-		if (isset($id)) {
-			$clusterInfo = $this->cluster_m->getClusterInfo($id);
-			$clusterInfo["uker"] = empty($clusterInfo["uker"]) ? "-" : $clusterInfo["uker"];
-			$clusterInfo["kaunit_nama"] = empty($clusterInfo["kaunit_nama"]) ? "-" : $clusterInfo["kaunit_nama"];
-			$clusterInfo["kaunit_handphone"] = empty($clusterInfo["kaunit_handphone"]) ? "-" : $clusterInfo["kaunit_handphone"];
-			$clusterInfo["nama_pekerja"] = empty($clusterInfo["nama_pekerja"]) ? "-" : $clusterInfo["nama_pekerja"];
-			$clusterInfo["handphone_pekerja"] = empty($clusterInfo["handphone_pekerja"]) ? "-" : $clusterInfo["handphone_pekerja"];
-			$clusterInfo["kelompok_usaha"] = empty($clusterInfo["kelompok_usaha"]) ? "-" : $clusterInfo["kelompok_usaha"];
-			$clusterInfo["kelompok_pihak_pembeli"] = empty($clusterInfo["kelompok_pihak_pembeli"]) ? "-" : $clusterInfo["kelompok_pihak_pembeli"];
-			$clusterInfo["kelompok_pihak_pembeli_handphone"] = empty($clusterInfo["kelompok_pihak_pembeli_handphone"]) ? "-" : $clusterInfo["kelompok_pihak_pembeli_handphone"];
-			$clusterInfo["kelompok_suplier_produk"] = empty($clusterInfo["kelompok_suplier_produk"]) ? "-" : $clusterInfo["kelompok_suplier_produk"];
-			$clusterInfo["kelompok_suplier_handphone"] = empty($clusterInfo["kelompok_suplier_handphone"]) ? "-" : $clusterInfo["kelompok_suplier_handphone"];
-			$clusterInfo["kelompok_jumlah_anggota"] = empty($clusterInfo["kelompok_jumlah_anggota"]) ? "-" : $clusterInfo["kelompok_jumlah_anggota"];
-			$clusterInfo["kelompok_cerita_usaha"] = empty($clusterInfo["kelompok_cerita_usaha"]) ? "-" : $clusterInfo["kelompok_cerita_usaha"];
-			$clusterInfo["kelompok_perwakilan"] = empty($clusterInfo["kelompok_perwakilan"]) ? "-" : $clusterInfo["kelompok_perwakilan"];
-			$clusterInfo["kelompok_handphone"] = empty($clusterInfo["kelompok_handphone"]) ? "-" : $clusterInfo["kelompok_handphone"];
-			$clusterInfo["lokasi_usaha"] = empty($clusterInfo["lokasi_usaha"]) ? "-" : $clusterInfo["lokasi_usaha"];
-			$clusterInfo["agen_brilink"] = empty($clusterInfo["agen_brilink"]) ? "-" : $clusterInfo["agen_brilink"];
-			$clusterInfo["simpanan_bank"] = empty($clusterInfo["simpanan_bank"]) ? "-" : $clusterInfo["simpanan_bank"];
-			$clusterInfo["pinjaman"] = empty($clusterInfo["pinjaman"]) ? "-" : $clusterInfo["pinjaman"];
-			$clusterInfo["varian"] = empty($clusterInfo["varian"]) ? "-" : $clusterInfo["varian"];
-			$clusterInfo["kapasitas_produksi"] = empty($clusterInfo["kapasitas_produksi"]) ? "-" : $clusterInfo["kapasitas_produksi"];
-			$clusterInfo["periode_panen"] = empty($clusterInfo["periode_panen"]) ? "-" : $clusterInfo["periode_panen"];
-			$clusterInfo["satuan_produksi"] = empty($clusterInfo["satuan_produksi"]) ? "-" : $clusterInfo["satuan_produksi"];
-			$clusterInfo["longitude"] = $clusterInfo["longitude"] =="" ? "-" : $clusterInfo["longitude"];
-			$clusterInfo["latitude"] = $clusterInfo["latitude"] =="" ? "-" : $clusterInfo["latitude"];
-			$clusterPhotos = $this->cluster_m->getClusterPhotos($id);
-			$clusterLhPhotos = $this->cluster_m->clusterLhPhotos_m($id);
-			$clusterInfo["photos"] = $clusterPhotos;
-			$clusterInfo["LhPhotos"] = $clusterLhPhotos;
-			echo json_encode($clusterInfo);
-		}
-	}
+	
 
-	function getClusterLHInfo()
-	{
-		$id = $this->input->post("id");
-		if (isset($id)) {
-			$clusterInfo = $this->cluster_m->getClusterLHInfo_m($id);
-			$clusterInfo["kelompok_usaha"] = empty($clusterInfo["kelompok_usaha"]) ? "-" : $clusterInfo["kelompok_usaha"];
-			$clusterInfo["kelompok_jumlah_anggota"] = empty($clusterInfo["kelompok_jumlah_anggota"]) ? "-" : $clusterInfo["kelompok_jumlah_anggota"];
-			$clusterInfo["kelompok_perwakilan"] = empty($clusterInfo["kelompok_perwakilan"]) ? "-" : $clusterInfo["kelompok_perwakilan"];
-			$clusterInfo["lokasi_usaha"] = empty($clusterInfo["lokasi_usaha"]) ? "-" : $clusterInfo["lokasi_usaha"];
-			$clusterPhotos = $this->cluster_m->clusterLhPhotos_m($id);
-			$clusterInfo["photos"] = $clusterPhotos;
-			echo json_encode($clusterInfo);
-		}
-	}
+	
 	
 	//////////////////cleansing data////////////////////
 	// function clq(){
