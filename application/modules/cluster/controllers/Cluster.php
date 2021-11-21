@@ -1006,6 +1006,15 @@ class Cluster extends MX_Controller
 
 
 
+	public function approveLh(){
+		$url = "cluster/postApproveLH";
+		$postData = Array (
+			'id'  	=> $this->input->post('id'),
+			'set'	=> $this->input->post('set'),
+		);
+		$postData = json_encode($postData);
+		echo $this->sending->send($url, $postData);
+	}
 
 
 
@@ -1133,9 +1142,6 @@ class Cluster extends MX_Controller
 
 
 
-	public function approveLh(){
-		$this->cluster_m->approveLh_m();
-	}
 
 	////////////////////////////////////////////////////////////
     /////////////////end input data klaster /////// ////////////
