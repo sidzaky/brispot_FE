@@ -79,22 +79,24 @@
                             <tbody>
                               <?php 
                                 $s=1;
-                                foreach ($performance['jenis_usaha'] as $key=>$row ){
-                                  echo "<tr>";
-                                  foreach ($data_bps as $srow){
-                                    if ($srow['nama_cluster_jenis_usaha'] == $key){ 
-                                      echo "<td>".$s."</td>";
-                                      echo "<td>".$key."</td>";
-                                      echo "<td>".number_format($row['total'],'0',',','.')."</td>";
-                                      echo "<td>".number_format($srow['value'],'0',',','.')."</td>";
-                                      echo "<td>".($srow['value'] != "" || $srow['value']!=0 ? round(($row['total']/$srow['value'] * 100), 2)."%" : "-" )."</td>";
-                                      $s++;
-                                      break;
+                                if (isset($performance['jenis_usaha'])){
+                                    foreach ($performance['jenis_usaha'] as $key=>$row ){
+                                      echo "<tr>";
+                                      foreach ($data_bps as $srow){
+                                        if ($srow['nama_cluster_jenis_usaha'] == $key){ 
+                                          echo "<td>".$s."</td>";
+                                          echo "<td>".$key."</td>";
+                                          echo "<td>".number_format($row['total'],'0',',','.')."</td>";
+                                          echo "<td>".number_format($srow['value'],'0',',','.')."</td>";
+                                          echo "<td>".($srow['value'] != "" || $srow['value']!=0 ? round(($row['total']/$srow['value'] * 100), 2)."%" : "-" )."</td>";
+                                          $s++;
+                                          break;
+                                        }
+                                      }
+                                      echo "</tr>";
                                     }
-                                  }
-                                  echo "</tr>";
-                                 
                                 }
+                                else echo "No Data";
                               ?>
                             </tbody>
                           </table>

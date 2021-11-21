@@ -41,14 +41,31 @@ class Login extends MX_Controller
   function changePasswordFirstTime()
   {
     $this->is_logged_in(true);
-    $res = $this->user_m->signup_m();
+    $get = array (
+      "kode_uker_c" => $this->session->userdata('kode_uker'),
+      'id_user_change'  => $this->session->userdata('id'),
+      "Cpassword" => $this->input->post('Cpassword'),
+      "password" =>  $this->input->post('password')
+    );
+    $get=json_encode($get);
+
+    $url = "login/postChangePasswordFirstTime";
+    $res = json_decode($this->sending->send($url, $get));
     if ($res === true) $this->logout();
   }
 
   public function chpassuker()
   {
     $this->is_logged_in(true);
-    $this->user_m->chpassuker_m();
+    $get = array (
+        'id_user_change'  => $this->session->userdata('id'),
+        "kode_uker_c" => $this->input->post('kode_uker_c'),
+        "password" =>  $this->input->post('password')
+    );
+    $get=json_encode($get);
+
+    $url = "login/postChPassUker";
+    $newdata = $this->sending->send($url, $get);
   }
 
   function validate()

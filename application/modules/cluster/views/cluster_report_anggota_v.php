@@ -18,7 +18,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<?php
+                                       		<?php
                                                 $i = 1;
                                                 $kosong=0;
                                                 $terisi=0;

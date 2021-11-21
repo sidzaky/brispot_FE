@@ -24,77 +24,80 @@
       <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
           <div class="small-box" style="background-color: #28a745  !important;" >
             <div class="inner">
-              <h3 onclick="setmap(<?php echo $report[0]['id_cluster_jenis_usaha_map']?>)"><b> 
-                  <?php echo $report[0]['perhitungan']?></b> 
+              <h3 onclick="setmap(<?php echo (isset($report[0]['id_cluster_jenis_usaha_map']) ? $report[0]['id_cluster_jenis_usaha_map'] : '')?>)"><b> 
+              <?php echo (isset($report[0]['perhitungan'])  ? $report[0]['perhitungan'] : "0") ?></b> </h3>
               </h3>
               <p>Klaster</p>
             </div>
             <div class="icon">
               <i class="fa fa-tree "></i>
             </div>
-            <a href="#" onclick="setmap(<?php echo $report[0]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PERTANIAN</a>
+            <a href="#" onclick="setmap(<?php echo (isset($report[0]['id_cluster_jenis_usaha_map']) ? $report[0]['id_cluster_jenis_usaha_map'] : '')?>)" class="small-box-footer">PERTANIAN</a>
           </div>
       </div>
       <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
           <div class="small-box" style="background-color: #17a2b8 !important;" >
             <div class="inner">
-              <h3 onclick="setmap(<?php echo $report[2]['id_cluster_jenis_usaha_map']?>)"><b> 
-                  <?php echo $report[2]['perhitungan']?> </b></h3>
+              <h3 onclick="setmap(<?php echo (isset($report[2]['id_cluster_jenis_usaha_map']) ? $report[2]['id_cluster_jenis_usaha_map'] : '')?>)"><b> 
+              <?php echo (isset($report[2]['perhitungan'])  ? $report[2]['perhitungan'] : "0") ?></b> </h3>
               <p>Klaster</p>
             </div>
             <div class="icon">
               <i class="fa fa-tint "></i>
             </div>
-            <a href="#" onclick="setmap(<?php echo $report[2]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PERIKANAN</a>
+            <a href="#" onclick="setmap(<?php echo (isset($report[2]['id_cluster_jenis_usaha_map']) ? $report[2]['id_cluster_jenis_usaha_map'] : '')?>)" class="small-box-footer">PERIKANAN</a>
           </div>
       </div>
       <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
           <div class="small-box" style="background-color: #ffc107  !important;" >
             <div class="inner">
-              <h3 onclick="setmap(<?php echo $report[3]['id_cluster_jenis_usaha_map']?>)"><b> 
-                <?php echo $report[3]['perhitungan']?></b> </h3>
+              <h3 onclick="setmap(<?php echo (isset($report[3]['id_cluster_jenis_usaha_map']) ? $report[3]['id_cluster_jenis_usaha_map'] : '')?>)"><b> 
+                <?php echo (isset($report[3]['perhitungan'])  ? $report[3]['perhitungan'] : "0") ?></b> </h3>
               <p>Klaster</p>
             </div>
             <div class="icon">
               <i class="fa fa-industry "></i>
             </div>
-            <a href="#" onclick="setmap(<?php echo $report[3]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">INDUSTRI PENGOLAHAN</a>
+            <a href="#" onclick="setmap(<?php echo (isset($report[3]['id_cluster_jenis_usaha_map']) ? $report[3]['id_cluster_jenis_usaha_map'] : '') ?>)" class="small-box-footer">INDUSTRI PENGOLAHAN</a>
           </div>
       </div>
       <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
           <div class="small-box" style="background-color: #c1a7b0 !important;" >
             <div class="inner">
-              <h3 onclick="setmap(<?php echo $report[4]['id_cluster_jenis_usaha_map']?>)" ><b> <?php echo $report[4]['perhitungan']?></b> </b></h3>
+              <h3 onclick="setmap(<?php echo (isset($report[4]['id_cluster_jenis_usaha_map']) ? $report[4]['id_cluster_jenis_usaha_map'] : '') ?>  )" ><b> 
+                <?php echo (isset($report[4]['perhitungan']) ? $report[4]['perhitungan'] : "0") ?></b> </b></h3>
               <p>Klaster</p>
             </div>
             <div class="icon">
               <i class="fa fa-check "></i>
             </div>
-            <a href="#" onclick="setmap(<?php echo $report[4]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">JASA JASA</a>
+            <a href="#" onclick="setmap(<?php echo (isset($report[4]['id_cluster_jenis_usaha_map']) ? $report[4]['id_cluster_jenis_usaha_map'] : '' ) ?>" class="small-box-footer">JASA JASA</a>
           </div>
       </div>
       <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
           <div class="small-box" style="background-color: #7d3865 !important;" >
             <div class="inner">
-              <h3 onclick="setmap(<?php echo $report[5]['id_cluster_jenis_usaha_map']?>)"><b> <?php echo $report[5]['perhitungan']?></b> </b></h3>
+              <h3 onclick="setmap(<?php echo (isset( $report[5]['id_cluster_jenis_usaha_map'])    ? $report[5]['id_cluster_jenis_usaha_map'] : '') ?>)"><b> 
+                <?php echo (isset( $report[5]['perhitungan'])    ? $report[5]['perhitungan'] : '0')?></b> </b></h3>
               <p>Klaster</p>
             </div>
             <div class="icon">
               <i class="fa fa-sellsy "></i>
             </div>
-            <a href="#" onclick="setmap(<?php echo $report[5]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PERDAGANGAN</a>
+            <a href="#" onclick="setmap(<?php echo (isset( $report[5]['id_cluster_jenis_usaha_map'])    ? $report[5]['id_cluster_jenis_usaha_map'] : '') ?>)" class="small-box-footer">PERDAGANGAN</a>
           </div>
       </div>
       <div class="col-lg-2 col-6" style="flex: 0 0 16.666667%;max-width: 16.666667%;">
           <div class="small-box" style="background-color: #949217 !important;" >
             <div class="inner">
-              <h3 onclick="setmap(<?php echo $report[6]['id_cluster_jenis_usaha_map']?>)"><b> <?php echo $report[6]['perhitungan']?></b> </b></h3>
+              <h3 onclick="setmap(<?php echo (isset( $report[6]['id_cluster_jenis_usaha_map'])    ? $report[6]['id_cluster_jenis_usaha_map'] : '') ?>)"</h3>
+              <?php echo (isset( $report[6]['perhitungan'])    ? $report[6]['perhitungan'] : '0')?></b> </b></h3>
               <p>Klaster</p>
             </div>
             <div class="icon">
               <i class="fa fa-plane "></i>
             </div>
-            <a href="#"  onclick="setmap(<?php echo $report[6]['id_cluster_jenis_usaha_map']?>)" class="small-box-footer">PARIWISATA</a>
+            <a href="#"  onclick="setmap(<?php echo (isset( $report[6]['id_cluster_jenis_usaha_map'])    ? $report[6]['id_cluster_jenis_usaha_map'] : '') ?>)" class="small-box-footer">PARIWISATA</a>
           </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ class Dashboard extends MX_Controller
 
   function persebaranpetaprovinsi(){ 
 
-    $urlGetReportDashboard ="dashboard/getreportdashboard";
+    $url ="dashboard/getReportPersebaranPetaProvinsi";
     $dataGetReportDashboard = Array (
       'permission'  => $this->session->userdata('permission'),
       'kode_kanwil' => $this->session->userdata('kode_kanwil'),
@@ -48,38 +48,10 @@ class Dashboard extends MX_Controller
       'harian'      => "true",
     );
     $dataGetReportDashboard = json_encode($dataGetReportDashboard);
-    $q = json_decode($this->sending->send($urlGetReportDashboard, $dataGetReportDashboard) , true); 
-    
-    $data['kanwil'] = array();
-    $urlListKategori = "cluster/GetListJum";
-    $data['listkategori'] = json_decode($this->sending->send($urlListKategori) , true); 
+    $q = json_decode($this->sending->send($url, $dataGetReportDashboard) , true); 
 
-		foreach ($q as $row) {
-			if ($row['MAPKODE']!="") {
-				foreach ($data['listkategori'] as $zrow) {
-					if ($zrow['nama_cluster_jenis_usaha_map'] == $row['nama_cluster_jenis_usaha_map']) {
-						if (isset($data['kanwil'][$row['MAPKODE']][$zrow['nama_cluster_jenis_usaha_map']])) {
-                $data['kanwil'][$row['MAPKODE']][$zrow['nama_cluster_jenis_usaha_map']]++;
-            } 
-            else {
-              $data['kanwil'][$row['MAPKODE']][$zrow['nama_cluster_jenis_usaha_map']] = 1;
-            }
-					}
-				}
-			}
-    }
-    $zz;
-    $i=0;
-    foreach ($data["kanwil"] as $key => $values){
-        $b="";
-        $t=$key;
-        foreach ($values as $skey => $svalues){
-              $b.= '<br>'.$skey.' : '.$svalues; 
-        }
-      $zz[$i] = array ($t, $b);
-      $i++;
-    }
-    echo json_encode($zz);
+
+    echo json_encode($q);
   }
 
   public function setmap(){
@@ -345,49 +317,31 @@ class Dashboard extends MX_Controller
 
   function psummary($pid=null){
     if ($pid!=null){
-        $data['navbar']     = 'navbar';
-        $data['sidebar']    = 'sidebar';
-        $data['content']    = 'psummary'; 
-        $data['cluster']    = $this->dashboard_m->getPSummary($pid);
-        $data['provinsi']   = $this->dashboard_m->getProvinsiByMapKode_m($pid);
-        $data['data_bps']   = $this->dashboard_m->getDataBpsByProvinsi_m($pid);
       
-        $data['koordinat'][0]['lat']=$data['provinsi'][0]['lat'];
-        $data['koordinat'][0]['long']=$data['provinsi'][0]['long'];
-        $data['koordinat'][0]['zoom']='7';
 
-        $this->load->module('cluster');
-        $this->load->model('cluster_m');
+      $url ="dashboard/GetProvinsiSummary";
+      $dataPsummary = Array (
+        'permission'  => $this->session->userdata('permission'),
+        'kode_kanwil' => $this->session->userdata('kode_kanwil'),
+        'kode_kanca'  => $this->session->userdata('kode_kanca'),
+        'kode_uker'   => $this->session->userdata('kode_uker'),
+        'MAPKODE'     => $pid,
+        'harian'      => "false",
+      ); 
+     
+      $dataPsummary = json_encode($dataPsummary);
+      $get = json_decode($this->sending->send($url, $dataPsummary) , true);
+      $data['provinsi']     = $get['provinsi'];
+     
+      $data['data_bps']     = $get['data_bps'];
+      $data['koordinat']    = $get['koordinat'];
+      $data['performance']  = $get['performance'];
 
-        $data['performance']=array();
-        $data['performance']['luas_lahan']=0;
-        $data['performance']['kapasitas_produksi']=0;
-        $i=0;
-        foreach ($data['cluster'] as $row ){
-            $data['listloc'][$i]['umkm']  = $row['kelompok_usaha'];
-            $data['listloc'][$i]['lat']   = $row['latitude'];
-            $data['listloc'][$i]['long']  = $row['longitude'];
-            $data['listloc'][$i]['count'] = $i;
-            switch ($row['permission']) {
-              case (3) : 
-                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-                break;
-              case (2) :
-                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
-                break;
-              case (1) :
-                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
-                break;
-              default :
-                $data['listloc'][$i]['iconurl'] = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
-                break;
-            }
-            $i++;
-            if (!isset($data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'])){
-              $data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'] = $row['kapasitas_produksi'];
-            }
-            else $data['performance']['jenis_usaha'][$row['nama_cluster_jenis_usaha']]['total'] += $row['kapasitas_produksi'];
-        }
+      $data['cluster']      = (isset($get['cluster']) ? $get['cluster'] : "");
+      $data['listloc']      = (isset($get['listloc']) ? $get['listloc'] : ""); 
+      $data['navbar']       = 'navbar';
+      $data['sidebar']      = 'sidebar';
+      $data['content']      = 'psummary';
       $this->load->view('template', $data);
     }
   }

@@ -40,18 +40,18 @@
 </div>
 <script>
      function userm(i=false){
-                var data1 = { 
-                            'kode_uker_c' 	    : $('#kode_uker_c').val(),
-                            'password'			    : $('#password').val()
-                        };
-                $.ajax({ 
-                            type:"POST",
-                            url: "<?php echo base_url();?>login/chpassuker",
-                            data: data1,
-                            success:function(smsg){
-                                alert('ganti password uker berhasil');
-                                $('#modalz').hide();
-                            }
-                    });
-            }    
+          var data1 = { 
+                      'kode_uker_c' 	    : $('#kode_uker_c').val(),
+                      'password'			    : $('#password').val()
+                  };
+          $.ajax({ 
+                      type:"POST",
+                      url: "<?php echo base_url();?>login/chpassuker",
+                      data: data1,
+                      success:function(smsg){
+                          alert('ganti password uker berhasil');
+                          $('#modalz').hide();
+                      }
+              });
+        }    
     </script>

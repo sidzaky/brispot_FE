@@ -21,8 +21,6 @@ class Help extends MX_Controller
 		$this->load->module('login');
 		$this->login->is_logged_in();
 		$this->load->helper(array('url', 'form', 'html'));
-
-		$this->load->model('help_m');
 	}
 
 	public function index()
@@ -36,11 +34,18 @@ class Help extends MX_Controller
 
 	public function getdataquestion(){
 
-		$list = $this->help_m->get_datafield();
+		$url = "help/getDataQuestion";
+		$postData = Array (
+			'permission'  => $this->session->userdata('permission'),
+			'kode_uker'	  => $this->session->userdata('kode_uker'),
+			'get'		  => $this->input->post(),
+		);
+		$postData = json_encode($postData);
+		$list = json_decode($this->sending->send($url, $postData), true); 
 		$data = array();
-		$no = $_POST['start'];
+		$no = $this->input->post('start');
 		
-		foreach ($list->result_array() as $q) {
+		foreach ($list['list'] as $q) {
 			$tabel='';
 			$tabel= '<table class="table table-striped">
 						<tr><td><b>Pertanyaan</b></td><td align="right">'.date('d, M-Y ', $q['timeinput_question']) .'</td></tr>
@@ -59,19 +64,31 @@ class Help extends MX_Controller
 		}
 		
 		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $list->num_rows(),
-			"recordsFiltered" => $this->help_m->count_all(),
+			"draw" => $this->input->post('draw'),
+			"recordsTotal" => count($list['list']),
+			"recordsFiltered" => $list['count'],
 			"data" => $data,
 		);
 		echo json_encode($output);
 	}
 
 	public function inputformhelp(){
-		$this->help_m->inputformhelp_m();
+		$url = "help/postInputformHelp";
+		$postData = Array (
+			'id_user'	  => $this->session->userdata('kode_uker'),
+			'question'		  => $this->input->post('question'),
+		);
+		$postData = json_encode($postData);
+		json_decode($this->sending->send($url, $postData), true); 
 	}
 
 	public function answerformhelp(){
-		$this->help_m->answerformhelp_m();
+		$url = "help/postAnswerFormHelp";
+		$postData = Array (
+			'id_help'	=> $this->input->post('id_help'),
+			'answer'	=> $this->input->post('answer'),
+		);
+		$postData = json_encode($postData);
+		json_decode($this->sending->send($url, $postData), true); 
 	}
 }
