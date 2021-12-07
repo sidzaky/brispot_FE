@@ -4,10 +4,10 @@ $( document ).ready(function() {
     getDataNotification();
  });
 
- var base_url="/brispot/";
+
 
 function getdataclusterpengajuan() { 
-      var address = base_url+"/sidebar/getdataclusterpengajuan";
+      var address = baseURL+"/sidebar/getdataclusterpengajuan";
       var get = sendajaxreturn("", address, "");
       if (get!=0){
         var z = document.getElementById("cpclaster");
@@ -16,7 +16,7 @@ function getdataclusterpengajuan() {
 }
 
 function getdatafaq(){
-    var address = base_url+"/sidebar/getdatafaq";
+    var address = baseURL+"/sidebar/getdatafaq";
     var get = sendajaxreturn("", address, "");
     if (get!=0){
         var z = document.getElementById("cpfaq");
@@ -25,7 +25,7 @@ function getdatafaq(){
 }
 
 function getDataNotification() { 
-    var address = base_url+"/sidebar/getDataNotification";
+    var address = baseURL+"/sidebar/getDataNotification";
     var get = sendajaxreturn("", address, "");
     if (get.length > 0)  document.getElementById("cNotif").innerHTML=get.length;
     var z=document.getElementById("setnotif");

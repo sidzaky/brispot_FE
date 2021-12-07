@@ -53,20 +53,9 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-switch ($_SERVER['HTTP_HOST']) {
-    case 'localhost':
-    case 'antriclinic.net' : 
-		$env = 'development';
-		break;
-	case 'https://klasterkuhidupku.com/':
-	case 'https://www.klasterkuhidupku.com/':
-		$env = 'production';
-		break;
-	default:
-		$env = 'development';
-		break;
-}
-define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : $env);
+
+
+define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
  *---------------------------------------------------------------
@@ -85,7 +74,7 @@ switch (ENVIRONMENT)
 
 	case 'testing':
 	case 'production':
-		ini_set('display_errors', 0);
+		ini_set('display_errors', 1);
 		if (version_compare(PHP_VERSION, '5.3', '>='))
 		{
 			error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
